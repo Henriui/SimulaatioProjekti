@@ -10,6 +10,7 @@ import simu.framework.Trace;
 
 // TODO:
 // Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
+
 public class Palvelupiste {
 
 	private LinkedList<Asiakas> jono = new LinkedList<Asiakas>(); // Tietorakennetoteutus
@@ -18,10 +19,12 @@ public class Palvelupiste {
 	private Tapahtumalista tapahtumalista;
 	private TapahtumanTyyppi skeduloitavanTapahtumanTyyppi; 
 	
-	//JonoStartegia strategia; //optio: asiakkaiden järjestys
+	// JonoStartegia strategia; 
+	// optio: asiakkaiden järjestys
 	
 	private boolean varattu = false;
 
+	//PalveluPiste
 
 	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, TapahtumanTyyppi tyyppi){
 		this.tapahtumalista = tapahtumalista;
@@ -30,16 +33,21 @@ public class Palvelupiste {
 				
 	}
 
+	// lisaaJonoon
 
 	public void lisaaJonoon(Asiakas a){   // Jonon 1. asiakas aina palvelussa
 		jono.add(a);
 		
 	}
 
+	// otaJonosta
+
 	public Asiakas otaJonosta(){  // Poistetaan palvelussa ollut
 		varattu = false;
 		return jono.poll();
 	}
+
+	// aloitaPalvelu
 
 	public void aloitaPalvelu(){  //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
 		
@@ -50,11 +58,13 @@ public class Palvelupiste {
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi,Kello.getInstance().getAika()+palveluaika));
 	}
 
+	// onVarattu
 
 	public boolean onVarattu(){
 		return varattu;
 	}
 
+	// onJonossa
 
 	public boolean onJonossa(){
 		return jono.size() != 0;
