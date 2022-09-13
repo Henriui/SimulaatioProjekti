@@ -13,6 +13,8 @@ public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
 
+	// OmaMoottori
+
 	public OmaMoottori() {
 
 		palvelupisteet = new Palvelupiste[3];
@@ -25,20 +27,28 @@ public class OmaMoottori extends Moottori {
 
 	}
 
-	@Override
-	protected void alustukset() {
-		saapumisprosessi.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään
-	}
+	// Alustukset
 
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) { // B-vaiheen tapahtumat
+	protected void alustukset() {
+
+		// Ensimmäinen saapuminen järjestelmään.
+
+		saapumisprosessi.generoiSeuraava(); 
+	}
+
+	// suoritaTapahtuma (B-vaiheen tapahtumat)
+
+	@Override
+	protected void suoritaTapahtuma(Tapahtuma t) {
 
 		Asiakas a;
 		switch (t.getTyyppi()) {
 
 			case ARR1:
 				// TODO: Uniform testausta varten, tämä asetetaan käyttäjäparametreistä valmiina
-				// Asetetaan kayttajan valitsema jakauma asiakastyypin luomiseen
+				// Asetetaan kayttajan valitsema jakauma asiakastyypin luomiseen.
+
 				ContinuousGenerator kayttajanParametriJakaumalle = new Uniform(1, 8);
 				a = new Asiakas(kayttajanParametriJakaumalle);
 				palvelupisteet[0].lisaaJonoon(a);
@@ -58,6 +68,8 @@ public class OmaMoottori extends Moottori {
 				a.raportti();
 		}
 	}
+
+	// tulokset
 
 	@Override
 	protected void tulokset() {
