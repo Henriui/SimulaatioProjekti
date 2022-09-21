@@ -28,7 +28,7 @@ public class Asiakas {
 		generaattori = g;
 		id = i++;
 		saapumisaika = Kello.getInstance().getAika();
-		asType = arvoAsiakasTyyppi(); // Generaattori valitse minkälainen asiakastyyppi asiakkaasta tulee
+		asType = setAsiakasTyyppi(); // Generaattori valitse minkälainen asiakastyyppi asiakkaasta tulee
 		Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + saapumisaika);
 	}
 
@@ -62,21 +62,15 @@ public class Asiakas {
 		return id;
 	}
 
-	
-	// setAsiakasTyyppi
+	// setAsiakastyyppi
 
-	/*
-	 * Mikäli asiakas valitsi väärän linjan,
-	 * voidaan asettaa asiakkaalle oikea asiakastyyppi
-	 * 
-	 * @author Rasmus Hyyppä
+	/**
+	 * @return Integer returned from the asType that defines private or corporate
+	 *         customer
 	 */
-	 
-	public void setAsiakasTyyppi(AsiakasTyyppi asType) {
-		this.asType = asType;
+	public Integer getAsType() {
+		return asType.getAsiakasTypeNumero();
 	}
-
-	// arvoAsiakastyyppi
 
 	/*
 	 * Asiakastyyppi alustetaan valitsemalla tyyppi
@@ -88,7 +82,7 @@ public class Asiakas {
 	 * @author Rasmus Hyyppä
 	 */
 
-	public AsiakasTyyppi arvoAsiakasTyyppi() {
+	public AsiakasTyyppi setAsiakasTyyppi() {
 		int arvottuAsType = (int) generaattori.sample(); // generoidaan asiakastyyppi
 
 		// Mikäli generoitu asiakastyyppi on sama kuin jo asetettu arvo
@@ -107,7 +101,7 @@ public class Asiakas {
 	// raportti
 
 	public void raportti() {
-		Trace.out(Trace.Level.INFO, "\nAsiakas " + id + ", " + " tyyppi: " + asType + " on valmis! ");
+		Trace.out(Trace.Level.INFO, "\nAsiakas " + id + ",  tyyppi: " + asType + " on valmis! ");
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + saapumisaika);
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " poistui: " + poistumisaika);
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (poistumisaika - saapumisaika));
@@ -115,5 +109,4 @@ public class Asiakas {
 		double keskiarvo = sum / id;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
 	}
-
 }
