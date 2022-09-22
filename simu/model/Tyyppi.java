@@ -2,7 +2,7 @@ package simu.model;
 
 // Tapahtumien tyypit määritellään simulointimallin vaatimusten perusteella
 
-public enum TapahtumanTyyppi {
+public enum Tyyppi {
 
 	// Saapumisprosessi ja puhelinvalikoista poistumiset
 	ARRIVAL(10),
@@ -48,13 +48,13 @@ public enum TapahtumanTyyppi {
 
 	// AsiakasTyyppi
 
-	TapahtumanTyyppi(int tapahtumanTypeNumero) {
+	Tyyppi(int tapahtumanTypeNumero) {
 		this.tapahtumanTypeNumero = tapahtumanTypeNumero;
 	}
 
 	// getAsiakasTypeNumero
 
-	public int getTapahtumanTypeNumero() {
+	public int getTyyppiValue() {
 		return this.tapahtumanTypeNumero;
 	}
 }

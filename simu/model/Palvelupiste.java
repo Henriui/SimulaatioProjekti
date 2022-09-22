@@ -17,7 +17,7 @@ public class Palvelupiste {
 
 	private ContinuousGenerator generator;
 	private Tapahtumalista tapahtumalista;
-	private TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
+	private Tyyppi skeduloitavanTapahtumanTyyppi;
 	private static int palvelupisteenUID = 0;
 	private int palvelupisteenID;
 
@@ -28,7 +28,7 @@ public class Palvelupiste {
 
 	// PalveluPiste
 
-	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, TapahtumanTyyppi tyyppi) {
+	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi) {
 		palvelupisteenID = palvelupisteenUID;
 		palvelupisteenUID++;
 		this.tapahtumalista = tapahtumalista;
@@ -62,7 +62,7 @@ public class Palvelupiste {
 	}
 
 	public int getPalvelupisteenTyyppi() {
-		return skeduloitavanTapahtumanTyyppi.getTapahtumanTypeNumero();
+		return skeduloitavanTapahtumanTyyppi.getTyyppiValue();
 	}
 
 	public int getPalveluPisteenNumero() {
