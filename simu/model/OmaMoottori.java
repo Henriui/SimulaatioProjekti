@@ -107,7 +107,6 @@ public class OmaMoottori extends Moottori {
 			// Tähän jonoon varmaan siirrettään uudelleen asiakkaat?
 
 			// Mikäli on alle 5 niin pri- jos yli 4 niin co-valikkoon
-
 			if (a.getAsType() < 5) {
 				palvelupisteet[lisaaPalvelupisteeseen(Tyyppi.PRI_VALIKKO_DEPART.getTyyppiValue())].lisaaJonoon(a);
 			} else {
