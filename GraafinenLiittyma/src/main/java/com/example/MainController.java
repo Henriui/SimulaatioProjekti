@@ -9,6 +9,7 @@ public class MainController {
     private void uusiSimulaatio() throws IOException {
         App.setRoot("secondary");
     }
+    
     @FXML
     public void tulokset(){
         System.exit(0);

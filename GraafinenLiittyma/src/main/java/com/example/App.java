@@ -28,13 +28,16 @@ public class App extends Application {
         scene = new Scene(loadFXML("mainView"));
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
+
          //grab your root here
+
          scene.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
 
         //move around here
+
         scene.setOnMouseDragged(event -> {
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
@@ -54,7 +57,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-    
-
-
 }
