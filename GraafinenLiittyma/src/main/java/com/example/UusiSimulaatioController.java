@@ -10,6 +10,17 @@ public class UusiSimulaatioController {
     private Label yksityisJonossa;
     @FXML
     private Label YritysJonossa;
+    @FXML
+    private Label yksityisPalvelupisteita;
+    @FXML
+    private Label palvelupisteellaYksityis;
+    @FXML
+    private Label yritysPalvelupisteita;
+    @FXML
+    private Label palvelupisteellaYritys;
+    @FXML
+    private Label suorittaneetMaara;
+
 
     @FXML
     private void takaisinMainView() throws IOException {

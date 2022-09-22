@@ -27,7 +27,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("mainView"));
         stage.setScene(scene);
-        stage.initStyle(StageStyle.TRANSPARENT);
+        //stage.initStyle(StageStyle.TRANSPARENT);
 
          //grab your root here
 
