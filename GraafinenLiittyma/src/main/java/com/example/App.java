@@ -24,6 +24,9 @@ public void start(Stage primaryStage)
 {
     try {
          Parent root = FXMLLoader.load(getClass().getResource("mainView.fxml"));
+
+         // Tekee yläpalkista läpinäkyvän.
+
          primaryStage.initStyle(StageStyle.TRANSPARENT);
 
             //Hiiren klikkaus kohta
@@ -33,7 +36,7 @@ public void start(Stage primaryStage)
                 yOffset = event.getSceneY();
             });
 
-            //Hiirtä voi liikuttaa tänne.
+            //Hiirtä voi liikuttaa pois valinnasta pohjassa.
 
             root.setOnMouseDragged(event -> {
                 primaryStage.setX(event.getScreenX() - xOffset);
