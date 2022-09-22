@@ -106,6 +106,7 @@ public class OmaMoottori extends Moottori {
 			// Tähän jonoon varmaan siirrettään uudelleen asiakkaat?
 
 			// Mikäli on alle 5 niin pri- jos yli 4 niin co-valikkoon
+			
 			if (a.getAsType() < 5) {
 				palvelupisteet[Tyyppi.PRI_VALIKKO_DEPART.getTyyppiValue()].lisaaJonoon(a);
 			} else {
@@ -114,6 +115,13 @@ public class OmaMoottori extends Moottori {
 		}
 
 		// Lähtötapahtumat
+
+		else if( tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART ){
+
+			a = palvelupisteet[tapahtumaValue].otaJonosta();
+			palvelupisteet[lisaaPalvelupisteeseen(a.getAsType())].lisaaJonoon(a);
+
+		}
 
 		else{
 			a = palvelupisteet[haePalvelupiste(tapahtumaValue)]
