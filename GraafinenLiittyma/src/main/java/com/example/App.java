@@ -1,6 +1,8 @@
 package com.example;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,47 +18,43 @@ import java.io.IOException;
 public class App extends Application {
 // Hiiren variablet
 
-private double xOffset = 0;
-private double yOffset = 0;
+    private double xOffset = 0;
+    private double yOffset = 0;
+    private static Scene scene;
 
-@Override
-public void start(Stage primaryStage) 
-{
-    try {
-         Parent root = FXMLLoader.load(getClass().getResource("mainView.fxml"));
 
-         // Tekee yläpalkista läpinäkyvän.
+    @Override
+    public void start(Stage stage) throws IOException {
+        scene = new Scene(loadFXML("mainView"));
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
+         //grab your root here
+         scene.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
 
-         primaryStage.initStyle(StageStyle.TRANSPARENT);
-
-            //Hiiren klikkaus kohta
-
-            root.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-
-            //Hiirtä voi liikuttaa pois valinnasta pohjassa.
-
-            root.setOnMouseDragged(event -> {
-                primaryStage.setX(event.getScreenX() - xOffset);
-                primaryStage.setY(event.getScreenY() - yOffset);
-            });
-
-            // Create scene.
-
-            Scene scene = new Scene(root);
-            scene.setFill(Color.TRANSPARENT);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        
-    } catch(Exception e) {
-        e.printStackTrace();
+        //move around here
+        scene.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+        stage.show();
     }
-}
 
-public static void main(String[] args) {
-    launch(args);
-}
+    static void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml));
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+    
+
 
 }
