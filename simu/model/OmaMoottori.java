@@ -22,7 +22,7 @@ public class OmaMoottori extends Moottori {
 
 		palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, Tyyppi.BLENDER_VALIKKO_DEPART);
 		palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, Tyyppi.PRI_VALIKKO_DEPART);
-		palvelupisteet[2] = new Palvelupiste(new Normal(5, 3), tapahtumalista, Tyyppi.CO_VALIKKO_DEPART);
+		palvelupisteet[2] = new Palvelupiste(new Normal(10, 10), tapahtumalista, Tyyppi.CO_VALIKKO_DEPART);
 
 		// Testausta varten jokainen palvelupiste asetettu yksitellen
 		palvelupisteet[3] = new Palvelupiste(new Normal(50, 50), tapahtumalista, Tyyppi.PRI_SALES_DEPART);
@@ -80,42 +80,51 @@ public class OmaMoottori extends Moottori {
 
 		Asiakas a;
 		Tyyppi tapahtuma = t.getTyyppi();
-
-		// TODO: Käyttäjä määrittelee jakaumaParametrin ohjelmassa. Uniform asetettu testausta varten. (Poista kun tehty).
+		System.out.println("Tapahtuma tyyppi: " + tapahtuma);
+		// TODO: Käyttäjä määrittelee jakaumaParametrin ohjelmassa. Uniform asetettu
+		// testausta varten. (Poista kun tehty).
 
 		ContinuousGenerator jakaumaParametri;
 
 		// Hae tapahtuman arvo.
 
 		int tapahtumaValue = tapahtuma.getTyyppiValue();
-
+		System.out.println("Tapahtuma value: " + tapahtumaValue);
 		// Saapumistapahtumat
 
-		if (tapahtuma == Tyyppi.ARRIVAL){
-			jakaumaParametri = new Uniform(1, 8);
+		if (tapahtuma == Tyyppi.ARRIVAL) {
+			jakaumaParametri = new Uniform(0, 8);
 			a = new Asiakas(jakaumaParametri);
-			palvelupisteet[Tyyppi.BLENDER_VALIKKO_DEPART.getTyyppiValue()].lisaaJonoon(a);
+			palvelupisteet[0].lisaaJonoon(a);
 			saapumisprosessi.generoiSeuraava();
 		}
 
 		// Blendervalikko
 
-		else if (tapahtuma == Tyyppi.BLENDER_VALIKKO_DEPART){
-			a = palvelupisteet[tapahtumaValue].otaJonosta();
+		else if (tapahtuma == Tyyppi.BLENDER_VALIKKO_DEPART) {
+			a = palvelupisteet[haePalvelupiste(tapahtumaValue)].otaJonosta();
 
 			// Tähän jonoon varmaan siirrettään uudelleen asiakkaat?
 
 			// Mikäli on alle 5 niin pri- jos yli 4 niin co-valikkoon
+
 			if (a.getAsType() < 5) {
-				palvelupisteet[Tyyppi.PRI_VALIKKO_DEPART.getTyyppiValue()].lisaaJonoon(a);
+				palvelupisteet[lisaaPalvelupisteeseen(Tyyppi.PRI_VALIKKO_DEPART.getTyyppiValue())].lisaaJonoon(a);
 			} else {
-				palvelupisteet[Tyyppi.CO_VALIKKO_DEPART.getTyyppiValue()].lisaaJonoon(a);
+				palvelupisteet[lisaaPalvelupisteeseen(Tyyppi.CO_VALIKKO_DEPART.getTyyppiValue())].lisaaJonoon(a);
 			}
 		}
 
 		// Lähtötapahtumat
 
-		else{
+		else if (tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART) {
+
+			a = palvelupisteet[haePalvelupiste(tapahtumaValue)].otaJonosta();
+			palvelupisteet[lisaaPalvelupisteeseen(a.getAsType())].lisaaJonoon(a);
+
+		}
+
+		else {
 			a = palvelupisteet[haePalvelupiste(tapahtumaValue)]
 					.otaJonosta();
 			a.setPoistumisaika(Kello.getInstance().getAika());
@@ -124,9 +133,8 @@ public class OmaMoottori extends Moottori {
 	}
 
 	// lisaaPalvelupisteeseen
-	
-	public int lisaaPalvelupisteeseen(int ppType) {
 
+	public int lisaaPalvelupisteeseen(int ppType) {
 		// palvelupisteiden määrä yhtä luokkaa vasten, default 3.
 		int ppTypeMaara = 3;
 
@@ -145,6 +153,10 @@ public class OmaMoottori extends Moottori {
 		// math.random varmaan poistuu tästä.
 		Palvelupiste asiakkaanPalvelupiste = typeaVastaavatPalvelupisteet[(int) (Math.random()
 				* i)];
+
+		System.out.println("Palvelupisteen tyyppi numero: " + ppType + "\nPalvelupisteen arraynumero: "
+				+ asiakkaanPalvelupiste.getPalveluPisteenNumero());
+
 		return asiakkaanPalvelupiste.getPalveluPisteenNumero();
 	}
 
@@ -154,7 +166,7 @@ public class OmaMoottori extends Moottori {
 
 		int asiakkaanPalvelupiste = 0;
 		for (Palvelupiste p : palvelupisteet) {
-			if (p.getPalvelupisteenTyyppi() == ppType && p.onVarattu() == true) {
+			if ((p.getPalvelupisteenTyyppi() == ppType) && p.onVarattu() == true) {
 				asiakkaanPalvelupiste = p.getPalveluPisteenNumero();
 			}
 		}
@@ -166,8 +178,10 @@ public class OmaMoottori extends Moottori {
 	@Override
 	protected void tulokset() {
 		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-		System.out.println("Tulokset ... puuttuvat vielä");
-
+		/* System.out.println("Tulokset ... puuttuvat vielä"); */
+		for (Palvelupiste p : palvelupisteet) {
+			System.out.println(p);
+		}
 	}
 
 }

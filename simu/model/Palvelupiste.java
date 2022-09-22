@@ -20,6 +20,8 @@ public class Palvelupiste {
 	private Tyyppi skeduloitavanTapahtumanTyyppi;
 	private static int palvelupisteenUID = 0;
 	private int palvelupisteenID;
+	private int asiakkaitaLisattyJonoon;
+	private int asiakkaitaPalveltuJonosta;
 
 	// JonoStartegia strategia;
 	// optio: asiakkaiden järjestys
@@ -40,6 +42,7 @@ public class Palvelupiste {
 	// lisaaJonoon
 
 	public void lisaaJonoon(Asiakas a) { // Jonon 1. asiakas aina palvelussa
+		asiakkaitaLisattyJonoon++;
 		jono.add(a);
 	}
 
@@ -47,15 +50,14 @@ public class Palvelupiste {
 
 	public Asiakas otaJonosta() { // Poistetaan palvelussa ollut
 		varattu = false;
+		asiakkaitaPalveltuJonosta++;
 		return jono.poll();
 	}
 
 	// aloitaPalvelu
 
 	public void aloitaPalvelu() { // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
-
 		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
-
 		varattu = true;
 		double palveluaika = generator.sample();
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
@@ -79,6 +81,14 @@ public class Palvelupiste {
 
 	public boolean onJonossa() {
 		return jono.size() != 0;
+	}
+
+	@Override
+	public String toString() {
+		String str = "Palvelupiste tyypiltään: " + skeduloitavanTapahtumanTyyppi.name() + ", " + palvelupisteenID
+				+ " nro, on lisannyt jonoon: " + asiakkaitaLisattyJonoon + " asiakasta, sekä palvellut: "
+				+ asiakkaitaPalveltuJonosta + " kpl yhteensä.";
+		return str;
 	}
 
 }

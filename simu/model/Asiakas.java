@@ -84,9 +84,8 @@ public class Asiakas {
 
 	public AsiakasTyyppi setAsiakasTyyppi() {
 		int arvottuAsType = (int) generaattori.sample(); // generoidaan asiakastyyppi
-
 		// Mikäli generoitu asiakastyyppi on sama kuin jo asetettu arvo
-		if (asType == AsiakasTyyppi.values()[arvottuAsType]) {
+		if (asType == null) {
 			while (asType == AsiakasTyyppi.values()[arvottuAsType]) {
 				arvottuAsType = (int) generaattori.sample(); // Loopataan uusi tyyppi asiakkaalle
 			}
