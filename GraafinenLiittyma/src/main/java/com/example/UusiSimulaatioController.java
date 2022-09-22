@@ -18,9 +18,10 @@ public class UusiSimulaatioController {
 
     @FXML
     public void aloitaSimulaatio(){
-        for(int i = 0; i<1000;i++){
-            ilmoitaJononKoko(i);
-        }
+        //Trace.setTraceLevel(Level.INFO);
+		//Moottori m = new OmaMoottori();
+		//m.setSimulointiaika(1000);
+		//m.start();
     }
     public void ilmoitaJononKoko(int koko){
         String tulos = String.valueOf(koko);
