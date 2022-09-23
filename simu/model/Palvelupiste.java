@@ -8,7 +8,6 @@ import simu.framework.Tapahtuma;
 import simu.framework.Tapahtumalista;
 import simu.framework.Trace;
 
-// TODO:
 // Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
 
 public class Palvelupiste {
@@ -22,6 +21,12 @@ public class Palvelupiste {
 	private int palvelupisteenID;
 	private int asiakkaitaLisattyJonoon;
 	private int asiakkaitaPalveltuJonosta;
+	private int asiakkaitaPoistunutJonosta;
+	private int asiakkaitaReRoutattuJonosta;
+	private double palveluAikaSuurre;
+	private double jonoAikaSuurre;
+	private double asiakkaittenKokonaisAikaSuurre;
+	private double maxJonoParametri;
 
 	// JonoStartegia strategia;
 	// optio: asiakkaiden järjestys
@@ -30,9 +35,11 @@ public class Palvelupiste {
 
 	// PalveluPiste
 
-	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi) {
+	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi,
+			double maxJonoParametri) {
 		palvelupisteenID = palvelupisteenUID;
 		palvelupisteenUID++;
+		this.maxJonoParametri = maxJonoParametri;
 		this.tapahtumalista = tapahtumalista;
 		this.generator = generator;
 		this.skeduloitavanTapahtumanTyyppi = tyyppi;
@@ -42,6 +49,9 @@ public class Palvelupiste {
 	// lisaaJonoon
 
 	public void lisaaJonoon(Asiakas a) { // Jonon 1. asiakas aina palvelussa
+
+		a.setSaapumisaikaPp(Kello.getInstance().getAika());
+		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
 		asiakkaitaLisattyJonoon++;
 		jono.add(a);
 	}
@@ -49,9 +59,14 @@ public class Palvelupiste {
 	// otaJonosta
 
 	public Asiakas otaJonosta() { // Poistetaan palvelussa ollut
-		varattu = false;
-		asiakkaitaPalveltuJonosta++;
-		return jono.poll();
+		Asiakas a = jono.poll();
+		if (varattu) {
+			varattu = false;
+			a.setPoistumisaikaPp(Kello.getInstance().getAika());
+		}
+		// Lisätään asiakkaan palvelupisteen oleskeluaika suurre
+		asiakkaittenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
+		return a;
 	}
 
 	// aloitaPalvelu
@@ -59,7 +74,37 @@ public class Palvelupiste {
 	public void aloitaPalvelu() { // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
 		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
 		varattu = true;
+		// Lisätään jonotusaika & palveluaika suureet muuttujiin
+		double jonotusAika = Kello.getInstance().getAika() - jono.peek().getSaapumisaikaPp();
 		double palveluaika = generator.sample();
+		Asiakas a = jono.peek();
+
+		// Mikäli jonotusaika ylitti niin asiakas poistui ennen palvelua.
+		if (jonotusAika > maxJonoParametri) {
+
+			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + a.getId());
+
+			jonotusAika = a.getSaapumisaikaPp() + maxJonoParametri;
+			jonoAikaSuurre += maxJonoParametri;
+			a.setPoistumisaikaPp(jonotusAika);
+
+			asiakkaitaPoistunutJonosta++;
+			tapahtumalista
+					.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, a.getPoistumisaikaPp()));
+			return;
+		}
+
+		if (a.getReRouted() && a.getAsType() < 9) {
+			Trace.out(Trace.Level.INFO, "Asiakas siirretään oikeaan jonoon: " + a.getId());
+			// TODO: mahdollinen parametri? 30 sekunttia reroute keskustelu
+			palveluaika = 30;
+			asiakkaitaReRoutattuJonosta++;
+		} else {
+			asiakkaitaPalveltuJonosta++;
+		}
+
+		palveluAikaSuurre += palveluaika;
+		jonoAikaSuurre += jonotusAika;
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
@@ -83,12 +128,70 @@ public class Palvelupiste {
 		return jono.size() != 0;
 	}
 
-	@Override
-	public String toString() {
-		String str = "Palvelupiste tyypiltään: " + skeduloitavanTapahtumanTyyppi.name() + ", " + palvelupisteenID
-				+ " nro, on lisannyt jonoon: " + asiakkaitaLisattyJonoon + " asiakasta, sekä palvellut: "
-				+ asiakkaitaPalveltuJonosta + " kpl yhteensä.";
-		return str;
+	/**
+	 * @return int return the asiakkaitaLisattyJonoon
+	 */
+	public int getAsiakkaitaLisattyJonoon() {
+		return asiakkaitaLisattyJonoon;
 	}
 
+	/**
+	 * @return int return the asiakkaitaPalveltuJonosta
+	 */
+	public int getAsiakkaitaPalveltuJonosta() {
+		return asiakkaitaPalveltuJonosta;
+	}
+
+	/**
+	 * @return double return the palveluAikaSuurre
+	 */
+	public double getPalveluAikaSuurre() {
+		return palveluAikaSuurre;
+	}
+
+	/**
+	 * @return double return the jonoAikaSuurre
+	 */
+	public double getJonoAikaSuurre() {
+		return jonoAikaSuurre;
+	}
+
+	/**
+	 * @return double return the asiakkaittenKokonaisAikaSuurre
+	 */
+	public double getAsiakkaittenKokonaisAikaSuurre() {
+		return asiakkaittenKokonaisAikaSuurre;
+	}
+
+	public void raportti() {
+
+		Trace.out(Trace.Level.INFO, "\nPalvelupisteeseen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+				+ " saapui: " + asiakkaitaLisattyJonoon);
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveltiin: "
+						+ asiakkaitaPalveltuJonosta);
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+						+ " kyllästyi jonottamaan: "
+						+ asiakkaitaPoistunutJonosta);
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+						+ " siirretty oikeaan paikkaan: "
+						+ asiakkaitaReRoutattuJonosta);
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+						+ " palveluaika keskimääräisesti: "
+						+ (palveluAikaSuurre / asiakkaitaPalveltuJonosta));
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteessä: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+						+ " kokonaisoleskeluaika keskiarvo on: "
+						+ asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta);
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteeseen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+						+ " jonotettiin keskimäärin: "
+						+ jonoAikaSuurre / asiakkaitaLisattyJonoon);
+		Trace.out(Trace.Level.INFO,
+				"Palvelupisteen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveluprosentti: "
+						+ (1 / ((double) asiakkaitaLisattyJonoon / (double) asiakkaitaPalveltuJonosta)) * 100 + " %");
+	}
 }
