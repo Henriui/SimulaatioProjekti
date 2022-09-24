@@ -5,9 +5,11 @@ import com.project.simu.framework.*;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
 
+//Tämä muutetaan test filuks jossain vaiheessa 
 public class Simulaattori { // Tekstipohjainen
 
 	public static void main(String[] args) {
+
 		/*
 		 * UserParametrit uP = UserParametrit.getInstance();
 		 * Trace.setTraceLevel(Level.INFO);
@@ -15,5 +17,6 @@ public class Simulaattori { // Tekstipohjainen
 		 * m.setSimulointiaika(uP.getSimulaationAika());
 		 * m.start();
 		 */
+
 	}
 }
