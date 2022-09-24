@@ -101,7 +101,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         Platform.runLater(new Runnable() {
             public void run() {
                 String tulos = String.valueOf(koko);
-                if (type == 10) {
+                if (type == 10 || (type > 4 && type < 9)) {
                     palvelupisteellaYritys.setText("Palveltu: " + tulos);
                 } else {
                     palvelupisteellaYksityis.setText("Palveltu: " + tulos);

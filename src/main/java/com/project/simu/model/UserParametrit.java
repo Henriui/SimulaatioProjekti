@@ -92,7 +92,7 @@ public class UserParametrit {
         this.asiakasTyyppiJakauma = 0.5;
 
         // Thread sleeppi aika
-        this.viiveAika = 500;
+        this.viiveAika = 1500;
 
         // 600 sek jaksaa jonottaa
         this.asiakkaidenKarsivallisyys = 10 * 60;

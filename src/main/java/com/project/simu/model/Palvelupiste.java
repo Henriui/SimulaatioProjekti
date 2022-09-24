@@ -142,7 +142,6 @@ public class Palvelupiste {
 	 * @return int return the asiakkaitaLisattyJonoon
 	 */
 	public int getAsiakkaitaLisattyJonoon() {
-		System.out.println("-----------------asiakkaita jonoss : " + asiakkaitaLisattyJonoon);
 		return asiakkaitaLisattyJonoon;
 	}
 
@@ -150,7 +149,6 @@ public class Palvelupiste {
 	 * @return int return the asiakkaitaPalveltuJonosta
 	 */
 	public int getAsiakkaitaPalveltuJonosta() {
-		System.out.println("-----------------------asiakkaita palveult" + asiakkaitaPalveltuJonosta);
 		return asiakkaitaPalveltuJonosta;
 	}
 
