@@ -1,13 +1,19 @@
-package com.project;
+package com.project.view;
 
 import java.io.IOException;
-import javafx.fxml.FXML;
 
-public class PrimaryController {
+import com.project.MainApp;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class MainViewController {
 
     @FXML
     private void uusiSimulaatio() throws IOException {
-        App.setRoot("secondary");
+        MainApp.setRoot("NewSimulationGUI"); 
     }
     
     @FXML

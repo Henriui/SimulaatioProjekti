@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.MainViewController">
    <children>
       <AnchorPane prefHeight="472.0" prefWidth="250.0" style="-fx-background-color: #393351;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,7 +23,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/phone.png" />
+                              <Image url="@../../../icons/phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -32,7 +32,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/chart.png" />
+                              <Image url="@../../../icons/chart.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -40,7 +40,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/options.png" />
+                              <Image url="@../../../icons/options.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -48,7 +48,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/exit.png" />
+                              <Image url="@../../../icons/exit.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -95,7 +95,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/exit.png" />
+                              <Image url="@../../../icons/exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -129,7 +129,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/chart.png" />
+                              <Image url="@../../../icons/chart.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -163,7 +163,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/phone.png" />
+                              <Image url="@../../../icons/phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -197,7 +197,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/options.png" />
+                              <Image url="@../../../icons/options.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -208,7 +208,7 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@../../css/main.css" />
       <URL value="@../../../java/css/main.css" />
+      <URL value="@../../../css/main.css" />
    </stylesheets>
 </AnchorPane>
