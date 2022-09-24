@@ -18,6 +18,8 @@ public class Palvelupiste {
 	private Tapahtumalista tapahtumalista;
 	private Tyyppi skeduloitavanTapahtumanTyyppi;
 	private static int palvelupisteenUID = 0;
+
+	private SimulaationSuureet sS;
 	private int palvelupisteenID;
 	private int asiakkaitaLisattyJonoon;
 	private int asiakkaitaPalveltuJonosta;
@@ -37,6 +39,7 @@ public class Palvelupiste {
 
 	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi,
 			double maxJonoParametri) {
+		sS = SimulaationSuureet.getInstance();
 		palvelupisteenID = palvelupisteenUID;
 		palvelupisteenUID++;
 		this.maxJonoParametri = maxJonoParametri;
@@ -51,6 +54,7 @@ public class Palvelupiste {
 	public void lisaaJonoon(Asiakas a) { // Jonon 1. asiakas aina palvelussa
 
 		a.setSaapumisaikaPp(Kello.getInstance().getAika());
+		SimulaationSuureet.getInstance().setSimulointiAika(Kello.getInstance().getAika());
 		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
 		asiakkaitaLisattyJonoon++;
 		jono.add(a);
@@ -165,6 +169,11 @@ public class Palvelupiste {
 
 	public void raportti() {
 
+		double keskimaaranenPalveluAika = palveluAikaSuurre / asiakkaitaPalveltuJonosta;
+		double keskimaarainenOleskeluAika = asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
+		double keskiarvoJonotusAika = jonoAikaSuurre / asiakkaitaLisattyJonoon;
+		double palveluprosentti = (1 / ((double) asiakkaitaLisattyJonoon / (double) asiakkaitaPalveltuJonosta)) * 100;
+
 		Trace.out(Trace.Level.INFO, "\nPalvelupisteeseen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 				+ " saapui: " + asiakkaitaLisattyJonoon);
 		Trace.out(Trace.Level.INFO,
@@ -178,20 +187,33 @@ public class Palvelupiste {
 				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " siirretty oikeaan paikkaan: "
 						+ asiakkaitaReRoutattuJonosta);
+
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " palveluaika keskimääräisesti: "
-						+ (palveluAikaSuurre / asiakkaitaPalveltuJonosta));
+						+ keskimaaranenPalveluAika);
+
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteessä: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " kokonaisoleskeluaika keskiarvo on: "
-						+ asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta);
+						+ keskimaarainenOleskeluAika);
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteeseen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " jonotettiin keskimäärin: "
-						+ jonoAikaSuurre / asiakkaitaLisattyJonoon);
+						+ keskiarvoJonotusAika);
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveluprosentti: "
-						+ (1 / ((double) asiakkaitaLisattyJonoon / (double) asiakkaitaPalveltuJonosta)) * 100 + " %");
+						+ palveluprosentti + " %");
+		sS.setAsiakkaitaLisattyJonoonKpl(asiakkaitaLisattyJonoon);
+		sS.setAsiakkaitaPalveltuJonostaKpl(asiakkaitaPalveltuJonosta);
+		sS.setAsiakkaitaPoistunutJonostaKpl(asiakkaitaPoistunutJonosta);
+		sS.setAsiakkaitaReRoutattuJonostaKpl(asiakkaitaReRoutattuJonosta);
+		sS.setKokonaisPalveluAikaPalvelupisteessa(palveluAikaSuurre);
+		sS.setKokonaisJonoAikaPalvelupisteessa(jonoAikaSuurre);
+		sS.setAsiakkaittenKokonaisAikaPalvelupisteessa(asiakkaittenKokonaisAikaSuurre);
+		sS.setKeskiarvoJonotusAika(keskiarvoJonotusAika);
+		sS.setKeskimaarainenOleskeluAika(keskimaarainenOleskeluAika);
+		sS.setKeskimaaranenPalveluAika(keskimaaranenPalveluAika);
+		sS.setPalveluprosentti(palveluprosentti);
 	}
 }

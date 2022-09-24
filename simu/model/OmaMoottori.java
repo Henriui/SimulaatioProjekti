@@ -12,14 +12,16 @@ public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
 	private final static int MIN_PALVELUPISTE_MAARA = 3;
-	UserParametrit uP;
+	private UserParametrit uP;
+	private SimulaationSuureet sS;
 
 	// OmaMoottori
 	public OmaMoottori() {
-
+		sS = SimulaationSuureet.getInstance();
 		uP = UserParametrit.getInstance();
-
-		palvelupisteet = new Palvelupiste[ParametriUtilities.getPpKokonaismaara() + MIN_PALVELUPISTE_MAARA];
+		int maxPalvelupisteet = ParametriUtilities.getPpKokonaismaara() + MIN_PALVELUPISTE_MAARA;
+		sS.setPalveluPisteidenKokonaisMaara(maxPalvelupisteet);
+		palvelupisteet = new Palvelupiste[maxPalvelupisteet];
 
 		palvelupisteet[0] = new Palvelupiste(ParametriUtilities.getNormalValikko(), tapahtumalista,
 				Tyyppi.BLENDER_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
@@ -43,7 +45,6 @@ public class OmaMoottori extends Moottori {
 	// Alustukset
 	@Override
 	protected void alustukset() {
-
 		// Ensimmäinen saapuminen järjestelmään.
 		saapumisprosessi.generoiSeuraava();
 	}
@@ -137,10 +138,13 @@ public class OmaMoottori extends Moottori {
 	// tulokset
 	@Override
 	protected void tulokset() {
+
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 		}
-		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
+
+		sS.setSimulointiAika(Kello.getInstance().getAika());
+		sS.tulosteet();
 	}
 
 }

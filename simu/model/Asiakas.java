@@ -25,10 +25,12 @@ public class Asiakas {
 	private AsiakasTyyppi asType;
 	private DiscreteGenerator asiakasJakauma;
 	private ContinuousGenerator tyyppiJakauma;
+	private SimulaationSuureet sS;
 
 	// Asiakas
 
 	public Asiakas(DiscreteGenerator asiakasJakauma, boolean reRouted) {
+		sS = SimulaationSuureet.getInstance();
 		this.reRouted = reRouted; // Soittiko asiakas väärää linjaan = True
 		this.asiakasJakauma = asiakasJakauma;
 		this.id = i++;
@@ -177,6 +179,7 @@ public class Asiakas {
 
 	// raportti
 	public void raportti() {
+
 		Trace.out(Trace.Level.INFO, "\nAsiakas " + id + ",  tyyppi: " + asType + " on valmis! ");
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + saapumisaikaSimulaatiossa);
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " poistui: " + poistumisaikaSimulaatiossa);
@@ -185,6 +188,7 @@ public class Asiakas {
 		sum += (poistumisaikaSimulaatiossa - saapumisaikaSimulaatiossa);
 		double keskiarvo = sum / id;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
+		sS.setAsiakkaanKeskiArvoViipyminenSimulaatiossa(keskiarvo);
 	}
 
 }

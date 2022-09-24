@@ -1,7 +1,7 @@
 package simu.model;
 
 public class UserParametrit {
-    private static UserParametrit INSTANCE = null;
+    private static UserParametrit instance = null;
 
     // Henkilöasiakkaiden palvelupisteiden kplmaarat
     private int priSalesPpMaara;
@@ -54,11 +54,11 @@ public class UserParametrit {
     // Yritysasiakkaitten INVOICE keksimääräinen palveluaika
     private double coInvoiceKkPAika;
 
-    public static UserParametrit getInstance() {
-        if (INSTANCE == null)
-            INSTANCE = new UserParametrit();
-
-        return INSTANCE;
+    public static synchronized UserParametrit getInstance() {
+        if (instance == null) {
+            instance = new UserParametrit();
+        }
+        return instance;
     }
 
     private UserParametrit() {
