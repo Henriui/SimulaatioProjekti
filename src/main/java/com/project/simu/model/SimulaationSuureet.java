@@ -1,6 +1,6 @@
 package com.project.simu.model;
 
-import com.project.SecondaryController;
+import com.project.view.INewSimulationControllerMtoV;
 import com.project.simu.utilities.ParametriUtilities;
 
 public class SimulaationSuureet {
@@ -67,19 +67,17 @@ public class SimulaationSuureet {
         palveluPisteidenKokonaisMaara += ParametriUtilities.getPpKokonaismaara();
     }
 
-    /*
-     * public void updateSuureet(int t, SecondaryController kontrolleri, int p, int
-     * yksityis, int yritys) {
-     * kontrolleri.ilmoitaJononKoko(yksityis, yritys);
-     * System.out.println("TAATELI: " + t + ", JA SAATANA: " + p + ", Yksityis: " +
-     * yksityis + " Yritys: " + yritys);
-     * kontrolleri.asiakkaitaPalveluPisteella(t, p);
-     * kontrolleri.ilmoitaPalveluPisteet(yritysPalvelupisteita,
-     * yksityisPalvelupisteita);
-     * kontrolleri.ulkonaAsiakkaita(asiakkaitaPalveltuJonostaKpl +
-     * asiakkaitaPoistunutJonostaKpl);
-     * }
-     */
+    public void updateSuureet(int t, INewSimulationControllerMtoV kontrolleri, int p, int yksityis, int yritys) {
+        kontrolleri.ilmoitaJononKoko(yksityis, yritys);
+        System.out.println("TAATELI: " + t + ", JA SAATANA: " + p + ", Yksityis: " +
+                yksityis + " Yritys: " + yritys);
+        kontrolleri.asiakkaitaPalveluPisteella(t, p);
+        kontrolleri.ilmoitaPalveluPisteet(yritysPalvelupisteita,
+                yksityisPalvelupisteita);
+        kontrolleri.ulkonaAsiakkaita(asiakkaitaPalveltuJonostaKpl +
+                asiakkaitaPoistunutJonostaKpl);
+    }
+
     public void tulosteet() {
         System.out.println("\n\n\nPalvelupisteiden kokonaismaara: " + palveluPisteidenKokonaisMaara);
         System.out.println("Simulointiaika: " + simulointiAika);

@@ -1,6 +1,6 @@
 package com.project.simu.framework;
 
-import com.project.SecondaryController;
+import com.project.view.INewSimulationControllerMtoV;
 import com.project.simu.model.Palvelupiste;
 
 public abstract class Moottori extends Thread {
@@ -11,9 +11,9 @@ public abstract class Moottori extends Thread {
 
 	protected Tapahtumalista tapahtumalista;
 	protected Palvelupiste[] palvelupisteet;
-	protected SecondaryController kontrolleri;
+	protected INewSimulationControllerMtoV kontrolleri;
 
-	public Moottori(SecondaryController kontrolleri) {
+	public Moottori(INewSimulationControllerMtoV kontrolleri) {
 
 		this.kontrolleri = kontrolleri;
 

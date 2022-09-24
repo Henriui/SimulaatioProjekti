@@ -1,7 +1,7 @@
 package com.project.simu.model;
 
 import com.project.simu.utilities.ParametriUtilities;
-import com.project.SecondaryController;
+import com.project.view.INewSimulationControllerMtoV;
 import com.project.eduni.distributions.Negexp;
 import com.project.eduni.distributions.Uniform;
 import com.project.simu.framework.Kello;
@@ -17,9 +17,8 @@ public class OmaMoottori extends Moottori {
 	private SimulaationSuureet sS;
 
 	// OmaMoottori
-	public OmaMoottori(SecondaryController kontrolleri) {
+	public OmaMoottori(INewSimulationControllerMtoV kontrolleri) {
 		super(kontrolleri);
-		this.setViive(500);
 		sS = SimulaationSuureet.getInstance();
 		uP = UserParametrit.getInstance();
 
@@ -77,11 +76,12 @@ public class OmaMoottori extends Moottori {
 		else if (tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART) {
 			a = palvelupisteet[otaPalveltuAsiakas(tapahtuma)].otaJonosta();
 			Palvelupiste p = palvelupisteet[lisaaAsiakas(a.getAsType())];
-			/*
-			 * sS.updateSuureet(a.getAsType(), kontrolleri,
-			 * p.getAsiakkaitaPalveltuJonosta(),
-			 * palveluPisteissaJonoa(1), palveluPisteissaJonoa(5));
-			 */
+
+			// Updatetaan tämän hetkinen tilanne
+			sS.updateSuureet(a.getAsType(), kontrolleri,
+					p.getAsiakkaitaPalveltuJonosta(),
+					palveluPisteissaJonoa(1), palveluPisteissaJonoa(5));
+
 			palvelupisteet[lisaaAsiakas(a.setAsiakasTyyppi())].lisaaJonoon(a);
 		}
 
@@ -144,6 +144,7 @@ public class OmaMoottori extends Moottori {
 		return -1;
 	}
 
+	// Method joka palauttaa 4:n palvelupisteen jono tilanteen.
 	public int palveluPisteissaJonoa(int ppType) {
 		int jonossaAsiakkaita = 0;
 		int i = ppType;
