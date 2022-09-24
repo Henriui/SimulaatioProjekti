@@ -14,7 +14,11 @@ public enum AsiakasTyyppi {
     CO_SALES(5),
     CO_NETWORK(6),
     CO_SUBSCRIBER(7),
-    CO_INVOICE(8);
+    CO_INVOICE(8),
+
+    // Jakaumaa varten henkilö / yritysasiakkaat
+    PRI(9),
+    CO(10);
 
     private int asiakasTypeNumero;
 
