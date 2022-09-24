@@ -13,12 +13,11 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-// Hiiren variablet
+    // Hiiren variablet
 
     private double xOffset = 0;
     private double yOffset = 0;
     private static Scene scene;
-
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -26,14 +25,14 @@ public class App extends Application {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
 
-         //grab your root here
+        // grab your root here
 
-         scene.setOnMousePressed(event -> {
+        scene.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
 
-        //move around here
+        // move around here
 
         scene.setOnMouseDragged(event -> {
             stage.setX(event.getScreenX() - xOffset);

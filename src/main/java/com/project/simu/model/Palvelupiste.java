@@ -54,9 +54,10 @@ public class Palvelupiste {
 	public void lisaaJonoon(Asiakas a) { // Jonon 1. asiakas aina palvelussa
 
 		a.setSaapumisaikaPp(Kello.getInstance().getAika());
-		SimulaationSuureet.getInstance().setSimulointiAika(Kello.getInstance().getAika());
+		sS.setSimulointiAika(Kello.getInstance().getAika());
 		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
 		asiakkaitaLisattyJonoon++;
+		sS.setAsiakkaitaLisattyJonoonKpl(asiakkaitaLisattyJonoon);
 		jono.add(a);
 	}
 
@@ -68,6 +69,7 @@ public class Palvelupiste {
 			varattu = false;
 			a.setPoistumisaikaPp(Kello.getInstance().getAika());
 		}
+		sS.setAsiakkaitaPoistunutJonostaKpl(asiakkaitaPoistunutJonosta);
 		// Lisätään asiakkaan palvelupisteen oleskeluaika suurre
 		asiakkaittenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
 		return a;
@@ -205,8 +207,6 @@ public class Palvelupiste {
 				"Palvelupisteen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveluprosentti: "
 						+ palveluprosentti + " %");
 		sS.setAsiakkaitaLisattyJonoonKpl(asiakkaitaLisattyJonoon);
-		sS.setAsiakkaitaPalveltuJonostaKpl(asiakkaitaPalveltuJonosta);
-		sS.setAsiakkaitaPoistunutJonostaKpl(asiakkaitaPoistunutJonosta);
 		sS.setAsiakkaitaReRoutattuJonostaKpl(asiakkaitaReRoutattuJonosta);
 		sS.setKokonaisPalveluAikaPalvelupisteessa(palveluAikaSuurre);
 		sS.setKokonaisJonoAikaPalvelupisteessa(jonoAikaSuurre);
