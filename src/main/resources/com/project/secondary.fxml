@@ -24,7 +24,7 @@
                            </image></ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Hidasta" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#setSuureet" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Hidasta" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>

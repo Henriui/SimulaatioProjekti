@@ -3,7 +3,7 @@ module com.project {
     requires javafx.fxml;
     requires java.desktop;
 
-    opens com.project to javafx.fxml;
-
     exports com.project;
+    exports com.project.view;
+    opens com.project.view to javafx.fxml;
 }
