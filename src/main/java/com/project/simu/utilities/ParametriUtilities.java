@@ -1,11 +1,11 @@
-package simu.utilities;
+package com.project.simu.utilities;
 
-import simu.model.UserParametrit;
-import eduni.distributions.Binomial;
-import eduni.distributions.DiscreteGenerator;
-import eduni.distributions.Normal;
-import eduni.distributions.Uniform;
-import simu.model.Tyyppi;
+import com.project.simu.model.UserParametrit;
+import com.project.eduni.distributions.Binomial;
+import com.project.eduni.distributions.DiscreteGenerator;
+import com.project.eduni.distributions.Normal;
+import com.project.eduni.distributions.Uniform;
+import com.project.simu.model.Tyyppi;
 
 /*
  * Käyttäjän parametri singletonin datan kääntäjät staattiseen utility classiin ripoteltuna

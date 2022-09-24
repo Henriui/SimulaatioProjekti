@@ -1,18 +1,10 @@
 package com.project.simu.model;
 
-<<<<<<< HEAD:simu/model/Asiakas.java
-import eduni.distributions.ContinuousGenerator;
-import eduni.distributions.DiscreteGenerator;
-import eduni.distributions.Uniform;
-import simu.framework.Kello;
-import simu.framework.Trace;
-=======
 import com.project.eduni.distributions.ContinuousGenerator;
+import com.project.eduni.distributions.DiscreteGenerator;
+import com.project.eduni.distributions.Uniform;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
-
-// TODO:
->>>>>>> main:src/main/java/com/project/simu/model/Asiakas.java
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
 
 public class Asiakas {

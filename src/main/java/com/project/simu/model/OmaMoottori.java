@@ -1,25 +1,12 @@
-<<<<<<< HEAD:simu/model/OmaMoottori.java
-package simu.model;
-
-import eduni.distributions.Negexp;
-import eduni.distributions.Uniform;
-import simu.framework.Kello;
-import simu.framework.Moottori;
-import simu.framework.Saapumisprosessi;
-import simu.framework.Tapahtuma;
-import simu.utilities.ParametriUtilities;
-=======
 package com.project.simu.model;
 
-import com.project.eduni.distributions.ContinuousGenerator;
+import com.project.simu.utilities.ParametriUtilities;
 import com.project.eduni.distributions.Negexp;
-import com.project.eduni.distributions.Normal;
 import com.project.eduni.distributions.Uniform;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Saapumisprosessi;
 import com.project.simu.framework.Tapahtuma;
->>>>>>> main:src/main/java/com/project/simu/model/OmaMoottori.java
 
 public class OmaMoottori extends Moottori {
 

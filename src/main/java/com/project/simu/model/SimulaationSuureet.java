@@ -1,4 +1,4 @@
-package simu.model;
+package com.project.simu.model;
 
 public class SimulaationSuureet {
 

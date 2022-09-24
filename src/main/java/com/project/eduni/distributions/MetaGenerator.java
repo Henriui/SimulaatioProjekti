@@ -1,8 +1,9 @@
-package eduni.distributions;
+package com.project.eduni.distributions;
 
 import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.util.Calendar;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
  * @date 4/10/2002
  * @author F.Mallet
  */
+
 public class MetaGenerator {
 	String[] params;
 	String methodName, className;
