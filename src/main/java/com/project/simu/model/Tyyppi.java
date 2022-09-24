@@ -4,12 +4,6 @@ package com.project.simu.model;
 
 public enum Tyyppi {
 
-	// Saapumisprosessi ja puhelinvalikoista poistumiset
-	ARRIVAL(10),
-	BLENDER_VALIKKO_DEPART(11),
-	PRI_VALIKKO_DEPART(12),
-	CO_VALIKKO_DEPART(13),
-
 	// Poistumiset asiakaspalveluista
 	PRI_SALES_DEPART(1),
 	PRI_NETWORK_DEPART(2),
@@ -19,7 +13,13 @@ public enum Tyyppi {
 	CO_SALES_DEPART(5),
 	CO_NETWORK_DEPART(6),
 	CO_SUBSCRIBER_DEPART(7),
-	CO_INVOICE_DEPART(8);
+	CO_INVOICE_DEPART(8),
+
+	// Saapumisprosessi ja puhelinvalikoista poistumiset
+	PRI_VALIKKO_DEPART(9),
+	CO_VALIKKO_DEPART(10),
+	BLENDER_VALIKKO_DEPART(11),
+	ARRIVAL(12);
 
 	// Saapumiset valikoihin animointia varten
 	/*
