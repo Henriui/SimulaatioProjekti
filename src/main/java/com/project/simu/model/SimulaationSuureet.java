@@ -1,5 +1,8 @@
 package com.project.simu.model;
 
+import com.project.SecondaryController;
+import com.project.simu.utilities.ParametriUtilities;
+
 public class SimulaationSuureet {
 
     private static SimulaationSuureet instance = null;
@@ -9,6 +12,8 @@ public class SimulaationSuureet {
     private int asiakkaitaPalveltuJonostaKpl;
     private int asiakkaitaPoistunutJonostaKpl;
     private int asiakkaitaReRoutattuJonostaKpl;
+    private int yritysPalvelupisteita;
+    private int yksityisPalvelupisteita;
 
     private double simulointiAika;
     private double kokonaisPalveluAikaPalvelupisteessa;
@@ -32,12 +37,19 @@ public class SimulaationSuureet {
     }
 
     public void resetSuureet() {
+
+        // Nice to have?
+        yksityisPalvelupisteita = 0;
+        yritysPalvelupisteita = 0;
         palveluPisteidenKokonaisMaara = 3;
-        simulointiAika = 0;
+
+        // Jono kpl
         asiakkaitaLisattyJonoonKpl = 0;
         asiakkaitaPalveltuJonostaKpl = 0;
         asiakkaitaPoistunutJonostaKpl = 0;
         asiakkaitaReRoutattuJonostaKpl = 0;
+
+        // Aikoja
         kokonaisPalveluAikaPalvelupisteessa = 0;
         kokonaisJonoAikaPalvelupisteessa = 0;
         asiakkaittenKokonaisAikaPalvelupisteessa = 0;
@@ -45,15 +57,36 @@ public class SimulaationSuureet {
         keskimaaranenPalveluAika = 0;
         keskimaarainenOleskeluAika = 0;
         keskiarvoJonotusAika = 0;
+
         palveluprosentti = 0;
+
+        Asiakas.resetAsiakasUID();
+        Palvelupiste.resetPpID();
+        yksityisPalvelupisteita = ParametriUtilities.getYksityisPalvelupisteita();
+        yritysPalvelupisteita = ParametriUtilities.getYritysPalvelupisteita();
+        palveluPisteidenKokonaisMaara += ParametriUtilities.getPpKokonaismaara();
     }
 
+    /*
+     * public void updateSuureet(int t, SecondaryController kontrolleri, int p, int
+     * yksityis, int yritys) {
+     * kontrolleri.ilmoitaJononKoko(yksityis, yritys);
+     * System.out.println("TAATELI: " + t + ", JA SAATANA: " + p + ", Yksityis: " +
+     * yksityis + " Yritys: " + yritys);
+     * kontrolleri.asiakkaitaPalveluPisteella(t, p);
+     * kontrolleri.ilmoitaPalveluPisteet(yritysPalvelupisteita,
+     * yksityisPalvelupisteita);
+     * kontrolleri.ulkonaAsiakkaita(asiakkaitaPalveltuJonostaKpl +
+     * asiakkaitaPoistunutJonostaKpl);
+     * }
+     */
     public void tulosteet() {
         System.out.println("\n\n\nPalvelupisteiden kokonaismaara: " + palveluPisteidenKokonaisMaara);
         System.out.println("Simulointiaika: " + simulointiAika);
         System.out.println("Asiakkaita lisatty jonoon: " + asiakkaitaLisattyJonoonKpl);
         System.out.println("Asiakkaita palveltu jonosta: " + asiakkaitaPalveltuJonostaKpl);
         System.out.println("Asiakkaita reRoutattu jonosta: " + asiakkaitaReRoutattuJonostaKpl);
+        System.out.println("Asiakkaita poistunut jonosta: " + asiakkaitaPoistunutJonostaKpl);
         System.out.println("Asiakkaitten kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);
         System.out.println("Asiakkaitten kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);
         System.out.println("Asiakkaitten kokonaisaika palvelupisteissa: " + asiakkaittenKokonaisAikaPalvelupisteessa);
@@ -61,7 +94,8 @@ public class SimulaationSuureet {
         System.out.println("Palvelupisteitten keskimaarainen palveluaika: " + keskimaaranenPalveluAika);
         System.out.println("Palvelupisteitten keskimaarainen jonotusaika: " + keskiarvoJonotusAika);
         System.out.println("Palvelupisteissa keskimaarainen oleskeluaika: " + keskimaarainenOleskeluAika);
-        System.out.println("Palvelupisteitten palveluprosentti: " + palveluprosentti / palveluPisteidenKokonaisMaara);
+        System.out.println(
+                "Palvelupisteitten palveluprosentti: " + palveluprosentti / palveluPisteidenKokonaisMaara + "\n");
     }
 
     /**
@@ -74,8 +108,8 @@ public class SimulaationSuureet {
     /**
      * @param asiakkaitaLisattyJonoonKpl the asiakkaitaLisattyJonoonKpl to set
      */
-    public void setAsiakkaitaLisattyJonoonKpl(int asiakkaitaLisattyJonoonKpl) {
-        this.asiakkaitaLisattyJonoonKpl += asiakkaitaLisattyJonoonKpl;
+    public void setAsiakkaitaLisattyJonoonKpl() {
+        this.asiakkaitaLisattyJonoonKpl += 1;
     }
 
     /**
@@ -88,8 +122,8 @@ public class SimulaationSuureet {
     /**
      * @param asiakkaitaPalveltuJonostaKpl the asiakkaitaPalveltuJonostaKpl to set
      */
-    public void setAsiakkaitaPalveltuJonostaKpl(int asiakkaitaPalveltuJonostaKpl) {
-        this.asiakkaitaPalveltuJonostaKpl += asiakkaitaPalveltuJonostaKpl;
+    public void setAsiakkaitaPalveltuJonostaKpl() {
+        this.asiakkaitaPalveltuJonostaKpl += 1;
     }
 
     /**
@@ -102,8 +136,8 @@ public class SimulaationSuureet {
     /**
      * @param asiakkaitaPoistunutJonostaKpl the asiakkaitaPoistunutJonostaKpl to set
      */
-    public void setAsiakkaitaPoistunutJonostaKpl(int asiakkaitaPoistunutJonostaKpl) {
-        this.asiakkaitaPoistunutJonostaKpl += asiakkaitaPoistunutJonostaKpl;
+    public void setAsiakkaitaPoistunutJonostaKpl() {
+        this.asiakkaitaPoistunutJonostaKpl += 1;
     }
 
     /**
@@ -117,8 +151,8 @@ public class SimulaationSuureet {
      * @param asiakkaitaReRoutattuJonostaKpl the asiakkaitaReRoutattuJonostaKpl to
      *                                       set
      */
-    public void setAsiakkaitaReRoutattuJonostaKpl(int asiakkaitaReRoutattuJonostaKpl) {
-        this.asiakkaitaReRoutattuJonostaKpl += asiakkaitaReRoutattuJonostaKpl;
+    public void setAsiakkaitaReRoutattuJonostaKpl() {
+        this.asiakkaitaReRoutattuJonostaKpl += 1;
     }
 
     /**
@@ -266,6 +300,34 @@ public class SimulaationSuureet {
      */
     public void setPalveluPisteidenKokonaisMaara(int palveluPisteidenKokonaisMaara) {
         this.palveluPisteidenKokonaisMaara = palveluPisteidenKokonaisMaara;
+    }
+
+    /**
+     * @return int return the yritysPalvelupisteita
+     */
+    public int getYritysPalvelupisteita() {
+        return yritysPalvelupisteita;
+    }
+
+    /**
+     * @param yritysPalvelupisteita the yritysPalvelupisteita to set
+     */
+    public void setYritysPalvelupisteita(int yritysPalvelupisteita) {
+        this.yritysPalvelupisteita = yritysPalvelupisteita;
+    }
+
+    /**
+     * @return int return the yksityisPalvelupisteita
+     */
+    public int getYksityisPalvelupisteita() {
+        return yksityisPalvelupisteita;
+    }
+
+    /**
+     * @param yksityisPalvelupisteita the yksityisPalvelupisteita to set
+     */
+    public void setYksityisPalvelupisteita(int yksityisPalvelupisteita) {
+        this.yksityisPalvelupisteita = yksityisPalvelupisteita;
     }
 
 }

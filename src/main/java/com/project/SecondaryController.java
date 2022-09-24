@@ -6,8 +6,12 @@ import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
+import com.project.simu.model.SimulaationSuureet;
+import com.project.simu.model.Tyyppi;
 import com.project.simu.model.UserParametrit;
+import com.project.simu.utilities.ParametriUtilities;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -27,23 +31,21 @@ public class SecondaryController {
     @FXML
     private Label suorittaneetMaara;
 
-
     @FXML
     private void takaisinMainView() throws IOException {
         App.setRoot("mainView");
     }
 
     @FXML
-    public void aloitaSimulaatio(){
+    public void aloitaSimulaatio() {
         UserParametrit uP = UserParametrit.getInstance();
-		Trace.setTraceLevel(Level.INFO);
-		Moottori m = new OmaMoottori();
-		m.setSimulointiaika(uP.getSimulaationAika());
-		m.start();
+        Trace.setTraceLevel(Level.INFO);
+        Moottori m = new OmaMoottori(this);
+        m.setSimulointiaika(uP.getSimulaationAika());
+        ((Thread) m).start();
     }
-    public void ilmoitaJononKoko(int koko){
-        String tulos = String.valueOf(koko);
-        yksityisJonossa.setText(tulos);
+
+    public void ilmoitaJononKoko(int koko) {
+
     }
-    
 }

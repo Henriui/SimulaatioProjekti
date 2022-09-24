@@ -89,22 +89,22 @@ public class UserParametrit {
         this.asiakasTyyppiJakauma = 0.5;
 
         // 150 sek jaksaa jonottaa
-        this.asiakkaidenKarsivallisyys = 150;
+        this.asiakkaidenKarsivallisyys = 15 * 60;
         // 1 % asiakkaista valitsee väärin
         this.vaaraValintaProsentti = 0.01;
 
         // Sekunttia 3600 * 8 = 8h työpäivä
         this.simulaationAika = 3600 * 8;
         // Sekuntteina oletuspalveluaikoja, 10 sekunttia puhelinvalikko
-        this.pValikkoAika = 10;
-        this.priSalesKkPAika = 5 * 60;
-        this.priNetworkKkPAika = 5 * 60;
-        this.priSubscriberKkPAika = 5 * 60;
-        this.priInvoiceKkPAika = 5 * 60;
-        this.coSalesKkPAika = 5 * 60;
-        this.coNetworkKkPAika = 5 * 60;
-        this.coSubscriberKkPAika = 5 * 60;
-        this.coInvoiceKkPAika = 5 * 60;
+        this.pValikkoAika = 5;
+        this.priSalesKkPAika = 10 * 60;
+        this.priNetworkKkPAika = 10 * 60;
+        this.priSubscriberKkPAika = 10 * 60;
+        this.priInvoiceKkPAika = 10 * 60;
+        this.coSalesKkPAika = 10 * 60;
+        this.coNetworkKkPAika = 10 * 60;
+        this.coSubscriberKkPAika = 10 * 60;
+        this.coInvoiceKkPAika = 10 * 60;
     }
 
     // Liuta settereitä ja gettereitä tästä eteenpäin //

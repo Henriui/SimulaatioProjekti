@@ -8,10 +8,12 @@ import com.project.simu.model.OmaMoottori;
 public class Simulaattori { // Tekstipohjainen
 
 	public static void main(String[] args) {
-		UserParametrit uP = UserParametrit.getInstance();
-		Trace.setTraceLevel(Level.INFO);
-		Moottori m = new OmaMoottori();
-		m.setSimulointiaika(uP.getSimulaationAika());
-		m.start();
+		/*
+		 * UserParametrit uP = UserParametrit.getInstance();
+		 * Trace.setTraceLevel(Level.INFO);
+		 * Moottori m = new OmaMoottori();
+		 * m.setSimulointiaika(uP.getSimulaationAika());
+		 * m.start();
+		 */
 	}
 }
