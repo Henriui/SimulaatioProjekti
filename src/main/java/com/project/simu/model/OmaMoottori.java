@@ -41,6 +41,8 @@ public class OmaMoottori extends Moottori {
 			}
 		}
 		saapumisprosessi = new Saapumisprosessi(new Negexp(150, 5), tapahtumalista, Tyyppi.ARRIVAL);
+		kontrolleri.ilmoitaPalveluPisteet(sS.getYritysPalvelupisteita(),
+				sS.getYksityisPalvelupisteita());
 	}
 
 	// Alustukset
@@ -59,6 +61,8 @@ public class OmaMoottori extends Moottori {
 		Asiakas a;
 		Tyyppi tapahtuma = t.getTyyppi();
 
+		kontrolleri.ilmoitaJononKoko(palveluPisteissaJonoa(1), palveluPisteissaJonoa(5));
+
 		// Saapumistapahtumat
 		if (tapahtuma == Tyyppi.ARRIVAL) {
 			a = new Asiakas(ParametriUtilities.getAsiakasJakauma(), ParametriUtilities.onkoVaaraValinta());
@@ -69,32 +73,43 @@ public class OmaMoottori extends Moottori {
 		// Blendervalikko
 		else if (tapahtuma == Tyyppi.BLENDER_VALIKKO_DEPART) {
 			a = palvelupisteet[otaPalveltuAsiakas(tapahtuma)].otaJonosta();
+
+			// Lisätään jonoon
 			palvelupisteet[lisaaAsiakas(a.getAsType())].lisaaJonoon(a);
 		}
 
 		// Henkilö- ja yritysasiakas valikon poistumiset
 		else if (tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART) {
 			a = palvelupisteet[otaPalveltuAsiakas(tapahtuma)].otaJonosta();
-			Palvelupiste p = palvelupisteet[lisaaAsiakas(a.getAsType())];
 
-			// Updatetaan tämän hetkinen tilanne
-			sS.updateSuureet(a.getAsType(), kontrolleri,
-					p.getAsiakkaitaPalveltuJonosta(),
-					palveluPisteissaJonoa(1), palveluPisteissaJonoa(5));
-
+			// Lisätään jonoon
 			palvelupisteet[lisaaAsiakas(a.setAsiakasTyyppi())].lisaaJonoon(a);
 		}
 
 		// Asiakaspalvelija pisteiden poistumiset
 		else {
+			// Otetaan jonosta ja asetetaan poistumisaika
 			a = palvelupisteet[otaPalveltuAsiakas(tapahtuma)].otaJonosta();
+			a.setPoistumisaika(Kello.getInstance().getAika());
+
 			if (a.getReRouted()) {
-				// palvelupisteestä haetaan uudella asiakastyyppinumerolla oleva asiakas
 				palvelupisteet[lisaaAsiakas(a.setReRouted())].lisaaJonoon(a);
-			} else {
-				a.setPoistumisaika(Kello.getInstance().getAika());
-				a.raportti();
+				return;
 			}
+
+			if (a.isJonotukseenKyllastynyt()) {
+				sS.setAsiakkaitaPoistunutJonostaKpl();
+			} else {
+				// Updatetaan tämän hetkinen tilanne
+				kontrolleri.asiakkaitaPalveluPisteella(palveluPisteissaOleskellut(1), palveluPisteissaOleskellut(5));
+				sS.setAsiakkaitaPalveltuJonostaKpl();
+			}
+
+			// Kuinka monta asiakasta on ulkona
+			kontrolleri.ulkonaAsiakkaita(sS.getAsiakkaitaPalveltuJonostaKpl() +
+					sS.getAsiakkaitaPoistunutJonostaKpl());
+			// Asiakas ulkona -> Raportoidaan
+			a.raportti();
 		}
 	}
 
@@ -147,17 +162,26 @@ public class OmaMoottori extends Moottori {
 	// Method joka palauttaa 4:n palvelupisteen jono tilanteen.
 	public int palveluPisteissaJonoa(int ppType) {
 		int jonossaAsiakkaita = 0;
-		int i = ppType;
-
-		while ((i - ppType) != 3) {
+		for (int i = 0; i < 4; i++) {
 			for (Palvelupiste p : palvelupisteet) {
-				if ((p.getPalvelupisteenTyyppi() == i)) {
+				if ((p.getPalvelupisteenTyyppi() == (ppType + i))) {
 					jonossaAsiakkaita += p.getJonossaOlevatAsiakkaat();
 				}
 			}
-			i++;
 		}
 		return jonossaAsiakkaita;
+	}
+
+	public int palveluPisteissaOleskellut(int ppType) {
+		int palveltujaAsiakkaita = 0;
+		for (int i = 0; i < 4; i++) {
+			for (Palvelupiste p : palvelupisteet) {
+				if ((p.getPalvelupisteenTyyppi() == (ppType + i))) {
+					palveltujaAsiakkaita += p.getAsiakkaitaPalveltuJonosta() + p.getAsiakkaitaReRoutattuJonosta();
+				}
+			}
+		}
+		return palveltujaAsiakkaita;
 	}
 
 	// tulokset

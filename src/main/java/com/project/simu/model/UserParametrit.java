@@ -95,10 +95,10 @@ public class UserParametrit {
         this.viiveAika = 1500;
 
         // 600 sek jaksaa jonottaa
-        this.asiakkaidenKarsivallisyys = 10 * 60;
+        this.asiakkaidenKarsivallisyys = 8 * 60;
 
         // 1 % asiakkaista valitsee väärin
-        this.vaaraValintaProsentti = 0.01;
+        this.vaaraValintaProsentti = 0.05;
 
         // Sekunttia 3600 * 8 = 8h työpäivä
         this.simulaationAika = 3600 * 8;

@@ -22,6 +22,7 @@ public class Asiakas {
 	private double saapumisaikaPp;
 	private double poistumisaikaPp;
 	private boolean reRouted;
+	private boolean jonotukseenKyllastynyt = false;
 	private AsiakasTyyppi asType;
 	private DiscreteGenerator asiakasJakauma;
 	private ContinuousGenerator tyyppiJakauma;
@@ -135,6 +136,20 @@ public class Asiakas {
 	}
 
 	/**
+	 * @return boolean return the jonotukseenKyllastynyt
+	 */
+	public boolean isJonotukseenKyllastynyt() {
+		return jonotukseenKyllastynyt;
+	}
+
+	/**
+	 * @param jonotukseenKyllastynyt the jonotukseenKyllastynyt to set
+	 */
+	public void setJonotukseenKyllastynyt() {
+		this.jonotukseenKyllastynyt = true;
+	}
+
+	/**
 	 * 
 	 * @return false if we are not rerouted customer, true if we are.
 	 * @author Rasmus Hyyppä
@@ -152,18 +167,17 @@ public class Asiakas {
 	 * @author Rasmus Hyyppä
 	 */
 	public int setReRouted() {
-		if (reRouted) {
-			tyyppiJakauma = new Uniform(0, 8);
-			int arvottuAsType = (int) tyyppiJakauma.sample();
-			// Mikäli generoitu asiakastyyppi on sama kuin jo asetettu arvo
-			while (asType == AsiakasTyyppi.values()[arvottuAsType]) {
-				// Loopataan uusi tyyppi asiakkaalle joka ei ole sama kuin aikasemmin
-				arvottuAsType = (int) tyyppiJakauma.sample();
-			}
-			System.out.println("Asiakkaan uusi tyyppi on: " + AsiakasTyyppi.values()[arvottuAsType]);
-			asType = AsiakasTyyppi.values()[arvottuAsType];
-			reRouted = false;
+		sS.setAsiakkaitaReRoutattuJonostaKpl();
+		tyyppiJakauma = new Uniform(0, 8);
+		int arvottuAsType = (int) tyyppiJakauma.sample();
+		// Mikäli generoitu asiakastyyppi on sama kuin jo asetettu arvo
+		while (asType == AsiakasTyyppi.values()[arvottuAsType]) {
+			// Loopataan uusi tyyppi asiakkaalle joka ei ole sama kuin aikasemmin
+			arvottuAsType = (int) tyyppiJakauma.sample();
 		}
+		System.out.println("Asiakkaan uusi tyyppi on: " + AsiakasTyyppi.values()[arvottuAsType] + ", id " + id);
+		asType = AsiakasTyyppi.values()[arvottuAsType];
+		reRouted = false;
 		return asType.getAsiakasTypeNumero();
 	}
 
@@ -193,5 +207,4 @@ public class Asiakas {
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
 		sS.setAsiakkaanKeskiArvoViipyminenSimulaatiossa(keskiarvo);
 	}
-
 }
