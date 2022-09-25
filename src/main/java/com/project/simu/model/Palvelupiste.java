@@ -89,8 +89,7 @@ public class Palvelupiste {
 		if (jonotusAika > maxJonoParametri) {
 			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + a.getId());
 			asiakkaitaPoistunutJonosta++;
-			sS.setAsiakkaitaPoistunutJonostaKpl();
-
+			a.setJonotukseenKyllastynyt();
 			jonotusAika = a.getSaapumisaikaPp() + maxJonoParametri;
 			jonoAikaSuurre += maxJonoParametri;
 			a.setPoistumisaikaPp(jonotusAika);
@@ -103,10 +102,8 @@ public class Palvelupiste {
 			// TODO: mahdollinen parametri? 30 sekunttia reroute keskustelu
 			palveluaika = 30;
 			asiakkaitaReRoutattuJonosta++;
-			sS.setAsiakkaitaReRoutattuJonostaKpl();
 		} else {
 			asiakkaitaPalveltuJonosta++;
-			sS.setAsiakkaitaPalveltuJonostaKpl();
 		}
 
 		palveluAikaSuurre += palveluaika;
@@ -174,6 +171,10 @@ public class Palvelupiste {
 		return jono.size();
 	}
 
+	public int getAsiakkaitaReRoutattuJonosta() {
+		return asiakkaitaReRoutattuJonosta;
+	}
+
 	/**
 	 * @return double return the asiakkaittenKokonaisAikaSuurre
 	 */
@@ -194,7 +195,8 @@ public class Palvelupiste {
 	}
 
 	public double getPalveluprosentti() {
-		return (1 / ((double) asiakkaitaLisattyJonoon / (double) asiakkaitaPalveltuJonosta)) * 100;
+		return (1 / ((double) (asiakkaitaLisattyJonoon)
+				/ (double) (asiakkaitaPalveltuJonosta + asiakkaitaReRoutattuJonosta))) * 100;
 	}
 
 	public void raportti() {
