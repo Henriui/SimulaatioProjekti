@@ -54,22 +54,24 @@ public class Palvelupiste {
 	public void lisaaJonoon(Asiakas a) { // Jonon 1. asiakas aina palvelussa
 
 		a.setSaapumisaikaPp(Kello.getInstance().getAika());
-		SimulaationSuureet.getInstance().setSimulointiAika(Kello.getInstance().getAika());
 		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
 		asiakkaitaLisattyJonoon++;
+		sS.setAsiakkaitaLisattyJonoonKpl();
 		jono.add(a);
 	}
 
 	// otaJonosta
 
 	public Asiakas otaJonosta() { // Poistetaan palvelussa ollut
+
 		Asiakas a = jono.poll();
-		if (varattu) {
-			varattu = false;
+		varattu = false;
+		if (a.getPoistumisaikaPp() != (a.getSaapumisaika() + maxJonoParametri)) {
 			a.setPoistumisaikaPp(Kello.getInstance().getAika());
 		}
 		// Lisätään asiakkaan palvelupisteen oleskeluaika suurre
 		asiakkaittenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
+
 		return a;
 	}
 
@@ -78,23 +80,21 @@ public class Palvelupiste {
 	public void aloitaPalvelu() { // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
 		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
 		varattu = true;
-		// Lisätään jonotusaika & palveluaika suureet muuttujiin
-		double jonotusAika = Kello.getInstance().getAika() - jono.peek().getSaapumisaikaPp();
-		double palveluaika = generator.sample();
 		Asiakas a = jono.peek();
+		// Lisätään jonotusaika & palveluaika suureet muuttujiin
+		double jonotusAika = Kello.getInstance().getAika() - a.getSaapumisaikaPp();
+		double palveluaika = generator.sample();
 
 		// Mikäli jonotusaika ylitti niin asiakas poistui ennen palvelua.
 		if (jonotusAika > maxJonoParametri) {
-
 			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + a.getId());
+			asiakkaitaPoistunutJonosta++;
+			sS.setAsiakkaitaPoistunutJonostaKpl();
 
 			jonotusAika = a.getSaapumisaikaPp() + maxJonoParametri;
 			jonoAikaSuurre += maxJonoParametri;
 			a.setPoistumisaikaPp(jonotusAika);
-
-			asiakkaitaPoistunutJonosta++;
-			tapahtumalista
-					.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, a.getPoistumisaikaPp()));
+			tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, jonotusAika));
 			return;
 		}
 
@@ -103,8 +103,10 @@ public class Palvelupiste {
 			// TODO: mahdollinen parametri? 30 sekunttia reroute keskustelu
 			palveluaika = 30;
 			asiakkaitaReRoutattuJonosta++;
+			sS.setAsiakkaitaReRoutattuJonostaKpl();
 		} else {
 			asiakkaitaPalveltuJonosta++;
+			sS.setAsiakkaitaPalveltuJonostaKpl();
 		}
 
 		palveluAikaSuurre += palveluaika;
@@ -132,11 +134,14 @@ public class Palvelupiste {
 		return jono.size() != 0;
 	}
 
+	public static void resetPpID() {
+		Palvelupiste.palvelupisteenUID = 0;
+	}
+
 	/**
 	 * @return int return the asiakkaitaLisattyJonoon
 	 */
 	public int getAsiakkaitaLisattyJonoon() {
-		System.out.println("-----------------asiakkaita jonoss : " + asiakkaitaLisattyJonoon);
 		return asiakkaitaLisattyJonoon;
 	}
 
@@ -144,8 +149,11 @@ public class Palvelupiste {
 	 * @return int return the asiakkaitaPalveltuJonosta
 	 */
 	public int getAsiakkaitaPalveltuJonosta() {
-		System.out.println("-----------------------asiakkaita palveult" + asiakkaitaPalveltuJonosta);
 		return asiakkaitaPalveltuJonosta;
+	}
+
+	public int getAsiakkaitaPoistunutJonosta() {
+		return asiakkaitaPoistunutJonosta;
 	}
 
 	/**
@@ -162,6 +170,10 @@ public class Palvelupiste {
 		return jonoAikaSuurre;
 	}
 
+	public int getJonossaOlevatAsiakkaat() {
+		return jono.size();
+	}
+
 	/**
 	 * @return double return the asiakkaittenKokonaisAikaSuurre
 	 */
@@ -169,12 +181,23 @@ public class Palvelupiste {
 		return asiakkaittenKokonaisAikaSuurre;
 	}
 
-	public void raportti() {
+	public double getAvgPalveluAika() {
+		return palveluAikaSuurre / asiakkaitaPalveltuJonosta;
+	}
 
-		double keskimaaranenPalveluAika = palveluAikaSuurre / asiakkaitaPalveltuJonosta;
-		double keskimaarainenOleskeluAika = asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
-		double keskiarvoJonotusAika = jonoAikaSuurre / asiakkaitaLisattyJonoon;
-		double palveluprosentti = (1 / ((double) asiakkaitaLisattyJonoon / (double) asiakkaitaPalveltuJonosta)) * 100;
+	public double getAvgOleskeluAika() {
+		return asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
+	}
+
+	public double getAvgJonotusAika() {
+		return jonoAikaSuurre / asiakkaitaLisattyJonoon;
+	}
+
+	public double getPalveluprosentti() {
+		return (1 / ((double) asiakkaitaLisattyJonoon / (double) asiakkaitaPalveltuJonosta)) * 100;
+	}
+
+	public void raportti() {
 
 		Trace.out(Trace.Level.INFO, "\nPalvelupisteeseen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 				+ " saapui: " + asiakkaitaLisattyJonoon);
@@ -193,29 +216,26 @@ public class Palvelupiste {
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " palveluaika keskimääräisesti: "
-						+ keskimaaranenPalveluAika);
+						+ getAvgPalveluAika());
 
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteessä: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " kokonaisoleskeluaika keskiarvo on: "
-						+ keskimaarainenOleskeluAika);
+						+ getAvgOleskeluAika());
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteeseen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " jonotettiin keskimäärin: "
-						+ keskiarvoJonotusAika);
+						+ getAvgJonotusAika());
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveluprosentti: "
-						+ palveluprosentti + " %");
-		sS.setAsiakkaitaLisattyJonoonKpl(asiakkaitaLisattyJonoon);
-		sS.setAsiakkaitaPalveltuJonostaKpl(asiakkaitaPalveltuJonosta);
-		sS.setAsiakkaitaPoistunutJonostaKpl(asiakkaitaPoistunutJonosta);
-		sS.setAsiakkaitaReRoutattuJonostaKpl(asiakkaitaReRoutattuJonosta);
+						+ getPalveluprosentti() + " %");
+
 		sS.setKokonaisPalveluAikaPalvelupisteessa(palveluAikaSuurre);
 		sS.setKokonaisJonoAikaPalvelupisteessa(jonoAikaSuurre);
 		sS.setAsiakkaittenKokonaisAikaPalvelupisteessa(asiakkaittenKokonaisAikaSuurre);
-		sS.setKeskiarvoJonotusAika(keskiarvoJonotusAika);
-		sS.setKeskimaarainenOleskeluAika(keskimaarainenOleskeluAika);
-		sS.setKeskimaaranenPalveluAika(keskimaaranenPalveluAika);
-		sS.setPalveluprosentti(palveluprosentti);
+		sS.setKeskiarvoJonotusAika(getAvgPalveluAika());
+		sS.setKeskimaarainenOleskeluAika(getAvgOleskeluAika());
+		sS.setKeskimaaranenPalveluAika(getAvgJonotusAika());
+		sS.setPalveluprosentti(getPalveluprosentti());
 	}
 }

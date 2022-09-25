@@ -7,9 +7,9 @@ import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
-import com.project.simu.model.SimulaationSuureet;
 import com.project.simu.model.UserParametrit;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class NewSimulationController {
+public class NewSimulationController implements INewSimulationControllerVtoM, INewSimulationControllerMtoV {
     @FXML
     private Label yksityisJonossa;
     @FXML
@@ -36,25 +36,26 @@ public class NewSimulationController {
 
     @FXML
     private void takaisinMainView() throws IOException {
-        MainApp.setRoot("mainView"); 
+        MainApp.setRoot("mainView");
     }
 
     @FXML
-    public void aloitaSimulaatio(){
+    public void aloitaSimulaatio() {
         UserParametrit uP = UserParametrit.getInstance();
-		Trace.setTraceLevel(Level.INFO);
-		Moottori m = new OmaMoottori();
-		m.setSimulointiaika(uP.getSimulaationAika());
-		m.start();
+        Trace.setTraceLevel(Level.INFO);
+        Moottori m = new OmaMoottori(this);
+        m.setViive(uP.getViiveAika());
+        m.setSimulointiaika(uP.getSimulaationAika());
+        ((Thread) m).start();
     }
 
-    public void ilmoitaJononKoko(int koko){
+    public void ilmoitaJononKoko(int koko) {
         String tulos = String.valueOf(koko);
         yksityisJonossa.setText(tulos);
     }
 
     @FXML
-    public void setSuureet() throws IOException{
+    public void setSuureet() throws IOException {
         Scene scene = new Scene(loadFXML("suureet"));
 
         Stage stage = new Stage();
@@ -70,5 +71,64 @@ public class NewSimulationController {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
-    
+
+    // LIUTA TESTI METHODEITA -> nää vois siivota järkevämmäks ehkä?
+    // Jokanen tekee erillisen runin? jne jne
+    // Check: SimulaationSuureet.java updateSuureet()
+    @Override
+    public void ilmoitaJononKoko(int yksityis, int yritys) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                YritysJonossa.setText(String.valueOf(yritys));
+                yksityisJonossa.setText(String.valueOf(yksityis));
+            }
+        });
+
+    }
+
+    @Override
+    public void ilmoitaPalveluPisteet(int yritys, int yksityis) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityis));
+                yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritys));
+            }
+        });
+    }
+
+    @Override
+    public void asiakkaitaPalveluPisteella(int type, int koko) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                String tulos = String.valueOf(koko);
+                if (type == 10 || (type > 4 && type < 9)) {
+                    palvelupisteellaYritys.setText("Palveltu: " + tulos);
+                } else {
+                    palvelupisteellaYksityis.setText("Palveltu: " + tulos);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void ulkonaAsiakkaita(int maara) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                suorittaneetMaara.setText("Ulkona: " + String.valueOf(maara));
+            }
+        });
+    }
+
+    @Override
+    public void hidastaSimulaatiota() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void nopeutaSimulaatiota() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

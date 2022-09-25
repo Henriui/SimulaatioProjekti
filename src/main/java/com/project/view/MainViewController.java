@@ -13,21 +13,21 @@ public class MainViewController {
 
     @FXML
     private void uusiSimulaatio() throws IOException {
-        MainApp.setRoot("NewSimulationGUI"); 
+        MainApp.setRoot("NewSimulationGUI");
     }
-    
+
     @FXML
-    public void tulokset(){
+    public void tulokset() {
         System.exit(0);
     }
 
     @FXML
-    public void asetukset(){
+    public void asetukset() {
         System.exit(0);
     }
 
     @FXML
-    public void Exit(){
+    public void Exit() {
         System.exit(0);
     }
 }

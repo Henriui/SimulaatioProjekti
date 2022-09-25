@@ -14,26 +14,24 @@ import com.project.view.MainViewController;
  */
 public class MainApp extends Application {
 
-// Hiiren variablet
+    // Hiiren variablet
 
     private double xOffset = 0;
     private double yOffset = 0;
     private static Scene scene;
 
-
     @Override
-    public void start(Stage stage) throws IOException 
-    {
+    public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("mainView"));
         stage.setScene(scene);
 
         // Transparent upper bar.
 
-        //stage.initStyle(StageStyle.TRANSPARENT);
+        // stage.initStyle(StageStyle.TRANSPARENT);
 
-         // Grab your root here
+        // Grab your root here
 
-         scene.setOnMousePressed(event -> {
+        scene.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });

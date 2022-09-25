@@ -88,9 +88,12 @@ public class Asiakas {
 	}
 
 	// getId
-
 	public int getId() {
 		return id;
+	}
+
+	public static void resetAsiakasUID() {
+		Asiakas.i = 1;
 	}
 
 	// setAsiakastyyppi

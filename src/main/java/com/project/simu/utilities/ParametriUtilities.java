@@ -20,10 +20,19 @@ public class ParametriUtilities {
      * @author Rasmus Hyyppä
      */
     public static int getPpKokonaismaara() {
+        return getYksityisPalvelupisteita() + getYksityisPalvelupisteita();
+    }
+
+    public static int getYksityisPalvelupisteita() {
         UserParametrit uP = UserParametrit.getInstance();
-        return (uP.getPriSalesPpMaara() + uP.getPriNetworkPpMaara() + uP.getPriSubscriberPpMaara()
-                + uP.getPriInvoicePpMaara() + uP.getCoSalesPpMaara()
-                + uP.getCoNetworkPpMaara() + uP.getCoSubscriberPpMaara() + uP.getCoInvoicePpMaara());
+        return uP.getPriSalesPpMaara() + uP.getPriNetworkPpMaara() + uP.getPriSubscriberPpMaara()
+                + uP.getPriInvoicePpMaara();
+    }
+
+    public static int getYritysPalvelupisteita() {
+        UserParametrit uP = UserParametrit.getInstance();
+        return uP.getCoSalesPpMaara() + uP.getCoNetworkPpMaara() + uP.getCoSubscriberPpMaara()
+                + uP.getCoInvoicePpMaara();
     }
 
     /**

@@ -1,17 +1,21 @@
 package com.project.simu.framework;
 
+import com.project.view.INewSimulationControllerMtoV;
 import com.project.simu.model.Palvelupiste;
 
 public abstract class Moottori extends Thread {
 
 	private double simulointiaika = 0;
-
+	private long viive = 0;
 	private Kello kello;
 
 	protected Tapahtumalista tapahtumalista;
 	protected Palvelupiste[] palvelupisteet;
+	protected INewSimulationControllerMtoV kontrolleri;
 
-	public Moottori() {
+	public Moottori(INewSimulationControllerMtoV kontrolleri) {
+
+		this.kontrolleri = kontrolleri;
 
 		kello = Kello.getInstance(); // Otetaan kello muuttujaan yksinkertaistamaan koodia
 
@@ -23,6 +27,14 @@ public abstract class Moottori extends Thread {
 
 	public void setSimulointiaika(double aika) {
 		simulointiaika = aika;
+	}
+
+	public void setViive(long viive) {
+		this.viive = viive;
+	}
+
+	public long getViive() {
+		return viive;
 	}
 
 	public void run() {
@@ -63,6 +75,15 @@ public abstract class Moottori extends Thread {
 
 	private boolean simuloidaan() {
 		return kello.getAika() < simulointiaika;
+	}
+
+	private void viive() { // UUSI
+		Trace.out(Trace.Level.INFO, "Viive " + viive);
+		try {
+			sleep(viive);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected abstract void alustukset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
