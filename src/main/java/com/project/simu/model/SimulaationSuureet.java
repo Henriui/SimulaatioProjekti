@@ -1,5 +1,7 @@
 package com.project.simu.model;
 
+import com.project.simu.framework.Trace;
+
 public class SimulaationSuureet {
 
     private static SimulaationSuureet instance = null;
@@ -76,22 +78,24 @@ public class SimulaationSuureet {
      */
 
     public void tulosteet() {
-        System.out.println("\n\n\nPalvelupisteiden kokonaismaara: " + palveluPisteidenKokonaisMaara);
-        System.out.println("Simulointiaika: " + simulointiAika);
-        System.out.println("Asiakkaita lisatty jonoon: " + asiakkaitaLisattyJonoonKpl);
-        System.out.println("Asiakkaita palveltu jonosta: " + asiakkaitaPalveltuJonostaKpl);
-        System.out.println("Asiakkaita reRoutattu jonosta: " + asiakkaitaReRoutattuJonostaKpl);
-        System.out.println("Asiakkaita poistunut jonosta: " + asiakkaitaPoistunutJonostaKpl);
-        System.out.println("Asiakkaitten kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);
-        System.out.println("Asiakkaitten kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);
-        System.out.println("Asiakkaitten kokonaisaika palvelupisteissa: " + asiakkaittenKokonaisAikaPalvelupisteessa);
-        System.out.println("Asiakkaitten keskiarvo aika simulaatiossa: " + asiakkaanKeskiArvoViipyminenSimulaatiossa);
-        System.out.println("Palvelupisteitten keskimaarainen palveluaika: " + keskimaaranenPalveluAika);
-        System.out.println("Palvelupisteitten keskimaarainen jonotusaika: "
+        Trace.out(Trace.Level.INFO, "\n\n\nPalvelupisteiden kokonaismaara: " + palveluPisteidenKokonaisMaara);
+        Trace.out(Trace.Level.INFO, "Simulointiaika: " + simulointiAika);
+        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asiakkaitaLisattyJonoonKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asiakkaitaPalveltuJonostaKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asiakkaitaReRoutattuJonostaKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asiakkaitaPoistunutJonostaKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);
+        Trace.out(Trace.Level.INFO,
+                "Asiakkaitten kokonaisaika palvelupisteissa: " + asiakkaittenKokonaisAikaPalvelupisteessa);
+        Trace.out(Trace.Level.INFO,
+                "Asiakkaitten keskiarvo aika simulaatiossa: " + asiakkaanKeskiArvoViipyminenSimulaatiossa);
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + keskimaaranenPalveluAika);
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: "
                 + keskiarvoJonotusAika / palveluPisteidenKokonaisMaara);
-        System.out.println("Palvelupisteissa keskimaarainen oleskeluaika: "
+        Trace.out(Trace.Level.INFO, "Palvelupisteissa keskimaarainen oleskeluaika: "
                 + keskimaarainenOleskeluAika / palveluPisteidenKokonaisMaara);
-        System.out.println(
+        Trace.out(Trace.Level.INFO,
                 "Palvelupisteitten palveluprosentti: " + palveluprosentti / palveluPisteidenKokonaisMaara + "\n");
     }
 

@@ -166,7 +166,7 @@ public class OmaMoottori extends Moottori {
 		return -1;
 	}
 
-	// Method joka palauttaa 4:n palvelupisteen jono tilanteen.
+	// Method joka palauttaa 4:n palvelupisteen jono tilanteen. (ppType 1 tai 5)
 	public int palveluPisteissaJonoa(int ppType) {
 		int jonossaAsiakkaita = 0;
 		for (int i = 0; i < 4; i++) {
@@ -179,6 +179,7 @@ public class OmaMoottori extends Moottori {
 		return jonossaAsiakkaita;
 	}
 
+	// Method joka palauttaa tilanteen palveluista asiakkaista (ppType 1 tai 5)
 	public int palveluPisteissaOleskellut(int ppType) {
 		int palveltujaAsiakkaita = 0;
 		for (int i = 0; i < 4; i++) {

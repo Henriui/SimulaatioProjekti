@@ -60,7 +60,7 @@ public class Asiakas {
 			tyyppiJakauma = new Uniform(4, 8);
 			asType = AsiakasTyyppi.CO;
 		}
-		System.out.println("\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", Id: " + id);
+		Trace.out(Trace.Level.INFO, "\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", Id: " + id);
 		return asType;
 	}
 
@@ -179,7 +179,8 @@ public class Asiakas {
 			// Loopataan uusi tyyppi asiakkaalle joka ei ole sama kuin aikasemmin
 			arvottuAsType = (int) tyyppiJakauma.sample();
 		}
-		System.out.println("Asiakkaan uusi tyyppi on: " + AsiakasTyyppi.values()[arvottuAsType] + ", id " + id);
+		Trace.out(Trace.Level.INFO,
+				"Asiakkaan uusi tyyppi on: " + AsiakasTyyppi.values()[arvottuAsType] + ", id " + id);
 		asType = AsiakasTyyppi.values()[arvottuAsType];
 		reRouted = false;
 		return asType.getAsiakasTypeNumero();
@@ -194,7 +195,7 @@ public class Asiakas {
 	public int setAsiakasTyyppi() {
 		int arvottuAsType = (int) tyyppiJakauma.sample(); // generoidaan asiakastyyppi
 		asType = AsiakasTyyppi.values()[arvottuAsType];
-		System.out.println("Asiakkaan tyyppi on: " + asType + ", id: " + id);
+		Trace.out(Trace.Level.INFO, "Asiakkaan tyyppi on: " + asType + ", id: " + id);
 		return asType.getAsiakasTypeNumero();
 	}
 

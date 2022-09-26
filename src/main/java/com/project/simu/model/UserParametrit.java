@@ -61,7 +61,7 @@ public class UserParametrit {
             if (i > 7) {
                 asiakasPisteMaaraArray[i] = 1;
             } else {
-                asiakasPisteMaaraArray[i] = 3;
+                asiakasPisteMaaraArray[i] = 7;
             }
         }
 
@@ -75,7 +75,7 @@ public class UserParametrit {
          * 70% Henkilöasiakkaita, 30% Yritysasiakkaita = 0.4725
          * 30% Henkilöasiakkaita, 70% Yritysasiakkaita = 0.5275
          * 15% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.55
-         * 
+         *
          * @author Rasmus Hyyppä
          */
         this.asiakasTyyppiJakauma = 0.5;
@@ -97,6 +97,13 @@ public class UserParametrit {
 
     }
 
+    /**
+     * Käytä tätä parametrien hakemiseen kontrollerilta ennen simulaation
+     * alottamista
+     * 
+     * @param kontrolleri
+     * @author Rasmus Hyyppä
+     */
     public void getParametrit(INewSimulationControllerVtoM kontrolleri) {
         /*
          * double asiakasPalvelijoidenAjat[] =
