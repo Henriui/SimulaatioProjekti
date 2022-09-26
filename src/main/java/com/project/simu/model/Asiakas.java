@@ -60,7 +60,7 @@ public class Asiakas {
 			tyyppiJakauma = new Uniform(4, 8);
 			asType = AsiakasTyyppi.CO;
 		}
-		System.out.println("\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", asTyyppiId: " + id);
+		System.out.println("\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", Id: " + id);
 		return asType;
 	}
 
@@ -95,6 +95,10 @@ public class Asiakas {
 
 	public static void resetAsiakasUID() {
 		Asiakas.i = 1;
+	}
+
+	public static void resetAsiakasSum() {
+		Asiakas.sum = 0;
 	}
 
 	// setAsiakastyyppi

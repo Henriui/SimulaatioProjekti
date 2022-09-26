@@ -1,17 +1,16 @@
 package com.project.simu.model;
 
-import com.project.view.INewSimulationControllerMtoV;
-import com.project.simu.utilities.ParametriUtilities;
-
 public class SimulaationSuureet {
 
     private static SimulaationSuureet instance = null;
 
     private int palveluPisteidenKokonaisMaara;
+
     private int asiakkaitaLisattyJonoonKpl;
     private int asiakkaitaPalveltuJonostaKpl;
     private int asiakkaitaPoistunutJonostaKpl;
     private int asiakkaitaReRoutattuJonostaKpl;
+
     private int yritysPalvelupisteita;
     private int yksityisPalvelupisteita;
 
@@ -23,6 +22,7 @@ public class SimulaationSuureet {
     private double keskimaaranenPalveluAika;
     private double keskimaarainenOleskeluAika;
     private double keskiarvoJonotusAika;
+
     private double palveluprosentti;
 
     public static synchronized SimulaationSuureet getInstance() {
@@ -61,10 +61,11 @@ public class SimulaationSuureet {
         palveluprosentti = 0;
 
         Asiakas.resetAsiakasUID();
+        Asiakas.resetAsiakasSum();
         Palvelupiste.resetPpID();
-        yksityisPalvelupisteita = ParametriUtilities.getYksityisPalvelupisteita();
-        yritysPalvelupisteita = ParametriUtilities.getYritysPalvelupisteita();
-        palveluPisteidenKokonaisMaara += ParametriUtilities.getPpKokonaismaara();
+        yksityisPalvelupisteita = UserParametrit.getInstance().getYksityisPPMaara();
+        yritysPalvelupisteita = UserParametrit.getInstance().getYritysPPMaara();
+        palveluPisteidenKokonaisMaara += UserParametrit.getInstance().getAllPPMaara();
     }
 
     /*
@@ -104,8 +105,12 @@ public class SimulaationSuureet {
     /**
      * @param asiakkaitaLisattyJonoonKpl the asiakkaitaLisattyJonoonKpl to set
      */
-    public void setAsiakkaitaLisattyJonoonKpl() {
+    public void asiakkaitaLisattyJonoon() {
         this.asiakkaitaLisattyJonoonKpl += 1;
+    }
+
+    public void setAsiakkaitaLisattyJonoon(int lkm) {
+        this.asiakkaitaLisattyJonoonKpl = lkm;
     }
 
     /**
