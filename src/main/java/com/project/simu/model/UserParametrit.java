@@ -52,11 +52,6 @@ public class UserParametrit {
         asiakasPisteMaaraArray = new int[11];
         asiakasPalveluAikaArray = new double[8];
 
-        // Keskiverto palvelupisteen palveluaika
-        // 10 sekunttia puhelinvalikko
-        // 600 sekunttia asiakaspalvelijat
-        this.pValikkoAika = 10;
-
         for (int i = 0; i < asiakasPisteMaaraArray.length; i++) {
             if (i > 7) {
                 asiakasPisteMaaraArray[i] = 1;
@@ -65,6 +60,10 @@ public class UserParametrit {
             }
         }
 
+        // Keskiverto palvelupisteen palveluaika
+        // 10 sekunttia puhelinvalikko
+        // 600 sekunttia asiakaspalvelijat
+        this.pValikkoAika = 10;
         for (int i = 0; i < asiakasPalveluAikaArray.length; i++) {
             asiakasPalveluAikaArray[i] = 10 * 60;
         }
