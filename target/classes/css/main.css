@@ -77,6 +77,21 @@
     -fx-background-color :linear-gradient(to top left, #41951C, #D4CEE3);
     -fx-background-radius :  30 30 30 30;
 }
+.button5
+{
+    -fx-background-color :linear-gradient(to top left, #f44336, #D4CEE3);
+    -fx-background-radius :  30 30 30 30;
+}
+.button5:hover
+{
+    -fx-background-color :linear-gradient(to top left, #D4CEE3, #f44336);
+    -fx-background-radius :  30 30 30 30;
+}
+.button5:pressed
+{
+    -fx-background-color :linear-gradient(to top left, #f44336, #D4CEE3);
+    -fx-background-radius :  30 30 30 30;
+}
 
 
 .combo-box
@@ -168,3 +183,19 @@
 {
     -fx-background-color: linear-gradient(to bottom left, #A868A0, #2D75E8);
 }
+
+.pane {
+    -fx-background-color: #dcdcdc;
+    -fx-padding: 10;
+}
+
+.slider { -fx-pref-width: 150px; }
+.slider .axis { -fx-tick-label-fill: white;
+                -fx-tick-mark-fill: red; }
+
+.slider .axis .axis-tick-mark, .slider .axis .axis-minor-tick-mark {
+    -fx-fill: null;
+    -fx-stroke-width: 2;
+    -fx-stroke: linear-gradient(to right, red,yellow, green);
+}
+             
