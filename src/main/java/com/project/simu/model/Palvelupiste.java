@@ -183,18 +183,30 @@ public class Palvelupiste {
 	}
 
 	public double getAvgPalveluAika() {
+		if (asiakkaitaLisattyJonoon == 0) {
+			return 0;
+		}
 		return palveluAikaSuurre / asiakkaitaPalveltuJonosta;
 	}
 
 	public double getAvgOleskeluAika() {
+		if (asiakkaitaLisattyJonoon == 0) {
+			return 0;
+		}
 		return asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
 	}
 
 	public double getAvgJonotusAika() {
+		if (asiakkaitaLisattyJonoon == 0) {
+			return 0;
+		}
 		return jonoAikaSuurre / asiakkaitaLisattyJonoon;
 	}
 
 	public double getPalveluprosentti() {
+		if (asiakkaitaLisattyJonoon == 0) {
+			return 100;
+		}
 		return (1 / ((double) (asiakkaitaLisattyJonoon)
 				/ (double) (asiakkaitaPalveltuJonosta + asiakkaitaReRoutattuJonosta))) * 100;
 	}
@@ -214,7 +226,6 @@ public class Palvelupiste {
 				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " siirretty oikeaan paikkaan: "
 						+ asiakkaitaReRoutattuJonosta);
-
 		Trace.out(Trace.Level.INFO,
 				"Palvelupisteen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
 						+ " palveluaika keskimääräisesti: "
