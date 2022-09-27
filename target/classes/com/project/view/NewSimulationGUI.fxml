@@ -20,7 +20,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/phone.png" />
+                              <Image url="@../icons/phone.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -28,7 +28,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/hidasta.png" />
+                              <Image url="@../icons/hidasta.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -37,7 +37,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/fast.png" />
+                              <Image url="@../icons/fast.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -46,7 +46,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/exit.png" />
+                              <Image url="@../icons/exit.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -140,8 +140,6 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@../../css/main.css" />
-      <URL value="@../../../java/css/main.css" />
-      <URL value="@../../../css/main.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 </AnchorPane>

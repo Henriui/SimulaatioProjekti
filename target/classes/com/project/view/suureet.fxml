@@ -30,7 +30,6 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@../../css/main.css" />
-      <URL value="@../../../java/css/main.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 </AnchorPane>

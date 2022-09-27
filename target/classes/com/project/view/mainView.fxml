@@ -23,7 +23,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/phone.png" />
+                              <Image url="@../icons/phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -32,7 +32,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/chart.png" />
+                              <Image url="@../icons/chart.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -41,7 +41,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/options.png" />
+                              <Image url="@../icons/options.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -50,7 +50,7 @@
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/exit.png" />
+                              <Image url="@../icons/exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -98,7 +98,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/exit.png" />
+                              <Image url="@../icons/exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -132,7 +132,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/chart.png" />
+                              <Image url="@../icons/chart.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -146,7 +146,7 @@
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button1" stylesheets="@../../../java/css/main.css">
+                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button1" stylesheets="@../css/main.css">
                      <textFill>
                         <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.20608108137661962" startY="0.05743244910281892">
                            <stops>
@@ -166,7 +166,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/phone.png" />
+                              <Image url="@../icons/phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -200,7 +200,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/options.png" />
+                              <Image url="@../icons/options.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -211,7 +211,6 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@../../../java/css/main.css" />
-      <URL value="@../../../css/main.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 </AnchorPane>
