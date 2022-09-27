@@ -23,15 +23,20 @@ public class Asiakas {
 	private double poistumisaikaPp;
 	private boolean reRouted;
 	private boolean jonotukseenKyllastynyt = false;
+	private boolean normaaliJakauma;
+
 	private AsiakasTyyppi asType;
 	private DiscreteGenerator asiakasJakauma;
 	private ContinuousGenerator tyyppiJakauma;
 	private SimulaationSuureet sS;
+	private UserParametrit uP;
 
 	// Asiakas
 
 	public Asiakas(DiscreteGenerator asiakasJakauma, boolean reRouted) {
 		sS = SimulaationSuureet.getInstance();
+		uP = UserParametrit.getInstance();
+		normaaliJakauma = uP.isNormaaliJakauma();
 		this.reRouted = reRouted; // Soittiko asiakas väärää linjaan = True
 		this.asiakasJakauma = asiakasJakauma;
 		this.id = i++;
@@ -54,13 +59,17 @@ public class Asiakas {
 	public AsiakasTyyppi alustaAsiakasTyyppi() {
 		int arvottuAsType = (int) asiakasJakauma.sample();
 		if (arvottuAsType < 50) {
-			tyyppiJakauma = new Uniform(0, 4);
 			asType = AsiakasTyyppi.PRI;
+			tyyppiJakauma = new Uniform(0, 4);
 		} else {
-			tyyppiJakauma = new Uniform(4, 8);
 			asType = AsiakasTyyppi.CO;
+			tyyppiJakauma = new Uniform(4, 8);
 		}
-		System.out.println("\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", asTyyppiId: " + id);
+
+		if (!normaaliJakauma) {
+			tyyppiJakauma = new Uniform(1, 100);
+		}
+		Trace.out(Trace.Level.INFO, "\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", Id: " + id);
 		return asType;
 	}
 
@@ -97,7 +106,16 @@ public class Asiakas {
 		Asiakas.i = 1;
 	}
 
-	// setAsiakastyyppi
+	public static void resetAsiakasSum() {
+		Asiakas.sum = 0;
+	}
+
+	/**
+	 * @return boolean return the normaaliJakauma
+	 */
+	public boolean isNormaaliJakauma() {
+		return normaaliJakauma;
+	}
 
 	/**
 	 * @return Integer returned from the asType that defines private or corporate
@@ -175,7 +193,8 @@ public class Asiakas {
 			// Loopataan uusi tyyppi asiakkaalle joka ei ole sama kuin aikasemmin
 			arvottuAsType = (int) tyyppiJakauma.sample();
 		}
-		System.out.println("Asiakkaan uusi tyyppi on: " + AsiakasTyyppi.values()[arvottuAsType] + ", id " + id);
+		Trace.out(Trace.Level.INFO,
+				"Asiakkaan uusi tyyppi on: " + AsiakasTyyppi.values()[arvottuAsType] + ", id " + id);
 		asType = AsiakasTyyppi.values()[arvottuAsType];
 		reRouted = false;
 		return asType.getAsiakasTypeNumero();
@@ -189,8 +208,11 @@ public class Asiakas {
 	 */
 	public int setAsiakasTyyppi() {
 		int arvottuAsType = (int) tyyppiJakauma.sample(); // generoidaan asiakastyyppi
+		if (!normaaliJakauma) {
+			arvottuAsType = uP.getProbability(asType, (int) tyyppiJakauma.sample());
+		}
 		asType = AsiakasTyyppi.values()[arvottuAsType];
-		System.out.println("Asiakkaan tyyppi on: " + asType + ", id: " + id);
+		Trace.out(Trace.Level.INFO, "Asiakkaan tyyppi on: " + asType + ", id: " + id);
 		return asType.getAsiakasTypeNumero();
 	}
 

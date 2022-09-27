@@ -56,7 +56,7 @@ public class Palvelupiste {
 		a.setSaapumisaikaPp(Kello.getInstance().getAika());
 		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
 		asiakkaitaLisattyJonoon++;
-		sS.setAsiakkaitaLisattyJonoonKpl();
+		sS.asiakkaitaLisattyJonoon();
 		jono.add(a);
 	}
 
@@ -111,8 +111,8 @@ public class Palvelupiste {
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
-	public int getPalvelupisteenTyyppi() {
-		return skeduloitavanTapahtumanTyyppi.getTyyppiValue();
+	public Tyyppi getPalvelupisteenTyyppi() {
+		return skeduloitavanTapahtumanTyyppi;
 	}
 
 	public int getPalveluPisteenNumero() {
