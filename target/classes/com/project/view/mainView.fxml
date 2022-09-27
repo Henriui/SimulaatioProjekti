@@ -13,7 +13,8 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" 
+            style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.view.MainViewController">
    <children>
       <AnchorPane prefHeight="472.0" prefWidth="250.0" style="-fx-background-color: #393351;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -146,7 +147,8 @@
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button1" stylesheets="@../css/main.css">
+                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="116.0" prefWidth="116.0" 
+                          style="-fx-background-radius: 100;" styleClass="button1" stylesheets="@../css/main.css">
                      <textFill>
                         <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.20608108137661962" startY="0.05743244910281892">
                            <stops>
