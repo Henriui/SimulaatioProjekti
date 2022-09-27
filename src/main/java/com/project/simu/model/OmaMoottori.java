@@ -1,8 +1,7 @@
 package com.project.simu.model;
 
-import com.project.simu.utilities.ParametriUtilities;
 import com.project.view.INewSimulationControllerMtoV;
-import com.project.eduni.distributions.Negexp;
+import com.project.eduni.distributions.Poisson;
 import com.project.eduni.distributions.Uniform;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Moottori;
@@ -22,25 +21,34 @@ public class OmaMoottori extends Moottori {
 		sS = SimulaationSuureet.getInstance();
 		uP = UserParametrit.getInstance();
 
-		palvelupisteet = new Palvelupiste[ParametriUtilities.getPpKokonaismaara() + MIN_PALVELUPISTE_MAARA];
-		palvelupisteet[0] = new Palvelupiste(ParametriUtilities.getNormalValikko(), tapahtumalista,
+		palvelupisteet = new Palvelupiste[uP.getAllPPMaara() + MIN_PALVELUPISTE_MAARA];
+		palvelupisteet[0] = new Palvelupiste(uP.getPAPuhelinValikolle(), tapahtumalista,
 				Tyyppi.BLENDER_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
-		palvelupisteet[1] = new Palvelupiste(ParametriUtilities.getNormalValikko(), tapahtumalista,
+		palvelupisteet[1] = new Palvelupiste(uP.getPAPuhelinValikolle(), tapahtumalista,
 				Tyyppi.PRI_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
-		palvelupisteet[2] = new Palvelupiste(ParametriUtilities.getNormalValikko(), tapahtumalista,
+		palvelupisteet[2] = new Palvelupiste(uP.getPAPuhelinValikolle(), tapahtumalista,
 				Tyyppi.CO_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
 
 		int ppIndex = MIN_PALVELUPISTE_MAARA;
 		for (int j = 0; j < 8; j++) {
 			Tyyppi t = Tyyppi.values()[j];
-			for (int i = 0; i < ParametriUtilities.getPalveluPisteMaara(t); i++) {
-				palvelupisteet[ppIndex] = new Palvelupiste(ParametriUtilities.getPalveluPisteJakauma(t),
+			for (int i = 0; i < uP.getPalveluPisteMaara(t); i++) {
+				palvelupisteet[ppIndex] = new Palvelupiste(uP.getPAJakauma(t),
 						tapahtumalista,
 						t, uP.getAsiakkaidenKarsivallisyys());
 				ppIndex++;
 			}
 		}
-		saapumisprosessi = new Saapumisprosessi(new Negexp(150, 5), tapahtumalista, Tyyppi.ARRIVAL);
+
+		/**
+		 * Asiakkaitten tulomäärän määräävä jakauma
+		 * NexExp -> kasvaa jatkuvasti Negexp(10, 5)
+		 * LogNormal -> Säädettävissä asiakas jakauma
+		 * LogNormal(new LogNormal(3, 1));
+		 * Poisson(tunti/asiakasmäärä tunnissa) -> käytetään real life example
+		 */
+		saapumisprosessi = new Saapumisprosessi(new Poisson(3600 / uP.getAsiakasMaara()), tapahtumalista,
+				Tyyppi.ARRIVAL);
 		kontrolleri.ilmoitaPalveluPisteet(sS.getYritysPalvelupisteita(),
 				sS.getYksityisPalvelupisteita());
 	}
@@ -65,7 +73,7 @@ public class OmaMoottori extends Moottori {
 
 		// Saapumistapahtumat
 		if (tapahtuma == Tyyppi.ARRIVAL) {
-			a = new Asiakas(ParametriUtilities.getAsiakasJakauma(), ParametriUtilities.onkoVaaraValinta());
+			a = new Asiakas(uP.getAsiakasJakauma(), uP.onkoVaaraValinta());
 			palvelupisteet[lisaaAsiakas(Tyyppi.BLENDER_VALIKKO_DEPART.getTyyppiValue())].lisaaJonoon(a);
 			saapumisprosessi.generoiSeuraava();
 		}
@@ -121,14 +129,14 @@ public class OmaMoottori extends Moottori {
 	 * @return palvelupisteeet[] arraystä oikean index numeron palvelupisteelle
 	 * @author Rasmus Hyyppä
 	 */
-	public int lisaaAsiakas(int ppTypeNum) {
+	public int lisaaAsiakas(int ppType) {
 
-		Tyyppi ppType = Tyyppi.values()[ppTypeNum - 1];
-		Palvelupiste[] typeVastaavatPp = new Palvelupiste[ParametriUtilities.getPalveluPisteMaara(ppType)];
+		Tyyppi t = Tyyppi.values()[ppType - 1];
+		Palvelupiste[] typeVastaavatPp = new Palvelupiste[uP.getPalveluPisteMaara(t)];
 
 		int i = 0;
 		for (Palvelupiste p : palvelupisteet) {
-			if (p.getPalvelupisteenTyyppi() == ppTypeNum) {
+			if (p.getPalvelupisteenTyyppi() == t) {
 				typeVastaavatPp[i] = p;
 				i++;
 			}
@@ -150,21 +158,20 @@ public class OmaMoottori extends Moottori {
 	 * @author Rasmus Hyyppä
 	 */
 	public int otaPalveltuAsiakas(Tyyppi ppType) {
-
 		for (Palvelupiste p : palvelupisteet) {
-			if ((p.getPalvelupisteenTyyppi() == ppType.getTyyppiValue()) && p.onVarattu()) {
+			if ((p.getPalvelupisteenTyyppi() == ppType) && p.onVarattu()) {
 				return p.getPalveluPisteenNumero();
 			}
 		}
 		return -1;
 	}
 
-	// Method joka palauttaa 4:n palvelupisteen jono tilanteen.
+	// Method joka palauttaa 4:n palvelupisteen jono tilanteen. (ppType 1 tai 5)
 	public int palveluPisteissaJonoa(int ppType) {
 		int jonossaAsiakkaita = 0;
 		for (int i = 0; i < 4; i++) {
 			for (Palvelupiste p : palvelupisteet) {
-				if ((p.getPalvelupisteenTyyppi() == (ppType + i))) {
+				if ((p.getPalvelupisteenTyyppi().getTyyppiValue() == (ppType + i))) {
 					jonossaAsiakkaita += p.getJonossaOlevatAsiakkaat();
 				}
 			}
@@ -172,11 +179,12 @@ public class OmaMoottori extends Moottori {
 		return jonossaAsiakkaita;
 	}
 
+	// Method joka palauttaa tilanteen palveluista asiakkaista (ppType 1 tai 5)
 	public int palveluPisteissaOleskellut(int ppType) {
 		int palveltujaAsiakkaita = 0;
 		for (int i = 0; i < 4; i++) {
 			for (Palvelupiste p : palvelupisteet) {
-				if ((p.getPalvelupisteenTyyppi() == (ppType + i))) {
+				if ((p.getPalvelupisteenTyyppi().getTyyppiValue() == (ppType + i))) {
 					palveltujaAsiakkaita += p.getAsiakkaitaPalveltuJonosta() + p.getAsiakkaitaReRoutattuJonosta();
 				}
 			}
@@ -191,7 +199,7 @@ public class OmaMoottori extends Moottori {
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 		}
-
+		sS.setAsiakkaitaLisattyJonoon(palvelupisteet[0].getAsiakkaitaLisattyJonoon());
 		sS.setSimulointiAika(Kello.getInstance().getAika());
 		sS.tulosteet();
 	}
