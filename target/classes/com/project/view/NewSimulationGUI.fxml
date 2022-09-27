@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.NewSimulationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.view.NewSimulationController">
    <children>
       <AnchorPane prefHeight="472.0" prefWidth="250.0" style="-fx-background-color: #393351;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,7 +25,7 @@
                            </image></ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Hidasta" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="47.0" prefWidth="250.0"  text="Hidasta" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -43,16 +43,16 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#setSuureet" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Asetukset" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#setSuureet" prefHeight="47.0" prefWidth="250.0"  text="Asetukset" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/options.png" />
+                              <Image url="@../icons/options.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#takaisinMainView" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Takaisin" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#takaisinMainView" prefHeight="47.0" prefWidth="250.0"  text="Takaisin" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>

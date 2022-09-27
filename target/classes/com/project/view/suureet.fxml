@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" 
+            style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.view.NewSimulationController">
+   <children>
+      <AnchorPane prefHeight="472.0" prefWidth="250.0" style="-fx-background-color: #393351;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox layoutY="135.0" prefHeight="335.0" prefWidth="250.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="135.0" />
+            <Pane layoutY="76.0" prefHeight="58.0" prefWidth="250.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;">
+               <children>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Puhelin Operaattori" textFill="#f9f9f9">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <Pane layoutX="250.0" prefHeight="488.0" prefWidth="639.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="249.9552420728529" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane layoutX="-99.0" layoutY="-211.0" prefHeight="310.0" prefWidth="517.0" rotate="45.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 70;" />
+         </children>
+      </Pane>
+   </children>
+   <stylesheets>
+      <URL value="@../css/main.css" />
+   </stylesheets>
+</AnchorPane>
