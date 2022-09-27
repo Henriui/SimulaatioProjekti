@@ -52,17 +52,22 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#takaisinMainView" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Takaisin" textFill="WHITE">
-                     <graphic>
-                        <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../icons/exit.png" />
-                           </image></ImageView>
-                     </graphic>
+                  <AnchorPane>
                      <VBox.margin>
-                        <Insets top="320.0" />
+                        <Insets top="330.0" />
                      </VBox.margin>
-                  </Button>
+                     <children>
+                        <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#takaisinMainView" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Takaisin" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../icons/exit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                </children>
             </VBox>
             <Pane layoutY="76.0" prefHeight="58.0" prefWidth="250.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;">
