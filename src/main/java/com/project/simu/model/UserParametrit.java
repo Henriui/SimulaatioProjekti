@@ -1,6 +1,7 @@
 package com.project.simu.model;
 
 import com.project.eduni.distributions.Binomial;
+import com.project.eduni.distributions.ContinuousGenerator;
 import com.project.eduni.distributions.DiscreteGenerator;
 import com.project.eduni.distributions.Normal;
 import com.project.eduni.distributions.Uniform;
@@ -27,11 +28,19 @@ public class UserParametrit {
     // Thread sleep aika
     private long viiveAika;
 
+    // Boolean normaaliJakaumalle
+    private boolean normaaliJakauma;
+
     // Array asiakaspalvelioiden määrälle
     private int asiakasPisteMaaraArray[];
 
     // Array asiakaspalvelioitten ajoille
     private double asiakasPalveluAikaArray[];
+
+    // Array yksityispiste jakaumalle
+    private double[] priAsiakasTyyppiArr;
+    // Array yrityspiste jakaumalle
+    private double[] coAsiakasTyyppiArr;
 
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
@@ -67,6 +76,13 @@ public class UserParametrit {
         for (int i = 0; i < asiakasPalveluAikaArray.length; i++) {
             asiakasPalveluAikaArray[i] = 10 * 60;
         }
+
+        // Normaalijakaumalle boolean
+        normaaliJakauma = false;
+
+        // Asiakaspisteitten jakauma käyttäjän asettamana
+        priAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
+        coAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
 
         /**
          * 85% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.45
@@ -108,6 +124,23 @@ public class UserParametrit {
          * double asiakasPalvelijoidenAjat[] =
          * kontrolleri.getAsiakaspalvelijoidenAjat();
          */
+    }
+
+    public synchronized int getProbability(AsiakasTyyppi t, int sample) {
+        int asTypeNum = 3;
+        int j = 0;
+        if (t == AsiakasTyyppi.CO) {
+            while (sample >= coAsiakasTyyppiArr[j]) {
+                j++;
+            }
+            asTypeNum += j;
+        } else {
+            while (sample >= priAsiakasTyyppiArr[j]) {
+                j++;
+            }
+            asTypeNum = j;
+        }
+        return asTypeNum; // value = ThreadLocalRandom.current().nextInt(yritysPisteArray.length);
     }
 
     // Liuta settereitä ja gettereitä tästä eteenpäin //
@@ -213,6 +246,30 @@ public class UserParametrit {
             kokonaisMaara += asiakasPisteMaaraArray[i];
         }
         return kokonaisMaara;
+    }
+
+    public double[] getPriAsiakasTyyppiArr() {
+        return this.priAsiakasTyyppiArr;
+    }
+
+    public void setPriAsiakasTyyppiArr(double[] priAsiakasTyyppiArr) {
+        this.priAsiakasTyyppiArr = priAsiakasTyyppiArr;
+    }
+
+    public double[] getCoAsiakasTyyppiArr() {
+        return this.coAsiakasTyyppiArr;
+    }
+
+    public void setCoAsiakasTyyppiArr(double[] coAsiakasTyyppiArr) {
+        this.coAsiakasTyyppiArr = coAsiakasTyyppiArr;
+    }
+
+    public boolean isNormaaliJakauma() {
+        return this.normaaliJakauma;
+    }
+
+    public void setNormaaliJakauma(boolean normaaliJakauma) {
+        this.normaaliJakauma = normaaliJakauma;
     }
 
     public double getPValikkoAika() {

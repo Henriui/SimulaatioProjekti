@@ -60,6 +60,7 @@ public class SimulaationSuureet {
         keskimaarainenOleskeluAika = 0;
         keskiarvoJonotusAika = 0;
 
+        // Tämän hetkinen palveluprosentti
         palveluprosentti = 0;
 
         Asiakas.resetAsiakasUID();
