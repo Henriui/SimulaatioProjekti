@@ -1,40 +1,22 @@
 package com.project.view;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import com.project.MainApp;
-import com.project.simu.framework.Moottori;
-import com.project.simu.framework.Trace;
-import com.project.simu.framework.Trace.Level;
-import com.project.simu.model.OmaMoottori;
 import com.project.simu.model.UserParametrit;
-
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 
 public class SuureetController {
 
     private NewSimulationController controller = new NewSimulationController();
     private boolean canSave = false;
+    UserParametrit userParametrit = UserParametrit.getInstance(); 
 
     @FXML
     private Button closeButton;
@@ -42,6 +24,7 @@ public class SuureetController {
     private Button saveButton;
 
     // Simulaattorin asetukset.
+
     @FXML
     private TextField simuloinninAikaField;
     @FXML
@@ -54,6 +37,7 @@ public class SuureetController {
     private TextField asiakasMääräField;
 
     // Yksityispuolen asetukset.
+
     @FXML
     private Slider myyntiPalvelupisteet;
     @FXML
@@ -80,6 +64,7 @@ public class SuureetController {
     private TextField laskutusAikaField;
 
     // Yrityspuolen asetukset.
+
     @FXML
     private Slider YritysmyyntiPp;
     @FXML
@@ -106,60 +91,88 @@ public class SuureetController {
     private TextField YrityslaskutusAikaField;
 
     // Yksityispuolen parametrit.
-    private static int myyntivalue;
-    private static int nettivalue;
-    private static int liittymävalue;
-    private static int laskutusvalue;
 
-    private static int myyntiAika;
-    private static int nettiAika;
-    private static int liittymäAika;
-    private static int laskutusAika;
+    private static int myyntivalue = 3;
+    private static int nettivalue = 3;
+    private static int liittymävalue = 3;
+    private static int laskutusvalue = 3;
+
+    private static int myyntiAika = 10;
+    private static int nettiAika = 10;
+    private static int liittymäAika = 10;
+    private static int laskutusAika = 10;
 
     // Yrityspuolen parametrit.
-    private static int Yritysmyyntivalue;
-    private static int Yritysnettivalue;
-    private static int Yritysliittymävalue;
-    private static int Yrityslaskutusvalue;
 
-    private static int YritysmyyntiAika;
-    private static int YritysnettiAika;
-    private static int YritysliittymäAika;
-    private static int YrityslaskutusAika;
+    private static int Yritysmyyntivalue = 3;
+    private static int Yritysnettivalue = 3;
+    private static int Yritysliittymävalue = 3;
+    private static int Yrityslaskutusvalue = 3;
+
+    private static int YritysmyyntiAika = 10;
+    private static int YritysnettiAika = 10;
+    private static int YritysliittymäAika = 10;
+    private static int YrityslaskutusAika = 10;
 
     // Simulaation parametrit.
-    private static int simuloinninAika;
-    private static int viiveAika;
-    private static int kärsimättömyysAika;
-    private static double väärävalintaProsentti;
-    private static int asiakasmääräAika;
+
+    private static int simuloinninAika = 8;
+    private static int viiveAika = 5000;
+    private static int kärsimättömyysAika = 6;
+    private static double väärävalintaProsentti = 0.5;
+    private static int asiakasmääräAika = 100;
+
+    // Temporary valuet peruutusta varten.
+    
+    private int Tempmyyntivalue; 
+    private int Tempnettivalue; 
+    private int Templiittymävalue;
+    private int Templaskutusvalue;
+    private int TempYritysmyyntivalue;
+    private int TempYritysnettivalue;
+    private int TempYritysliittymävalue;
+    private int TempYrityslaskutusvalue;
+    private int TempmyyntiAika;
+    private int TempnettiAika;
+    private int TempliittymäAika;
+    private int TemplaskutusAika;
+    private int TempYritysmyyntiAika;
+    private int TempYritysnettiAika;
+    private int TempYritysliittymäAika;
+    private int TempYrityslaskutusAika;
+    private int TempsimuloinninAika;
+    private int TempviiveAika;
+    private int TempkärsimättömyysAika;
+    private Double TempväärävalintaProsentti;
+    private int TempasiakasmääräAika;
+        
     
     @FXML
     private void onSliderChanged() 
     {
         // Yksityispuolen valuet.
 
-        myyntivalue = (int) myyntiPalvelupisteet.getValue();
-        nettivalue = (int) nettiPalvelupisteet.getValue();
-        liittymävalue = (int) liittymäPalvelupisteet.getValue();
-        laskutusvalue = (int) laskutusPalvelupisteet.getValue();
+        Tempmyyntivalue = (int) myyntiPalvelupisteet.getValue();
+        Tempnettivalue = (int) nettiPalvelupisteet.getValue();
+        Templiittymävalue = (int) liittymäPalvelupisteet.getValue();
+        Templaskutusvalue = (int) laskutusPalvelupisteet.getValue();
 
-        myynti.setText(myyntivalue + " kpl");
-        netti.setText(nettivalue + " kpl");
-        liittymä.setText(liittymävalue + " kpl");
-        laskutus.setText(laskutusvalue + " kpl");
+        myynti.setText(Tempmyyntivalue + " kpl");
+        netti.setText(Tempnettivalue + " kpl");
+        liittymä.setText(Templiittymävalue + " kpl");
+        laskutus.setText(Templaskutusvalue + " kpl");
 
         // Yrityspuolen valuet.
         
-        Yritysmyyntivalue = (int) YritysmyyntiPp.getValue();
-        Yritysnettivalue = (int) YritysnettiPp.getValue();
-        Yritysliittymävalue = (int) YritysliittymäPp.getValue();
-        Yrityslaskutusvalue = (int) YrityslaskutusPp.getValue();
+        TempYritysmyyntivalue = (int) YritysmyyntiPp.getValue();
+        TempYritysnettivalue = (int) YritysnettiPp.getValue();
+        TempYritysliittymävalue = (int) YritysliittymäPp.getValue();
+        TempYrityslaskutusvalue = (int) YrityslaskutusPp.getValue();
         
-        Yritysmyynti.setText(Yritysmyyntivalue + " kpl");
-        Yritysnetti.setText(Yritysnettivalue + " kpl");
-        Yritysliittymä.setText(Yritysliittymävalue + " kpl");
-        Yrityslaskutus.setText(Yrityslaskutusvalue + " kpl");   
+        Yritysmyynti.setText(TempYritysmyyntivalue + " kpl");
+        Yritysnetti.setText(TempYritysnettivalue + " kpl");
+        Yritysliittymä.setText(TempYritysliittymävalue + " kpl");
+        Yrityslaskutus.setText(TempYrityslaskutusvalue + " kpl");   
     }
 
     
@@ -167,23 +180,23 @@ public class SuureetController {
     private void textFieldCheck(){
         try { 
             // Yksityispuolen ajat.
-            myyntiAika = Integer.valueOf(myyntiAikaField.getText());
-            nettiAika = Integer.valueOf(nettiAikaField.getText());
-            liittymäAika = Integer.valueOf(liittymäAikaField.getText());
-            laskutusAika = Integer.valueOf(laskutusAikaField.getText());
+            TempmyyntiAika = Integer.valueOf(myyntiAikaField.getText());
+            TempnettiAika = Integer.valueOf(nettiAikaField.getText());
+            TempliittymäAika = Integer.valueOf(liittymäAikaField.getText());
+            TemplaskutusAika = Integer.valueOf(laskutusAikaField.getText());
 
             // Yrityspuolen ajat.
-            YritysmyyntiAika = Integer.valueOf(YritysmyyntiAikaField.getText());
-            YritysnettiAika = Integer.valueOf(YritysnettiAikaField.getText());
-            YritysliittymäAika = Integer.valueOf(YritysliittymäAikaField.getText());
-            YrityslaskutusAika = Integer.valueOf(YrityslaskutusAikaField.getText());
+            TempYritysmyyntiAika = Integer.valueOf(YritysmyyntiAikaField.getText());
+            TempYritysnettiAika = Integer.valueOf(YritysnettiAikaField.getText());
+            TempYritysliittymäAika = Integer.valueOf(YritysliittymäAikaField.getText());
+            TempYrityslaskutusAika = Integer.valueOf(YrityslaskutusAikaField.getText());
 
             // Simulaation asetukset.
-            simuloinninAika = Integer.valueOf(simuloinninAikaField.getText());
-            viiveAika = Integer.valueOf(simuloinninViiveField.getText());
-            kärsimättömyysAika = Integer.valueOf(kärsimättömyysAikaField.getText());
-            väärävalintaProsentti = Double.valueOf(väärävalintaProsenttiField.getText());
-            asiakasmääräAika = Integer.valueOf(asiakasMääräField.getText());
+            TempsimuloinninAika = Integer.valueOf(simuloinninAikaField.getText());
+            TempviiveAika = Integer.valueOf(simuloinninViiveField.getText());
+            TempkärsimättömyysAika = Integer.valueOf(kärsimättömyysAikaField.getText());
+            TempväärävalintaProsentti = Double.valueOf(väärävalintaProsenttiField.getText());
+            TempasiakasmääräAika = Integer.valueOf(asiakasMääräField.getText());
 
             canSave = true;
         } catch (NumberFormatException ex) {
@@ -204,11 +217,36 @@ public class SuureetController {
 
         if(canSave)
         {
+            saveValues();
              // TODO: send data somewhere
             Stage stage = (Stage) closeButton.getScene().getWindow();
             controller.popupOpen(false);
             stage.close();
         }
+    }
+
+    private void saveValues(){
+        myyntivalue = Tempmyyntivalue; 
+        nettivalue = Tempnettivalue; 
+        liittymävalue = Templiittymävalue;
+        laskutusvalue = Templaskutusvalue;
+        Yritysmyyntivalue = TempYritysmyyntivalue;
+        Yritysnettivalue = TempYritysnettivalue;
+        Yritysliittymävalue = TempYritysliittymävalue;
+        Yrityslaskutusvalue = TempYrityslaskutusvalue;
+        myyntiAika = TempmyyntiAika;
+        nettiAika = TempnettiAika;
+        liittymäAika = TempliittymäAika;
+        laskutusAika = TemplaskutusAika;
+        YritysmyyntiAika = TempYritysmyyntiAika;
+        YritysnettiAika = TempYritysnettiAika;
+        YritysliittymäAika = TempYritysliittymäAika;
+        YrityslaskutusAika = TempYrityslaskutusAika;
+        simuloinninAika = TempsimuloinninAika;
+        viiveAika = TempviiveAika;
+        kärsimättömyysAika = TempkärsimättömyysAika;
+        väärävalintaProsentti = TempväärävalintaProsentti;
+        asiakasmääräAika = TempasiakasmääräAika;
     }
 
     @FXML
@@ -219,7 +257,12 @@ public class SuureetController {
         stage.close();
     }
     @FXML
-    private void initialize() 
+    private void initialize() {
+        startValuet();
+        onSliderChanged();
+    }
+
+    private void startValuet() 
     {
         // Yksityispuolen asetukset.
 

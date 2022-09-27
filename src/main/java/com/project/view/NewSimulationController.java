@@ -72,7 +72,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     public void setSuureet() throws IOException 
     {
-        System.out.println("!11111111111111111" + open);
         if(!open)
         {
             Scene scene = new Scene(loadFXML("Parametrit"));
