@@ -16,7 +16,7 @@
          <children>
             <VBox layoutY="135.0" prefHeight="335.0" prefWidth="250.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="135.0">
                <children>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#aloitaSimulaatio" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Aloita Simulaatio" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#aloitaSimulaatio" prefHeight="47.0" prefWidth="250.0"  text="Aloita Simulaatio" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -24,7 +24,7 @@
                            </image></ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#setSuureet" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Hidasta" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#setSuureet" prefHeight="47.0" prefWidth="250.0"  text="Hidasta" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -33,7 +33,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Nopeuta" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="47.0" prefWidth="250.0"  text="Nopeuta" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -42,7 +42,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#takaisinMainView" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Takaisin" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#takaisinMainView" prefHeight="47.0" prefWidth="250.0"  text="Takaisin" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
