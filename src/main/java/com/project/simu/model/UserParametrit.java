@@ -1,19 +1,17 @@
 package com.project.simu.model;
 
+import com.project.eduni.distributions.Binomial;
+import com.project.eduni.distributions.ContinuousGenerator;
+import com.project.eduni.distributions.DiscreteGenerator;
+import com.project.eduni.distributions.Normal;
+import com.project.eduni.distributions.Uniform;
+import com.project.view.INewSimulationControllerVtoM;
+
 public class UserParametrit {
     private static UserParametrit instance = null;
 
-    // Henkilöasiakkaiden palvelupisteiden kplmaarat
-    private int priSalesPpMaara;
-    private int priNetworkPpMaara;
-    private int priSubscriberPpMaara;
-    private int priInvoicePpMaara;
-
-    // Yritysasiakkaiden palvelupisteiden kplmaarat
-    private int coSalesPpMaara;
-    private int coNetworkPpMaara;
-    private int coSubscriberPpMaara;
-    private int coInvoicePpMaara;
+    // Asiakasmäärä tuntia kohden
+    private double asiakasMaara;
 
     // Henkilöasiakkaat / Yritysasiakkaat jakaumaluku
     private double asiakasTyyppiJakauma;
@@ -30,32 +28,22 @@ public class UserParametrit {
     // Thread sleep aika
     private long viiveAika;
 
+    // Boolean normaaliJakaumalle
+    private boolean normaaliJakauma;
+
+    // Array asiakaspalvelioiden määrälle
+    private int asiakasPisteMaaraArray[];
+
+    // Array asiakaspalvelioitten ajoille
+    private double asiakasPalveluAikaArray[];
+
+    // Array yksityispiste jakaumalle
+    private double[] priAsiakasTyyppiArr;
+    // Array yrityspiste jakaumalle
+    private double[] coAsiakasTyyppiArr;
+
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
-
-    // Henkilöasiakkaitten SALES keksimääräinen palveluaika
-    private double priSalesKkPAika;
-
-    // Henkilöasiakkaitten NETWORK keksimääräinen palveluaika
-    private double priNetworkKkPAika;
-
-    // Henkilöasiakkaitten SUBSCRIBER keksimääräinen palveluaika
-    private double priSubscriberKkPAika;
-
-    // Henkilöasiakkaitten INVOICE keksimääräinen palveluaika
-    private double priInvoiceKkPAika;
-
-    // Yritysasiakkaitten SALES keksimääräinen palveluaika
-    private double coSalesKkPAika;
-
-    // Yritysasiakkaitten NETWORK keksimääräinen palveluaika
-    private double coNetworkKkPAika;
-
-    // Yritysasiakkaitten SUBSCRIBER keksimääräinen palveluaika
-    private double coSubscriberKkPAika;
-
-    // Yritysasiakkaitten INVOICE keksimääräinen palveluaika
-    private double coInvoiceKkPAika;
 
     public static synchronized UserParametrit getInstance() {
         if (instance == null) {
@@ -70,15 +58,31 @@ public class UserParametrit {
 
     public void setDefaultArvot() {
 
-        // Palvelupisteden default määrä: 3 kpl
-        this.priSalesPpMaara = 3;
-        this.priNetworkPpMaara = 3;
-        this.priSubscriberPpMaara = 3;
-        this.priInvoicePpMaara = 3;
-        this.coSalesPpMaara = 3;
-        this.coNetworkPpMaara = 3;
-        this.coSubscriberPpMaara = 3;
-        this.coInvoicePpMaara = 3;
+        asiakasPisteMaaraArray = new int[11];
+        asiakasPalveluAikaArray = new double[8];
+
+        for (int i = 0; i < asiakasPisteMaaraArray.length; i++) {
+            if (i > 7) {
+                asiakasPisteMaaraArray[i] = 1;
+            } else {
+                asiakasPisteMaaraArray[i] = 7;
+            }
+        }
+
+        // Keskiverto palvelupisteen palveluaika
+        // 10 sekunttia puhelinvalikko
+        // 600 sekunttia asiakaspalvelijat
+        this.pValikkoAika = 10;
+        for (int i = 0; i < asiakasPalveluAikaArray.length; i++) {
+            asiakasPalveluAikaArray[i] = 10 * 60;
+        }
+
+        // Normaalijakaumalle boolean
+        normaaliJakauma = false;
+
+        // Asiakaspisteitten jakauma käyttäjän asettamana
+        priAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
+        coAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
 
         /**
          * 85% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.45
@@ -86,68 +90,206 @@ public class UserParametrit {
          * 70% Henkilöasiakkaita, 30% Yritysasiakkaita = 0.4725
          * 30% Henkilöasiakkaita, 70% Yritysasiakkaita = 0.5275
          * 15% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.55
-         * 
+         *
          * @author Rasmus Hyyppä
          */
         this.asiakasTyyppiJakauma = 0.5;
 
+        // Asiakasmäärä, 45 asiakasta tuntiin
+        this.asiakasMaara = 45;
+
         // Thread sleeppi aika
         this.viiveAika = 1500;
 
-        // 600 sek jaksaa jonottaa
+        // 480 sek jaksaa jonottaa
         this.asiakkaidenKarsivallisyys = 8 * 60;
 
-        // 1 % asiakkaista valitsee väärin
+        // 5 % asiakkaista valitsee väärin
         this.vaaraValintaProsentti = 0.05;
 
         // Sekunttia 3600 * 8 = 8h työpäivä
         this.simulaationAika = 3600 * 8;
 
-        // Sekuntteina oletuspalveluaikoja, 10 sekunttia puhelinvalikko
-        this.pValikkoAika = 5;
-        this.priSalesKkPAika = 10 * 60;
-        this.priNetworkKkPAika = 10 * 60;
-        this.priSubscriberKkPAika = 10 * 60;
-        this.priInvoiceKkPAika = 10 * 60;
-        this.coSalesKkPAika = 10 * 60;
-        this.coNetworkKkPAika = 10 * 60;
-        this.coSubscriberKkPAika = 10 * 60;
-        this.coInvoiceKkPAika = 10 * 60;
+    }
+
+    /**
+     * Käytä tätä parametrien hakemiseen kontrollerilta ennen simulaation
+     * alottamista
+     * 
+     * @param kontrolleri
+     * @author Rasmus Hyyppä
+     */
+    public void getParametrit(INewSimulationControllerVtoM kontrolleri) {
+        /*
+         * double asiakasPalvelijoidenAjat[] =
+         * kontrolleri.getAsiakaspalvelijoidenAjat();
+         */
+    }
+
+    public synchronized int getProbability(AsiakasTyyppi t, int sample) {
+        int asTypeNum = 3;
+        int j = 0;
+        if (t == AsiakasTyyppi.CO) {
+            while (sample >= coAsiakasTyyppiArr[j]) {
+                j++;
+            }
+            asTypeNum += j;
+        } else {
+            while (sample >= priAsiakasTyyppiArr[j]) {
+                j++;
+            }
+            asTypeNum = j;
+        }
+        return asTypeNum; // value = ThreadLocalRandom.current().nextInt(yritysPisteArray.length);
     }
 
     // Liuta settereitä ja gettereitä tästä eteenpäin //
     // ********************************************* //
 
-    public void setPriSalesPpMaara(int priSalesPpMaara) {
-        this.priSalesPpMaara = priSalesPpMaara;
+    /**
+     * Käyttäjän syöttämä arvo yhdistetään Binomial jakaumaan
+     * Tätä käytetään Asiakas luokassa
+     * 
+     * @return palauttaa Binomial discretegeneraattorin
+     * @author Rasmus Hyyppä
+     */
+    public DiscreteGenerator getAsiakasJakauma() {
+        double jakaumaNumero = UserParametrit.getInstance().getAsiakasTyyppiJakauma();
+        System.out.println("Jakauma numero: " + jakaumaNumero); // 0.5 < Henkilöasiakas, 0.5 > Yritysasiakas
+        // Jakauma i, 100 yritystä (100%)
+        return new Binomial(jakaumaNumero, 100);
     }
 
-    public void setPriNetworkPpMaara(int priNetworkPpMaara) {
-        this.priNetworkPpMaara = priNetworkPpMaara;
+    /**
+     * 
+     * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
+     * @return Palauttaa kayttajan antaman keskimääräisen palveluajan
+     * @author Rasmus Hyyppä
+     */
+    public Normal getPAJakauma(Tyyppi t) {
+        double aika = getPalveluPisteAvgAika(t.getTyyppiValue());
+        return new Normal(aika - (aika / 2), aika + (aika / 2));
     }
 
-    public void setPriSubscriberPpMaara(int priSubscriberPpMaara) {
-        this.priSubscriberPpMaara = priSubscriberPpMaara;
+    /**
+     * 
+     * @param ppType on Tyyppi
+     * @return
+     */
+    public double getPalveluPisteAvgAika(int ppType) {
+        return asiakasPalveluAikaArray[ppType - 1];
     }
 
-    public void setPriInvoicePpMaara(int priInvoicePpMaara) {
-        this.priInvoicePpMaara = priInvoicePpMaara;
+    /**
+     * Puhelinvalikkojen odotusaika Normalina jakaumana
+     * 
+     * @return Normal return the pValikkoAika
+     * @author Rasmus Hyyppä
+     */
+    public Normal getPAPuhelinValikolle() {
+        return new Normal(pValikkoAika - (pValikkoAika / 2), pValikkoAika + (pValikkoAika / 2));
     }
 
-    public void setCoSalesPpMaara(int coSalesPpMaara) {
-        this.coSalesPpMaara = coSalesPpMaara;
+    /**
+     * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
+     * linjassa
+     * 
+     * @return Palauttaa haetun Palvelupistetyypin kpl maaran
+     * @author Rasmus Hyyppä
+     */
+    public int getPalveluPisteMaara(Tyyppi t) {
+        return asiakasPisteMaaraArray[t.getTyyppiValue() - 1];
     }
 
-    public void setCoNetworkPpMaara(int coNetworkPpMaara) {
-        this.coNetworkPpMaara = coNetworkPpMaara;
+    /**
+     * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
+     * 
+     * @return True mikäli on, false mikäli ei
+     * @author Rasmus Hyyppä
+     */
+    public boolean onkoVaaraValinta() {
+        if (new Uniform(1, 100).sample() < (vaaraValintaProsentti * 100)) {
+            return true;
+        }
+        return false;
     }
 
-    public void setCoSubscriberPpMaara(int coSubscriberPpMaara) {
-        this.coSubscriberPpMaara = coSubscriberPpMaara;
+    /**
+     * Käytetään alustuksessa jotta saadaan oikea määrä palvelupisteitä luotua
+     * 
+     * @return Palauttaa asiakaspalvelupisteiden kokonaismäärän
+     * @author Rasmus Hyyppä
+     */
+    public int getAllPPMaara() {
+        return getYksityisPPMaara() + getYritysPPMaara();
     }
 
-    public void setCoInvoicePpMaara(int coInvoicePpMaara) {
-        this.coInvoicePpMaara = coInvoicePpMaara;
+    /**
+     * 
+     * @return
+     */
+    public int getYksityisPPMaara() {
+        int kokonaisMaara = 0;
+        for (int i = 0; i < 4; i++) {
+            kokonaisMaara += asiakasPisteMaaraArray[i];
+        }
+        return kokonaisMaara;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public int getYritysPPMaara() {
+        int kokonaisMaara = 0;
+        for (int i = 4; i < 8; i++) {
+            kokonaisMaara += asiakasPisteMaaraArray[i];
+        }
+        return kokonaisMaara;
+    }
+
+    public double[] getPriAsiakasTyyppiArr() {
+        return this.priAsiakasTyyppiArr;
+    }
+
+    public void setPriAsiakasTyyppiArr(double[] priAsiakasTyyppiArr) {
+        this.priAsiakasTyyppiArr = priAsiakasTyyppiArr;
+    }
+
+    public double[] getCoAsiakasTyyppiArr() {
+        return this.coAsiakasTyyppiArr;
+    }
+
+    public void setCoAsiakasTyyppiArr(double[] coAsiakasTyyppiArr) {
+        this.coAsiakasTyyppiArr = coAsiakasTyyppiArr;
+    }
+
+    public boolean isNormaaliJakauma() {
+        return this.normaaliJakauma;
+    }
+
+    public void setNormaaliJakauma(boolean normaaliJakauma) {
+        this.normaaliJakauma = normaaliJakauma;
+    }
+
+    public double getPValikkoAika() {
+        return pValikkoAika;
+    }
+
+    public double getAsiakasTyyppiJakauma() {
+        return asiakasTyyppiJakauma;
+    }
+
+    public void setAsiakasTyyppiJakauma(int asiakasTyyppiJakauma) {
+        this.asiakasTyyppiJakauma = asiakasTyyppiJakauma;
+    }
+
+    public void setAsiakasMaara(double asiakasMaara) {
+        this.asiakasMaara = asiakasMaara;
+    }
+
+    public double getAsiakasMaara() {
+        return this.asiakasMaara;
     }
 
     public double getSimulaationAika() {
@@ -176,114 +318,6 @@ public class UserParametrit {
 
     public void setPValikkoAika(double pValikkoAika) {
         this.pValikkoAika = pValikkoAika;
-    }
-
-    public void setPriSalesKkPAika(double priSalesKkPAika) {
-        this.priSalesKkPAika = priSalesKkPAika;
-    }
-
-    public void setPriNetworkKkPAika(double priNetworkKkPAika) {
-        this.priNetworkKkPAika = priNetworkKkPAika;
-    }
-
-    public void setPriSubscriberKkPAika(double priSubscriberKkPAika) {
-        this.priSubscriberKkPAika = priSubscriberKkPAika;
-    }
-
-    public void setPriInvoiceKkPAika(double priInvoiceKkPAika) {
-        this.priInvoiceKkPAika = priInvoiceKkPAika;
-    }
-
-    public void setCoSalesKkPAika(double coSalesKkPAika) {
-        this.coSalesKkPAika = coSalesKkPAika;
-    }
-
-    public void setCoNetworkKkPAika(double coNetworkKkPAika) {
-        this.coNetworkKkPAika = coNetworkKkPAika;
-    }
-
-    public void setCoSubscriberKkPAika(double coSubscriberKkPAika) {
-        this.coSubscriberKkPAika = coSubscriberKkPAika;
-    }
-
-    public void setCoInvoiceKkPAika(double coInvoiceKkPAika) {
-        this.coInvoiceKkPAika = coInvoiceKkPAika;
-    }
-
-    public int getPriSalesPpMaara() {
-        return priSalesPpMaara;
-    }
-
-    public int getPriNetworkPpMaara() {
-        return priNetworkPpMaara;
-    }
-
-    public int getPriSubscriberPpMaara() {
-        return priSubscriberPpMaara;
-    }
-
-    public int getPriInvoicePpMaara() {
-        return priInvoicePpMaara;
-    }
-
-    public int getCoSalesPpMaara() {
-        return coSalesPpMaara;
-    }
-
-    public int getCoNetworkPpMaara() {
-        return coNetworkPpMaara;
-    }
-
-    public int getCoSubscriberPpMaara() {
-        return coSubscriberPpMaara;
-    }
-
-    public int getCoInvoicePpMaara() {
-        return coInvoicePpMaara;
-    }
-
-    public double getPValikkoAika() {
-        return pValikkoAika;
-    }
-
-    public double getPriSalesKkPAika() {
-        return priSalesKkPAika;
-    }
-
-    public double getPriNetworkKkPAika() {
-        return priNetworkKkPAika;
-    }
-
-    public double getPriSubscriberKkPAika() {
-        return priSubscriberKkPAika;
-    }
-
-    public double getPriInvoiceKkPAika() {
-        return priInvoiceKkPAika;
-    }
-
-    public double getCoSalesKkPAika() {
-        return coSalesKkPAika;
-    }
-
-    public double getCoNetworkKkPAika() {
-        return coNetworkKkPAika;
-    }
-
-    public double getCoSubscriberKkPAika() {
-        return coSubscriberKkPAika;
-    }
-
-    public double getCoInvoiceKkPAika() {
-        return coInvoiceKkPAika;
-    }
-
-    public double getAsiakasTyyppiJakauma() {
-        return asiakasTyyppiJakauma;
-    }
-
-    public void setAsiakasTyyppiJakauma(int asiakasTyyppiJakauma) {
-        this.asiakasTyyppiJakauma = asiakasTyyppiJakauma;
     }
 
     /**
