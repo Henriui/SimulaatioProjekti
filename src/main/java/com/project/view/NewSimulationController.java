@@ -1,6 +1,10 @@
 package com.project.view;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import com.project.MainApp;
 import com.project.simu.framework.Moottori;
@@ -10,13 +14,19 @@ import com.project.simu.model.OmaMoottori;
 import com.project.simu.model.UserParametrit;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class NewSimulationController implements INewSimulationControllerVtoM, INewSimulationControllerMtoV {
     @FXML
@@ -33,7 +43,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private Label palvelupisteellaYritys;
     @FXML
     private Label suorittaneetMaara;
-
+   
+    private static Scene scene;
+    private double xOffset = 0;
+    private double yOffset = 0;
+    private static boolean open = false;
+ 
     @FXML
     private void takaisinMainView() throws IOException {
         MainApp.setRoot("mainView");
@@ -55,14 +70,35 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     @FXML
-    public void setSuureet() throws IOException {
-        Scene scene = new Scene(loadFXML("suureet"));
+    public void setSuureet() throws IOException 
+    {
+        if(!open)
+        {
+            Scene scene = new Scene(loadFXML("Parametrit"));
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            
+            stage.setTitle("Suureiden asetukset");
+            stage.initStyle(StageStyle.TRANSPARENT);
 
-        Stage stage = new Stage();
-        stage.setScene(scene);
+            scene.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
 
-        stage.setTitle("Suureiden asetukset");
-        stage.show();
+            // Can move window when mouse down and drag.
+
+            scene.setOnMouseDragged(event -> {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            });
+            stage.show();
+            open = true;
+        }
+    }
+    
+    public void popupOpen(boolean isOpen){
+        open = isOpen;
     }
 
     // Finds fxml file from the resources folder.
