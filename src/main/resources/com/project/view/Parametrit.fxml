@@ -12,11 +12,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="906.0" style="-fx-background-color: #3F005E;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.SuureetController">
-   <stylesheets>
-      <URL value="@../../css/main.css" />
-      <URL value="@../../../java/css/main.css" />
-   </stylesheets>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="906.0" 
+            style="-fx-background-color: #3F005E;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.view.SuureetController">
    <children>
       <AnchorPane layoutX="100.0" layoutY="-3.0" prefHeight="73.0" prefWidth="890.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="529.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -30,12 +27,12 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button fx:id="saveButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#tallenna" style="-fx-background-radius: 50;" styleClass="button4" stylesheets="@../../../css/main.css" text="Tallenna" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="11.0">
+            <Button fx:id="saveButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#tallenna" style="-fx-background-radius: 50;" styleClass="button4" stylesheets="@../css/main.css" text="Tallenna" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="11.0">
                <font>
                   <Font size="23.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="691.0" layoutY="11.0" mnemonicParsing="false" onAction="#peruuta" style="-fx-background-radius: 50;" styleClass="button5" stylesheets="@../../../css/main.css" text="Peruuta" AnchorPane.rightAnchor="14.0">
+            <Button fx:id="closeButton" layoutX="691.0" layoutY="11.0" mnemonicParsing="false" onAction="#peruuta" style="-fx-background-radius: 50;" styleClass="button5" stylesheets="@../css/main.css" text="Peruuta" AnchorPane.rightAnchor="14.0">
                <font>
                   <Font size="23.0" />
                </font>
@@ -103,22 +100,22 @@
                         <TextField fx:id="YritysnettiAikaField" layoutX="60.0" layoutY="487.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="562.0" />
                         <TextField fx:id="YritysliittymäAikaField" layoutX="70.0" layoutY="497.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="647.0" />
                         <TextField fx:id="YrityslaskutusAikaField" layoutX="80.0" layoutY="507.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="732.0" />
-                        <Slider fx:id="YritysmyyntiPp" blockIncrement="1.0" layoutX="34.0" layoutY="65.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="YritysmyyntiPp" blockIncrement="1.0" layoutX="34.0" layoutY="65.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="YritysnettiPp" blockIncrement="1.0" layoutX="29.0" layoutY="151.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="YritysnettiPp" blockIncrement="1.0" layoutX="29.0" layoutY="151.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="YritysliittymäPp" blockIncrement="1.0" layoutX="29.0" layoutY="236.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="YritysliittymäPp" blockIncrement="1.0" layoutX="29.0" layoutY="236.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="YrityslaskutusPp" blockIncrement="1.0" layoutX="29.0" layoutY="321.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="YrityslaskutusPp" blockIncrement="1.0" layoutX="29.0" layoutY="321.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
@@ -203,7 +200,7 @@
                         <TextField fx:id="nettiAikaField" layoutX="247.0" layoutY="488.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="562.0" />
                         <TextField fx:id="liittymäAikaField" layoutX="257.0" layoutY="498.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="647.0" />
                         <TextField fx:id="laskutusAikaField" layoutX="267.0" layoutY="508.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="732.0" />
-                        <Slider fx:id="myyntiPalvelupisteet" blockIncrement="1.0" layoutX="250.0" layoutY="71.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="75.0">
+                        <Slider fx:id="myyntiPalvelupisteet" blockIncrement="1.0" layoutX="250.0" layoutY="71.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="75.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
@@ -218,17 +215,17 @@
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="nettiPalvelupisteet" blockIncrement="1.0" layoutX="245.0" layoutY="157.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.rightAnchor="50.05968042459972" AnchorPane.topAnchor="157.0">
+                        <Slider fx:id="nettiPalvelupisteet" blockIncrement="1.0" layoutX="245.0" layoutY="157.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.rightAnchor="50.05968042459972" AnchorPane.topAnchor="157.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="liittymäPalvelupisteet" blockIncrement="1.0" layoutX="245.0" layoutY="242.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.rightAnchor="50.05968042459972" AnchorPane.topAnchor="242.0">
+                        <Slider fx:id="liittymäPalvelupisteet" blockIncrement="1.0" layoutX="245.0" layoutY="242.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.rightAnchor="50.05968042459972" AnchorPane.topAnchor="242.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="laskutusPalvelupisteet" blockIncrement="1.0" layoutX="245.0" layoutY="327.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../../../css/main.css" value="3.0" AnchorPane.rightAnchor="50.05968042459972" AnchorPane.topAnchor="327.0">
+                        <Slider fx:id="laskutusPalvelupisteet" blockIncrement="1.0" layoutX="245.0" layoutY="327.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.rightAnchor="50.05968042459972" AnchorPane.topAnchor="327.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
@@ -292,4 +289,7 @@
         </content>
       </ScrollPane>
    </children>
+   <stylesheets>
+      <URL value="@../css/main.css" />
+   </stylesheets>
 </AnchorPane>

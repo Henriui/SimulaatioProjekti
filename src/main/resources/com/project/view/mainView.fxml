@@ -13,44 +13,45 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="889.0" 
+            style="-fx-background-color: #2f2b43;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.view.MainViewController">
    <children>
       <AnchorPane prefHeight="472.0" prefWidth="250.0" style="-fx-background-color: #393351;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox layoutY="135.0" prefHeight="335.0" prefWidth="250.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="135.0">
                <children>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Uusi simulaatio" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="47.0" prefWidth="250.0"  text="Uusi simulaatio" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/phone.png" />
+                              <Image url="@../icons/phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#tulokset" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Tulokset" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#tulokset" prefHeight="47.0" prefWidth="250.0"  text="Tulokset" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/chart.png" />
+                              <Image url="@../icons/chart.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#asetukset" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Asetukset???" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#asetukset" prefHeight="47.0" prefWidth="250.0"  text="Asetukset???" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/options.png" />
+                              <Image url="@../icons/options.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#Exit" prefHeight="47.0" prefWidth="250.0" stylesheets="@application.css" text="Exit" textFill="WHITE">
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#Exit" prefHeight="47.0" prefWidth="250.0"  text="Exit" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/exit.png" />
+                              <Image url="@../icons/exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -78,7 +79,7 @@
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#Exit" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button4" stylesheets="@application.css">
+                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#Exit" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button4" >
                      <textFill>
                         <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.20608108137661962" startY="0.05743244910281892">
                            <stops>
@@ -98,7 +99,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/exit.png" />
+                              <Image url="@../icons/exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -112,7 +113,7 @@
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#tulokset" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button2" stylesheets="@application.css">
+                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#tulokset" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button2" >
                      <textFill>
                         <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.20608108137661962" startY="0.05743244910281892">
                            <stops>
@@ -132,7 +133,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/chart.png" />
+                              <Image url="@../icons/chart.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -146,7 +147,8 @@
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button1" stylesheets="@../../../java/css/main.css">
+                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#uusiSimulaatio" prefHeight="116.0" prefWidth="116.0" 
+                          style="-fx-background-radius: 100;" styleClass="button1" stylesheets="@../css/main.css">
                      <textFill>
                         <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.20608108137661962" startY="0.05743244910281892">
                            <stops>
@@ -166,7 +168,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/phone.png" />
+                              <Image url="@../icons/phone.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -180,7 +182,7 @@
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#asetukset" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button3" stylesheets="@application.css">
+                  <Button layoutX="41.0" layoutY="31.0" mnemonicParsing="false" onAction="#asetukset" prefHeight="116.0" prefWidth="116.0" style="-fx-background-radius: 100;" styleClass="button3" >
                      <textFill>
                         <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.20608108137661962" startY="0.05743244910281892">
                            <stops>
@@ -200,7 +202,7 @@
                      <graphic>
                         <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../icons/options.png" />
+                              <Image url="@../icons/options.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -211,7 +213,6 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@../../../java/css/main.css" />
-      <URL value="@../../../css/main.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 </AnchorPane>
