@@ -43,12 +43,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private Label palvelupisteellaYritys;
     @FXML
     private Label suorittaneetMaara;
-   
+
     private static Scene scene;
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
- 
+
     @FXML
     private void takaisinMainView() throws IOException {
         MainApp.setRoot("mainView");
@@ -60,7 +60,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         Trace.setTraceLevel(Level.INFO);
         Moottori m = new OmaMoottori(this);
         m.setViive(uP.getViiveAika());
-        m.setSimulointiaika(uP.getSimulaationAika());
+        m.setSimulointiaika(uP.getSimulaationAika() * 3600);
         ((Thread) m).start();
     }
 
@@ -70,14 +70,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     @FXML
-    public void setSuureet() throws IOException 
-    {
-        if(!open)
-        {
+    public void setSuureet() throws IOException {
+        if (!open) {
             Scene scene = new Scene(loadFXML("Parametrit"));
             Stage stage = new Stage();
             stage.setScene(scene);
-            
+
             stage.setTitle("Suureiden asetukset");
             stage.initStyle(StageStyle.TRANSPARENT);
 
@@ -96,8 +94,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             open = true;
         }
     }
-    
-    public void popupOpen(boolean isOpen){
+
+    public void popupOpen(boolean isOpen) {
         open = isOpen;
     }
 

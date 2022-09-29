@@ -20,6 +20,7 @@ public class Palvelupiste {
 	private static int palvelupisteenUID = 0;
 
 	private SimulaationSuureet sS;
+	private UserParametrit uP;
 	private int palvelupisteenID;
 	private int asiakkaitaLisattyJonoon;
 	private int asiakkaitaPalveltuJonosta;
@@ -28,7 +29,6 @@ public class Palvelupiste {
 	private double palveluAikaSuurre;
 	private double jonoAikaSuurre;
 	private double asiakkaittenKokonaisAikaSuurre;
-	private double maxJonoParametri;
 
 	// JonoStartegia strategia;
 	// optio: asiakkaiden järjestys
@@ -37,12 +37,11 @@ public class Palvelupiste {
 
 	// PalveluPiste
 
-	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi,
-			double maxJonoParametri) {
+	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi) {
 		sS = SimulaationSuureet.getInstance();
+		uP = UserParametrit.getInstance();
 		palvelupisteenID = palvelupisteenUID;
 		palvelupisteenUID++;
-		this.maxJonoParametri = maxJonoParametri;
 		this.tapahtumalista = tapahtumalista;
 		this.generator = generator;
 		this.skeduloitavanTapahtumanTyyppi = tyyppi;
@@ -56,7 +55,7 @@ public class Palvelupiste {
 		a.setSaapumisaikaPp(Kello.getInstance().getAika());
 		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
 		asiakkaitaLisattyJonoon++;
-		sS.asiakkaitaLisattyJonoon();
+		sS.asiakasLisattyJonoon();
 		jono.add(a);
 	}
 
@@ -66,11 +65,11 @@ public class Palvelupiste {
 
 		Asiakas a = jono.poll();
 		varattu = false;
-		if (a.getPoistumisaikaPp() != (a.getSaapumisaika() + maxJonoParametri)) {
+		if (a.getPoistumisaikaPp() != (a.getSaapumisaika() + uP.getMaxJononPituus())) {
 			a.setPoistumisaikaPp(Kello.getInstance().getAika());
 		}
 		// Lisätään asiakkaan palvelupisteen oleskeluaika suurre
-		asiakkaittenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
+		asiakkaittenKokonaisAikaSuurre += a.getSaapumisaikaPp() - a.getPoistumisaikaPp();
 
 		return a;
 	}
@@ -86,12 +85,12 @@ public class Palvelupiste {
 		double palveluaika = generator.sample();
 
 		// Mikäli jonotusaika ylitti niin asiakas poistui ennen palvelua.
-		if (jonotusAika > maxJonoParametri) {
+		if (jonotusAika > uP.getMaxJononPituus()) {
 			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + a.getId());
 			asiakkaitaPoistunutJonosta++;
 			a.setJonotukseenKyllastynyt();
-			jonotusAika = a.getSaapumisaikaPp() + maxJonoParametri;
-			jonoAikaSuurre += maxJonoParametri;
+			jonotusAika = a.getSaapumisaikaPp() + uP.getMaxJononPituus();
+			jonoAikaSuurre += uP.getMaxJononPituus();
 			a.setPoistumisaikaPp(jonotusAika);
 			tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, jonotusAika));
 			return;
@@ -99,8 +98,7 @@ public class Palvelupiste {
 
 		if (a.getReRouted() && a.getAsType() < 9) {
 			Trace.out(Trace.Level.INFO, "Asiakas siirretään oikeaan jonoon: " + a.getId());
-			// TODO: mahdollinen parametri? 30 sekunttia reroute keskustelu
-			palveluaika = 30;
+			palveluaika = 30; // 30 sekunttia reroute keskustelu
 			asiakkaitaReRoutattuJonosta++;
 		} else {
 			asiakkaitaPalveltuJonosta++;
@@ -168,6 +166,9 @@ public class Palvelupiste {
 	}
 
 	public int getJonossaOlevatAsiakkaat() {
+		if (asiakkaitaLisattyJonoon == 0) {
+			return 0;
+		}
 		return jono.size();
 	}
 
@@ -243,12 +244,12 @@ public class Palvelupiste {
 				"Palvelupisteen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveluprosentti: "
 						+ getPalveluprosentti() + " %");
 
-		sS.setKokonaisPalveluAikaPalvelupisteessa(palveluAikaSuurre);
-		sS.setKokonaisJonoAikaPalvelupisteessa(jonoAikaSuurre);
-		sS.setAsiakkaittenKokonaisAikaPalvelupisteessa(asiakkaittenKokonaisAikaSuurre);
-		sS.setKeskiarvoJonotusAika(getAvgPalveluAika());
-		sS.setKeskimaarainenOleskeluAika(getAvgOleskeluAika());
-		sS.setKeskimaaranenPalveluAika(getAvgJonotusAika());
-		sS.setPalveluprosentti(getPalveluprosentti());
+		sS.addTotalPAPP(palveluAikaSuurre);
+		sS.addTotalJonoAikaPP(jonoAikaSuurre);
+		sS.setAsiakasTotalAikaPP(asiakkaittenKokonaisAikaSuurre);
+		sS.addAvgJonotusAika(getAvgPalveluAika());
+		sS.addAvgOleskeluPPAika(getAvgOleskeluAika());
+		sS.addAvgPalveluAika(getAvgJonotusAika());
+		sS.addPalveluprosentti(getPalveluprosentti());
 	}
 }

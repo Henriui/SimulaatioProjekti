@@ -11,7 +11,6 @@ import com.project.simu.framework.Tapahtuma;
 public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
-	private final static int MIN_PALVELUPISTE_MAARA = 3;
 	private UserParametrit uP;
 	private SimulaationSuureet sS;
 
@@ -21,36 +20,31 @@ public class OmaMoottori extends Moottori {
 		sS = SimulaationSuureet.getInstance();
 		uP = UserParametrit.getInstance();
 
-		palvelupisteet = new Palvelupiste[uP.getAllPPMaara() + MIN_PALVELUPISTE_MAARA];
-		palvelupisteet[0] = new Palvelupiste(uP.getPAPuhelinValikolle(), tapahtumalista,
-				Tyyppi.BLENDER_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
-		palvelupisteet[1] = new Palvelupiste(uP.getPAPuhelinValikolle(), tapahtumalista,
-				Tyyppi.PRI_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
-		palvelupisteet[2] = new Palvelupiste(uP.getPAPuhelinValikolle(), tapahtumalista,
-				Tyyppi.CO_VALIKKO_DEPART, uP.getAsiakkaidenKarsivallisyys());
+		palvelupisteet = new Palvelupiste[uP.getAllPPMaara()];
+		palvelupisteet[0] = new Palvelupiste(uP.getPAJakaumaPuhelinValikolle(), tapahtumalista,
+				Tyyppi.BLENDER_VALIKKO_DEPART);
+		palvelupisteet[1] = new Palvelupiste(uP.getPAJakaumaPuhelinValikolle(), tapahtumalista,
+				Tyyppi.PRI_VALIKKO_DEPART);
+		palvelupisteet[2] = new Palvelupiste(uP.getPAJakaumaPuhelinValikolle(), tapahtumalista,
+				Tyyppi.CO_VALIKKO_DEPART);
 
-		int ppIndex = MIN_PALVELUPISTE_MAARA;
+		int ppIndex = UserParametrit.getMinimiPPMaara();
 		for (int j = 0; j < 8; j++) {
-			Tyyppi t = Tyyppi.values()[j];
-			for (int i = 0; i < uP.getPalveluPisteMaara(t); i++) {
-				palvelupisteet[ppIndex] = new Palvelupiste(uP.getPAJakauma(t),
+			int ppType = Tyyppi.values()[j].getTyyppiValue();
+			for (int i = 0; i < uP.getPPMaara(ppType); i++) {
+				palvelupisteet[ppIndex] = new Palvelupiste(uP.getPAJakauma(ppType),
 						tapahtumalista,
-						t, uP.getAsiakkaidenKarsivallisyys());
+						Tyyppi.values()[j]);
 				ppIndex++;
 			}
 		}
-
-		/**
-		 * Asiakkaitten tulomäärän määräävä jakauma
-		 * NexExp -> kasvaa jatkuvasti Negexp(10, 5)
-		 * LogNormal -> Säädettävissä asiakas jakauma
-		 * LogNormal(new LogNormal(3, 1));
-		 * Poisson(tunti/asiakasmäärä tunnissa) -> käytetään real life example
-		 */
+		// Asiakkaitten tulomäärän määräävä jakauma
+		// Poisson(tunti/asiakasmäärä tunnissa) -> käytetään real life examplena
 		saapumisprosessi = new Saapumisprosessi(new Poisson(3600 / uP.getAsiakasMaara()), tapahtumalista,
 				Tyyppi.ARRIVAL);
-		kontrolleri.ilmoitaPalveluPisteet(sS.getYritysPalvelupisteita(),
-				sS.getYksityisPalvelupisteita());
+		// Kontrollerille tieto palvelupisteiden määrästä
+		kontrolleri.ilmoitaPalveluPisteet(sS.getYritysPP(),
+				sS.getYksityisPP());
 	}
 
 	// Alustukset
@@ -68,8 +62,7 @@ public class OmaMoottori extends Moottori {
 
 		Asiakas a;
 		Tyyppi tapahtuma = t.getTyyppi();
-
-		kontrolleri.ilmoitaJononKoko(palveluPisteissaJonoa(1), palveluPisteissaJonoa(5));
+		System.out.println(tapahtuma.getTyyppiValue());
 
 		// Saapumistapahtumat
 		if (tapahtuma == Tyyppi.ARRIVAL) {
@@ -84,6 +77,7 @@ public class OmaMoottori extends Moottori {
 
 			// Lisätään jonoon
 			palvelupisteet[lisaaAsiakas(a.getAsType())].lisaaJonoon(a);
+
 		}
 
 		// Henkilö- ja yritysasiakas valikon poistumiset
@@ -92,6 +86,7 @@ public class OmaMoottori extends Moottori {
 
 			// Lisätään jonoon
 			palvelupisteet[lisaaAsiakas(a.setAsiakasTyyppi())].lisaaJonoon(a);
+			kontrolleri.ilmoitaJononKoko(palveluPisteissaJonoa(1), palveluPisteissaJonoa(5));
 		}
 
 		// Asiakaspalvelija pisteiden poistumiset
@@ -106,16 +101,16 @@ public class OmaMoottori extends Moottori {
 			}
 
 			if (a.isJonotukseenKyllastynyt()) {
-				sS.setAsiakkaitaPoistunutJonostaKpl();
+				sS.asiakasLahtenytJonostaKpl();
 			} else {
 				// Updatetaan tämän hetkinen tilanne
 				kontrolleri.asiakkaitaPalveluPisteella(palveluPisteissaOleskellut(1), palveluPisteissaOleskellut(5));
-				sS.setAsiakkaitaPalveltuJonostaKpl();
+				sS.asiakasPalveltuJonosta();
 			}
 
 			// Kuinka monta asiakasta on ulkona
-			kontrolleri.ulkonaAsiakkaita(sS.getAsiakkaitaPalveltuJonostaKpl() +
-					sS.getAsiakkaitaPoistunutJonostaKpl());
+			kontrolleri.ulkonaAsiakkaita(sS.getAsiakasPalveltuJonostaKpl() +
+					sS.getAsiakasLahtenytJonostaKpl());
 			// Asiakas ulkona -> Raportoidaan
 			a.raportti();
 		}
@@ -130,19 +125,15 @@ public class OmaMoottori extends Moottori {
 	 * @author Rasmus Hyyppä
 	 */
 	public int lisaaAsiakas(int ppType) {
-
-		Tyyppi t = Tyyppi.values()[ppType - 1];
-		Palvelupiste[] typeVastaavatPp = new Palvelupiste[uP.getPalveluPisteMaara(t)];
-
+		Palvelupiste[] typeVastaavatPp = new Palvelupiste[uP.getPPMaara(ppType)];
 		int i = 0;
 		for (Palvelupiste p : palvelupisteet) {
-			if (p.getPalvelupisteenTyyppi() == t) {
+			if (p.getPalvelupisteenTyyppi().getTyyppiValue() == ppType) {
 				typeVastaavatPp[i] = p;
 				i++;
 			}
 		}
 
-		// TODO: Mahdollisesti tasajaukauman sijaan simulaattori jakaakin esim compareTo
 		if (typeVastaavatPp.length != 1) {
 			return typeVastaavatPp[(int) new Uniform(0, typeVastaavatPp.length).sample()].getPalveluPisteenNumero();
 		} else {
@@ -199,7 +190,7 @@ public class OmaMoottori extends Moottori {
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 		}
-		sS.setAsiakkaitaLisattyJonoon(palvelupisteet[0].getAsiakkaitaLisattyJonoon());
+		sS.setAsiakasLisattyJonoon(palvelupisteet[0].getAsiakkaitaLisattyJonoon());
 		sS.setSimulointiAika(Kello.getInstance().getAika());
 		sS.tulosteet();
 	}

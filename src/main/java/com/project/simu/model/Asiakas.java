@@ -110,6 +110,14 @@ public class Asiakas {
 		Asiakas.sum = 0;
 	}
 
+	public static long getAsiakasSum() {
+		return Asiakas.sum;
+	}
+
+	public static int getAsiakasUID() {
+		return Asiakas.i;
+	}
+
 	/**
 	 * @return boolean return the normaaliJakauma
 	 */
@@ -185,7 +193,7 @@ public class Asiakas {
 	 * @author Rasmus Hyyppä
 	 */
 	public int setReRouted() {
-		sS.setAsiakkaitaReRoutattuJonostaKpl();
+		sS.asiakasReRoutedPPKpl();
 		tyyppiJakauma = new Uniform(0, 8);
 		int arvottuAsType = (int) tyyppiJakauma.sample();
 		// Mikäli generoitu asiakastyyppi on sama kuin jo asetettu arvo
@@ -209,7 +217,7 @@ public class Asiakas {
 	public int setAsiakasTyyppi() {
 		int arvottuAsType = (int) tyyppiJakauma.sample(); // generoidaan asiakastyyppi
 		if (!normaaliJakauma) {
-			arvottuAsType = uP.getProbability(asType, (int) tyyppiJakauma.sample());
+			arvottuAsType = uP.getAsiakkaanPP(asType, (int) tyyppiJakauma.sample());
 		}
 		asType = AsiakasTyyppi.values()[arvottuAsType];
 		Trace.out(Trace.Level.INFO, "Asiakkaan tyyppi on: " + asType + ", id: " + id);
@@ -227,6 +235,7 @@ public class Asiakas {
 		sum += (poistumisaikaSimulaatiossa - saapumisaikaSimulaatiossa);
 		double keskiarvo = sum / id;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
-		sS.setAsiakkaanKeskiArvoViipyminenSimulaatiossa(keskiarvo);
+		sS.setAsiakasViipymisAikaAvg(keskiarvo);
+
 	}
 }
