@@ -79,21 +79,19 @@ public class SimulaationSuureet {
      */
 
     public void tulosteet() {
-        Trace.out(Trace.Level.INFO, "\n\n\nPalvelupisteiden kokonaismaara: " + palveluPisteidenKokonaisMaara);
-        Trace.out(Trace.Level.INFO, "Simulointiaika: " + simulointiAika);
-        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asiakkaitaLisattyJonoonKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asiakkaitaPalveltuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asiakkaitaReRoutattuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asiakkaitaPoistunutJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);
+        Trace.out(Trace.Level.INFO, "\n\n\nPalvelupisteiden kokonaismaara: " + palveluPisteidenKokonaisMaara);      // pp_count
+        Trace.out(Trace.Level.INFO, "Simulointiaika: " + simulointiAika);                                           //db kesto
+        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asiakkaitaLisattyJonoonKpl);                    // db as_lisatyt
+        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asiakkaitaPalveltuJonostaKpl);                // db as_palveltu
+        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asiakkaitaReRoutattuJonostaKpl);            // db as_routed
+        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asiakkaitaPoistunutJonostaKpl);              // db as_poistunut
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);    // db as_palveluaika
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);       // db as_jonoaika
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisaika palvelupisteissa: " + asiakkaittenKokonaisAikaPalvelupisteessa);         // db as_kokaika
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten kokonaisaika palvelupisteissa: " + asiakkaittenKokonaisAikaPalvelupisteessa);
-        Trace.out(Trace.Level.INFO,
-                "Asiakkaitten keskiarvo aika simulaatiossa: " + asiakkaanKeskiArvoViipyminenSimulaatiossa);
+                "Asiakkaitten keskiarvo aika simulaatiossa: " + asiakkaanKeskiArvoViipyminenSimulaatiossa);         
         Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + keskimaaranenPalveluAika);
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: "
-                + keskiarvoJonotusAika / palveluPisteidenKokonaisMaara);
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: " + keskiarvoJonotusAika / palveluPisteidenKokonaisMaara);
         Trace.out(Trace.Level.INFO, "Palvelupisteissa keskimaarainen oleskeluaika: "
                 + keskimaarainenOleskeluAika / palveluPisteidenKokonaisMaara);
         Trace.out(Trace.Level.INFO,
