@@ -50,6 +50,8 @@ public class TuloksetDAO implements ITuloksetDAO{
 
     @Override
     public boolean closeConnection() {
+        // Close connection.
+
         try {
             connection.close();
             System.out.println("Connection closed.");
@@ -98,6 +100,10 @@ public class TuloksetDAO implements ITuloksetDAO{
                 System.out.println("Id not in range of database.");
             }
         } catch (SQLException e) {e.printStackTrace();}
+        return false;
+    }
+    public boolean queryTulos(){
+        // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
         return false;
     }
     

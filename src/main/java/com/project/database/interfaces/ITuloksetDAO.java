@@ -10,5 +10,6 @@ public interface ITuloksetDAO {
     // 
     public abstract boolean addTulos(SimulaationSuureet suureet);
     public abstract boolean removeTulos(int id);
+    public abstract boolean queryTulos(int id);
     
 }
