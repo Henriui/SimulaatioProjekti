@@ -34,7 +34,7 @@ public class UserParametrit {
     // Array asiakaspalvelioiden määrälle
     private int asiakasPisteMaaraArray[];
 
-    // Array asiakaspalvelioitten ajoille
+    // Array asiakaspalvelioiden ajoille
     private double asiakasPalveluAikaArray[];
 
     // Array yksityispiste jakaumalle
@@ -87,7 +87,7 @@ public class UserParametrit {
         // Normaalijakaumalle boolean
         normaaliJakauma = false;
         
-        // Asiakaspisteitten jakauma käyttäjän asettamana
+        // Asiakaspisteiden jakauma käyttäjän asettamana
         priAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
         coAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
 

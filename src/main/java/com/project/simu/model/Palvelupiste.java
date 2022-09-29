@@ -27,7 +27,7 @@ public class Palvelupiste {
 	private int asiakkaitaReRoutattuJonosta;
 	private double palveluAikaSuurre;
 	private double jonoAikaSuurre;
-	private double asiakkaittenKokonaisAikaSuurre;
+	private double asiakkaidenKokonaisAikaSuurre;
 	private double maxJonoParametri;
 
 	// JonoStartegia strategia;
@@ -70,7 +70,7 @@ public class Palvelupiste {
 			a.setPoistumisaikaPp(Kello.getInstance().getAika());
 		}
 		// Lisätään asiakkaan palvelupisteen oleskeluaika suurre
-		asiakkaittenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
+		asiakkaidenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
 
 		return a;
 	}
@@ -176,10 +176,10 @@ public class Palvelupiste {
 	}
 
 	/**
-	 * @return double return the asiakkaittenKokonaisAikaSuurre
+	 * @return double return the asiakkaidenKokonaisAikaSuurre
 	 */
-	public double getAsiakkaittenKokonaisAikaSuurre() {
-		return asiakkaittenKokonaisAikaSuurre;
+	public double getAsiakkaidenKokonaisAikaSuurre() {
+		return asiakkaidenKokonaisAikaSuurre;
 	}
 
 	public double getAvgPalveluAika() {
@@ -187,7 +187,7 @@ public class Palvelupiste {
 	}
 
 	public double getAvgOleskeluAika() {
-		return asiakkaittenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
+		return asiakkaidenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
 	}
 
 	public double getAvgJonotusAika() {
@@ -234,7 +234,7 @@ public class Palvelupiste {
 
 		sS.setKokonaisPalveluAikaPalvelupisteessa(palveluAikaSuurre);
 		sS.setKokonaisJonoAikaPalvelupisteessa(jonoAikaSuurre);
-		sS.setAsiakkaittenKokonaisAikaPalvelupisteessa(asiakkaittenKokonaisAikaSuurre);
+		sS.setAsiakkaidenKokonaisAikaPalvelupisteessa(asiakkaidenKokonaisAikaSuurre);
 		sS.setKeskiarvoJonotusAika(getAvgPalveluAika());
 		sS.setKeskimaarainenOleskeluAika(getAvgOleskeluAika());
 		sS.setKeskimaaranenPalveluAika(getAvgJonotusAika());

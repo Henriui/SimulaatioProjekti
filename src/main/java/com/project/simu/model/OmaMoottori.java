@@ -41,7 +41,7 @@ public class OmaMoottori extends Moottori {
 		}
 
 		/**
-		 * Asiakkaitten tulomäärän määräävä jakauma
+		 * Asiakkaiden tulomäärän määräävä jakauma
 		 * NexExp -> kasvaa jatkuvasti Negexp(10, 5)
 		 * LogNormal -> Säädettävissä asiakas jakauma
 		 * LogNormal(new LogNormal(3, 1));

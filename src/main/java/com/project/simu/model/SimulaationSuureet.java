@@ -19,7 +19,7 @@ public class SimulaationSuureet {
     private double simulointiAika;
     private double kokonaisPalveluAikaPalvelupisteessa;
     private double kokonaisJonoAikaPalvelupisteessa;
-    private double asiakkaittenKokonaisAikaPalvelupisteessa;
+    private double asiakkaidenKokonaisAikaPalvelupisteessa;
     private double asiakkaanKeskiArvoViipyminenSimulaatiossa;
     private double keskimaaranenPalveluAika;
     private double keskimaarainenOleskeluAika;
@@ -54,7 +54,7 @@ public class SimulaationSuureet {
         // Aikoja
         kokonaisPalveluAikaPalvelupisteessa = 0;
         kokonaisJonoAikaPalvelupisteessa = 0;
-        asiakkaittenKokonaisAikaPalvelupisteessa = 0;
+        asiakkaidenKokonaisAikaPalvelupisteessa = 0;
         asiakkaanKeskiArvoViipyminenSimulaatiossa = 0;
         keskimaaranenPalveluAika = 0;
         keskimaarainenOleskeluAika = 0;
@@ -85,17 +85,17 @@ public class SimulaationSuureet {
         Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asiakkaitaPalveltuJonostaKpl);                // db as_palveltu
         Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asiakkaitaReRoutattuJonostaKpl);            // db as_routed
         Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asiakkaitaPoistunutJonostaKpl);              // db as_poistunut
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);    // db as_palveluaika
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);       // db as_jonoaika
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisaika palvelupisteissa: " + asiakkaittenKokonaisAikaPalvelupisteessa);         // db as_kokaika
+        Trace.out(Trace.Level.INFO, "Asiakkaiden kokonaispalveluaika: " + kokonaisPalveluAikaPalvelupisteessa);    // db as_palveluaika
+        Trace.out(Trace.Level.INFO, "Asiakkaiden kokonaisjonotusaika: " + kokonaisJonoAikaPalvelupisteessa);       // db as_jonoaika
+        Trace.out(Trace.Level.INFO, "Asiakkaiden kokonaisaika palvelupisteissa: " + asiakkaidenKokonaisAikaPalvelupisteessa);         // db as_kokaika
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten keskiarvo aika simulaatiossa: " + asiakkaanKeskiArvoViipyminenSimulaatiossa);         
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + keskimaaranenPalveluAika);
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: " + keskiarvoJonotusAika / palveluPisteidenKokonaisMaara);
+                "Asiakkaiden keskiarvo aika simulaatiossa: " + asiakkaanKeskiArvoViipyminenSimulaatiossa);         
+        Trace.out(Trace.Level.INFO, "Palvelupisteiden keskimaarainen palveluaika: " + keskimaaranenPalveluAika);
+        Trace.out(Trace.Level.INFO, "Palvelupisteiden keskimaarainen jonotusaika: " + keskiarvoJonotusAika / palveluPisteidenKokonaisMaara);
         Trace.out(Trace.Level.INFO, "Palvelupisteissa keskimaarainen oleskeluaika: "
                 + keskimaarainenOleskeluAika / palveluPisteidenKokonaisMaara);
         Trace.out(Trace.Level.INFO,
-                "Palvelupisteitten palveluprosentti: " + palveluprosentti / palveluPisteidenKokonaisMaara + "\n");
+                "Palvelupisteiden palveluprosentti: " + palveluprosentti / palveluPisteidenKokonaisMaara + "\n");
     }
 
     /**
@@ -205,19 +205,19 @@ public class SimulaationSuureet {
     }
 
     /**
-     * @return double return the asiakkaittenKokonaisAikaPalvelupisteessa
+     * @return double return the asiakkaidenKokonaisAikaPalvelupisteessa
      */
-    public double getAsiakkaittenKokonaisAikaPalvelupisteessa() {
-        return asiakkaittenKokonaisAikaPalvelupisteessa;
+    public double getAsiakkaidenKokonaisAikaPalvelupisteessa() {
+        return asiakkaidenKokonaisAikaPalvelupisteessa;
     }
 
     /**
-     * @param asiakkaittenKokonaisAikaPalvelupisteessa the
-     *                                                 asiakkaittenKokonaisAikaPalvelupisteessa
+     * @param asiakkaidenKokonaisAikaPalvelupisteessa the
+     *                                                 asiakkaidenKokonaisAikaPalvelupisteessa
      *                                                 to set
      */
-    public void setAsiakkaittenKokonaisAikaPalvelupisteessa(double asiakkaittenKokonaisAikaPalvelupisteessa) {
-        this.asiakkaittenKokonaisAikaPalvelupisteessa = asiakkaittenKokonaisAikaPalvelupisteessa;
+    public void setAsiakkaidenKokonaisAikaPalvelupisteessa(double asiakkaidenKokonaisAikaPalvelupisteessa) {
+        this.asiakkaidenKokonaisAikaPalvelupisteessa = asiakkaidenKokonaisAikaPalvelupisteessa;
     }
 
     /**
