@@ -74,6 +74,7 @@ public abstract class Moottori extends Thread {
 	}
 
 	private boolean simuloidaan() {
+		viive();
 		return kello.getAika() < simulointiaika;
 	}
 

@@ -54,7 +54,7 @@ public enum Tyyppi {
 
 	// getAsiakasTypeNumero
 
-	public int getTyyppiValue() {
+	public int getTypeValue() {
 		return this.tapahtumanTypeNumero;
 	}
 }
