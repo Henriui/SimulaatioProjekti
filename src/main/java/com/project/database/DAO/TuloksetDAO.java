@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.project.database.interfaces.ILoppunakymaDAO;
+import com.project.database.interfaces.ITuloksetDAO;
 
-public class LoppunakymaDAO implements ILoppunakymaDAO{
+public class TuloksetDAO implements ITuloksetDAO{
     private Connection connection;
     String url;
     String user;
