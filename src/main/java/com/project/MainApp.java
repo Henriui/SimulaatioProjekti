@@ -5,13 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import java.io.IOException;
-
-import com.project.eduni.distributions.Uniform;
-import com.project.simu.model.AsiakasTyyppi;
-import com.project.simu.model.UserParametrit;
-import com.project.view.MainViewController;
 
 /**
  * JavaFX App

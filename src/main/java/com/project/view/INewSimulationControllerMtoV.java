@@ -2,9 +2,9 @@ package com.project.view;
 
 public interface INewSimulationControllerMtoV {
 
-    public void ulkonaAsiakkaita(int maara);
+    public void ulkonaAs(int maara);
 
-    public void asiakkaitaPalveluPisteella(int type, int koko);
+    public void asPPMaara(int type, int koko);
 
     public void ilmoitaPalveluPisteet(int yritys, int yksityis);
 

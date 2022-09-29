@@ -8,6 +8,8 @@ public class SimulaationSuureet {
 
     private static SimulaationSuureet instance = null;
     /**
+     * num = numero
+     * as = asiakas
      * pp = palvelupiste
      * pa = palveluaika
      * avg = keskimääräinen
@@ -17,18 +19,18 @@ public class SimulaationSuureet {
     private int yritysPP;
     private int yksityisPP;
 
-    private int asiakasLisattyJonoonKpl;
-    private int asiakasPalveltuJonostaKpl;
-    private int asiakasLahtenytJonostaKpl;
-    private int asiakasReRoutattuJonostaKpl;
+    private int asLisattyJonoonKpl;
+    private int asPalveltuJonostaKpl;
+    private int asLahtenytJonostaKpl;
+    private int asReRoutattuJonostaKpl;
 
     private double simulointiAika;
-    private double avgAsiakasViipymisAika;
-    private double asiakasTotalAikaPP;
+    private double avgAsTotalAikaAvg;
+    private double asTotalAikaPP;
     private double totalPAPP;
     private double totalJonoAikaPP;
-    private double avgPA;
-    private double avgOleskeluPPAika;
+    private double avgTotalPA;
+    private double avgPPOleskeluAika;
     private double avgJonotusAika;
 
     private double palveluprosentti;
@@ -47,18 +49,18 @@ public class SimulaationSuureet {
     public void resetSuureet() {
 
         // Jono kpl
-        asiakasLisattyJonoonKpl = 0;
-        asiakasPalveltuJonostaKpl = 0;
-        asiakasLahtenytJonostaKpl = 0;
-        asiakasReRoutattuJonostaKpl = 0;
+        asLisattyJonoonKpl = 0;
+        asPalveltuJonostaKpl = 0;
+        asLahtenytJonostaKpl = 0;
+        asReRoutattuJonostaKpl = 0;
 
         // Aikoja
         totalPAPP = 0;
         totalJonoAikaPP = 0;
-        asiakasTotalAikaPP = 0;
-        avgAsiakasViipymisAika = 0;
-        avgPA = 0;
-        avgOleskeluPPAika = 0;
+        asTotalAikaPP = 0;
+        avgAsTotalAikaAvg = 0;
+        avgTotalPA = 0;
+        avgPPOleskeluAika = 0;
         avgJonotusAika = 0;
 
         // Tämän hetkinen palveluprosentti
@@ -66,9 +68,9 @@ public class SimulaationSuureet {
 
         Asiakas.resetAsiakasUID();
         Asiakas.resetAsiakasSum();
-        Palvelupiste.resetPpID();
-        yksityisPP = UserParametrit.getInstance().getYksityisPPMaara();
-        yritysPP = UserParametrit.getInstance().getYritysPPMaara();
+        Palvelupiste.resetPPUID();
+        yksityisPP = UserParametrit.getInstance().getPriPPMaara();
+        yritysPP = UserParametrit.getInstance().getCoPPMaara();
         ppTotalMaara = UserParametrit.getInstance().getAllPPMaara();
     }
 
@@ -85,21 +87,21 @@ public class SimulaationSuureet {
         Trace.out(Trace.Level.INFO, "Palvelupisteiden kokonaismaara: " + ppTotalMaara);
         Trace.out(Trace.Level.INFO, "Palvelupisteitä henkilöasiakkaille: " + getYksityisPP());
         Trace.out(Trace.Level.INFO, "Palvelupisteitä yritysasiakkaille: " + getYritysPP());
-        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asiakasLisattyJonoonKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asiakasPalveltuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asiakasReRoutattuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asiakasLahtenytJonostaKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asLisattyJonoonKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asPalveltuJonostaKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asReRoutattuJonostaKpl);
+        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asLahtenytJonostaKpl);
         Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + dF.format(totalPAPP));
         Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + dF.format(totalJonoAikaPP));
-        Trace.out(Trace.Level.INFO, "Asiakkaan keskimaarainen viipymisaika simulaatiossa: "
-                + dF.format(avgOleskeluPPAika));
+        Trace.out(Trace.Level.INFO, "Asiakkaan keskimaarainen palvelupisteen oleskeluaika: "
+                + dF.format(avgPPOleskeluAika));
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten kokonaisaika palvelupisteissa: " + dF.format(asiakasTotalAikaPP));
+                "Asiakkaitten kokonaisaika palvelupisteissa: " + dF.format(asTotalAikaPP));
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten keskimääräinen viipyminen simulaatiossa: " + dF.format(avgAsiakasViipymisAika));
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + dF.format(avgPA));
+                "Asiakkaitten keskimääräinen oleskelu simulaatiossa: " + dF.format(avgAsTotalAikaAvg));
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + dF.format(avgTotalPA));
         Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: "
-                + dF.format(avgJonotusAika / ppTotalMaara));
+                + dF.format(avgJonotusAika));
         Trace.out(Trace.Level.INFO,
                 "Palvelupisteitten palveluprosentti: " + dF.format(getPalveluprosentti()) + " %.\n");
 
@@ -111,8 +113,8 @@ public class SimulaationSuureet {
      * @return int return the asiakasLisattyJonoonKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsiakasLisattyJonoonKpl() {
-        return asiakasLisattyJonoonKpl;
+    public int getAsLisattyJonoonKpl() {
+        return asLisattyJonoonKpl;
     }
 
     /**
@@ -121,16 +123,16 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asiakasLisattyJonoon() {
-        this.asiakasLisattyJonoonKpl += 1;
+    public void asLisattyJonoon() {
+        this.asLisattyJonoonKpl += 1;
     }
 
     /**
      * @param lkm setter asiakasLisattyJonoonKpl
      * @author Rasmus Hyyppä
      */
-    public void setAsiakasLisattyJonoon(int lkm) {
-        this.asiakasLisattyJonoonKpl = lkm;
+    public void setAsLisattyJonoon(int lkm) {
+        this.asLisattyJonoonKpl = lkm;
     }
 
     /**
@@ -139,8 +141,8 @@ public class SimulaationSuureet {
      * @return int return the asiakasPalveluJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsiakasPalveltuJonostaKpl() {
-        return asiakasPalveltuJonostaKpl;
+    public int getAsPalveltuJonostaKpl() {
+        return asPalveltuJonostaKpl;
     }
 
     /**
@@ -149,16 +151,16 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asiakasPalveltuJonosta() {
-        this.asiakasPalveltuJonostaKpl += 1;
+    public void asPalveltuJonosta() {
+        this.asPalveltuJonostaKpl += 1;
     }
 
     /**
      * @param lkm setter asiakasPalveltuJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public void setAsiakasPalveltuJonostaKpl(int lkm) {
-        this.asiakasPalveltuJonostaKpl = lkm;
+    public void setAsPalveltuJonostaKpl(int lkm) {
+        this.asPalveltuJonostaKpl = lkm;
     }
 
     /**
@@ -168,8 +170,8 @@ public class SimulaationSuureet {
      * @return int asiakasLahtenytJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsiakasLahtenytJonostaKpl() {
-        return asiakasLahtenytJonostaKpl;
+    public int getAsLahtenytJonostaKpl() {
+        return asLahtenytJonostaKpl;
     }
 
     /**
@@ -178,16 +180,16 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asiakasLahtenytJonostaKpl() {
-        this.asiakasLahtenytJonostaKpl += 1;
+    public void asLahtenytJonostaKpl() {
+        this.asLahtenytJonostaKpl += 1;
     }
 
     /**
      * @return int Muuttuja ylläpitämään reroutattuja asiakkaita
      * @author Rasmus Hyyppä
      */
-    public int getAsiakasReRoutedPPKpl() {
-        return asiakasReRoutattuJonostaKpl;
+    public int getAsReRoutedPPKpl() {
+        return asReRoutattuJonostaKpl;
     }
 
     /**
@@ -196,8 +198,8 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asiakasReRoutedPPKpl() {
-        this.asiakasReRoutattuJonostaKpl += 1;
+    public void asReRoutedPPKpl() {
+        this.asReRoutattuJonostaKpl += 1;
     }
 
     /**
@@ -262,35 +264,36 @@ public class SimulaationSuureet {
      * @return double return the asiakasTotalAikaPP
      * @author Rasmus Hyyppä
      */
-    public double getAsiakasTotalAikaPP() {
-        return asiakasTotalAikaPP;
+    public double getAsTotalAikaPP() {
+        return asTotalAikaPP;
     }
 
     /**
      * Asiakkaitten kokonaisaika palvelupisteissä
      * 
-     * @param asiakasTotalAikaPP Parametri settaa muuttujan arvoon
+     * @param asTotalAikaPP Parametri lisätään asiakasTotalAikaPP muuttujan
+     *                      arvoon +=
      * @author Rasmus Hyyppä
      */
-    public void setAsiakasTotalAikaPP(double asiakasTotalAikaPP) {
-        this.asiakasTotalAikaPP = asiakasTotalAikaPP;
+    public void addAsTotalAikaPP(double asTotalAikaPP) {
+        this.asTotalAikaPP += asTotalAikaPP;
     }
 
     /**
      * @return Keskimääräinen asiakkaan viipyminen simulaatiossa
      * @author Rasmus Hyyppä
      */
-    public double getAsiakasViipymisAikaAvg() {
-        return avgAsiakasViipymisAika;
+    public double getAsTotalAikaAvg() {
+        return avgAsTotalAikaAvg;
     }
 
     /**
-     * @param asiakasViipymisAikaAvg Keskimääräinen asiakkaan viipyminen
-     *                               simulaatiossa
+     * @param asTotalAikaAvg Keskimääräinen asiakkaan viipyminen
+     *                       simulaatiossa
      * @author Rasmus Hyyppä
      */
-    public void setAsiakasViipymisAikaAvg(double asiakasViipymisAikaAvg) {
-        this.avgAsiakasViipymisAika = asiakasViipymisAikaAvg;
+    public void setAsTotalAikaAvg(double asTotalAikaAvg) {
+        this.avgAsTotalAikaAvg = asTotalAikaAvg;
     }
 
     /**
@@ -299,38 +302,38 @@ public class SimulaationSuureet {
      * @return double return the avgPA
      * @author Rasmus Hyyppä
      */
-    public double getAvgPA() {
-        return avgPA;
+    public double getAvgTotalPA() {
+        return avgTotalPA;
     }
 
     /**
      * Keskimääräinen palveluaika kaikki palvelupisteet yhteen laskettuna
      * 
-     * @param avgPA Parametri lisätään avgPalveluAika muuttujan arvoon +=
+     * @param avgPA Parametri lisätään addAvgPA muuttujan arvoon +=
      * @author Rasmus Hyyppä
      */
-    public void addAvgPalveluAika(double avgPA) {
-        this.avgPA += avgPA;
+    public void addAvgTotalPA(double avgPA) {
+        this.avgTotalPA += avgPA;
     }
 
     /**
      * Keskimääräinen asiakkaan oleskeluaika palvelupisteessä
      * 
-     * @return double return the avgViipymisAika
+     * @return double return the avgPPOleskeluAika
      * @author Rasmus Hyyppä
      */
-    public double getAvgOleskeluPPAika() {
-        return avgOleskeluPPAika;
+    public double getAvgPPOleskeluAika() {
+        return avgPPOleskeluAika / ppTotalMaara;
     }
 
     /**
      * Keskimääräinen asiakkaan oleskeluaika palvelupisteessä
      * 
-     * @param Parametri lisätään avgPalveluAika muuttujan arvoon +=
+     * @param Parametri lisätään muuttujan arvoon +=
      * @author Rasmus Hyyppä
      */
-    public void addAvgOleskeluPPAika(double avgViipymisAika) {
-        this.avgOleskeluPPAika += avgViipymisAika;
+    public void addAvgPPOleskeluAika(double avgPPOleskeluAika) {
+        this.avgPPOleskeluAika += avgPPOleskeluAika;
     }
 
     /**
@@ -391,7 +394,7 @@ public class SimulaationSuureet {
      * @param ppTotalMaara Parametri asettaa ppTotalMaaran
      * @author Rasmus Hyyppä
      */
-    public void setPalveluPisteidenKokonaisMaara(int ppTotalMaara) {
+    public void setPPTotalMaara(int ppTotalMaara) {
         this.ppTotalMaara = ppTotalMaara;
     }
 

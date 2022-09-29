@@ -1,10 +1,6 @@
 package com.project.view;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 import com.project.MainApp;
 import com.project.simu.framework.Moottori;
@@ -14,17 +10,14 @@ import com.project.simu.model.OmaMoottori;
 import com.project.simu.model.UserParametrit;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
+
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
+
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -44,7 +37,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     private Label suorittaneetMaara;
 
-    private static Scene scene;
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
@@ -131,7 +123,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     @Override
-    public void asiakkaitaPalveluPisteella(int yksityis, int yritys) {
+    public void asPPMaara(int yksityis, int yritys) {
         Platform.runLater(new Runnable() {
             public void run() {
                 palvelupisteellaYritys.setText("As. Oleskellut: " + String.valueOf(yritys));
@@ -141,7 +133,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     @Override
-    public void ulkonaAsiakkaita(int maara) {
+    public void ulkonaAs(int maara) {
         Platform.runLater(new Runnable() {
             public void run() {
                 suorittaneetMaara.setText("Ulkona: " + String.valueOf(maara));

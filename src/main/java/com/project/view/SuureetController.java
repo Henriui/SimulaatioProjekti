@@ -5,7 +5,6 @@ import com.project.simu.model.UserParametrit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -201,7 +200,7 @@ public class SuureetController {
         simuloinninViiveField.setText(Long.toString(uP.getViiveAika()));
         kärsimättömyysAikaField.setText(dF.format(uP.getMaxJononPituus() / 60));
         väärävalintaProsenttiField.setText(dF.format(uP.getVaaraValintaProsentti()));
-        asiakasMääräField.setText(dF.format(uP.getAsiakasMaara()));
+        asiakasMääräField.setText(dF.format(uP.getAsMaara()));
     }
 
     /**
@@ -236,7 +235,7 @@ public class SuureetController {
         uP.setViiveAika(Long.parseLong(simuloinninViiveField.getText()));
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
         uP.setVaaraValintaProsentti(Double.parseDouble(väärävalintaProsenttiField.getText()));
-        uP.setAsiakasMaara(Double.parseDouble(asiakasMääräField.getText()));
+        uP.setAsMaara(Double.parseDouble(asiakasMääräField.getText()));
     }
 
     /**
