@@ -1,27 +1,40 @@
 package com.project.view;
 
 import java.io.IOException;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Olso/skalability
 import com.project.MainApp;
 import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
 import com.project.simu.model.UserParametrit;
-
+import animatefx.animation.ZoomIn;
 import javafx.application.Platform;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Olso/skalability
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+<<<<<<< HEAD
 
 import javafx.scene.control.Label;
 
+=======
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+>>>>>>> Olso/skalability
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class NewSimulationController implements INewSimulationControllerVtoM, INewSimulationControllerMtoV {
+    @FXML
+    private AnchorPane backGround;
     @FXML
     private Label yksityisJonossa;
     @FXML
@@ -41,6 +54,17 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double yOffset = 0;
     private static boolean open = false;
 
+<<<<<<< HEAD
+=======
+    @FXML
+    public void initialize(){
+        new animatefx.animation.ZoomIn();
+        ZoomIn trans1 = new ZoomIn(backGround);
+        new animatefx.util.ParallelAnimationFX(trans1).play();
+
+    }
+ 
+>>>>>>> Olso/skalability
     @FXML
     private void takaisinMainView() throws IOException {
         MainApp.setRoot("mainView");
