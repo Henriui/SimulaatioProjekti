@@ -81,8 +81,8 @@ public class UserParametrit {
         normaaliJakauma = false;
 
         // Asiakaspisteitten jakauma käyttäjän asettamana
-        priAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
-        coAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
+        priAsiakasTyyppiArr = new double[] { 25, 50, 65, 100 };
+        coAsiakasTyyppiArr = new double[] { 25, 50, 65, 100 };
 
         /**
          * 85% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.45
@@ -297,7 +297,7 @@ public class UserParametrit {
     }
 
     public void setSimulaationAika(double simulaationAika) {
-        this.simulaationAika = simulaationAika;
+        this.simulaationAika = simulaationAika * 3600;
     }
 
     public double getAsiakkaidenKarsivallisyys() {
