@@ -45,17 +45,24 @@ public class UserParametrit {
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
 
+    // Tietokannan käyttäjäparametrit
+    private String dbName;
+    
+    private String username;
+    
+    private String password;
+    
     public static synchronized UserParametrit getInstance() {
         if (instance == null) {
             instance = new UserParametrit();
         }
         return instance;
     }
-
+    
     private UserParametrit() {
         setDefaultArvot();
     }
-
+    
     public void setDefaultArvot() {
 
         asiakasPisteMaaraArray = new int[11];
@@ -79,7 +86,7 @@ public class UserParametrit {
 
         // Normaalijakaumalle boolean
         normaaliJakauma = false;
-
+        
         // Asiakaspisteitten jakauma käyttäjän asettamana
         priAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
         coAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
@@ -94,24 +101,24 @@ public class UserParametrit {
          * @author Rasmus Hyyppä
          */
         this.asiakasTyyppiJakauma = 0.5;
-
+        
         // Asiakasmäärä, 45 asiakasta tuntiin
         this.asiakasMaara = 45;
 
         // Thread sleeppi aika
         this.viiveAika = 1500;
-
+        
         // 480 sek jaksaa jonottaa
         this.asiakkaidenKarsivallisyys = 8 * 60;
-
+        
         // 5 % asiakkaista valitsee väärin
         this.vaaraValintaProsentti = 0.05;
-
+        
         // Sekunttia 3600 * 8 = 8h työpäivä
         this.simulaationAika = 3600 * 8;
-
+        
     }
-
+    
     /**
      * Käytä tätä parametrien hakemiseen kontrollerilta ennen simulaation
      * alottamista
@@ -121,11 +128,11 @@ public class UserParametrit {
      */
     public void getParametrit(INewSimulationControllerVtoM kontrolleri) {
         /*
-         * double asiakasPalvelijoidenAjat[] =
-         * kontrolleri.getAsiakaspalvelijoidenAjat();
-         */
+        * double asiakasPalvelijoidenAjat[] =
+        * kontrolleri.getAsiakaspalvelijoidenAjat();
+        */
     }
-
+    
     public synchronized int getProbability(AsiakasTyyppi t, int sample) {
         int asTypeNum = 3;
         int j = 0;
@@ -145,7 +152,7 @@ public class UserParametrit {
 
     // Liuta settereitä ja gettereitä tästä eteenpäin //
     // ********************************************* //
-
+    
     /**
      * Käyttäjän syöttämä arvo yhdistetään Binomial jakaumaan
      * Tätä käytetään Asiakas luokassa
@@ -159,7 +166,7 @@ public class UserParametrit {
         // Jakauma i, 100 yritystä (100%)
         return new Binomial(jakaumaNumero, 100);
     }
-
+    
     /**
      * 
      * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
@@ -170,7 +177,7 @@ public class UserParametrit {
         double aika = getPalveluPisteAvgAika(t.getTyyppiValue());
         return new Normal(aika - (aika / 2), aika + (aika / 2));
     }
-
+    
     /**
      * 
      * @param ppType on Tyyppi
@@ -179,7 +186,7 @@ public class UserParametrit {
     public double getPalveluPisteAvgAika(int ppType) {
         return asiakasPalveluAikaArray[ppType - 1];
     }
-
+    
     /**
      * Puhelinvalikkojen odotusaika Normalina jakaumana
      * 
@@ -200,7 +207,7 @@ public class UserParametrit {
     public int getPalveluPisteMaara(Tyyppi t) {
         return asiakasPisteMaaraArray[t.getTyyppiValue() - 1];
     }
-
+    
     /**
      * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
      * 
@@ -213,7 +220,7 @@ public class UserParametrit {
         }
         return false;
     }
-
+    
     /**
      * Käytetään alustuksessa jotta saadaan oikea määrä palvelupisteitä luotua
      * 
@@ -223,7 +230,7 @@ public class UserParametrit {
     public int getAllPPMaara() {
         return getYksityisPPMaara() + getYritysPPMaara();
     }
-
+    
     /**
      * 
      * @return
@@ -247,15 +254,15 @@ public class UserParametrit {
         }
         return kokonaisMaara;
     }
-
+    
     public double[] getPriAsiakasTyyppiArr() {
         return this.priAsiakasTyyppiArr;
     }
-
+    
     public void setPriAsiakasTyyppiArr(double[] priAsiakasTyyppiArr) {
         this.priAsiakasTyyppiArr = priAsiakasTyyppiArr;
     }
-
+    
     public double[] getCoAsiakasTyyppiArr() {
         return this.coAsiakasTyyppiArr;
     }
@@ -263,43 +270,43 @@ public class UserParametrit {
     public void setCoAsiakasTyyppiArr(double[] coAsiakasTyyppiArr) {
         this.coAsiakasTyyppiArr = coAsiakasTyyppiArr;
     }
-
+    
     public boolean isNormaaliJakauma() {
         return this.normaaliJakauma;
     }
-
+    
     public void setNormaaliJakauma(boolean normaaliJakauma) {
         this.normaaliJakauma = normaaliJakauma;
     }
-
+    
     public double getPValikkoAika() {
         return pValikkoAika;
     }
-
+    
     public double getAsiakasTyyppiJakauma() {
         return asiakasTyyppiJakauma;
     }
-
+    
     public void setAsiakasTyyppiJakauma(int asiakasTyyppiJakauma) {
         this.asiakasTyyppiJakauma = asiakasTyyppiJakauma;
     }
-
+    
     public void setAsiakasMaara(double asiakasMaara) {
         this.asiakasMaara = asiakasMaara;
     }
-
+    
     public double getAsiakasMaara() {
         return this.asiakasMaara;
     }
-
+    
     public double getSimulaationAika() {
         return simulaationAika;
     }
-
+    
     public void setSimulaationAika(double simulaationAika) {
         this.simulaationAika = simulaationAika;
     }
-
+    
     public double getAsiakkaidenKarsivallisyys() {
         return asiakkaidenKarsivallisyys;
     }
@@ -307,11 +314,11 @@ public class UserParametrit {
     public void setAsiakkaidenKarsivallisyys(int asiakkaidenKarsivallisyys) {
         this.asiakkaidenKarsivallisyys = asiakkaidenKarsivallisyys;
     }
-
+    
     public double getVaaraValintaProsentti() {
         return vaaraValintaProsentti;
     }
-
+    
     public void setVaaraValintaProsentti(double vaaraValintaProsentti) {
         this.vaaraValintaProsentti = vaaraValintaProsentti;
     }
@@ -319,7 +326,7 @@ public class UserParametrit {
     public void setPValikkoAika(double pValikkoAika) {
         this.pValikkoAika = pValikkoAika;
     }
-
+    
     /**
      * @return long return the viiveAika
      */
@@ -333,5 +340,13 @@ public class UserParametrit {
     public void setViiveAika(long viiveAika) {
         this.viiveAika = viiveAika;
     }
-
+    
+    // dbName, username, password get/set
+     
+    public String getDbName() {return dbName;}
+    public void setDbName(String dbName) { this.dbName = dbName; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }
