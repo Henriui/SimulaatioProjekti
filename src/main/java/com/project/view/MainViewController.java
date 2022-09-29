@@ -5,11 +5,8 @@ import com.project.MainApp;
 import animatefx.animation.FadeInDownBig;
 import animatefx.animation.FadeInUpBig;
 import javafx.fxml.FXML;
-<<<<<<< HEAD
-=======
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
->>>>>>> Olso/skalability
 
 public class MainViewController {
 
@@ -31,7 +28,7 @@ public class MainViewController {
     private Pane ExitP;
     @FXML
     private Pane Stripe;
-    
+
     @FXML
     private void uusiSimulaatio() throws IOException {
         MainApp.setRoot("NewSimulationGUI");
@@ -53,7 +50,7 @@ public class MainViewController {
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         SimulationB.setOpacity(0.0);
         FadeInUpBig trans1 = new FadeInUpBig(SimulationB);
         FadeInUpBig trans2 = new FadeInUpBig(TuloksetB);
@@ -67,7 +64,8 @@ public class MainViewController {
         FadeInDownBig trans9 = new FadeInDownBig(Stripe);
 
         new animatefx.util.SequentialAnimationFX();
-        new animatefx.util.ParallelAnimationFX(trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9).play();
-       
+        new animatefx.util.ParallelAnimationFX(trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9)
+                .play();
+
     }
 }
