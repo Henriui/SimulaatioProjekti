@@ -5,13 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import java.io.IOException;
-
-import com.project.eduni.distributions.Uniform;
-import com.project.simu.model.AsiakasTyyppi;
-import com.project.simu.model.UserParametrit;
-import com.project.view.MainViewController;
 
 /**
  * JavaFX App
@@ -26,8 +20,11 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("mainView"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/mainView.fxml"));
+        scene = new Scene(root);
+        
         stage.setScene(scene);
+
         // Transparent upper bar.
         // stage.initStyle(StageStyle.TRANSPARENT);
 
@@ -44,7 +41,7 @@ public class MainApp extends Application {
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
         });
-        stage.setMaximized(true);
+        stage.setMaximized(false);
         stage.show();
     }
 
