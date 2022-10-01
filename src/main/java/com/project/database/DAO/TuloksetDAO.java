@@ -3,6 +3,7 @@ package com.project.database.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.project.database.interfaces.ITuloksetDAO;
@@ -16,6 +17,7 @@ public class TuloksetDAO implements ITuloksetDAO{
     private String dbName;
     private String user;
     private String password;
+    SimulaationSuureet ss;
 
     public TuloksetDAO(){
         // Hae käyttäjän määrittämä tietokanta, username ja password.
@@ -102,8 +104,37 @@ public class TuloksetDAO implements ITuloksetDAO{
         } catch (SQLException e) {e.printStackTrace();}
         return false;
     }
-    public boolean queryTulos(){
+    public boolean queryTulos(int id){
         // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
+        ss = SimulaationSuureet.getInstance();
+            try {
+                statement = connection.prepareStatement("SELECT FROM simulaatio WHERE id = ( ? )");
+                statement.setInt(1, id); 
+                ResultSet results = statement.executeQuery();
+                if (results.next()){
+                   /*
+                   * ss.setSuure(); jokaiselle kun keksin mihin mikäkin menee. 
+                    */ 
+                    results.getDouble(2);   // Kesto
+                    results.getDouble(3);   // Palveluprosentti
+                    results.getInt(4);      // as_count
+                    results.getInt(5);      // as_lisatyt
+                    results.getInt(6);      // as_palveltu
+                    results.getInt(7);      // as_routed
+                    results.getInt(8);      // as_poistunut
+                    results.getDouble(9);   // as_jono_aika
+                    results.getDouble(10);  // as_palvelu_aika
+                    results.getDouble(11);  // as_kok_aika
+                    results.getDouble(12);  // as_avg_aika
+                    results.getInt(13);     // pp_count
+                    results.getDouble(14);  // pp_jonotus_aika
+                }
+
+                return true;
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         return false;
     }
     
