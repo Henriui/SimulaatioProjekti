@@ -54,15 +54,16 @@
                   <Pane layoutX="203.0" layoutY="-268.0" prefHeight="310.0" prefWidth="517.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 70;" />
                   <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="ID" />
-                      <TableColumn prefWidth="75.0" text="Kesto" />
-                        <TableColumn prefWidth="75.0" text="Palveluprosentti" />
-                        <TableColumn prefWidth="75.0" text="Asiakkaita" />
-                        <TableColumn prefWidth="75.0" text="Palveltu" />
-                        <TableColumn prefWidth="75.0" text="Uudelleen reititetty" />
-                        <TableColumn prefWidth="75.0" text="Poistunut" />
-                        <TableColumn prefWidth="75.0" text="Aika jonossa" />
-                        <TableColumn prefWidth="75.0" text="Aika pisteellä" />
+                      <TableColumn prefWidth="93.0" text="ID" />
+                      <TableColumn prefWidth="93.0" text="Kesto" />
+                        <TableColumn prefWidth="93.0" text="Palvelu%" />
+                        <TableColumn prefWidth="93.0" text="Asiakkaita" />
+                        <TableColumn prefWidth="93.0" text="Palveltu" />
+                        <TableColumn prefWidth="93.0" text="Uudelleen reititetty" />
+                        <TableColumn prefWidth="93.0" text="Poistunut" />
+                        <TableColumn prefWidth="93.0" text="Aika jonossa" />
+                        <TableColumn prefWidth="93.0" text="Aika pisteellä" />
+                        <TableColumn prefWidth="93.0" text="Koko aika" />
                     </columns>
                   </TableView>
                </children>
