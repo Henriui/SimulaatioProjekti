@@ -12,6 +12,13 @@
     <dependencies>
 
         <dependency>
+            <groupId>io.github.typhon0</groupId>
+            <artifactId>AnimateFX</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-migration-support</artifactId>
             <version>5.0.0-M4</version>

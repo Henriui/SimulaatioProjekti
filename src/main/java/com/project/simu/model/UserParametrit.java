@@ -1,23 +1,25 @@
 package com.project.simu.model;
 
 import com.project.eduni.distributions.Binomial;
-import com.project.eduni.distributions.ContinuousGenerator;
 import com.project.eduni.distributions.DiscreteGenerator;
 import com.project.eduni.distributions.Normal;
 import com.project.eduni.distributions.Uniform;
-import com.project.view.INewSimulationControllerVtoM;
 
 public class UserParametrit {
+    // Singleton
     private static UserParametrit instance = null;
 
+    // Puhelinvalikot vievät vähintään 3 spottia
+    private final static int MIN_PALVELUPISTE_MAARA = 3;
+
     // Asiakasmäärä tuntia kohden
-    private double asiakasMaara;
+    private double asMaara;
 
     // Henkilöasiakkaat / Yritysasiakkaat jakaumaluku
-    private double asiakasTyyppiJakauma;
+    private double asTyyppiJakauma;
 
     // Kuinka kauan asiakas jaksaa jonottaa
-    private double asiakkaidenKarsivallisyys;
+    private double maxJononPituus;
 
     // Mikä mahdollisuus % on asiakkaalla valita väärä linja puhelinvalikosta
     private double vaaraValintaProsentti;
@@ -32,15 +34,16 @@ public class UserParametrit {
     private boolean normaaliJakauma;
 
     // Array asiakaspalvelioiden määrälle
-    private int asiakasPisteMaaraArray[];
+    private int[] ppMaaraArray;
 
-    // Array asiakaspalvelioiden ajoille
-    private double asiakasPalveluAikaArray[];
+    // Array asiakaspalvelioitten ajoille
+    private double[] ppAikaArray;
 
     // Array yksityispiste jakaumalle
-    private double[] priAsiakasTyyppiArr;
+    private double[] priAsTyyppiArr;
+
     // Array yrityspiste jakaumalle
-    private double[] coAsiakasTyyppiArr;
+    private double[] coAsTyyppiArr;
 
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
@@ -62,97 +65,80 @@ public class UserParametrit {
     private UserParametrit() {
         setDefaultArvot();
     }
-    
+
+    public static int getMinimiPPMaara() {
+        return UserParametrit.MIN_PALVELUPISTE_MAARA;
+    }
+
     public void setDefaultArvot() {
-
-        asiakasPisteMaaraArray = new int[11];
-        asiakasPalveluAikaArray = new double[8];
-
-        for (int i = 0; i < asiakasPisteMaaraArray.length; i++) {
+        ppMaaraArray = new int[11]; // Palvelupisteiden kokonaismäärä arraylistissä
+        for (int i = 0; i < ppMaaraArray.length; i++) {
             if (i > 7) {
-                asiakasPisteMaaraArray[i] = 1;
+                ppMaaraArray[i] = 1;
             } else {
-                asiakasPisteMaaraArray[i] = 7;
+                ppMaaraArray[i] = 7;
             }
         }
 
-        // Keskiverto palvelupisteen palveluaika
-        // 10 sekunttia puhelinvalikko
-        // 600 sekunttia asiakaspalvelijat
-        this.pValikkoAika = 10;
-        for (int i = 0; i < asiakasPalveluAikaArray.length; i++) {
-            asiakasPalveluAikaArray[i] = 10 * 60;
+        ppAikaArray = new double[11]; // Keskiverto palvelupisteen palveluaika
+        pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
+        for (int i = 0; i < ppAikaArray.length; i++) {
+            if (i > 7) {
+                ppAikaArray[i] = pValikkoAika;
+            } else {
+                ppAikaArray[i] = 10 * 60; // 10 minuuttia asiakaspalvelijat
+            }
         }
 
-        // Normaalijakaumalle boolean
-        normaaliJakauma = false;
-        
-        // Asiakaspisteiden jakauma käyttäjän asettamana
-        priAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
-        coAsiakasTyyppiArr = new double[] { 50, 51, 65, 100 };
+        this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
+        this.viiveAika = 0; // Thread sleeppi aika
+        this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
+        this.vaaraValintaProsentti = 5; // 5 % asiakkaista valitsee väärin
+        this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
 
         /**
+         * asTyyppiJakaumalla voi valita tuleeko pri vai co as. enemmän
          * 85% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.45
          * 50% Henkilöasiakkaita, 50% Yritysasiakkaita = 0.5
          * 70% Henkilöasiakkaita, 30% Yritysasiakkaita = 0.4725
          * 30% Henkilöasiakkaita, 70% Yritysasiakkaita = 0.5275
-         * 15% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.55
-         *
-         * @author Rasmus Hyyppä
+         * 15% Henkilöasiakkaita, 85% Yritysasiakkaita = 0.55
          */
-        this.asiakasTyyppiJakauma = 0.5;
-        
-        // Asiakasmäärä, 45 asiakasta tuntiin
-        this.asiakasMaara = 45;
-
-        // Thread sleeppi aika
-        this.viiveAika = 1500;
-        
-        // 480 sek jaksaa jonottaa
-        this.asiakkaidenKarsivallisyys = 8 * 60;
-        
-        // 5 % asiakkaista valitsee väärin
-        this.vaaraValintaProsentti = 0.05;
-        
-        // Sekunttia 3600 * 8 = 8h työpäivä
-        this.simulaationAika = 3600 * 8;
-        
+        this.asTyyppiJakauma = 0.5;
+        // Normaalijakaumalle boolean
+        this.normaaliJakauma = false;
+        // Asiakaspisteitten jakauma käyttäjän asettamana
+        this.priAsTyyppiArr = new double[] { 25, 50, 65, 100 };
+        this.coAsTyyppiArr = new double[] { 25, 50, 65, 100 };
     }
     
     /**
-     * Käytä tätä parametrien hakemiseen kontrollerilta ennen simulaation
-     * alottamista
+     * Kun käyttäjä haluaa itse valita asiakastyyppien jakautumisen,
+     * niin haetaan tällä methodilla jakauman samplea käyttäen oikea
+     * palvelupiste
      * 
-     * @param kontrolleri
+     * @param t       Asiakkaan tyyppi, Yksityis/Yritys
+     * @param gSample sample generaattorin jakaumasta
+     * @return Asiakkaan tyyppinumeron, joka määrittää mitä palvelua hän haluaa
      * @author Rasmus Hyyppä
      */
-    public void getParametrit(INewSimulationControllerVtoM kontrolleri) {
-        /*
-        * double asiakasPalvelijoidenAjat[] =
-        * kontrolleri.getAsiakaspalvelijoidenAjat();
-        */
-    }
-    
-    public synchronized int getProbability(AsiakasTyyppi t, int sample) {
-        int asTypeNum = 3;
+    public int getAsiakkaanPP(AsiakasTyyppi t, int gSample) {
+        int asTypeNum = 3; // astypeNum on 3 mikäli yrityspuoli kyseessä
         int j = 0;
         if (t == AsiakasTyyppi.CO) {
-            while (sample >= coAsiakasTyyppiArr[j]) {
+            while (gSample >= coAsTyyppiArr[j]) {
                 j++;
             }
             asTypeNum += j;
         } else {
-            while (sample >= priAsiakasTyyppiArr[j]) {
+            while (gSample >= priAsTyyppiArr[j]) {
                 j++;
             }
             asTypeNum = j;
         }
-        return asTypeNum; // value = ThreadLocalRandom.current().nextInt(yritysPisteArray.length);
+        return asTypeNum;
     }
 
-    // Liuta settereitä ja gettereitä tästä eteenpäin //
-    // ********************************************* //
-    
     /**
      * Käyttäjän syöttämä arvo yhdistetään Binomial jakaumaan
      * Tätä käytetään Asiakas luokassa
@@ -160,43 +146,12 @@ public class UserParametrit {
      * @return palauttaa Binomial discretegeneraattorin
      * @author Rasmus Hyyppä
      */
-    public DiscreteGenerator getAsiakasJakauma() {
-        double jakaumaNumero = UserParametrit.getInstance().getAsiakasTyyppiJakauma();
-        System.out.println("Jakauma numero: " + jakaumaNumero); // 0.5 < Henkilöasiakas, 0.5 > Yritysasiakas
+    public DiscreteGenerator getAsJakauma() {
+        // 0.5 < Henkilöasiakas, 0.5 > Yritysasiakas
         // Jakauma i, 100 yritystä (100%)
-        return new Binomial(jakaumaNumero, 100);
+        return new Binomial(asTyyppiJakauma, 100);
     }
     
-    /**
-     * 
-     * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
-     * @return Palauttaa kayttajan antaman keskimääräisen palveluajan
-     * @author Rasmus Hyyppä
-     */
-    public Normal getPAJakauma(Tyyppi t) {
-        double aika = getPalveluPisteAvgAika(t.getTyyppiValue());
-        return new Normal(aika - (aika / 2), aika + (aika / 2));
-    }
-    
-    /**
-     * 
-     * @param ppType on Tyyppi
-     * @return
-     */
-    public double getPalveluPisteAvgAika(int ppType) {
-        return asiakasPalveluAikaArray[ppType - 1];
-    }
-    
-    /**
-     * Puhelinvalikkojen odotusaika Normalina jakaumana
-     * 
-     * @return Normal return the pValikkoAika
-     * @author Rasmus Hyyppä
-     */
-    public Normal getPAPuhelinValikolle() {
-        return new Normal(pValikkoAika - (pValikkoAika / 2), pValikkoAika + (pValikkoAika / 2));
-    }
-
     /**
      * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
      * linjassa
@@ -204,8 +159,41 @@ public class UserParametrit {
      * @return Palauttaa haetun Palvelupistetyypin kpl maaran
      * @author Rasmus Hyyppä
      */
-    public int getPalveluPisteMaara(Tyyppi t) {
-        return asiakasPisteMaaraArray[t.getTyyppiValue() - 1];
+    public int getPPMaara(int ppType) {
+        return ppMaaraArray[ppType - 1];
+    }
+    
+    /**
+     * Tallennetaan käyttäjän parametrejä taulukkoon
+     * josta ne luetaan simulaation alkaessa.
+     * 
+     * @param määrä  kuinka monta palvelupistettä on
+     * @param ppType tätä tyyppi valueta vastaan (1-8)
+     * @author Rasmus Hyyppä
+     */
+    public void setPPMaara(int määrä, int ppType) {
+        ppMaaraArray[ppType - 1] = määrä;
+    }
+    
+    /**
+     * @param ppType palvelupisteen tyyppi
+     * @return Palauttaa haetun Palvelupistetyypin avg palveluajan
+     * @author Rasmus Hyyppä
+     */
+    public double getPPAvgAika(int ppType) {
+        return ppAikaArray[ppType - 1];
+    }
+
+    /**
+     * Tallennetaan käyttäjän parametrejä taulukkoon
+     * josta ne luetaan simulaation alkaessa.
+     * 
+     * @param aika   käyttäjän parametri ajalle (minuutteja)
+     * @param ppType palvelupisteen tyyppi
+     * @author Rasmus Hyyppä
+     */
+    public void setPPAvgAika(double aika, int ppType) {
+        ppAikaArray[ppType - 1] = aika * 60;
     }
     
     /**
@@ -215,7 +203,7 @@ public class UserParametrit {
      * @author Rasmus Hyyppä
      */
     public boolean onkoVaaraValinta() {
-        if (new Uniform(1, 100).sample() < (vaaraValintaProsentti * 100)) {
+        if (new Uniform(1, 100).sample() < vaaraValintaProsentti) {
             return true;
         }
         return false;
@@ -228,117 +216,114 @@ public class UserParametrit {
      * @author Rasmus Hyyppä
      */
     public int getAllPPMaara() {
-        return getYksityisPPMaara() + getYritysPPMaara();
+        return (getPriPPMaara() + getCoPPMaara() + UserParametrit.MIN_PALVELUPISTE_MAARA);
     }
     
     /**
      * 
-     * @return
+     * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
+     * @return Palauttaa Normal jaukaman keskimääräiselle palveluajalle
+     * @author Rasmus Hyyppä
      */
-    public int getYksityisPPMaara() {
-        int kokonaisMaara = 0;
-        for (int i = 0; i < 4; i++) {
-            kokonaisMaara += asiakasPisteMaaraArray[i];
-        }
-        return kokonaisMaara;
+    public Normal getPAJakauma(int ppType) {
+        double aika = getPPAvgAika(ppType);
+        return new Normal(aika - (aika / 2), aika + (aika / 2));
     }
 
-    /**
-     * 
-     * @return
-     */
-    public int getYritysPPMaara() {
-        int kokonaisMaara = 0;
-        for (int i = 4; i < 8; i++) {
-            kokonaisMaara += asiakasPisteMaaraArray[i];
-        }
-        return kokonaisMaara;
-    }
-    
-    public double[] getPriAsiakasTyyppiArr() {
-        return this.priAsiakasTyyppiArr;
-    }
-    
-    public void setPriAsiakasTyyppiArr(double[] priAsiakasTyyppiArr) {
-        this.priAsiakasTyyppiArr = priAsiakasTyyppiArr;
-    }
-    
-    public double[] getCoAsiakasTyyppiArr() {
-        return this.coAsiakasTyyppiArr;
+    public long getViiveAika() {
+        return viiveAika;
     }
 
-    public void setCoAsiakasTyyppiArr(double[] coAsiakasTyyppiArr) {
-        this.coAsiakasTyyppiArr = coAsiakasTyyppiArr;
+    public void setViiveAika(long viiveAika) {
+        this.viiveAika = viiveAika;
     }
-    
-    public boolean isNormaaliJakauma() {
-        return this.normaaliJakauma;
-    }
-    
-    public void setNormaaliJakauma(boolean normaaliJakauma) {
-        this.normaaliJakauma = normaaliJakauma;
-    }
-    
-    public double getPValikkoAika() {
-        return pValikkoAika;
-    }
-    
-    public double getAsiakasTyyppiJakauma() {
-        return asiakasTyyppiJakauma;
-    }
-    
-    public void setAsiakasTyyppiJakauma(int asiakasTyyppiJakauma) {
-        this.asiakasTyyppiJakauma = asiakasTyyppiJakauma;
-    }
-    
-    public void setAsiakasMaara(double asiakasMaara) {
-        this.asiakasMaara = asiakasMaara;
-    }
-    
-    public double getAsiakasMaara() {
-        return this.asiakasMaara;
-    }
-    
+
     public double getSimulaationAika() {
         return simulaationAika;
     }
-    
+
     public void setSimulaationAika(double simulaationAika) {
         this.simulaationAika = simulaationAika;
     }
-    
-    public double getAsiakkaidenKarsivallisyys() {
-        return asiakkaidenKarsivallisyys;
-    }
 
-    public void setAsiakkaidenKarsivallisyys(int asiakkaidenKarsivallisyys) {
-        this.asiakkaidenKarsivallisyys = asiakkaidenKarsivallisyys;
-    }
-    
-    public double getVaaraValintaProsentti() {
-        return vaaraValintaProsentti;
-    }
-    
-    public void setVaaraValintaProsentti(double vaaraValintaProsentti) {
-        this.vaaraValintaProsentti = vaaraValintaProsentti;
+    public double getPValikkoAika() {
+        return pValikkoAika;
     }
 
     public void setPValikkoAika(double pValikkoAika) {
         this.pValikkoAika = pValikkoAika;
     }
-    
-    /**
-     * @return long return the viiveAika
-     */
-    public long getViiveAika() {
-        return viiveAika;
+
+    public double getAsMaara() {
+        return this.asMaara;
     }
 
-    /**
-     * @param viiveAika the viiveAika to set
-     */
-    public void setViiveAika(long viiveAika) {
-        this.viiveAika = viiveAika;
+    public void setAsMaara(double asiakasMaara) {
+        this.asMaara = asiakasMaara;
+    }
+
+    public double getAsTyyppiJakauma() {
+        return asTyyppiJakauma;
+    }
+
+    public void setAsTyyppiJakauma(int asiakasTyyppiJakauma) {
+        this.asTyyppiJakauma = asiakasTyyppiJakauma;
+    }
+
+    public double getMaxJononPituus() {
+        return maxJononPituus;
+    }
+
+    public void setMaxJononPituus(double maxJononPituus) {
+        this.maxJononPituus = maxJononPituus;
+    }
+
+    public double getVaaraValintaProsentti() {
+        return vaaraValintaProsentti;
+    }
+
+    public void setVaaraValintaProsentti(double vaaraValintaProsentti) {
+        this.vaaraValintaProsentti = vaaraValintaProsentti;
+    }
+
+    public boolean isNormaaliJakauma() {
+        return this.normaaliJakauma;
+    }
+
+    public void setNormaaliJakauma(boolean normaaliJakauma) {
+        this.normaaliJakauma = normaaliJakauma;
+    }
+
+    public double[] getPriAsTyyppiArr() {
+        return this.priAsTyyppiArr;
+    }
+
+    public void setPriAsTyyppiArr(double[] priAsTyyppiArr) {
+        this.priAsTyyppiArr = priAsTyyppiArr;
+    }
+
+    public double[] getCoAsTyyppiArr() {
+        return this.coAsTyyppiArr;
+    }
+
+    public void setCoAsTyyppiArr(double[] coAsTyyppiArr) {
+        this.coAsTyyppiArr = coAsTyyppiArr;
+    }
+
+    public int getPriPPMaara() {
+        int kokonaisMaara = 0;
+        for (int i = 0; i < 4; i++) {
+            kokonaisMaara += ppMaaraArray[i];
+        }
+        return kokonaisMaara;
+    }
+
+    public int getCoPPMaara() {
+        int kokonaisMaara = 0;
+        for (int i = 4; i < 8; i++) {
+            kokonaisMaara += ppMaaraArray[i];
+        }
+        return kokonaisMaara;
     }
     
     // dbName, username, password get/set

@@ -16,19 +16,19 @@ public class Palvelupiste {
 
 	private ContinuousGenerator generator;
 	private Tapahtumalista tapahtumalista;
-	private Tyyppi skeduloitavanTapahtumanTyyppi;
-	private static int palvelupisteenUID = 0;
+	private Tyyppi ppTyyppi;
+	private static int ppUId = 0;
 
 	private SimulaationSuureet sS;
-	private int palvelupisteenID;
-	private int asiakkaitaLisattyJonoon;
-	private int asiakkaitaPalveltuJonosta;
-	private int asiakkaitaPoistunutJonosta;
-	private int asiakkaitaReRoutattuJonosta;
-	private double palveluAikaSuurre;
-	private double jonoAikaSuurre;
-	private double asiakkaidenKokonaisAikaSuurre;
-	private double maxJonoParametri;
+	private UserParametrit uP;
+	private int ppId;
+	private int asLisattyJonoon;
+	private int asPalveltuJonosta;
+	private int asPoistunutJonosta;
+	private int asReRoutedJonosta;
+	private double palveluAika;
+	private double jonoAika;
+	private double asTotalAika;
 
 	// JonoStartegia strategia;
 	// optio: asiakkaiden järjestys
@@ -37,42 +37,40 @@ public class Palvelupiste {
 
 	// PalveluPiste
 
-	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi,
-			double maxJonoParametri) {
+	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi) {
 		sS = SimulaationSuureet.getInstance();
-		palvelupisteenID = palvelupisteenUID;
-		palvelupisteenUID++;
-		this.maxJonoParametri = maxJonoParametri;
+		uP = UserParametrit.getInstance();
+		ppId = ppUId;
+		ppUId++;
 		this.tapahtumalista = tapahtumalista;
 		this.generator = generator;
-		this.skeduloitavanTapahtumanTyyppi = tyyppi;
+		this.ppTyyppi = tyyppi;
 
 	}
 
 	// lisaaJonoon
 
-	public void lisaaJonoon(Asiakas a) { // Jonon 1. asiakas aina palvelussa
+	public void addJonoon(Asiakas as) { // Jonon 1. asiakas aina palvelussa
 
-		a.setSaapumisaikaPp(Kello.getInstance().getAika());
+		as.setAsSaapumisaikaPP(Kello.getInstance().getAika());
 		// Lisätään palvelupisteen jonossa olleet asiakkaat suurre
-		asiakkaitaLisattyJonoon++;
-		sS.asiakkaitaLisattyJonoon();
-		jono.add(a);
+		asLisattyJonoon++;
+		sS.asLisattyJonoon();
+		jono.add(as);
 	}
 
 	// otaJonosta
 
 	public Asiakas otaJonosta() { // Poistetaan palvelussa ollut
 
-		Asiakas a = jono.poll();
+		Asiakas as = jono.poll();
 		varattu = false;
-		if (a.getPoistumisaikaPp() != (a.getSaapumisaika() + maxJonoParametri)) {
-			a.setPoistumisaikaPp(Kello.getInstance().getAika());
+		if (as.getAsPoistumisaikaPP() != (as.getAsSaapumisaikaPP() + uP.getMaxJononPituus())) {
+			as.setAsPoistumisaikaPP(Kello.getInstance().getAika());
 		}
 		// Lisätään asiakkaan palvelupisteen oleskeluaika suurre
-		asiakkaidenKokonaisAikaSuurre += a.getPoistumisaikaPp() - a.getSaapumisaikaPp();
-
-		return a;
+		asTotalAika += as.getAsPoistumisaikaPP() - as.getAsSaapumisaikaPP();
+		return as;
 	}
 
 	// aloitaPalvelu
@@ -80,43 +78,42 @@ public class Palvelupiste {
 	public void aloitaPalvelu() { // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
 		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
 		varattu = true;
-		Asiakas a = jono.peek();
+		Asiakas as = jono.peek();
 		// Lisätään jonotusaika & palveluaika suureet muuttujiin
-		double jonotusAika = Kello.getInstance().getAika() - a.getSaapumisaikaPp();
-		double palveluaika = generator.sample();
+		double jAika = Kello.getInstance().getAika() - as.getAsSaapumisaikaPP();
+		double pAika = generator.sample();
 
 		// Mikäli jonotusaika ylitti niin asiakas poistui ennen palvelua.
-		if (jonotusAika > maxJonoParametri) {
-			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + a.getId());
-			asiakkaitaPoistunutJonosta++;
-			a.setJonotukseenKyllastynyt();
-			jonotusAika = a.getSaapumisaikaPp() + maxJonoParametri;
-			jonoAikaSuurre += maxJonoParametri;
-			a.setPoistumisaikaPp(jonotusAika);
-			tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, jonotusAika));
+		if (jAika > uP.getMaxJononPituus()) {
+			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + as.getId());
+			asPoistunutJonosta++;
+			as.setJonotukseenKyllastynyt();
+			jAika = as.getAsSaapumisaikaPP() + uP.getMaxJononPituus();
+			jonoAika += uP.getMaxJononPituus();
+			as.setAsPoistumisaikaPP(jAika);
+			tapahtumalista.lisaa(new Tapahtuma(ppTyyppi, jAika));
 			return;
 		}
 
-		if (a.getReRouted() && a.getAsType() < 9) {
-			Trace.out(Trace.Level.INFO, "Asiakas siirretään oikeaan jonoon: " + a.getId());
-			// TODO: mahdollinen parametri? 30 sekunttia reroute keskustelu
-			palveluaika = 30;
-			asiakkaitaReRoutattuJonosta++;
+		if (as.getReRouted() && as.getAsType() < 9) {
+			Trace.out(Trace.Level.INFO, "Asiakas siirretään oikeaan jonoon: " + as.getId());
+			pAika = 30; // 30 sekunttia reroute keskustelu
+			asReRoutedJonosta++;
 		} else {
-			asiakkaitaPalveltuJonosta++;
+			asPalveltuJonosta++;
 		}
 
-		palveluAikaSuurre += palveluaika;
-		jonoAikaSuurre += jonotusAika;
-		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
+		palveluAika += pAika;
+		jonoAika += jAika;
+		tapahtumalista.lisaa(new Tapahtuma(ppTyyppi, Kello.getInstance().getAika() + pAika));
 	}
 
-	public Tyyppi getPalvelupisteenTyyppi() {
-		return skeduloitavanTapahtumanTyyppi;
+	public Tyyppi getPPTyyppi() {
+		return ppTyyppi;
 	}
 
-	public int getPalveluPisteenNumero() {
-		return palvelupisteenID;
+	public int getPPNum() {
+		return ppId;
 	}
 
 	// onVarattu
@@ -131,113 +128,125 @@ public class Palvelupiste {
 		return jono.size() != 0;
 	}
 
-	public static void resetPpID() {
-		Palvelupiste.palvelupisteenUID = 0;
+	public static void resetPPUID() {
+		Palvelupiste.ppUId = 0;
 	}
 
 	/**
 	 * @return int return the asiakkaitaLisattyJonoon
 	 */
-	public int getAsiakkaitaLisattyJonoon() {
-		return asiakkaitaLisattyJonoon;
+	public int getAsLisattyJonoon() {
+		return asLisattyJonoon;
 	}
 
 	/**
 	 * @return int return the asiakkaitaPalveltuJonosta
 	 */
-	public int getAsiakkaitaPalveltuJonosta() {
-		return asiakkaitaPalveltuJonosta;
+	public int getAsPalveltuJonosta() {
+		return asPalveltuJonosta;
 	}
 
-	public int getAsiakkaitaPoistunutJonosta() {
-		return asiakkaitaPoistunutJonosta;
+	public int getAsPoistunutJonosta() {
+		return asPoistunutJonosta;
 	}
 
 	/**
 	 * @return double return the palveluAikaSuurre
 	 */
 	public double getPalveluAikaSuurre() {
-		return palveluAikaSuurre;
+		return palveluAika;
 	}
 
 	/**
 	 * @return double return the jonoAikaSuurre
 	 */
 	public double getJonoAikaSuurre() {
-		return jonoAikaSuurre;
+		return jonoAika;
 	}
 
-	public int getJonossaOlevatAsiakkaat() {
+	public int getJonossaOlevatAs() {
 		return jono.size();
 	}
 
-	public int getAsiakkaitaReRoutattuJonosta() {
-		return asiakkaitaReRoutattuJonosta;
+	public int getAsReRoutedJonosta() {
+		return asReRoutedJonosta;
 	}
 
 	/**
 	 * @return double return the asiakkaidenKokonaisAikaSuurre
 	 */
-	public double getAsiakkaidenKokonaisAikaSuurre() {
-		return asiakkaidenKokonaisAikaSuurre;
+	public double getAsTotalAika() {
+		return asTotalAika;
 	}
 
 	public double getAvgPalveluAika() {
-		return palveluAikaSuurre / asiakkaitaPalveltuJonosta;
+		if (asLisattyJonoon == 0) {
+			return 0;
+		}
+		return palveluAika / asPalveltuJonosta;
 	}
 
 	public double getAvgOleskeluAika() {
-		return asiakkaidenKokonaisAikaSuurre / asiakkaitaPalveltuJonosta;
+		if (asLisattyJonoon == 0) {
+			return 0;
+		}
+		return asTotalAika / asPalveltuJonosta;
 	}
 
 	public double getAvgJonotusAika() {
-		return jonoAikaSuurre / asiakkaitaLisattyJonoon;
+		if (asLisattyJonoon == 0) {
+			return 0;
+		}
+		return jonoAika / asLisattyJonoon;
 	}
 
-	public double getPalveluprosentti() {
-		return (1 / ((double) (asiakkaitaLisattyJonoon)
-				/ (double) (asiakkaitaPalveltuJonosta + asiakkaitaReRoutattuJonosta))) * 100;
+	// Palveluprosentti
+	public double getPProsentti() {
+		if (asLisattyJonoon == 0) {
+			return 100;
+		}
+		return (1 / ((double) (asLisattyJonoon)
+				/ (double) (asPalveltuJonosta + asReRoutedJonosta))) * 100;
 	}
 
 	public void raportti() {
 
-		Trace.out(Trace.Level.INFO, "\nPalvelupisteeseen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
-				+ " saapui: " + asiakkaitaLisattyJonoon);
+		Trace.out(Trace.Level.INFO, "\nPalvelupisteeseen " + ppTyyppi + "," + ppId
+				+ " saapui: " + asLisattyJonoon);
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveltiin: "
-						+ asiakkaitaPalveltuJonosta);
+				"Palvelupisteessä  " + ppTyyppi + "," + ppId + " palveltiin: "
+						+ asPalveltuJonosta);
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+				"Palvelupisteessä  " + ppTyyppi + "," + ppId
 						+ " kyllästyi jonottamaan: "
-						+ asiakkaitaPoistunutJonosta);
+						+ asPoistunutJonosta);
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteessä  " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+				"Palvelupisteessä  " + ppTyyppi + "," + ppId
 						+ " siirretty oikeaan paikkaan: "
-						+ asiakkaitaReRoutattuJonosta);
-
+						+ asReRoutedJonosta);
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteen " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+				"Palvelupisteen " + ppTyyppi + "," + ppId
 						+ " palveluaika keskimääräisesti: "
 						+ getAvgPalveluAika());
 
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteessä: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
-						+ " kokonaisoleskeluaika keskiarvo on: "
-						+ getAvgOleskeluAika());
+				"Palvelupisteessä: " + ppTyyppi + "," + ppId
+						+ " kokonaisoleskeluaika on: "
+						+ asTotalAika);
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteeseen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID
+				"Palvelupisteeseen: " + ppTyyppi + "," + ppId
 						+ " jonotettiin keskimäärin: "
 						+ getAvgJonotusAika());
 		Trace.out(Trace.Level.INFO,
-				"Palvelupisteen: " + skeduloitavanTapahtumanTyyppi + "," + palvelupisteenID + " palveluprosentti: "
-						+ getPalveluprosentti() + " %");
+				"Palvelupisteen: " + ppTyyppi + "," + ppId + " palveluprosentti: "
+						+ getPProsentti() + " %");
 
-		sS.setKokonaisPalveluAikaPalvelupisteessa(palveluAikaSuurre);
-		sS.setKokonaisJonoAikaPalvelupisteessa(jonoAikaSuurre);
-		sS.setAsiakkaidenKokonaisAikaPalvelupisteessa(asiakkaidenKokonaisAikaSuurre);
-		sS.setKeskiarvoJonotusAika(getAvgPalveluAika());
-		sS.setKeskimaarainenOleskeluAika(getAvgOleskeluAika());
-		sS.setKeskimaaranenPalveluAika(getAvgJonotusAika());
-		sS.setPalveluprosentti(getPalveluprosentti());
+		sS.addTotalPAPP(palveluAika);
+		sS.addTotalJonoAikaPP(jonoAika);
+		sS.addAsTotalAikaPP(asTotalAika);
+		sS.addAvgJonotusAika(getAvgPalveluAika());
+		sS.addAvgPPOleskeluAika(getAvgOleskeluAika());
+		sS.addAvgTotalPA(getAvgJonotusAika());
+		sS.addPalveluprosentti(getPProsentti());
 	}
 }
