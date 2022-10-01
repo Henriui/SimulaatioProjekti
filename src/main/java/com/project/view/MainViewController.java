@@ -35,8 +35,8 @@ public class MainViewController {
     }
 
     @FXML
-    public void tulokset() {
-        System.exit(0);
+    public void tulokset() throws IOException {
+        MainApp.setRoot("Tulokset");
     }
 
     @FXML
