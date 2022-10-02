@@ -36,12 +36,12 @@ public class MainViewController {
 
     @FXML
     public void tulokset() throws IOException {
-        MainApp.setRoot("Tulokset");
+        MainApp.setRoot("tulokset");
     }
 
     @FXML
-    public void asetukset() {
-        System.exit(0);
+    public void asetukset() throws IOException {
+        MainApp.setRoot("asetukset");
     }
 
     @FXML
