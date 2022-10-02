@@ -334,4 +334,10 @@ public class UserParametrit {
     public void setUsername(String username) { this.username = username; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public void setDbParameters(String dbName, String username, String password){
+        this.dbName = dbName;
+        this.username = username;
+        this.password = password;
+    }
 }
