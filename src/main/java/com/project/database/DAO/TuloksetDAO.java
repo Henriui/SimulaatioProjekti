@@ -29,6 +29,12 @@ public class TuloksetDAO implements ITuloksetDAO{
         openConnection();
     }
 
+    
+    /** 
+     * Returns true if connection opened successfully Otherwise returns false.
+     * @return boolean
+     * @author Henri
+     */
     @Override
     public boolean openConnection() {
         System.out.println("Opening connection...");
@@ -64,6 +70,13 @@ public class TuloksetDAO implements ITuloksetDAO{
         return false;
     }
 
+    
+    /** 
+     * Returns true if table created successfully. Otherwise returns false.
+     * @return boolean
+     * @throws SQLException
+     * @author Henri
+     */
     private boolean createTable() throws SQLException {
         statement = connection.prepareStatement("CREATE  TABLE simulaatio ( "
                                     +"    id                   INT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY   COMMENT 'Simulointikerta',"
@@ -89,6 +102,12 @@ public class TuloksetDAO implements ITuloksetDAO{
 
     }
 
+    
+    /** 
+     * Returns true if connection closed succesfully. Otherwise returns false.
+     * @return boolean
+     * @author Henri
+     */
     @Override
     public boolean closeConnection() {
         // Close connection.
@@ -104,6 +123,13 @@ public class TuloksetDAO implements ITuloksetDAO{
         return false;
     }
 
+    
+    /** 
+     * Returns true if parameter read and added to a row in database. Otherwise returns false.
+     * @param suureet
+     * @return boolean
+     * @author Henri
+     */
     @Override
     public boolean addTulos(SimulaationSuureet suureet) {
 
@@ -136,6 +162,13 @@ public class TuloksetDAO implements ITuloksetDAO{
         return false;
     }
 
+    
+    /** 
+     * Returns true if row with given id is deleted successfully. Otherwise returns false.
+     * @param id
+     * @return boolean
+     * @Author Henri
+     */
     @Override
     public boolean removeTulos(int id) {
         // Delete given id.
@@ -156,6 +189,15 @@ public class TuloksetDAO implements ITuloksetDAO{
         } catch (SQLException e) {e.printStackTrace();}
         return false;
     }
+    
+    /** 
+     * Fetches a row with given id from the database. 
+     * Sets the retrieved data to the singleton class SimulaationSuureet.
+     * Returns true if row found and retrieved. Otherwise returns false.
+     * @param id
+     * @return boolean
+     * @Author Henri
+     */
     public boolean queryTulos(int id){
         
         // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
