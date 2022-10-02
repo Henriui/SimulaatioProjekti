@@ -99,8 +99,8 @@ public class UserParametrit {
         /**
          * asTyyppiJakaumalla voi valita tuleeko pri vai co as. enemmän
          * 85% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.45
-         * 50% Henkilöasiakkaita, 50% Yritysasiakkaita = 0.5
          * 70% Henkilöasiakkaita, 30% Yritysasiakkaita = 0.4725
+         * 50% Henkilöasiakkaita, 50% Yritysasiakkaita = 0.5
          * 30% Henkilöasiakkaita, 70% Yritysasiakkaita = 0.5275
          * 15% Henkilöasiakkaita, 85% Yritysasiakkaita = 0.55
          */
@@ -266,7 +266,7 @@ public class UserParametrit {
         return asTyyppiJakauma;
     }
 
-    public void setAsTyyppiJakauma(int asiakasTyyppiJakauma) {
+    public void setAsTyyppiJakauma(Double asiakasTyyppiJakauma) {
         this.asTyyppiJakauma = asiakasTyyppiJakauma;
     }
 

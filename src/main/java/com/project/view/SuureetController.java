@@ -30,9 +30,12 @@ public class SuureetController {
     @FXML
     private TextField simuloinninAikaField;
     @FXML
-    private TextField simuloinninViiveField;
-    @FXML
     private TextField kärsimättömyysAikaField;
+    @FXML
+    private Slider jakaumaSlider;
+    private Double jakauma;
+    @FXML
+    private Label jakaumaText;
     @FXML
     private TextField väärävalintaProsenttiField;
     @FXML
@@ -49,13 +52,13 @@ public class SuureetController {
     @FXML
     private Slider laskutusPalvelupisteet;
     @FXML
-    private Label myynti;
+    private Label myyntiPpKpl;
     @FXML
-    private Label netti;
+    private Label nettiPpKpl;
     @FXML
-    private Label liittymä;
+    private Label liittymäPpKpl;
     @FXML
-    private Label laskutus;
+    private Label laskutusPpKpl;
     @FXML
     private TextField myyntiAikaField;
     @FXML
@@ -76,13 +79,13 @@ public class SuureetController {
     @FXML
     private Slider YrityslaskutusPp;
     @FXML
-    private Label Yritysmyynti;
+    private Label YritysmyyntiPpKpl;
     @FXML
-    private Label Yritysnetti;
+    private Label YritysnettiPpKpl;
     @FXML
-    private Label Yritysliittymä;
+    private Label YritysliittymäPpKpl;
     @FXML
-    private Label Yrityslaskutus;
+    private Label YrityslaskutusPpKpl;
     @FXML
     private TextField YritysmyyntiAikaField;
     @FXML
@@ -107,15 +110,15 @@ public class SuureetController {
         // Kuuntelioitten asennukset kaikille elementeille
 
         // Yksityispuolen palvelupiste määrät
-        setSliderListener(myyntiPalvelupisteet, myynti);
-        setSliderListener(nettiPalvelupisteet, netti);
-        setSliderListener(liittymäPalvelupisteet, liittymä);
-        setSliderListener(laskutusPalvelupisteet, laskutus);
+        setSliderListener(myyntiPalvelupisteet, myyntiPpKpl);
+        setSliderListener(nettiPalvelupisteet, nettiPpKpl);
+        setSliderListener(liittymäPalvelupisteet, liittymäPpKpl);
+        setSliderListener(laskutusPalvelupisteet, laskutusPpKpl);
         // Yrityspuolen palvelupiste määrät
-        setSliderListener(YritysmyyntiPp, Yritysmyynti);
-        setSliderListener(YritysnettiPp, Yritysnetti);
-        setSliderListener(YritysliittymäPp, Yritysliittymä);
-        setSliderListener(YrityslaskutusPp, Yrityslaskutus);
+        setSliderListener(YritysmyyntiPp, YritysmyyntiPpKpl);
+        setSliderListener(YritysnettiPp, YritysnettiPpKpl);
+        setSliderListener(YritysliittymäPp, YritysliittymäPpKpl);
+        setSliderListener(YrityslaskutusPp, YrityslaskutusPpKpl);
 
         // Yksityis
         setTextFieldListener(myyntiAikaField);
@@ -129,10 +132,10 @@ public class SuureetController {
         setTextFieldListener(YrityslaskutusAikaField);
         // Simulaattorin asetukset
         setTextFieldListener(simuloinninAikaField);
-        setTextFieldListener(simuloinninViiveField);
         setTextFieldListener(kärsimättömyysAikaField);
         setTextFieldListener(väärävalintaProsenttiField);
         setTextFieldListener(asiakasMääräField);
+        setJakauma(jakaumaSlider, jakaumaText);
     }
 
     @FXML
@@ -147,7 +150,6 @@ public class SuureetController {
             Double.parseDouble(YritysliittymäAikaField.getText());
             Double.parseDouble(YrityslaskutusAikaField.getText());
             Double.parseDouble(simuloinninAikaField.getText());
-            Long.parseLong(simuloinninViiveField.getText());
             Integer.parseInt(kärsimättömyysAikaField.getText());
             Double.parseDouble(väärävalintaProsenttiField.getText());
             Double.parseDouble(asiakasMääräField.getText());
@@ -185,22 +187,53 @@ public class SuureetController {
         dF = new DecimalFormat("#0");
 
         // Yksityispuolen asetukset.
-        setPPArvotSingletonista(myyntiPalvelupisteet, myynti, myyntiAikaField, 1);
-        setPPArvotSingletonista(nettiPalvelupisteet, netti, nettiAikaField, 2);
-        setPPArvotSingletonista(liittymäPalvelupisteet, liittymä, liittymäAikaField, 3);
-        setPPArvotSingletonista(laskutusPalvelupisteet, laskutus, laskutusAikaField, 4);
+        setPPArvotSingletonista(myyntiPalvelupisteet, myyntiPpKpl, myyntiAikaField, 1);
+        setPPArvotSingletonista(nettiPalvelupisteet, nettiPpKpl, nettiAikaField, 2);
+        setPPArvotSingletonista(liittymäPalvelupisteet, liittymäPpKpl, liittymäAikaField, 3);
+        setPPArvotSingletonista(laskutusPalvelupisteet, laskutusPpKpl, laskutusAikaField, 4);
         // Yrityspuolen asetukset.
-        setPPArvotSingletonista(YritysmyyntiPp, Yritysmyynti, YritysmyyntiAikaField, 5);
-        setPPArvotSingletonista(YritysnettiPp, Yritysnetti, YritysnettiAikaField, 6);
-        setPPArvotSingletonista(YritysliittymäPp, Yritysliittymä, YritysliittymäAikaField, 7);
-        setPPArvotSingletonista(YrityslaskutusPp, Yrityslaskutus, YrityslaskutusAikaField, 8);
+        setPPArvotSingletonista(YritysmyyntiPp, YritysmyyntiPpKpl, YritysmyyntiAikaField, 5);
+        setPPArvotSingletonista(YritysnettiPp, YritysnettiPpKpl, YritysnettiAikaField, 6);
+        setPPArvotSingletonista(YritysliittymäPp, YritysliittymäPpKpl, YritysliittymäAikaField, 7);
+        setPPArvotSingletonista(YrityslaskutusPp, YrityslaskutusPpKpl, YrityslaskutusAikaField, 8);
 
         // Simulaation asetukset.
         simuloinninAikaField.setText(dF.format(uP.getSimulaationAika()));
-        simuloinninViiveField.setText(Long.toString(uP.getViiveAika()));
+        jakaumaSlider.setValue(3);
         kärsimättömyysAikaField.setText(dF.format(uP.getMaxJononPituus() / 60));
         väärävalintaProsenttiField.setText(dF.format(uP.getVaaraValintaProsentti()));
         asiakasMääräField.setText(dF.format(uP.getAsMaara()));
+
+        String jakaumaSaved = Double.toString(uP.getAsTyyppiJakauma());
+
+        switch(jakaumaSaved){
+            case "0.45":
+                jakaumaSlider.setValue(1);
+                jakaumaText.setText(85 + " / " + 15);
+                jakauma = 0.45;
+                break;
+            case "0.4725":
+                jakaumaSlider.setValue(2);
+                jakaumaText.setText(70 + " / " + 30);
+                jakauma = 0.4725;
+                break;
+            case "0.5":
+                jakaumaSlider.setValue(3);
+                jakaumaText.setText(50 + " / " + 50);
+                jakauma = 0.5;
+                break;
+            case "0.5275":
+                jakaumaSlider.setValue(4);
+                jakaumaText.setText(30 + " / " + 70);
+                jakauma = 0.5275;
+                break;
+            case "0.55":
+                jakaumaSlider.setValue(5);
+                jakaumaText.setText(15 + " / " + 85);
+                jakauma = 0.55;
+                break;
+        }
+
     }
 
     /**
@@ -232,7 +265,7 @@ public class SuureetController {
         uP.setPPAvgAika(Double.parseDouble(YritysliittymäAikaField.getText()), 7);
         uP.setPPAvgAika(Double.parseDouble(YrityslaskutusAikaField.getText()), 8);
         uP.setSimulaationAika(Double.parseDouble(simuloinninAikaField.getText()));
-        uP.setViiveAika(Long.parseLong(simuloinninViiveField.getText()));
+        uP.setAsTyyppiJakauma(jakauma);
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
         uP.setVaaraValintaProsentti(Double.parseDouble(väärävalintaProsenttiField.getText()));
         uP.setAsMaara(Double.parseDouble(asiakasMääräField.getText()));
@@ -252,6 +285,39 @@ public class SuureetController {
             }
         });
     }
+
+    private void setJakauma(Slider s, Label l) {
+        s.valueProperty().addListener(new ChangeListener<Number>() 
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                        switch(newValue.intValue()){
+                            case 1:
+                                l.setText(85 + " / " + 15);
+                                jakauma = 0.45;
+                                break;
+                            case 2:
+                                l.setText(70 + " / " + 30);
+                                jakauma = 0.4725;
+                                break;
+                            case 3:
+                                l.setText(50 + " / " + 50);
+                                jakauma = 0.5;
+                                break;
+                            case 4:
+                                l.setText(30 + " / " + 70);
+                                jakauma = 0.5275;
+                                break;
+                            case 5:
+                                l.setText(15 + " / " + 85);
+                                jakauma = 0.55;
+                                break;
+                        }
+                    }
+        });
+    }
+
 
     /**
      * Methodi textfield kuuntelijalle, jokainen input aiheuttaa textFieldCheckin()
