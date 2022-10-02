@@ -173,7 +173,7 @@ public class Palvelupiste {
 	}
 
 	/**
-	 * @return double return the asiakkaittenKokonaisAikaSuurre
+	 * @return double return the asiakkaidenKokonaisAikaSuurre
 	 */
 	public double getAsTotalAika() {
 		return asTotalAika;
