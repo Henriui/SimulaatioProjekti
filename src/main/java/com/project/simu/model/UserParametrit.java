@@ -48,13 +48,20 @@ public class UserParametrit {
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
 
+    // Tietokannan käyttäjäparametrit
+    private String dbName;
+    
+    private String username;
+    
+    private String password;
+    
     public static synchronized UserParametrit getInstance() {
         if (instance == null) {
             instance = new UserParametrit();
         }
         return instance;
     }
-
+    
     private UserParametrit() {
         setDefaultArvot();
     }
@@ -104,7 +111,7 @@ public class UserParametrit {
         this.priAsTyyppiArr = new double[] { 25, 50, 65, 100 };
         this.coAsTyyppiArr = new double[] { 25, 50, 65, 100 };
     }
-
+    
     /**
      * Kun käyttäjä haluaa itse valita asiakastyyppien jakautumisen,
      * niin haetaan tällä methodilla jakauman samplea käyttäen oikea
@@ -144,7 +151,7 @@ public class UserParametrit {
         // Jakauma i, 100 yritystä (100%)
         return new Binomial(asTyyppiJakauma, 100);
     }
-
+    
     /**
      * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
      * linjassa
@@ -155,7 +162,7 @@ public class UserParametrit {
     public int getPPMaara(int ppType) {
         return ppMaaraArray[ppType - 1];
     }
-
+    
     /**
      * Tallennetaan käyttäjän parametrejä taulukkoon
      * josta ne luetaan simulaation alkaessa.
@@ -167,7 +174,7 @@ public class UserParametrit {
     public void setPPMaara(int määrä, int ppType) {
         ppMaaraArray[ppType - 1] = määrä;
     }
-
+    
     /**
      * @param ppType palvelupisteen tyyppi
      * @return Palauttaa haetun Palvelupistetyypin avg palveluajan
@@ -188,7 +195,7 @@ public class UserParametrit {
     public void setPPAvgAika(double aika, int ppType) {
         ppAikaArray[ppType - 1] = aika * 60;
     }
-
+    
     /**
      * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
      * 
@@ -201,7 +208,7 @@ public class UserParametrit {
         }
         return false;
     }
-
+    
     /**
      * Käytetään alustuksessa jotta saadaan oikea määrä palvelupisteitä luotua
      * 
@@ -211,7 +218,7 @@ public class UserParametrit {
     public int getAllPPMaara() {
         return (getPriPPMaara() + getCoPPMaara() + UserParametrit.MIN_PALVELUPISTE_MAARA);
     }
-
+    
     /**
      * 
      * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
@@ -318,5 +325,19 @@ public class UserParametrit {
         }
         return kokonaisMaara;
     }
+    
+    // dbName, username, password get/set
+     
+    public String getDbName() {return dbName;}
+    public void setDbName(String dbName) { this.dbName = dbName; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
+    public void setDbParameters(String dbName, String username, String password){
+        this.dbName = dbName;
+        this.username = username;
+        this.password = password;
+    }
 }
