@@ -360,7 +360,7 @@ public class UserParametrit {
     }
 
     /**
-     * Tallentaa database parametrit UserAsetukset.java olion avulla tiedostoon
+     * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla tiedostoon
      * 
      * @return true jos onnistui, false jos ei
      * @author Lassi Bågman
