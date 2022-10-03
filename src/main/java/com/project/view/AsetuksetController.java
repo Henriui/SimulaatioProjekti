@@ -15,7 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class AsetuksetViewController {
+public class AsetuksetController {
 
     @FXML
     private TextField dbName;

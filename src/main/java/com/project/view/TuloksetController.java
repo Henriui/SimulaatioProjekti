@@ -6,7 +6,7 @@ import com.project.MainApp;
 
 import javafx.fxml.FXML;
 
-public class TuloksetViewController {
+public class TuloksetController {
 
     @FXML
     private void initialize(){
