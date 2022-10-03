@@ -40,13 +40,22 @@ public class AsetuksetController {
         if(ua != null){
             dbName.setText(ua.getDbName());
             username.setText(ua.getUsername());
-            password.setText(ua.getPassword());
+            String pw = "";
+            for (int i = 0; i < ua.getPassword().length(); i++){
+                pw += "*";
+            }
+            password.setText(pw);
         }
     }
 
     @FXML
-    private void takaisinMainView() throws IOException {
-        MainApp.setRoot("mainView");
+    private void takaisinMainView() {
+        try {
+            MainApp.setRoot("mainView");
+        } catch (IOException e) {
+            System.err.println("Ei voitu siirtyä etusivulle");
+            System.err.println(e);
+        }
     }
 
     /**
@@ -60,6 +69,7 @@ public class AsetuksetController {
         if (dbName.getText().length() > 0 && username.getText().length() > 0 && password.getText().length() > 0) {
             UserAsetukset ua = new UserAsetukset(dbName.getText(), username.getText(), password.getText());
             kirjoitaTiedostoon(ua);
+            takaisinMainView();
         } else {
             Alert varoitus = new Alert(AlertType.ERROR);
             varoitus.setTitle("Täytä kaikki kentät!");
