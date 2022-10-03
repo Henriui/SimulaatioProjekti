@@ -50,9 +50,8 @@ public class UserParametrit {
 
     // Tietokannan käyttäjäparametrit
     private String dbName;
-    
+    private String tableName;
     private String username;
-    
     private String password;
     
     public static synchronized UserParametrit getInstance() {
@@ -326,17 +325,23 @@ public class UserParametrit {
         return kokonaisMaara;
     }
     
-    // dbName, username, password get/set
+    // dbName, tableName ,username, password get/set
      
     public String getDbName() {return dbName;}
-    public void setDbName(String dbName) { this.dbName = dbName; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void   setDbName(String dbName) { this.dbName = dbName; }
 
-    public void setDbParameters(String dbName, String username, String password){
+    public String getTableName() {return tableName;}
+    public void   setTableName(String tableName) { this.tableName = tableName; }
+
+    public String getUsername() { return username; }
+    public void   setUsername(String username) { this.username = username; }
+
+    public String getPassword() { return password; }
+    public void   setPassword(String password) { this.password = password; }
+
+    public void setDbParameters(String dbName, String tableName, String username, String password){
         this.dbName = dbName;
+        this.tableName = tableName;
         this.username = username;
         this.password = password;
     }
