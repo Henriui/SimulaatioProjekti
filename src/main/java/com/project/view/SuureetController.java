@@ -60,6 +60,22 @@ public class SuureetController {
     @FXML
     private Label laskutusPpKpl;
     @FXML
+    private Slider myyntiPpJakauma;
+    @FXML
+    private Slider nettiPpJakauma;
+    @FXML
+    private Slider liittymäPpJakauma;
+    @FXML
+    private Slider laskutusPpJakauma;
+    @FXML
+    private Label myyntiJakaumaText;
+    @FXML
+    private Label nettiJakaumaText;
+    @FXML
+    private Label liittymäJakaumaText;
+    @FXML
+    private Label laskutusJakaumaText;
+    @FXML
     private TextField myyntiAikaField;
     @FXML
     private TextField nettiAikaField;
@@ -125,6 +141,10 @@ public class SuureetController {
         setTextFieldListener(nettiAikaField);
         setTextFieldListener(liittymäAikaField);
         setTextFieldListener(laskutusAikaField);
+        setJakauma(myyntiPpJakauma, myyntiJakaumaText);
+        setJakauma(nettiPpJakauma, nettiJakaumaText);
+        setJakauma(liittymäPpJakauma, liittymäJakaumaText);
+        setJakauma(laskutusPpJakauma, laskutusJakaumaText);
         // Yritys
         setTextFieldListener(YritysmyyntiAikaField);
         setTextFieldListener(YritysnettiAikaField);
@@ -318,6 +338,48 @@ public class SuureetController {
         });
     }
 
+    private void setPpJakauma(Slider s, Label l) {
+        s.valueProperty().addListener(new ChangeListener<Number>() 
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) 
+                    {
+                        int myynti = (int) myyntiPpJakauma.getValue();
+                        int netti = (int) nettiPpJakauma.getValue();
+                        int liittymä = (int) liittymäPpJakauma.getValue();
+                        int laskutus = (int) laskutusPpJakauma.getValue();
+
+                        switch(newValue.intValue()){
+                            case 1:
+                                l.setText(85 + " / " + 15);
+                                jakauma = 0.45;
+                                break;
+                            case 2:
+                                l.setText(70 + " / " + 30);
+                                jakauma = 0.4725;
+                                break;
+                            case 3:
+                                l.setText(50 + " / " + 50);
+                                jakauma = 0.5;
+                                break;
+                            case 4:
+                                l.setText(30 + " / " + 70);
+                                jakauma = 0.5275;
+                                break;
+                            case 5:
+                                l.setText(15 + " / " + 85);
+                                jakauma = 0.55;
+                                break;
+                            default:
+                                Alert alert = new Alert(AlertType.ERROR, "Anna vain numeerista tietoa.", ButtonType.CLOSE);
+                                alert.setTitle("Parametrit väärin!");
+                                alert.setHeaderText("Virheellinen aika!");
+                                alert.showAndWait();
+                        }
+                    }
+        });
+    }
 
     /**
      * Methodi textfield kuuntelijalle, jokainen input aiheuttaa textFieldCheckin()

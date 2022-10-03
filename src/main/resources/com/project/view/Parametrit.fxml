@@ -40,7 +40,7 @@
       </AnchorPane>
       <ScrollPane layoutY="70.0" prefHeight="1600.0" prefWidth="889.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1368.0" prefWidth="890.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1768.0" prefWidth="890.0">
                <children>
                   <AnchorPane layoutY="1.0" prefHeight="532.0" prefWidth="453.0" style="-fx-background-color: #5F008F;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="443.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                      <children>
@@ -209,7 +209,7 @@
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="nettiPpKpl" layoutX="166.0" layoutY="148.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
+                        <Label fx:id="nettiPpKpl" layoutX="166.0" layoutY="148.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="150.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -229,12 +229,12 @@
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label fx:id="liittymäPpKpl" layoutX="166.0" layoutY="233.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
+                        <Label fx:id="liittymäPpKpl" layoutX="166.0" layoutY="233.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="233.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="laskutusPpKpl" layoutX="166.0" layoutY="318.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
+                        <Label fx:id="laskutusPpKpl" layoutX="166.0" layoutY="318.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="318.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -243,7 +243,147 @@
                   </AnchorPane>
                   <Separator prefWidth="200.0" scaleY="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="403.0" AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane prefHeight="50.0" prefWidth="891.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="836.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="445.0" AnchorPane.topAnchor="836.0">
+                     <children>
+                        <Slider fx:id="myyntiPpJakauma" blockIncrement="5.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="75.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Slider fx:id="nettiPpJakauma" blockIncrement="5.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="157.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Slider fx:id="liittymäPpJakauma" blockIncrement="5.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="242.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Slider fx:id="laskutusPpJakauma" blockIncrement="5.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="327.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Palvelupisteiden jakauma %:" AnchorPane.leftAnchor="116.0" AnchorPane.topAnchor="5.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Myynti:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="67.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Netti:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="152.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Liittymä:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="238.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Laskutus:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="322.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="myyntiJakaumaText" text="25 %" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="65.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nettiJakaumaText" text="25 %" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="150.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="liittymäJakaumaText" text="25 %" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="233.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="laskutusJakaumaText" text="25 %" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="318.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="443.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="836.0">
+                     <children>
+                        <Slider fx:id="myyntiPalvelupisteet11" blockIncrement="1.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="75.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Slider fx:id="nettiPalvelupisteet11" blockIncrement="1.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="157.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Slider fx:id="liittymäPalvelupisteet11" blockIncrement="1.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="242.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Slider fx:id="laskutusPalvelupisteet11" blockIncrement="1.0" majorTickUnit="101.0" min="5.0" minorTickCount="19" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="327.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Palvelupisteiden jakauma %:" AnchorPane.leftAnchor="116.0" AnchorPane.topAnchor="5.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Myynti:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="67.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Netti:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="152.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Liittymä:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="238.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Laskutus:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="322.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label fx:id="myyntiPpKpl11" text="25 %" textFill="WHITE" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="65.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nettiPpKpl11" text="25 %" textFill="WHITE" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="150.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="liittymäPpKpl11" text="25 %" textFill="WHITE" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="233.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="laskutusPpKpl11" text="25 %" textFill="WHITE" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="318.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="50.0" prefWidth="891.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1236.0">
                      <children>
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulaattorin asetukset" AnchorPane.leftAnchor="317.0" AnchorPane.topAnchor="10.0">
                            <font>
