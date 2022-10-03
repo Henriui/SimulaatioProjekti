@@ -12,8 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="906.0" 
-            style="-fx-background-color: #3F005E;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.view.SuureetController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="906.0" style="-fx-background-color: #3F005E;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.SuureetController">
    <children>
       <AnchorPane layoutX="100.0" layoutY="-3.0" prefHeight="73.0" prefWidth="890.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="529.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -120,22 +119,22 @@
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label fx:id="Yritysmyynti" layoutX="230.0" layoutY="65.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="65.0">
+                        <Label fx:id="YritysmyyntiPpKpl" layoutX="230.0" layoutY="65.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="65.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Yritysnetti" layoutX="230.0" layoutY="150.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
+                        <Label fx:id="YritysnettiPpKpl" layoutX="230.0" layoutY="150.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Yritysliittymä" layoutX="230.0" layoutY="235.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
+                        <Label fx:id="YritysliittymäPpKpl" layoutX="230.0" layoutY="235.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Yrityslaskutus" layoutX="230.0" layoutY="320.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
+                        <Label fx:id="YrityslaskutusPpKpl" layoutX="230.0" layoutY="320.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -205,12 +204,12 @@
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label fx:id="myynti" layoutX="166.0" layoutY="63.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="65.0">
+                        <Label fx:id="myyntiPpKpl" layoutX="166.0" layoutY="63.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="65.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="netti" layoutX="166.0" layoutY="148.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
+                        <Label fx:id="nettiPpKpl" layoutX="166.0" layoutY="148.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -230,12 +229,12 @@
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label fx:id="liittymä" layoutX="166.0" layoutY="233.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
+                        <Label fx:id="liittymäPpKpl" layoutX="166.0" layoutY="233.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="laskutus" layoutX="166.0" layoutY="318.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
+                        <Label fx:id="laskutusPpKpl" layoutX="166.0" layoutY="318.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -258,12 +257,21 @@
                            </font>
                         </Text>
                         <TextField fx:id="simuloinninAikaField" onAction="#textFieldCheck" promptText="h" text="8" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="100.0" />
-                        <Text fill="WHITE" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Viive ms:  " AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="180.0">
+                        <Text fill="WHITE" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jakauma %" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="180.0">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="simuloinninViiveField" layoutX="10.0" layoutY="10.0" onAction="#textFieldCheck" promptText="ms" text="5000" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="180.0" />
+                        <Label fx:id="jakaumaText" text="50 / 50" textFill="WHITE" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="180.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Slider fx:id="jakaumaSlider" blockIncrement="1.0" majorTickUnit="11.0" max="5.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="180.0">
+                           <cursor>
+                              <Cursor fx:constant="H_RESIZE" />
+                           </cursor>
+                        </Slider>
                         <Text fill="WHITE" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kärsimättömyys aika:" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="260.0">
                            <font>
                               <Font size="18.0" />
