@@ -1,7 +1,6 @@
 package com.project.simu.model;
 
 import com.project.eduni.distributions.ContinuousGenerator;
-import com.project.eduni.distributions.DiscreteGenerator;
 import com.project.eduni.distributions.Uniform;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
@@ -23,51 +22,63 @@ public class Asiakas {
 	private double asPoistumisaikaPP; // Palvelupisteestä poistuminen
 	private boolean reRouted; // Valitsiko väärin asiakas valikosta?
 	private boolean jonotukseenKyllastynyt = false;
-	private boolean normaaliJakauma; // Käytetäänkö tasaista jakaumaa?
 
 	private AsiakasTyyppi asType;
-	private DiscreteGenerator asValikkoJakauma;
 	private ContinuousGenerator asTypeJakauma;
 	private SimulaationSuureet sS;
 	private UserParametrit uP;
 
 	// Asiakas
-	public Asiakas(DiscreteGenerator asiakasJakauma) {
+	public Asiakas() {
 		sS = SimulaationSuureet.getInstance();
 		uP = UserParametrit.getInstance();
-		normaaliJakauma = uP.isNormaaliJakauma();
 		this.reRouted = uP.onkoVaaraValinta(); // Soittiko asiakas väärää linjaan = True
-		this.asValikkoJakauma = asiakasJakauma;
 		this.id = i++;
 		this.asSaapumisaika = Kello.getInstance().getAika();
+		this.asTypeJakauma = new Uniform(1, 100);
 		this.asType = alustaAsType(); // Generaattori valitse minkälainen asiakastyyppi asiakkaasta tulee
 		Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + asSaapumisaika);
 	}
 
 	/**
-	 * Asiakastyyppi alustetaan jakamalla heidät kahteen eri ryhmään,
-	 * Tämä on säädettävä arvo jonka parametrinä annetaan.
-	 * Tämän jälkeen asetetaan tyyppiJakaumalle asiakkaan lopullinen
-	 * määränpää simulaatiossa.
+	 * Asiakastyyppi alustetaan jakamalla heidät kahteen eri ryhmään
 	 * 
 	 * @return AsiakasTyyppi.PRI tai AsiakasTyyppi.CO
 	 * @author Rasmus Hyyppä
 	 */
 	public AsiakasTyyppi alustaAsType() {
-		int arvottuAsType = (int) asValikkoJakauma.sample();
-		if (arvottuAsType < 50) {
-			asType = AsiakasTyyppi.PRI;
-			asTypeJakauma = new Uniform(0, 4);
+		if ((int) asTypeJakauma.sample() < (int) uP.getAsTyyppiJakauma()) {
+			return AsiakasTyyppi.PRI;
 		} else {
-			asType = AsiakasTyyppi.CO;
-			asTypeJakauma = new Uniform(4, 8);
+			return AsiakasTyyppi.CO;
 		}
 
-		if (!normaaliJakauma) {
-			asTypeJakauma = new Uniform(1, 100);
+	}
+
+	/**
+	 * Kun käyttäjä haluaa itse valita asiakastyyppien jakautumisen,
+	 * niin haetaan tällä methodilla jakauman samplea käyttäen oikea
+	 * palvelupiste
+	 * 
+	 * @param gSample sample generaattorin jakaumasta
+	 * @return Asiakkaan tyyppinumeron, joka määrittää mitä palvelua hän haluaa
+	 * @author Rasmus Hyyppä
+	 */
+	public int getAsiakkaanPP(double gSample) {
+		int asTypeNum = 4; // astypeNum on 4 mikäli yrityspuoli kyseessä
+		int j = 0;
+		if (asType == AsiakasTyyppi.CO) {
+			while (gSample >= uP.getCoAsTyyppiArr(j)) {
+				j++;
+			}
+			asTypeNum += j;
+		} else {
+			while (gSample >= uP.getPriAsTyyppiArr(j)) {
+				j++;
+			}
+			asTypeNum = j;
 		}
-		Trace.out(Trace.Level.INFO, "\n\n Alustettu AsTypeNum(0-100): " + arvottuAsType + ", Id: " + id);
-		return asType;
+		return asTypeNum;
 	}
 
 	// getId
@@ -109,13 +120,6 @@ public class Asiakas {
 	// setSaapumisaika
 	public void setAsSaapumisaika(double saapumisaika) {
 		this.asSaapumisaika = saapumisaika;
-	}
-
-	/**
-	 * @return boolean return the normaaliJakauma
-	 */
-	public boolean isNormaaliJakauma() {
-		return normaaliJakauma;
 	}
 
 	/**
@@ -207,10 +211,7 @@ public class Asiakas {
 	 * @author Rasmus Hyyppä
 	 */
 	public int setAsType() {
-		int arvottuAsType = (int) asTypeJakauma.sample(); // generoidaan asiakastyyppi
-		if (!normaaliJakauma) {
-			arvottuAsType = uP.getAsiakkaanPP(asType, (int) asTypeJakauma.sample());
-		}
+		int arvottuAsType = getAsiakkaanPP(asTypeJakauma.sample());
 		asType = AsiakasTyyppi.values()[arvottuAsType];
 		Trace.out(Trace.Level.INFO, "Asiakkaan tyyppi on: " + asType + ", id: " + id);
 		return asType.getAsiakasTypeNumero();

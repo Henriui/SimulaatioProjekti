@@ -92,8 +92,8 @@ public class SuureetController {
     @FXML
     private TextField YrityslaskutusAikaField;
 
-    UserParametrit uP = UserParametrit.getInstance();
-    DecimalFormat dF;
+    private UserParametrit uP = UserParametrit.getInstance();
+    private DecimalFormat dF;
 
     @FXML
     private void initialize() {
@@ -197,7 +197,7 @@ public class SuureetController {
 
         // Simulaation asetukset.
         simuloinninAikaField.setText(dF.format(uP.getSimulaationAika()));
-        simuloinninViiveField.setText(Long.toString(uP.getViiveAika()));
+
         kärsimättömyysAikaField.setText(dF.format(uP.getMaxJononPituus() / 60));
         väärävalintaProsenttiField.setText(dF.format(uP.getVaaraValintaProsentti()));
         asiakasMääräField.setText(dF.format(uP.getAsMaara()));
@@ -232,7 +232,7 @@ public class SuureetController {
         uP.setPPAvgAika(Double.parseDouble(YritysliittymäAikaField.getText()), 7);
         uP.setPPAvgAika(Double.parseDouble(YrityslaskutusAikaField.getText()), 8);
         uP.setSimulaationAika(Double.parseDouble(simuloinninAikaField.getText()));
-        uP.setViiveAika(Long.parseLong(simuloinninViiveField.getText()));
+
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
         uP.setVaaraValintaProsentti(Double.parseDouble(väärävalintaProsenttiField.getText()));
         uP.setAsMaara(Double.parseDouble(asiakasMääräField.getText()));

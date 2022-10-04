@@ -62,11 +62,12 @@ public class OmaMoottori extends Moottori {
 
 		Asiakas as;
 		Tyyppi tapahtuma = t.getTyyppi();
-		System.out.println(tapahtuma.getTypeValue());
+
+		kontrolleri.ilmoitaJononKoko(ppJonoStatus(1), ppJonoStatus(5));
 
 		// Saapumistapahtumat
 		if (tapahtuma == Tyyppi.ARRIVAL) {
-			as = new Asiakas(uP.getAsJakauma());
+			as = new Asiakas();
 			palvelupisteet[haeAs(Tyyppi.BLENDER_VALIKKO_DEPART.getTypeValue())].addJonoon(as);
 			saapumisprosessi.generoiSeuraava();
 		}
@@ -86,7 +87,6 @@ public class OmaMoottori extends Moottori {
 
 			// Lisätään jonoon
 			palvelupisteet[haeAs(as.setAsType())].addJonoon(as);
-			kontrolleri.ilmoitaJononKoko(ppJonoStatus(1), ppJonoStatus(5));
 		}
 
 		// Asiakaspalvelija pisteiden poistumiset
@@ -172,13 +172,12 @@ public class OmaMoottori extends Moottori {
 	// Method joka palauttaa tilanteen palveluista asiakkaista (ppType 1 tai 5)
 	public int ppPalveltuStatus(int ppType) {
 		int palveltujaAsiakkaita = 0;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++)
 			for (Palvelupiste p : palvelupisteet) {
 				if ((p.getPPTyyppi().getTypeValue() == (ppType + i))) {
-					palveltujaAsiakkaita += p.getAsPalveltuJonosta() + p.getAsReRoutedJonosta();
+					palveltujaAsiakkaita += p.getAsPalveltuJonosta();
 				}
 			}
-		}
 		return palveltujaAsiakkaita;
 	}
 

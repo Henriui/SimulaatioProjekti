@@ -136,6 +136,9 @@ public class Palvelupiste {
 	 * @return int return the asiakkaitaLisattyJonoon
 	 */
 	public int getAsLisattyJonoon() {
+		if (asLisattyJonoon == 0) {
+			return 0;
+		}
 		return asLisattyJonoon;
 	}
 
@@ -143,10 +146,16 @@ public class Palvelupiste {
 	 * @return int return the asiakkaitaPalveltuJonosta
 	 */
 	public int getAsPalveltuJonosta() {
+		if (asPalveltuJonosta == 0) {
+			return 0;
+		}
 		return asPalveltuJonosta;
 	}
 
 	public int getAsPoistunutJonosta() {
+		if (asPoistunutJonosta == 0) {
+			return 0;
+		}
 		return asPoistunutJonosta;
 	}
 

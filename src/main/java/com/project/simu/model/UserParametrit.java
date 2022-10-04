@@ -1,7 +1,5 @@
 package com.project.simu.model;
 
-import com.project.eduni.distributions.Binomial;
-import com.project.eduni.distributions.DiscreteGenerator;
 import com.project.eduni.distributions.Normal;
 import com.project.eduni.distributions.Uniform;
 
@@ -27,12 +25,6 @@ public class UserParametrit {
     // Kokonaisaika simulaatiolla (T)
     private double simulaationAika;
 
-    // Thread sleep aika
-    private long viiveAika;
-
-    // Boolean normaaliJakaumalle
-    private boolean normaaliJakauma;
-
     // Array asiakaspalvelioiden määrälle
     private int[] ppMaaraArray;
 
@@ -41,7 +33,6 @@ public class UserParametrit {
 
     // Array yksityispiste jakaumalle
     private double[] priAsTyyppiArr;
-
     // Array yrityspiste jakaumalle
     private double[] coAsTyyppiArr;
 
@@ -50,18 +41,18 @@ public class UserParametrit {
 
     // Tietokannan käyttäjäparametrit
     private String dbName;
-    
+
     private String username;
-    
+
     private String password;
-    
+
     public static synchronized UserParametrit getInstance() {
         if (instance == null) {
             instance = new UserParametrit();
         }
         return instance;
     }
-    
+
     private UserParametrit() {
         setDefaultArvot();
     }
@@ -91,67 +82,18 @@ public class UserParametrit {
         }
 
         this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
-        this.viiveAika = 0; // Thread sleeppi aika
         this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
-        this.vaaraValintaProsentti = 5; // 5 % asiakkaista valitsee väärin
+        this.vaaraValintaProsentti = 0; // 5 % asiakkaista valitsee väärin
         this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
 
-        /**
-         * asTyyppiJakaumalla voi valita tuleeko pri vai co as. enemmän
-         * 85% Henkilöasiakkaita, 15% Yritysasiakkaita = 0.45
-         * 50% Henkilöasiakkaita, 50% Yritysasiakkaita = 0.5
-         * 70% Henkilöasiakkaita, 30% Yritysasiakkaita = 0.4725
-         * 30% Henkilöasiakkaita, 70% Yritysasiakkaita = 0.5275
-         * 15% Henkilöasiakkaita, 85% Yritysasiakkaita = 0.55
-         */
-        this.asTyyppiJakauma = 0.5;
-        // Normaalijakaumalle boolean
-        this.normaaliJakauma = false;
+        // 50% pri/co asiakkaita
+        this.asTyyppiJakauma = 50;
+
         // Asiakaspisteitten jakauma käyttäjän asettamana
-        this.priAsTyyppiArr = new double[] { 25, 50, 65, 100 };
-        this.coAsTyyppiArr = new double[] { 25, 50, 65, 100 };
-    }
-    
-    /**
-     * Kun käyttäjä haluaa itse valita asiakastyyppien jakautumisen,
-     * niin haetaan tällä methodilla jakauman samplea käyttäen oikea
-     * palvelupiste
-     * 
-     * @param t       Asiakkaan tyyppi, Yksityis/Yritys
-     * @param gSample sample generaattorin jakaumasta
-     * @return Asiakkaan tyyppinumeron, joka määrittää mitä palvelua hän haluaa
-     * @author Rasmus Hyyppä
-     */
-    public int getAsiakkaanPP(AsiakasTyyppi t, int gSample) {
-        int asTypeNum = 3; // astypeNum on 3 mikäli yrityspuoli kyseessä
-        int j = 0;
-        if (t == AsiakasTyyppi.CO) {
-            while (gSample >= coAsTyyppiArr[j]) {
-                j++;
-            }
-            asTypeNum += j;
-        } else {
-            while (gSample >= priAsTyyppiArr[j]) {
-                j++;
-            }
-            asTypeNum = j;
-        }
-        return asTypeNum;
+        this.priAsTyyppiArr = new double[] { 25, 50, 75, 100 };
+        this.coAsTyyppiArr = new double[] { 25, 50, 75, 100 };
     }
 
-    /**
-     * Käyttäjän syöttämä arvo yhdistetään Binomial jakaumaan
-     * Tätä käytetään Asiakas luokassa
-     * 
-     * @return palauttaa Binomial discretegeneraattorin
-     * @author Rasmus Hyyppä
-     */
-    public DiscreteGenerator getAsJakauma() {
-        // 0.5 < Henkilöasiakas, 0.5 > Yritysasiakas
-        // Jakauma i, 100 yritystä (100%)
-        return new Binomial(asTyyppiJakauma, 100);
-    }
-    
     /**
      * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
      * linjassa
@@ -162,7 +104,7 @@ public class UserParametrit {
     public int getPPMaara(int ppType) {
         return ppMaaraArray[ppType - 1];
     }
-    
+
     /**
      * Tallennetaan käyttäjän parametrejä taulukkoon
      * josta ne luetaan simulaation alkaessa.
@@ -174,7 +116,7 @@ public class UserParametrit {
     public void setPPMaara(int määrä, int ppType) {
         ppMaaraArray[ppType - 1] = määrä;
     }
-    
+
     /**
      * @param ppType palvelupisteen tyyppi
      * @return Palauttaa haetun Palvelupistetyypin avg palveluajan
@@ -195,7 +137,7 @@ public class UserParametrit {
     public void setPPAvgAika(double aika, int ppType) {
         ppAikaArray[ppType - 1] = aika * 60;
     }
-    
+
     /**
      * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
      * 
@@ -208,7 +150,7 @@ public class UserParametrit {
         }
         return false;
     }
-    
+
     /**
      * Käytetään alustuksessa jotta saadaan oikea määrä palvelupisteitä luotua
      * 
@@ -218,7 +160,7 @@ public class UserParametrit {
     public int getAllPPMaara() {
         return (getPriPPMaara() + getCoPPMaara() + UserParametrit.MIN_PALVELUPISTE_MAARA);
     }
-    
+
     /**
      * 
      * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
@@ -228,14 +170,6 @@ public class UserParametrit {
     public Normal getPAJakauma(int ppType) {
         double aika = getPPAvgAika(ppType);
         return new Normal(aika - (aika / 2), aika + (aika / 2));
-    }
-
-    public long getViiveAika() {
-        return viiveAika;
-    }
-
-    public void setViiveAika(long viiveAika) {
-        this.viiveAika = viiveAika;
     }
 
     public double getSimulaationAika() {
@@ -266,8 +200,8 @@ public class UserParametrit {
         return asTyyppiJakauma;
     }
 
-    public void setAsTyyppiJakauma(int asiakasTyyppiJakauma) {
-        this.asTyyppiJakauma = asiakasTyyppiJakauma;
+    public void setAsTyyppiJakauma(double luku) {
+        this.asTyyppiJakauma = luku;
     }
 
     public double getMaxJononPituus() {
@@ -286,24 +220,16 @@ public class UserParametrit {
         this.vaaraValintaProsentti = vaaraValintaProsentti;
     }
 
-    public boolean isNormaaliJakauma() {
-        return this.normaaliJakauma;
-    }
-
-    public void setNormaaliJakauma(boolean normaaliJakauma) {
-        this.normaaliJakauma = normaaliJakauma;
-    }
-
-    public double[] getPriAsTyyppiArr() {
-        return this.priAsTyyppiArr;
+    public double getPriAsTyyppiArr(int slot) {
+        return this.priAsTyyppiArr[slot];
     }
 
     public void setPriAsTyyppiArr(double[] priAsTyyppiArr) {
         this.priAsTyyppiArr = priAsTyyppiArr;
     }
 
-    public double[] getCoAsTyyppiArr() {
-        return this.coAsTyyppiArr;
+    public double getCoAsTyyppiArr(int slot) {
+        return this.coAsTyyppiArr[slot];
     }
 
     public void setCoAsTyyppiArr(double[] coAsTyyppiArr) {
@@ -325,17 +251,34 @@ public class UserParametrit {
         }
         return kokonaisMaara;
     }
-    
-    // dbName, username, password get/set
-     
-    public String getDbName() {return dbName;}
-    public void setDbName(String dbName) { this.dbName = dbName; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 
-    public void setDbParameters(String dbName, String username, String password){
+    // dbName, username, password get/set
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDbParameters(String dbName, String username, String password) {
         this.dbName = dbName;
         this.username = username;
         this.password = password;
