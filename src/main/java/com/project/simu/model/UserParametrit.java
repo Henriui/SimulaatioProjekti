@@ -1,5 +1,10 @@
 package com.project.simu.model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import com.project.eduni.distributions.Binomial;
 import com.project.eduni.distributions.DiscreteGenerator;
 import com.project.eduni.distributions.Normal;
@@ -109,6 +114,8 @@ public class UserParametrit {
         // Asiakaspisteitten jakauma käyttäjän asettamana
         this.priAsTyyppiArr = new double[] { 25, 50, 65, 100 };
         this.coAsTyyppiArr = new double[] { 25, 50, 65, 100 };
+        //Databasen tablen nimi
+        tableName = "tulokset";
     }
     
     /**
@@ -344,5 +351,52 @@ public class UserParametrit {
         this.tableName = tableName;
         this.username = username;
         this.password = password;
+    }
+
+    public void setDbParameters(String dbName, String username, String password){
+        this.dbName = dbName;
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
+     * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla tiedostoon
+     * 
+     * @return true jos onnistui, false jos ei
+     * @author Lassi Bågman
+     */
+    public boolean kirjoitaTiedostoonDbParametrit() {
+        try (FileOutputStream virta = new FileOutputStream("data\\dbAsetukset.data");
+                ObjectOutputStream tuloste = new ObjectOutputStream(virta);) {
+            tuloste.writeObject(new UserAsetukset(dbName, username, password));
+            tuloste.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Tiedostoon tallentaminen ei onnistunut");
+            System.err.println(e);
+            return false;
+        }
+    }
+
+    /**
+     * Lukee tiedoston jos se on olemassa ja palauttaa tiedostosta löytyvän UserAsetukset.java olion
+     * jonka avulla päivittää singletonin parametrit
+     * 
+     * @return true jos onnistui, false jos ei
+     * @author Lassi Bågman
+     */
+    public boolean lueTiedostostaDbParametrit() {
+        try (FileInputStream virta = new FileInputStream("data\\dbAsetukset.data");
+                ObjectInputStream syote = new ObjectInputStream(virta);) {
+            UserAsetukset ua = (UserAsetukset) syote.readObject();
+            dbName = ua.getDbName();
+            username = ua.getUsername();
+            password = ua.getPassword();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Tiedoston lukeminen ei onnistunut");
+            System.err.println(e);
+            return false;
+        }
     }
 }

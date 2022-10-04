@@ -1,13 +1,9 @@
 package com.project.view;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import com.project.MainApp;
-import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.UserParametrit;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -29,6 +25,8 @@ public class AsetuksetController {
     @FXML
     private Button saveButton;
 
+    private UserParametrit uP;
+
     /**
      * Ladattaessa täyttää mahdollisesti aiemmin tallennetut valinnat tekstikenttiin
      * 
@@ -36,17 +34,31 @@ public class AsetuksetController {
      */
     @FXML
     private void initialize() {
-        UserAsetukset ua = lueTiedostosta();
-        if(ua != null){
-            dbName.setText(ua.getDbName());
-            username.setText(ua.getUsername());
-            password.setText(ua.getPassword());
+        uP = UserParametrit.getInstance();
+        uP.lueTiedostostaDbParametrit();
+        if(uP.getDbName() != null){
+            dbName.setText(uP.getDbName());
+        }
+        if(uP.getUsername() != null){
+            username.setText(uP.getUsername());
+        }
+        if(uP.getPassword() != null){
+            String pw = "";
+            for (int i = 0; i < uP.getPassword().length(); i++){
+                pw += "*";
+            }
+            password.setText(pw);
         }
     }
 
     @FXML
-    private void takaisinMainView() throws IOException {
-        MainApp.setRoot("mainView");
+    private void takaisinMainView() {
+        try {
+            MainApp.setRoot("mainView");
+        } catch (IOException e) {
+            System.err.println("Ei voitu siirtyä etusivulle");
+            System.err.println(e);
+        }
     }
 
     /**
@@ -58,48 +70,14 @@ public class AsetuksetController {
     @FXML
     private void tallennaAsetukset() {
         if (dbName.getText().length() > 0 && username.getText().length() > 0 && password.getText().length() > 0) {
-            UserAsetukset ua = new UserAsetukset(dbName.getText(), username.getText(), password.getText());
-            kirjoitaTiedostoon(ua);
+            uP.setDbParameters(dbName.getText(), username.getText(), password.getText());
+            uP.kirjoitaTiedostoonDbParametrit();
+            takaisinMainView();
         } else {
             Alert varoitus = new Alert(AlertType.ERROR);
             varoitus.setTitle("Täytä kaikki kentät!");
             varoitus.setHeaderText("Täytä kaikki kentät!");
             varoitus.showAndWait();
         }
-    }
-
-
-    /**
-     * Tallentaa annetun UserAseteukset.java olion tiedostoon
-     * 
-     * @author Lassi Bågman
-     */
-    private void kirjoitaTiedostoon(UserAsetukset ua) {
-        try (FileOutputStream virta = new FileOutputStream("data\\userAsetukset.data");
-                ObjectOutputStream tuloste = new ObjectOutputStream(virta);) {
-            tuloste.writeObject(ua);
-            tuloste.close();
-        } catch (Exception e) {
-            System.out.println("Tiedostoon tallentaminen ei onnistunut");
-            System.err.println(e);
-        }
-    }
-
-    /**
-     * Lukee tiedoston jos se on olemassa ja palauttaa tiedostosta löytyvän UserAseteukset.java olion
-     * 
-     * @return UserAsetkset.java
-     * @author Lassi Bågman
-     */
-    public UserAsetukset lueTiedostosta() {
-        try (FileInputStream virta = new FileInputStream("data\\userAsetukset.data");
-                ObjectInputStream syote = new ObjectInputStream(virta);) {
-            UserAsetukset ua = (UserAsetukset) syote.readObject();
-            return ua;
-        } catch (Exception e) {
-            System.out.println("Tiedoston lukeminen ei onnistunut");
-            System.err.println(e);
-        }
-        return null;
     }
 }
