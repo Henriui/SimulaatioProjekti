@@ -207,30 +207,30 @@ public class SuureetController {
         String jakaumaSaved = Double.toString(uP.getAsTyyppiJakauma());
 
         switch (jakaumaSaved) {
-            case "0.45":
+            case "15.0":
                 jakaumaSlider.setValue(1);
                 jakaumaText.setText(85 + " / " + 15);
-                jakauma = 0.45;
+                jakauma = 15.0;
                 break;
-            case "0.4725":
+            case "30.0":
                 jakaumaSlider.setValue(2);
                 jakaumaText.setText(70 + " / " + 30);
-                jakauma = 0.4725;
+                jakauma = 30.0;
                 break;
-            case "0.5":
+            case "50.0":
                 jakaumaSlider.setValue(3);
                 jakaumaText.setText(50 + " / " + 50);
-                jakauma = 0.5;
+                jakauma = 50.0;
                 break;
-            case "0.5275":
+            case "70.0":
                 jakaumaSlider.setValue(4);
                 jakaumaText.setText(30 + " / " + 70);
-                jakauma = 0.5275;
+                jakauma = 70.0;
                 break;
-            case "0.55":
+            case "85.0":
                 jakaumaSlider.setValue(5);
                 jakaumaText.setText(15 + " / " + 85);
-                jakauma = 0.55;
+                jakauma = 85.0;
                 break;
         }
 
@@ -266,6 +266,7 @@ public class SuureetController {
         uP.setPPAvgAika(Double.parseDouble(YrityslaskutusAikaField.getText()), 8);
         uP.setSimulaationAika(Double.parseDouble(simuloinninAikaField.getText()));
         uP.setAsTyyppiJakauma(jakauma);
+        System.out.println("hei asetin jakauman ;:DDDD: " + jakauma);
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
         uP.setVaaraValintaProsentti(Double.parseDouble(väärävalintaProsenttiField.getText()));
         uP.setAsMaara(Double.parseDouble(asiakasMääräField.getText()));
@@ -294,23 +295,23 @@ public class SuureetController {
                 switch (newValue.intValue()) {
                     case 1:
                         l.setText(85 + " / " + 15);
-                        jakauma = 0.45;
+                        jakauma = 15.0;
                         break;
                     case 2:
                         l.setText(70 + " / " + 30);
-                        jakauma = 0.4725;
+                        jakauma = 30.0;
                         break;
                     case 3:
                         l.setText(50 + " / " + 50);
-                        jakauma = 0.5;
+                        jakauma = 50.0;
                         break;
                     case 4:
                         l.setText(30 + " / " + 70);
-                        jakauma = 0.5275;
+                        jakauma = 70.0;
                         break;
                     case 5:
                         l.setText(15 + " / " + 85);
-                        jakauma = 0.55;
+                        jakauma = 85.0;
                         break;
                 }
             }

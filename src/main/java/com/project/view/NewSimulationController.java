@@ -59,7 +59,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         UserParametrit uP = UserParametrit.getInstance();
         Trace.setTraceLevel(Level.INFO);
         m = new OmaMoottori(this);
-        m.setViive(25);
+        m.setViive(0);
         m.setSimulointiaika(uP.getSimulaationAika() * 3600);
         ((Thread) m).start();
     }

@@ -47,7 +47,7 @@ public class Asiakas {
 	 * @author Rasmus Hyyppä
 	 */
 	public AsiakasTyyppi alustaAsType() {
-		if ((int) asTypeJakauma.sample() < (int) uP.getAsTyyppiJakauma()) {
+		if ((int) asTypeJakauma.sample() > (int) uP.getAsTyyppiJakauma()) {
 			return AsiakasTyyppi.PRI;
 		} else {
 			return AsiakasTyyppi.CO;
