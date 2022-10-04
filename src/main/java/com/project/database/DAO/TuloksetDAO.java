@@ -16,6 +16,7 @@ public class TuloksetDAO implements ITuloksetDAO{
     private Connection connection;
     private PreparedStatement statement;
     private String dbName;
+    private String tableName;
     private String user;
     private String password;
     SimulaationSuureet ss;
@@ -23,10 +24,10 @@ public class TuloksetDAO implements ITuloksetDAO{
     public TuloksetDAO(){
         // Hae käyttäjän määrittämä tietokanta, username ja password.
         up = UserParametrit.getInstance();
+        tableName = up.getTableName();
         dbName = up.getDbName();
         user = up.getUsername();
         password = up.getPassword();
-        openConnection();
     }
 
     
@@ -43,7 +44,6 @@ public class TuloksetDAO implements ITuloksetDAO{
 
         if (connection != null){
             System.out.println("connection already open.");
-            return true;
         }
 
         // Open connection
@@ -51,14 +51,15 @@ public class TuloksetDAO implements ITuloksetDAO{
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/" + dbName, user, password);
 
-            // See if we have a 'simulaatio' table in the given database.
+            // See if we have a table in the given database.
 
            DatabaseMetaData dbm = connection.getMetaData();
-           ResultSet result = dbm.getTables(null, null, "simulaatio", null);
+           ResultSet result = dbm.getTables(null, null, tableName, null);
             
            // Create if not found.
 
            if ( !result.next() ){
+            System.out.println("Table "+ tableName +" not found. Creating table...");
                 createTable();
                 System.out.println("Table created.");
             }
@@ -78,7 +79,10 @@ public class TuloksetDAO implements ITuloksetDAO{
      * @author Henri
      */
     private boolean createTable() throws SQLException {
-        statement = connection.prepareStatement("CREATE  TABLE simulaatio ( "
+
+        // Not good since opens project for sql injection attack but required for +3 points junit tests. -Henri
+
+        statement = connection.prepareStatement("CREATE TABLE "+ tableName + " ( "
                                     +"    id                   INT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY   COMMENT 'Simulointikerta',"
                                     +"    kesto                DOUBLE UNSIGNED NOT NULL                     COMMENT 'Simulaation kesto',"
                                     +"    palveluprosentti     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Palveluprosentti simulaatiossa.',"
@@ -136,7 +140,7 @@ public class TuloksetDAO implements ITuloksetDAO{
         // Get values from SimulaationSuureet, create sql statement and execute.
 
         try {
-            statement = connection.prepareStatement("INSERT INTO simulaatio (kesto, palveluprosentti, as_count, as_lisatyt, as_palveltu, as_routed, as_poistunut, as_jono_aika, as_palvelu_aika, as_kok_aika, as_avg_aika, pp_count, pp_jonotus_aika ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )");
+            statement = connection.prepareStatement("INSERT INTO " + tableName + " (kesto, palveluprosentti, as_count, as_lisatyt, as_palveltu, as_routed, as_poistunut, as_jono_aika, as_palvelu_aika, as_kok_aika, as_avg_aika, pp_count, pp_jonotus_aika ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )");
  
             statement.setDouble(1,  suureet.getSimulointiAika());        // kesto
             statement.setDouble(2,  suureet.getPalveluprosentti());      // palveluprosentti
@@ -174,7 +178,7 @@ public class TuloksetDAO implements ITuloksetDAO{
         // Delete given id.
 
         try {
-            statement = connection.prepareStatement("DELETE FROM simulaatio WHERE id = ( ? )");
+            statement = connection.prepareStatement("DELETE FROM "+ tableName +" WHERE id = ( ? )");
             statement.setInt(1, id); 
             
             // Return true if DELETE successful;
@@ -204,7 +208,7 @@ public class TuloksetDAO implements ITuloksetDAO{
 
         ss = SimulaationSuureet.getInstance();
             try {
-                statement = connection.prepareStatement("SELECT FROM simulaatio WHERE id = ( ? )");
+                statement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ( ? )");
                 statement.setInt(1, id); 
                 ResultSet results = statement.executeQuery();
                 if (results.next()){
@@ -228,10 +232,21 @@ public class TuloksetDAO implements ITuloksetDAO{
 
                 return true;
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
+                System.out.println("Something went wrong.");
                 e.printStackTrace();
             }
         return false;
     }
-    
+    public boolean dropTable(){
+        try {
+            statement = connection.prepareStatement("DROP TABLE " + tableName);
+            statement.execute();
+            System.out.println("Table dropped.");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Something went wrong.");
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

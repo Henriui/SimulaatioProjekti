@@ -39,6 +39,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
+    Moottori m;
 
     @FXML
     public void initialize() {
@@ -57,8 +58,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void aloitaSimulaatio() {
         UserParametrit uP = UserParametrit.getInstance();
         Trace.setTraceLevel(Level.INFO);
-        Moottori m = new OmaMoottori(this);
-        m.setViive(0);
+        m = new OmaMoottori(this);
+        m.setViive(25);
         m.setSimulointiaika(uP.getSimulaationAika() * 3600);
         ((Thread) m).start();
     }
@@ -150,14 +151,13 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     @Override
     public void hidastaSimulaatiota() {
-        // TODO Auto-generated method stub
-
+        m.setViive(m.getViive() + 5);
     }
 
     @Override
     public void nopeutaSimulaatiota() {
-        // TODO Auto-generated method stub
-
+        if (m.getViive() > 0) {
+            m.setViive(m.getViive() - 5);
+        }
     }
-
 }

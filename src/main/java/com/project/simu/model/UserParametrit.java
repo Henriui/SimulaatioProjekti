@@ -1,5 +1,12 @@
 package com.project.simu.model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import com.project.eduni.distributions.Binomial;
+import com.project.eduni.distributions.DiscreteGenerator;
 import com.project.eduni.distributions.Normal;
 import com.project.eduni.distributions.Uniform;
 
@@ -41,9 +48,8 @@ public class UserParametrit {
 
     // Tietokannan käyttäjäparametrit
     private String dbName;
-
+    private String tableName;
     private String username;
-
     private String password;
 
     public static synchronized UserParametrit getInstance() {
@@ -252,6 +258,47 @@ public class UserParametrit {
         return kokonaisMaara;
     }
 
+    // dbName, tableName ,username, password get/set
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDbParameters(String dbName, String tableName, String username, String password) {
+        this.dbName = dbName;
+        this.tableName = tableName;
+        this.username = username;
+        this.password = password;
+    }
+
     // dbName, username, password get/set
 
     public String getDbName() {
@@ -282,5 +329,48 @@ public class UserParametrit {
         this.dbName = dbName;
         this.username = username;
         this.password = password;
+    }
+
+    /**
+     * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla
+     * tiedostoon
+     * 
+     * @return true jos onnistui, false jos ei
+     * @author Lassi Bågman
+     */
+    public boolean kirjoitaTiedostoonDbParametrit() {
+        try (FileOutputStream virta = new FileOutputStream("data\\dbAsetukset.data");
+                ObjectOutputStream tuloste = new ObjectOutputStream(virta);) {
+            tuloste.writeObject(new UserAsetukset(dbName, username, password));
+            tuloste.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Tiedostoon tallentaminen ei onnistunut");
+            System.err.println(e);
+            return false;
+        }
+    }
+
+    /**
+     * Lukee tiedoston jos se on olemassa ja palauttaa tiedostosta löytyvän
+     * UserAsetukset.java olion
+     * jonka avulla päivittää singletonin parametrit
+     * 
+     * @return true jos onnistui, false jos ei
+     * @author Lassi Bågman
+     */
+    public boolean lueTiedostostaDbParametrit() {
+        try (FileInputStream virta = new FileInputStream("data\\dbAsetukset.data");
+                ObjectInputStream syote = new ObjectInputStream(virta);) {
+            UserAsetukset ua = (UserAsetukset) syote.readObject();
+            dbName = ua.getDbName();
+            username = ua.getUsername();
+            password = ua.getPassword();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Tiedoston lukeminen ei onnistunut");
+            System.err.println(e);
+            return false;
+        }
     }
 }
