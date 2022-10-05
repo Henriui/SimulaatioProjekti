@@ -5,7 +5,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 
@@ -30,6 +29,7 @@ public class TuloksetDAO implements ITuloksetDAO {
         dbName = up.getDbName();
         user = up.getUsername();
         password = up.getPassword();
+        openConnection();
     }
 
     /**
