@@ -95,8 +95,8 @@ public class SuureetController {
     @FXML
     private TextField YrityslaskutusAikaField;
 
-    UserParametrit uP = UserParametrit.getInstance();
-    DecimalFormat dF;
+    private UserParametrit uP = UserParametrit.getInstance();
+    private DecimalFormat dF;
 
     @FXML
     private void initialize() {
@@ -206,31 +206,31 @@ public class SuureetController {
 
         String jakaumaSaved = Double.toString(uP.getAsTyyppiJakauma());
 
-        switch(jakaumaSaved){
-            case "0.45":
+        switch (jakaumaSaved) {
+            case "15.0":
                 jakaumaSlider.setValue(1);
                 jakaumaText.setText(85 + " / " + 15);
-                jakauma = 0.45;
+                jakauma = 15.0;
                 break;
-            case "0.4725":
+            case "30.0":
                 jakaumaSlider.setValue(2);
                 jakaumaText.setText(70 + " / " + 30);
-                jakauma = 0.4725;
+                jakauma = 30.0;
                 break;
-            case "0.5":
+            case "50.0":
                 jakaumaSlider.setValue(3);
                 jakaumaText.setText(50 + " / " + 50);
-                jakauma = 0.5;
+                jakauma = 50.0;
                 break;
-            case "0.5275":
+            case "70.0":
                 jakaumaSlider.setValue(4);
                 jakaumaText.setText(30 + " / " + 70);
-                jakauma = 0.5275;
+                jakauma = 70.0;
                 break;
-            case "0.55":
+            case "85.0":
                 jakaumaSlider.setValue(5);
                 jakaumaText.setText(15 + " / " + 85);
-                jakauma = 0.55;
+                jakauma = 85.0;
                 break;
         }
 
@@ -287,37 +287,35 @@ public class SuureetController {
     }
 
     private void setJakauma(Slider s, Label l) {
-        s.valueProperty().addListener(new ChangeListener<Number>() 
-        {
+        s.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
-                        switch(newValue.intValue()){
-                            case 1:
-                                l.setText(85 + " / " + 15);
-                                jakauma = 0.45;
-                                break;
-                            case 2:
-                                l.setText(70 + " / " + 30);
-                                jakauma = 0.4725;
-                                break;
-                            case 3:
-                                l.setText(50 + " / " + 50);
-                                jakauma = 0.5;
-                                break;
-                            case 4:
-                                l.setText(30 + " / " + 70);
-                                jakauma = 0.5275;
-                                break;
-                            case 5:
-                                l.setText(15 + " / " + 85);
-                                jakauma = 0.55;
-                                break;
-                        }
-                    }
+                switch (newValue.intValue()) {
+                    case 1:
+                        l.setText(85 + " / " + 15);
+                        jakauma = 15.0;
+                        break;
+                    case 2:
+                        l.setText(70 + " / " + 30);
+                        jakauma = 30.0;
+                        break;
+                    case 3:
+                        l.setText(50 + " / " + 50);
+                        jakauma = 50.0;
+                        break;
+                    case 4:
+                        l.setText(30 + " / " + 70);
+                        jakauma = 70.0;
+                        break;
+                    case 5:
+                        l.setText(15 + " / " + 85);
+                        jakauma = 85.0;
+                        break;
+                }
+            }
         });
     }
-
 
     /**
      * Methodi textfield kuuntelijalle, jokainen input aiheuttaa textFieldCheckin()
