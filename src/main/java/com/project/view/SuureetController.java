@@ -266,7 +266,6 @@ public class SuureetController {
         uP.setPPAvgAika(Double.parseDouble(YrityslaskutusAikaField.getText()), 8);
         uP.setSimulaationAika(Double.parseDouble(simuloinninAikaField.getText()));
         uP.setAsTyyppiJakauma(jakauma);
-        System.out.println("hei asetin jakauman ;:DDDD: " + jakauma);
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
         uP.setVaaraValintaProsentti(Double.parseDouble(väärävalintaProsenttiField.getText()));
         uP.setAsMaara(Double.parseDouble(asiakasMääräField.getText()));

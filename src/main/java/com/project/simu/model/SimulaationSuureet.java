@@ -1,6 +1,7 @@
 package com.project.simu.model;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import com.project.simu.framework.Trace;
 
@@ -14,6 +15,8 @@ public class SimulaationSuureet {
      * pa = palveluaika
      * avg = keskimääräinen
      * total = kokonais
+     * pv = puhelinvalikko
+     * ap = asiakaspalvelija
      */
     private int ppTotalMaara;
     private int yritysPP;
@@ -58,10 +61,13 @@ public class SimulaationSuureet {
         totalPAPP = 0;
         totalJonoAikaPP = 0;
         asTotalAikaPP = 0;
+
         avgAsTotalAikaAvg = 0;
         avgTotalPA = 0;
         avgPPOleskeluAika = 0;
         avgJonotusAika = 0;
+
+        simulointiAika = UserParametrit.getInstance().getSimulaationAika();
 
         // Tämän hetkinen palveluprosentti
         palveluprosentti = 0;
@@ -74,37 +80,37 @@ public class SimulaationSuureet {
         ppTotalMaara = UserParametrit.getInstance().getAllPPMaara();
     }
 
-    /**
-     * Work in progress update method
-     * public void updateSuureet(int t, INewSimulationControllerMtoV kontrolleri,
-     * int p, int yksityis, int yritys) {
-     * }
-     */
-
     public void tulosteet() {
         DecimalFormat dF = new DecimalFormat("#0.00");
-        Trace.out(Trace.Level.INFO, "\n\n\nSimulointiaika: " + dF.format(simulointiAika));
-        Trace.out(Trace.Level.INFO, "Palvelupisteiden kokonaismaara: " + ppTotalMaara);
+        Trace.out(Trace.Level.INFO, "\n\n\nSimulointiaika: " + dF.format(getSimulointiAika()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteiden kokonaismaara: " + getPPTotalMaara());
         Trace.out(Trace.Level.INFO, "Palvelupisteitä henkilöasiakkaille: " + getYksityisPP());
         Trace.out(Trace.Level.INFO, "Palvelupisteitä yritysasiakkaille: " + getYritysPP());
-        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asLisattyJonoonKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asPalveltuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asReRoutattuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asLahtenytJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + dF.format(totalPAPP));
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + dF.format(totalJonoAikaPP));
-        Trace.out(Trace.Level.INFO, "Asiakkaan keskimaarainen palvelupisteen oleskeluaika: "
-                + dF.format(avgPPOleskeluAika));
+        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + getAsLisattyJonoonKpl());
+        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + getAsPalveltuKpl());
+        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + getAsReRoutedKpl());
+        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + getAsLahtenytJonostaKpl());
+
+        // Total ajat
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + dF.format(getTotalPAPP()));
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + dF.format(getTotalJonoAikaPP()));
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisaika palvelupisteissa: " + dF.format(getAsTotalAikaPP()));
+
+        // Avg suureet
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten kokonaisaika palvelupisteissa: " + dF.format(asTotalAikaPP));
+                "Asiakkaan keskimaarainen palvelupisteen oleskeluaika: " + dF.format(getAvgPPOleskeluAika()));
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten keskimääräinen oleskelu simulaatiossa: " + dF.format(avgAsTotalAikaAvg));
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + dF.format(avgTotalPA));
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: "
-                + dF.format(avgJonotusAika));
+                "Asiakkaitten keskimääräinen oleskelu simulaatiossa: " + dF.format(getAvgAsTotalAika()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + dF.format(getAvgTotalPA()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: " + dF.format(getAvgJonotusAika()));
+
+        // Vastausprosentti / Palveluprosentti
         Trace.out(Trace.Level.INFO,
                 "Palvelupisteitten palveluprosentti: " + dF.format(getPalveluprosentti()) + " %.\n");
 
+        // Palvelupisteitä työvuoroissa
+        Trace.out(Trace.Level.INFO, "Asiakaspalvelijoita työvuoroissa array: "
+                + Arrays.toString(UserParametrit.getInstance().getTyoVuoroArr()));
     }
 
     /**
@@ -141,7 +147,7 @@ public class SimulaationSuureet {
      * @return int return the asiakasPalveluJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsPalveltuJonostaKpl() {
+    public int getAsPalveltuKpl() {
         return asPalveltuJonostaKpl;
     }
 
@@ -188,7 +194,7 @@ public class SimulaationSuureet {
      * @return int Muuttuja ylläpitämään reroutattuja asiakkaita
      * @author Rasmus Hyyppä
      */
-    public int getAsReRoutedPPKpl() {
+    public int getAsReRoutedKpl() {
         return asReRoutattuJonostaKpl;
     }
 
@@ -283,7 +289,7 @@ public class SimulaationSuureet {
      * @return Keskimääräinen asiakkaan viipyminen simulaatiossa
      * @author Rasmus Hyyppä
      */
-    public double getAsTotalAikaAvg() {
+    public double getAvgAsTotalAika() {
         return avgAsTotalAikaAvg;
     }
 
@@ -323,7 +329,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public double getAvgPPOleskeluAika() {
-        return avgPPOleskeluAika / ppTotalMaara;
+        return avgPPOleskeluAika / (ppTotalMaara - UserParametrit.getMinimiPPMaara());
     }
 
     /**
@@ -343,7 +349,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public double getAvgJonotusAika() {
-        return avgJonotusAika;
+        return (avgJonotusAika / (ppTotalMaara - UserParametrit.getMinimiPPMaara())) - getAvgTotalPA();
     }
 
     /**
@@ -364,7 +370,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public double getPalveluprosentti() {
-        return palveluprosentti / ppTotalMaara;
+        return palveluprosentti / (ppTotalMaara - UserParametrit.getMinimiPPMaara());
     }
 
     /**

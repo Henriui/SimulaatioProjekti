@@ -1,12 +1,18 @@
 package com.project.simu.model;
 
+import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import com.project.eduni.distributions.Normal;
 import com.project.eduni.distributions.Uniform;
+import com.project.simu.constants.Tyovuoro;
 
 public class UserParametrit {
     // Singleton
@@ -40,6 +46,9 @@ public class UserParametrit {
     private double[] priAsTyyppiArr;
     // Array yrityspiste jakaumalle
     private double[] coAsTyyppiArr;
+
+    // Array asiakapalvelijoiden työvuoroille
+    private int[] tyoVuoroArr;
 
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
@@ -85,6 +94,8 @@ public class UserParametrit {
             }
         }
 
+        tyoVuoroArr = new int[] { 0, 0, 0, 0, 0 };
+
         this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
         this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
         this.vaaraValintaProsentti = 0; // 5 % asiakkaista valitsee väärin
@@ -96,17 +107,6 @@ public class UserParametrit {
         // Asiakaspisteitten jakauma käyttäjän asettamana
         this.priAsTyyppiArr = new double[] { 25, 50, 75, 100 };
         this.coAsTyyppiArr = new double[] { 25, 50, 75, 100 };
-    }
-
-    /**
-     * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
-     * linjassa
-     * 
-     * @return Palauttaa haetun Palvelupistetyypin kpl maaran
-     * @author Rasmus Hyyppä
-     */
-    public int getPPMaara(int ppType) {
-        return ppMaaraArray[ppType - 1];
     }
 
     /**
@@ -238,6 +238,41 @@ public class UserParametrit {
 
     public void setCoAsTyyppiArr(double[] coAsTyyppiArr) {
         this.coAsTyyppiArr = coAsTyyppiArr;
+    }
+
+    public int getMinTyoVuoroArr() {
+        int minValue = tyoVuoroArr[0];
+        int minIndex = 0;
+        for (int i = 0; i < tyoVuoroArr.length; i++) {
+            if (tyoVuoroArr[i] < minValue) {
+                minValue = tyoVuoroArr[i];
+                minIndex = i;
+            }
+        }
+
+        System.out.println("Pienintä työvuoroa on: " + minValue + ", index: " + Tyovuoro.values()[minIndex]);
+        return minIndex;
+    }
+
+    public void addTyoVuoroArr(int tyoVuoroType) {
+        this.tyoVuoroArr[tyoVuoroType]++;
+    }
+
+    public int[] getTyoVuoroArr() {
+        int[] palautusArr = tyoVuoroArr;
+        tyoVuoroArr = new int[] { 0, 0, 0, 0, 0 }; // Resetti
+        return palautusArr;
+    }
+
+    /**
+     * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
+     * linjassa
+     * 
+     * @return Palauttaa haetun Palvelupistetyypin kpl maaran
+     * @author Rasmus Hyyppä
+     */
+    public int getPPMaara(int ppType) {
+        return ppMaaraArray[ppType - 1];
     }
 
     public int getPriPPMaara() {

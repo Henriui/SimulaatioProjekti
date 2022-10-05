@@ -1,4 +1,4 @@
-package com.project.simu.model;
+package com.project.simu.constants;
 
 public enum AsiakasTyyppi {
 

@@ -2,6 +2,7 @@ package com.project.simu.model;
 
 import com.project.eduni.distributions.ContinuousGenerator;
 import com.project.eduni.distributions.Uniform;
+import com.project.simu.constants.AsiakasTyyppi;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)

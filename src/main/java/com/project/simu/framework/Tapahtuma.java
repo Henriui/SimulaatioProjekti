@@ -1,6 +1,6 @@
 package com.project.simu.framework;
 
-import com.project.simu.model.Tyyppi;
+import com.project.simu.constants.Tyyppi;
 
 public class Tapahtuma implements Comparable<Tapahtuma> {
 	
