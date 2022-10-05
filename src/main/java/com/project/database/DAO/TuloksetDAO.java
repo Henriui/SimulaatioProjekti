@@ -249,6 +249,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
     /**
      * Drops table from the database.
+     * Returns true if successful. Otherwise returns false.
      * 
      * @return boolean
      * @Author Henri
