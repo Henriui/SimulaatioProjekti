@@ -20,7 +20,7 @@ public class Puhelinvalikko extends Palvelupiste {
     @Override
     public void addJonoon(Asiakas as) {
         super.addJonoon(as);
-        sS.asLisattyJonoon();
+        sS.addAsJonoon();
     }
 
     @Override

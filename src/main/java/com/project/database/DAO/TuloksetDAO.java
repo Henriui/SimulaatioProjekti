@@ -146,15 +146,15 @@ public class TuloksetDAO implements ITuloksetDAO {
 
             statement.setDouble(1, suureet.getSimulointiAika()); // kesto
             statement.setDouble(2, suureet.getPalveluprosentti()); // palveluprosentti
-            statement.setInt(3, suureet.getAsLisattyJonoonKpl()); // as_count
-            statement.setInt(4, suureet.getAsLisattyJonoonKpl()); // as_lisatyt
-            statement.setInt(5, suureet.getAsPalveltuKpl()); // as_palveltu
-            statement.setInt(6, suureet.getAsReRoutedKpl()); // as_routed
-            statement.setInt(7, suureet.getAsLahtenytJonostaKpl()); // as_poistunut
+            statement.setInt(3, suureet.getAsJonoon()); // as_count
+            statement.setInt(4, suureet.getAsJonoon()); // as_lisatyt
+            statement.setInt(5, suureet.getAsPalveltu()); // as_palveltu
+            statement.setInt(6, suureet.getAsReRouted()); // as_routed
+            statement.setInt(7, suureet.getAsPoistunut()); // as_poistunut
             statement.setDouble(8, suureet.getAvgJonotusAika()); // as_jono_aika
             statement.setDouble(9, suureet.getAvgPPOleskeluAika()); // as_palvelu_aika
             statement.setDouble(10, suureet.getAsTotalAikaPP()); // as_kok_aika
-            statement.setDouble(11, suureet.getAvgAsTotalAika()); // as_avg_aika
+            statement.setDouble(11, suureet.getAvgAsAika()); // as_avg_aika
             statement.setInt(12, suureet.getPPTotalMaara()); // pp_count
             statement.setDouble(13, suureet.getAvgJonotusAika()); // pp_jonotus_astatement set
 

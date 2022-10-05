@@ -30,7 +30,7 @@ public class Asiakaspalvelija extends Palvelupiste {
     @Override
     public void addJonoon(Asiakas as) {
         super.addJonoon(as);
-        sS.asLisattyJonoon();
+        sS.addAsJonoon();
     }
 
     private void tyoVuoronAjat() {
@@ -44,7 +44,7 @@ public class Asiakaspalvelija extends Palvelupiste {
     }
 
     @Override
-    public void aloitaPalvelu() { // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
+    public void aloitaPalvelu() {
         Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
         Asiakas as = jono.peek();
         // Lisätään jonotusaika & palveluaika suureet muuttujiin
@@ -103,14 +103,15 @@ public class Asiakaspalvelija extends Palvelupiste {
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " siirsi asiakkaita: " + getAsReRoutedJonosta());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " aloitti työt: " + getPpSaapumisAika());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " lopetti työt: " + getPpPoistumisAika());
+        Trace.out(Trace.Level.INFO, this.ppInfoStr + " työvuoro: " + getTv());
 
         // Asiakaspalvelijoitten suureet
         sS.addTotalPAPP(this.palveluAika);
-        sS.addTotalJonoAikaPP(this.jonoAika);
+        sS.addJonoAika(this.jonoAika);
         sS.addAsTotalAikaPP(this.asTotalAika);
-        sS.addAvgJonotusAika(getAvgPalveluAika());
+        sS.addAvgJonotusAika(getAvgJonotusAika());
         sS.addAvgPPOleskeluAika(getAvgOleskeluAika());
-        sS.addAvgTotalPA(getAvgJonotusAika());
+        sS.addAvgTotalPA(getAvgPalveluAika());
         sS.addPalveluprosentti(getPProsentti());
     }
 }

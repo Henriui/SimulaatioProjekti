@@ -64,9 +64,7 @@ public abstract class Palvelupiste {
 	public Asiakas otaJonosta() { // Poistetaan palvelussa ollut
 		Asiakas as = this.jono.poll();
 		// Lisätään asiakkaan poistumisaika pp:ssä
-		if (as.getAsPoistumisaikaPP() != (as.getAsSaapumisaikaPP() + maxJononPituus)) {
-			as.setAsPoistumisaikaPP(Kello.getInstance().getAika());
-		}
+		as.setAsPoistumisaikaPP(Kello.getInstance().getAika());
 		this.varattu = false;
 		this.asTotalAika += as.getAsPoistumisaikaPP() - as.getAsSaapumisaikaPP();
 		return as;
@@ -94,12 +92,11 @@ public abstract class Palvelupiste {
 	public boolean kyllastyiJonoon(Asiakas as, double jAika) {
 		if (jAika > maxJononPituus) {
 			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + as.getId());
+			this.jonoAika += jAika;
 			jAika = as.getAsSaapumisaikaPP() + maxJononPituus;
 			as.setJonotukseenKyllastynyt();
-			as.setAsPoistumisaikaPP(jAika);
 			this.asPoistunutJonosta++;
-			this.jonoAika += maxJononPituus;
-			tapahtumalista.lisaa(new Tapahtuma(this.ppTyyppi, jAika));
+			this.tapahtumalista.lisaa(new Tapahtuma(this.ppTyyppi, jAika));
 			return true;
 		}
 		return false;
@@ -163,7 +160,7 @@ public abstract class Palvelupiste {
 	}
 
 	public double getAvgOleskeluAika() {
-		return this.asTotalAika / this.asPalveltuJonosta;
+		return this.asTotalAika / this.asLisattyJonoon;
 	}
 
 	public double getAvgJonotusAika() {

@@ -190,7 +190,7 @@ public class Asiakas {
 	 * @author Rasmus Hyyppä
 	 */
 	public int setReRouted() {
-		sS.asReRoutedPPKpl();
+		sS.addAsReRouted();
 		asTypeJakauma = new Uniform(0, 8);
 		int arvottuAsType = (int) asTypeJakauma.sample();
 		// Mikäli generoitu asiakastyyppi on sama kuin jo asetettu arvo
@@ -229,7 +229,7 @@ public class Asiakas {
 		sum += (asPoistumisaika - asSaapumisaika);
 		double keskiarvo = sum / id;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
-		sS.setAsTotalAikaAvg((double) keskiarvo);
+		sS.setAvgAsAika((double) keskiarvo);
 
 	}
 }

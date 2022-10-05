@@ -107,16 +107,16 @@ public class OmaMoottori extends Moottori {
 
 			as.setAsPoistumisaika(Kello.getInstance().getAika());
 			if (as.isJonotukseenKyllastynyt()) {
-				sS.asLahtenytJonostaKpl();
+				sS.addAsPoistunut();
 			} else {
 				// Updatetaan tämän hetkinen tilanne
 				kontrolleri.asPPMaara(ppPalveltuStatus(1), ppPalveltuStatus(5));
-				sS.asPalveltuJonosta();
+				sS.addAsPalveltu();
 			}
 
 			// Kuinka monta asiakasta on ulkona
-			kontrolleri.ulkonaAs(sS.getAsPalveltuKpl() +
-					sS.getAsLahtenytJonostaKpl());
+			kontrolleri.ulkonaAs(sS.getAsPalveltu() +
+					sS.getAsPoistunut());
 			// Asiakas ulkona -> Raportoidaan
 			as.raportti();
 		}
@@ -229,7 +229,7 @@ public class OmaMoottori extends Moottori {
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 		}
-		sS.setAsLisattyJonoon(palvelupisteet[0].getAsLisattyJonoon());
+		sS.setAsJonoon(palvelupisteet[0].getAsLisattyJonoon());
 		sS.setSimulointiAika(Kello.getInstance().getAika());
 		sS.tulosteet();
 	}
