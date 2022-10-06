@@ -10,7 +10,7 @@ import com.project.simu.framework.Trace;
 
 public class Asiakaspalvelija extends Palvelupiste {
 
-    private SimulaationSuureet sS;
+    // private SimulaationSuureet sS;
     private Tyovuoro tv;
 
     private int asReRoutedJonosta;
@@ -21,7 +21,7 @@ public class Asiakaspalvelija extends Palvelupiste {
         super(generator, tapahtumalista, tyyppi, maxJononPituus);
         this.tv = tv;
 
-        this.sS = SimulaationSuureet.getInstance();
+        // this.sS = SimulaationSuureet.getInstance();
         this.reRouteAika = 30; // 30 sekunttia reroute keskustelu
         this.asReRoutedJonosta = 0;
         tyoVuoronAjat();
@@ -30,7 +30,7 @@ public class Asiakaspalvelija extends Palvelupiste {
     @Override
     public void addJonoon(Asiakas as) {
         super.addJonoon(as);
-        sS.addAsJonoon();
+        // sS.addAsJonoon();
     }
 
     private void tyoVuoronAjat() {
@@ -99,19 +99,9 @@ public class Asiakaspalvelija extends Palvelupiste {
     @Override
     public void raportti() {
         super.raportti();
-
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " siirsi asiakkaita: " + getAsReRoutedJonosta());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " aloitti työt: " + getPpSaapumisAika());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " lopetti työt: " + getPpPoistumisAika());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " työvuoro: " + getTv());
-
-        // Asiakaspalvelijoitten suureet
-        sS.addTotalPAPP(this.palveluAika);
-        sS.addJonoAika(this.jonoAika);
-        sS.addAsTotalAikaPP(this.asTotalAika);
-        sS.addAvgJonotusAika(getAvgJonotusAika());
-        sS.addAvgPPOleskeluAika(getAvgOleskeluAika());
-        sS.addAvgTotalPA(getAvgPalveluAika());
-        sS.addPalveluprosentti(getPProsentti());
     }
 }
