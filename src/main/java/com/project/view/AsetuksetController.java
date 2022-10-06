@@ -36,15 +36,15 @@ public class AsetuksetController {
     private void initialize() {
         uP = UserParametrit.getInstance();
         uP.lueTiedostostaDbParametrit();
-        if(uP.getDbName() != null){
+        if (uP.getDbName() != null) {
             dbName.setText(uP.getDbName());
         }
-        if(uP.getUsername() != null){
+        if (uP.getUsername() != null) {
             username.setText(uP.getUsername());
         }
-        if(uP.getPassword() != null){
+        if (uP.getPassword() != null) {
             String pw = "";
-            for (int i = 0; i < uP.getPassword().length(); i++){
+            for (int i = 0; i < uP.getPassword().length(); i++) {
                 pw += "*";
             }
             password.setText(pw);
@@ -62,7 +62,8 @@ public class AsetuksetController {
     }
 
     /**
-     * Tallenna nappia painettaessa tarkistaa että käyttäjä on syöttänyt arvot kaikiin kenttiin tämän jälkeen
+     * Tallenna nappia painettaessa tarkistaa että käyttäjä on syöttänyt arvot
+     * kaikiin kenttiin tämän jälkeen
      * kutsuu kirjoitaTiedostoon() methodia
      * 
      * @author Lassi Bågman

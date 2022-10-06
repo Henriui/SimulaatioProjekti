@@ -1,6 +1,7 @@
 package com.project.simu.model;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import com.project.simu.framework.Trace;
 
@@ -14,23 +15,26 @@ public class SimulaationSuureet {
      * pa = palveluaika
      * avg = keskimääräinen
      * total = kokonais
+     * pv = puhelinvalikko
+     * ap = asiakaspalvelija
      */
     private int ppTotalMaara;
     private int yritysPP;
     private int yksityisPP;
 
-    private int asLisattyJonoonKpl;
-    private int asPalveltuJonostaKpl;
-    private int asLahtenytJonostaKpl;
-    private int asReRoutattuJonostaKpl;
+    private int asLisattyJonoon;
+    private int asPalveltuJonosta;
+    private int asPoistunutJonosta;
+    private int asReRoutattuJonosta;
 
     private double simulointiAika;
+
     private double avgAsTotalAikaAvg;
     private double asTotalAikaPP;
-    private double totalPAPP;
-    private double totalJonoAikaPP;
-    private double avgTotalPA;
-    private double avgPPOleskeluAika;
+    private double totalPA;
+    private double totalJonoAika;
+    private double avgPA;
+    private double avgOleskeluAika;
     private double avgJonotusAika;
 
     private double palveluprosentti;
@@ -49,19 +53,22 @@ public class SimulaationSuureet {
     public void resetSuureet() {
 
         // Jono kpl
-        asLisattyJonoonKpl = 0;
-        asPalveltuJonostaKpl = 0;
-        asLahtenytJonostaKpl = 0;
-        asReRoutattuJonostaKpl = 0;
+        asLisattyJonoon = 0;
+        asPalveltuJonosta = 0;
+        asPoistunutJonosta = 0;
+        asReRoutattuJonosta = 0;
 
         // Aikoja
-        totalPAPP = 0;
-        totalJonoAikaPP = 0;
+        totalPA = 0;
+        totalJonoAika = 0;
         asTotalAikaPP = 0;
+
         avgAsTotalAikaAvg = 0;
-        avgTotalPA = 0;
-        avgPPOleskeluAika = 0;
+        avgPA = 0;
+        avgOleskeluAika = 0;
         avgJonotusAika = 0;
+
+        simulointiAika = UserParametrit.getInstance().getSimulaationAika();
 
         // Tämän hetkinen palveluprosentti
         palveluprosentti = 0;
@@ -74,37 +81,37 @@ public class SimulaationSuureet {
         ppTotalMaara = UserParametrit.getInstance().getAllPPMaara();
     }
 
-    /**
-     * Work in progress update method
-     * public void updateSuureet(int t, INewSimulationControllerMtoV kontrolleri,
-     * int p, int yksityis, int yritys) {
-     * }
-     */
-
     public void tulosteet() {
         DecimalFormat dF = new DecimalFormat("#0.00");
-        Trace.out(Trace.Level.INFO, "\n\n\nSimulointiaika: " + dF.format(simulointiAika));
-        Trace.out(Trace.Level.INFO, "Palvelupisteiden kokonaismaara: " + ppTotalMaara);
+        Trace.out(Trace.Level.INFO, "\n\n\nSimulointiaika: " + dF.format(getSimulointiAika()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteiden kokonaismaara: " + getPPTotalMaara());
         Trace.out(Trace.Level.INFO, "Palvelupisteitä henkilöasiakkaille: " + getYksityisPP());
         Trace.out(Trace.Level.INFO, "Palvelupisteitä yritysasiakkaille: " + getYritysPP());
-        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + asLisattyJonoonKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + asPalveltuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + asReRoutattuJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + asLahtenytJonostaKpl);
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + dF.format(totalPAPP));
-        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + dF.format(totalJonoAikaPP));
-        Trace.out(Trace.Level.INFO, "Asiakkaan keskimaarainen palvelupisteen oleskeluaika: "
-                + dF.format(avgPPOleskeluAika));
+        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + getAsJonoon());
+        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + getAsPalveltu());
+        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + getAsReRouted());
+        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + getAsPoistunut());
+
+        // Total ajat
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaispalveluaika: " + dF.format(getTotalPAPP()));
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisjonotusaika: " + dF.format(getJonoAika()));
+        Trace.out(Trace.Level.INFO, "Asiakkaitten kokonaisaika palvelupisteissa: " + dF.format(getAsTotalAikaPP()));
+
+        // Avg suureet
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten kokonaisaika palvelupisteissa: " + dF.format(asTotalAikaPP));
+                "Asiakkaitten keskimääräinen oleskelu simulaatiossa: " + dF.format(getAvgAsAika()));
         Trace.out(Trace.Level.INFO,
-                "Asiakkaitten keskimääräinen oleskelu simulaatiossa: " + dF.format(avgAsTotalAikaAvg));
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + dF.format(avgTotalPA));
-        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: "
-                + dF.format(avgJonotusAika));
+                "Asiakkaan keskimaarainen palvelupisteen oleskeluaika: " + dF.format(getAvgPPOleskeluAika()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen palveluaika: " + dF.format(getAvgTotalPA()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteitten keskimaarainen jonotusaika: " + dF.format(getAvgJonotusAika()));
+
+        // Vastausprosentti / Palveluprosentti
         Trace.out(Trace.Level.INFO,
                 "Palvelupisteitten palveluprosentti: " + dF.format(getPalveluprosentti()) + " %.\n");
 
+        // Palvelupisteitä työvuoroissa
+        Trace.out(Trace.Level.INFO, "Asiakaspalvelijoita työvuoroissa array: "
+                + Arrays.toString(UserParametrit.getInstance().getTyoVuoroArr()));
     }
 
     /**
@@ -113,8 +120,8 @@ public class SimulaationSuureet {
      * @return int return the asiakasLisattyJonoonKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsLisattyJonoonKpl() {
-        return asLisattyJonoonKpl;
+    public int getAsJonoon() {
+        return asLisattyJonoon;
     }
 
     /**
@@ -123,16 +130,16 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asLisattyJonoon() {
-        this.asLisattyJonoonKpl += 1;
+    public void addAsJonoon() {
+        this.asLisattyJonoon += 1;
     }
 
     /**
      * @param lkm setter asiakasLisattyJonoonKpl
      * @author Rasmus Hyyppä
      */
-    public void setAsLisattyJonoon(int lkm) {
-        this.asLisattyJonoonKpl = lkm;
+    public void setAsJonoon(int lkm) {
+        this.asLisattyJonoon = lkm;
     }
 
     /**
@@ -141,8 +148,8 @@ public class SimulaationSuureet {
      * @return int return the asiakasPalveluJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsPalveltuJonostaKpl() {
-        return asPalveltuJonostaKpl;
+    public int getAsPalveltu() {
+        return asPalveltuJonosta;
     }
 
     /**
@@ -151,16 +158,16 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asPalveltuJonosta() {
-        this.asPalveltuJonostaKpl += 1;
+    public void addAsPalveltu() {
+        this.asPalveltuJonosta += 1;
     }
 
     /**
      * @param lkm setter asiakasPalveltuJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public void setAsPalveltuJonostaKpl(int lkm) {
-        this.asPalveltuJonostaKpl = lkm;
+    public void setAsPalveltu(int lkm) {
+        this.asPalveltuJonosta = lkm;
     }
 
     /**
@@ -170,8 +177,8 @@ public class SimulaationSuureet {
      * @return int asiakasLahtenytJonostaKpl
      * @author Rasmus Hyyppä
      */
-    public int getAsLahtenytJonostaKpl() {
-        return asLahtenytJonostaKpl;
+    public int getAsPoistunut() {
+        return asPoistunutJonosta;
     }
 
     /**
@@ -180,16 +187,16 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asLahtenytJonostaKpl() {
-        this.asLahtenytJonostaKpl += 1;
+    public void addAsPoistunut() {
+        this.asPoistunutJonosta += 1;
     }
 
     /**
      * @return int Muuttuja ylläpitämään reroutattuja asiakkaita
      * @author Rasmus Hyyppä
      */
-    public int getAsReRoutedPPKpl() {
-        return asReRoutattuJonostaKpl;
+    public int getAsReRouted() {
+        return asReRoutattuJonosta;
     }
 
     /**
@@ -198,8 +205,8 @@ public class SimulaationSuureet {
      * 
      * @author Rasmus Hyyppä
      */
-    public void asReRoutedPPKpl() {
-        this.asReRoutattuJonostaKpl += 1;
+    public void addAsReRouted() {
+        this.asReRoutattuJonosta += 1;
     }
 
     /**
@@ -219,23 +226,23 @@ public class SimulaationSuureet {
     }
 
     /**
-     * Kokonais palveluaika palvelupisteissä
+     * Kokonais palveluaika asiakaspalvelijoilla
      * 
      * @return double return totalPAPP
      * @author Rasmus Hyyppä
      */
     public double getTotalPAPP() {
-        return totalPAPP;
+        return totalPA;
     }
 
     /**
-     * Kokonais palveluaika palvelupisteissä
+     * Kokonais palveluaika asiakaspalveljoilla
      * 
      * @param totalPAPP Parametri lisätään kokonaisPAPP muuttujan arvoon +=
      * @author Rasmus Hyyppä
      */
     public void addTotalPAPP(double totalPAPP) {
-        this.totalPAPP += totalPAPP;
+        this.totalPA += totalPAPP;
     }
 
     /**
@@ -244,8 +251,8 @@ public class SimulaationSuureet {
      * @return double return the totalJonoÀikaPP
      * @author Rasmus Hyyppä
      */
-    public double getTotalJonoAikaPP() {
-        return totalJonoAikaPP;
+    public double getJonoAika() {
+        return totalJonoAika;
     }
 
     /**
@@ -254,8 +261,8 @@ public class SimulaationSuureet {
      * @param totalJonoAikaPP Parametri lisätään totalJonoAikaPP muuttujan arvoon +=
      * @author Rasmus Hyyppä
      */
-    public void addTotalJonoAikaPP(double totalJonoAikaPP) {
-        this.totalJonoAikaPP += totalJonoAikaPP;
+    public void addJonoAika(double totalJonoAikaPP) {
+        this.totalJonoAika += totalJonoAikaPP;
     }
 
     /**
@@ -283,7 +290,7 @@ public class SimulaationSuureet {
      * @return Keskimääräinen asiakkaan viipyminen simulaatiossa
      * @author Rasmus Hyyppä
      */
-    public double getAsTotalAikaAvg() {
+    public double getAvgAsAika() {
         return avgAsTotalAikaAvg;
     }
 
@@ -292,7 +299,7 @@ public class SimulaationSuureet {
      *                       simulaatiossa
      * @author Rasmus Hyyppä
      */
-    public void setAsTotalAikaAvg(double asTotalAikaAvg) {
+    public void setAvgAsAika(double asTotalAikaAvg) {
         this.avgAsTotalAikaAvg = asTotalAikaAvg;
     }
 
@@ -303,7 +310,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public double getAvgTotalPA() {
-        return avgTotalPA;
+        return avgPA / (ppTotalMaara - UserParametrit.getMinimiPPMaara());
     }
 
     /**
@@ -313,7 +320,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public void addAvgTotalPA(double avgPA) {
-        this.avgTotalPA += avgPA;
+        this.avgPA += avgPA;
     }
 
     /**
@@ -323,7 +330,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public double getAvgPPOleskeluAika() {
-        return avgPPOleskeluAika / ppTotalMaara;
+        return avgOleskeluAika / (ppTotalMaara - UserParametrit.getMinimiPPMaara());
     }
 
     /**
@@ -333,17 +340,18 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public void addAvgPPOleskeluAika(double avgPPOleskeluAika) {
-        this.avgPPOleskeluAika += avgPPOleskeluAika;
+        this.avgOleskeluAika += avgPPOleskeluAika;
     }
 
     /**
      * Kaikkien palvelupisteiden keskimääräinen jonotusaika
+     * / (ppTotalMaara - UserParametrit.getMinimiPPMaara()))
      * 
      * @return double return the keskiarvoJonotusAika
      * @author Rasmus Hyyppä
      */
     public double getAvgJonotusAika() {
-        return avgJonotusAika;
+        return avgJonotusAika / (ppTotalMaara - UserParametrit.getMinimiPPMaara());
     }
 
     /**
@@ -364,7 +372,7 @@ public class SimulaationSuureet {
      * @author Rasmus Hyyppä
      */
     public double getPalveluprosentti() {
-        return palveluprosentti / ppTotalMaara;
+        return palveluprosentti / (ppTotalMaara - UserParametrit.getMinimiPPMaara());
     }
 
     /**
