@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.SimulaationSuureet;
 import com.project.simu.model.UserParametrit;
@@ -28,6 +29,7 @@ public class TuloksetDAO implements ITuloksetDAO {
         dbName = up.getDbName();
         user = up.getUsername();
         password = up.getPassword();
+        openConnection();
     }
 
     /**
@@ -245,6 +247,13 @@ public class TuloksetDAO implements ITuloksetDAO {
         return false;
     }
 
+    /**
+     * Drops table from the database.
+     * Returns true if successful. Otherwise returns false.
+     * 
+     * @return boolean
+     * @Author Henri
+     */
     public boolean dropTable() {
         try {
             statement = connection.prepareStatement("DROP TABLE " + tableName);
@@ -256,5 +265,28 @@ public class TuloksetDAO implements ITuloksetDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Fetches column count of database.
+     * Returns int value if successful, otherwise retuns null.
+     * 
+     * @return int
+     * @Author Henri
+     */
+    public int getRowCount(){
+        int result;
+        try{
+            statement = connection.prepareStatement("Select id from " + tableName);
+            ResultSet rs = statement.executeQuery();
+            rs.last();
+            
+            result = rs.getInt(1);
+            return result;
+        } catch (SQLException e) {
+            System.out.println("No rows or something went wrong.");
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

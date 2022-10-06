@@ -1,5 +1,6 @@
 package com.project.database;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.*;
@@ -11,12 +12,6 @@ import com.project.simu.model.UserParametrit;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
-
-    @BeforeAll
-    public static void alusta() {
-        UserParametrit.getInstance().setDbParameters("olso", "testitable", "root", "root");
-        dao = new TuloksetDAO();
-    }
 
     @BeforeEach
     public void avaaYhteys() {
@@ -56,7 +51,18 @@ public class DAOtest {
     @Test
     @DisplayName("dropTable testi")
     public void dropTableTesti() {
-        assertTrue(dao.dropTable(), "we dun fukd up.");
+        assertTrue(dao.dropTable(), "Table not dropped properly.");
     }
 
+    @Test
+    @DisplayName("getRowCount testi")
+    public void getRowCountTest() {
+        dao.dropTable();
+        dao.openConnection();
+        SimulaationSuureet ss = new SimulaationSuureet();
+        dao.addTulos(ss);
+        dao.addTulos(ss);
+        dao.addTulos(ss); // add 3 rows.
+        assertEquals(3, dao.getRowCount(), "Rows not counted well.");
+    }
 }

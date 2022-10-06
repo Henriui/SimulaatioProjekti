@@ -14,9 +14,14 @@ public class Simulaattori { // Tekstipohjainen
 		uP.setDbParameters("olso", "simulaatio", "root", "root");
 		ITuloksetDAO db = new TuloksetDAO();
 		SimulaationSuureet ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
+		uP.setDbParameters("olso", "testi", "root", "root");
+		db.openConnection();
+		db.dropTable();
+		db.openConnection();
 		db.addTulos(ss);
-		db.removeTulos(1);
-
+		db.addTulos(ss);
+		db.addTulos(ss);
+		System.out.println(db.getRowCount());
 		/*
 		 * Trace.setTraceLevel(Level.INFO);
 		 * Moottori m = new OmaMoottori();
