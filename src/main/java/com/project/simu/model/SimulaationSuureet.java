@@ -116,7 +116,7 @@ public class SimulaationSuureet {
     }
 
     public double getPalveluprosentti() {
-        return palveluprosentti / (UserParametrit.getInstance().getAllPPMaara());
+        return palveluprosentti / (UserParametrit.getInstance().getAllPPMaara() - UserParametrit.getMinPPMaara());
     }
 
     public void addPalveluprosentti(double palveluprosentti) {
@@ -195,8 +195,8 @@ public class SimulaationSuureet {
         addPalveluMaara(ppTyyppi, pp.getAsPalveltuJonosta());
         addPalveluAika(ppTyyppi, pp.getAvgPalveluAika());
         addJonoAika(ppTyyppi, pp.getAvgJonotusAika());
-        addPalveluprosentti(pp.getPProsentti());
         if (ppTyyppi < 9) {
+            addPalveluprosentti(pp.getPProsentti());
             addJonoATotal(pp.getJonoAika());
             addJonotusATotal(pp.getAvgJonotusAika());
             addPPViipymisATotal(pp.getAvgViipyminenPP());
