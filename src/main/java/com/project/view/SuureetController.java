@@ -14,12 +14,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+/**
+ * It's a controller class for a JavaFX GUI.
+ * 
+ * @author Jonne Borgman
+ */
+
 public class SuureetController {
 
     private NewSimulationController controller = new NewSimulationController();
     private boolean canSave = false;
     UserParametrit userParametrit = UserParametrit.getInstance();
-
+  
     @FXML
     private Button closeButton;
     @FXML
@@ -60,6 +66,16 @@ public class SuureetController {
     @FXML
     private Label laskutusPpKpl;
     @FXML
+    private TextField myyntiPpJakauma;
+    @FXML
+    private TextField nettiPpJakauma;
+    @FXML
+    private TextField liittymäPpJakauma;
+    @FXML
+    private TextField laskutusPpJakauma;
+    @FXML
+    private Label YksityisJakaumaProsentti;
+    @FXML
     private TextField myyntiAikaField;
     @FXML
     private TextField nettiAikaField;
@@ -67,6 +83,16 @@ public class SuureetController {
     private TextField liittymäAikaField;
     @FXML
     private TextField laskutusAikaField;
+    @FXML
+    private TextField myyntiYritysPpJakauma;
+    @FXML
+    private TextField nettiYritysPpJakauma;
+    @FXML
+    private TextField liittymäYritysPpJakauma;
+    @FXML
+    private TextField laskutusYritysPpJakauma;
+    @FXML
+    private Label YritysJakaumaProsentti;
 
     // Yrityspuolen asetukset.
 
@@ -98,12 +124,49 @@ public class SuureetController {
     private UserParametrit uP = UserParametrit.getInstance();
     private DecimalFormat dF;
 
+
     @FXML
     private void initialize() {
         startValuet();
         onSliderChanged();
+        onTextChanged();
     }
 
+    @FXML
+    private void onTextChanged(){
+        // Yksityis
+        setTextFieldListener(myyntiAikaField);
+        setTextFieldListener(nettiAikaField);
+        setTextFieldListener(liittymäAikaField);
+        setTextFieldListener(laskutusAikaField);
+
+        setB2CJakaumaListener(myyntiPpJakauma);
+        setB2CJakaumaListener(nettiPpJakauma);
+        setB2CJakaumaListener(liittymäPpJakauma);
+        setB2CJakaumaListener(laskutusPpJakauma);
+        // Yritys
+        setTextFieldListener(YritysmyyntiAikaField);
+        setTextFieldListener(YritysnettiAikaField);
+        setTextFieldListener(YritysliittymäAikaField);
+        setTextFieldListener(YrityslaskutusAikaField);
+
+        setB2BJakaumaListener(myyntiYritysPpJakauma);
+        setB2BJakaumaListener(nettiYritysPpJakauma);
+        setB2BJakaumaListener(liittymäYritysPpJakauma);
+        setB2BJakaumaListener(laskutusYritysPpJakauma);
+
+        // Simulaattorin asetukset
+        setTextFieldListener(simuloinninAikaField);
+        setTextFieldListener(kärsimättömyysAikaField);
+        setTextFieldListener(väärävalintaProsenttiField);
+        setTextFieldListener(asiakasMääräField);
+
+    }
+    /**
+    * When the slider is changed, the value of the slider is set to the label.
+    *
+    * @author Jonne Borgman
+    */
     @FXML
     private void onSliderChanged() {
 
@@ -119,25 +182,16 @@ public class SuureetController {
         setSliderListener(YritysnettiPp, YritysnettiPpKpl);
         setSliderListener(YritysliittymäPp, YritysliittymäPpKpl);
         setSliderListener(YrityslaskutusPp, YrityslaskutusPpKpl);
-
-        // Yksityis
-        setTextFieldListener(myyntiAikaField);
-        setTextFieldListener(nettiAikaField);
-        setTextFieldListener(liittymäAikaField);
-        setTextFieldListener(laskutusAikaField);
-        // Yritys
-        setTextFieldListener(YritysmyyntiAikaField);
-        setTextFieldListener(YritysnettiAikaField);
-        setTextFieldListener(YritysliittymäAikaField);
-        setTextFieldListener(YrityslaskutusAikaField);
-        // Simulaattorin asetukset
-        setTextFieldListener(simuloinninAikaField);
-        setTextFieldListener(kärsimättömyysAikaField);
-        setTextFieldListener(väärävalintaProsenttiField);
-        setTextFieldListener(asiakasMääräField);
+        // Simulaattorin asetukset.
         setJakauma(jakaumaSlider, jakaumaText);
     }
 
+  /**
+   * It checks if the all of the textfields contain numbers and if they do, it sets canSave to true.
+   * If textfields contains anything else than numbers, sets canSave to false.
+   * 
+   * @author Jonne Borgman
+   */
     @FXML
     private void textFieldCheck() {
         try {
@@ -145,10 +199,17 @@ public class SuureetController {
             Double.parseDouble(nettiAikaField.getText());
             Double.parseDouble(liittymäAikaField.getText());
             Double.parseDouble(laskutusAikaField.getText());
+
             Double.parseDouble(YritysmyyntiAikaField.getText());
             Double.parseDouble(YritysnettiAikaField.getText());
             Double.parseDouble(YritysliittymäAikaField.getText());
             Double.parseDouble(YrityslaskutusAikaField.getText());
+
+            Integer.parseInt(myyntiPpJakauma.getText());
+            Integer.parseInt(nettiPpJakauma.getText());
+            Integer.parseInt(liittymäPpJakauma.getText());
+            Integer.parseInt(laskutusPpJakauma.getText());
+
             Double.parseDouble(simuloinninAikaField.getText());
             Integer.parseInt(kärsimättömyysAikaField.getText());
             Double.parseDouble(väärävalintaProsenttiField.getText());
@@ -159,9 +220,16 @@ public class SuureetController {
         }
     }
 
+   /**
+    * If the user has entered valid values, save them and close the window
+    *
+    * @author Jonne Borgman
+    */
+
     @FXML
     private void tallenna() {
         // Check that all values are ok.
+        prosentti();
         if (canSave) {
             saveValues();
             Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -175,6 +243,11 @@ public class SuureetController {
         }
     }
 
+    /**
+    * Closes the window.
+    *
+    * @author Jonne Borgman
+    */
     @FXML
     private void peruuta() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -182,6 +255,11 @@ public class SuureetController {
         stage.close();
     }
 
+    /**
+     * Gets all values from the singleton, and sets them for the right fields.
+     * 
+     * @author Jonne Borgman
+     */
     private void startValuet() {
         canSave = true;
         dF = new DecimalFormat("#0");
@@ -247,6 +325,11 @@ public class SuureetController {
         tF.setText(dF.format(uP.getPPAvgAika(ppType) / 60));
     }
 
+    /**
+     * It saves the values from the GUI to the simulation.
+     * 
+     * @author Jonne Borgman
+     */
     private void saveValues() {
         uP.setPPMaara((int) myyntiPalvelupisteet.getValue(), 1);
         uP.setPPMaara((int) nettiPalvelupisteet.getValue(), 2);
@@ -286,6 +369,18 @@ public class SuureetController {
         });
     }
 
+    /**
+     * When the slider value changes, the label text changes to the corresponding value and the
+     * jakauma variable is set to the corresponding value.
+     * 
+     * The jakauma variable is used to calculate the probability for what type of customers enter the simulation.
+     * 
+     * @param s Slider
+     * @param l Label that shows the current value of the slider
+     * 
+     * @author Jonne Borgman
+     */
+
     private void setJakauma(Slider s, Label l) {
         s.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -317,6 +412,37 @@ public class SuureetController {
         });
     }
 
+    public void prosentti(){
+        int yksityisProsentti = Integer.parseInt(YksityisJakaumaProsentti.getText());
+        int yritysProsentti = Integer.parseInt(YritysJakaumaProsentti.getText());
+
+        if(yksityisProsentti > 100 || yritysProsentti > 100)
+            canSave = false;
+        
+    }
+    
+    private void setB2CJakaumaListener(TextField tF) {
+        tF.textProperty().addListener((observable, oldValue, newValue) -> textFieldCheck());
+
+        int myynti = Integer.parseInt(myyntiPpJakauma.getText());
+        int netti = Integer.parseInt(nettiPpJakauma.getText());
+        int liittymä = Integer.parseInt(liittymäPpJakauma.getText());
+        int laskutus = Integer.parseInt(laskutusPpJakauma.getText());
+        int yhteensä = myynti + netti + liittymä + laskutus;
+        YksityisJakaumaProsentti.setText(String.valueOf(yhteensä));
+    }
+
+    private void setB2BJakaumaListener(TextField tF) {
+        tF.textProperty().addListener((observable, oldValue, newValue) -> textFieldCheck());
+
+        int myynti = Integer.parseInt(myyntiYritysPpJakauma.getText());
+        int netti = Integer.parseInt(nettiYritysPpJakauma.getText());
+        int liittymä = Integer.parseInt(liittymäYritysPpJakauma.getText());
+        int laskutus = Integer.parseInt(laskutusYritysPpJakauma.getText());
+        int yhteensä = myynti + netti + liittymä + laskutus;
+        YritysJakaumaProsentti.setText(String.valueOf(yhteensä));
+    }
+    
     /**
      * Methodi textfield kuuntelijalle, jokainen input aiheuttaa textFieldCheckin()
      * 

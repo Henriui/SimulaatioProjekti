@@ -40,7 +40,7 @@
       </AnchorPane>
       <ScrollPane layoutY="70.0" prefHeight="1600.0" prefWidth="889.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1368.0" prefWidth="890.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1768.0" prefWidth="890.0">
                <children>
                   <AnchorPane layoutY="1.0" prefHeight="532.0" prefWidth="453.0" style="-fx-background-color: #5F008F;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="443.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                      <children>
@@ -95,10 +95,10 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="YritysmyyntiAikaField" layoutX="50.0" layoutY="477.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="477.0" />
-                        <TextField fx:id="YritysnettiAikaField" layoutX="60.0" layoutY="487.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="562.0" />
-                        <TextField fx:id="YritysliittymäAikaField" layoutX="70.0" layoutY="497.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="647.0" />
-                        <TextField fx:id="YrityslaskutusAikaField" layoutX="80.0" layoutY="507.0" onAction="#textFieldCheck" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="732.0" />
+                        <TextField fx:id="YritysmyyntiAikaField" layoutX="50.0" layoutY="477.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="477.0" />
+                        <TextField fx:id="YritysnettiAikaField" layoutX="60.0" layoutY="487.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="562.0" />
+                        <TextField fx:id="YritysliittymäAikaField" layoutX="70.0" layoutY="497.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="647.0" />
+                        <TextField fx:id="YrityslaskutusAikaField" layoutX="80.0" layoutY="507.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="732.0" />
                         <Slider fx:id="YritysmyyntiPp" blockIncrement="1.0" layoutX="34.0" layoutY="65.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
@@ -195,10 +195,10 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="myyntiAikaField" layoutX="237.0" layoutY="478.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="477.0" />
-                        <TextField fx:id="nettiAikaField" layoutX="247.0" layoutY="488.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="562.0" />
-                        <TextField fx:id="liittymäAikaField" layoutX="257.0" layoutY="498.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="647.0" />
-                        <TextField fx:id="laskutusAikaField" layoutX="267.0" layoutY="508.0" onAction="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="732.0" />
+                        <TextField fx:id="myyntiAikaField" layoutX="237.0" layoutY="478.0" onAction="#onTextChanged" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="477.0" />
+                        <TextField fx:id="nettiAikaField" layoutX="247.0" layoutY="488.0" onAction="#onTextChanged" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="562.0" />
+                        <TextField fx:id="liittymäAikaField" layoutX="257.0" layoutY="498.0" onAction="#onTextChanged" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="647.0" />
+                        <TextField fx:id="laskutusAikaField" layoutX="267.0" layoutY="508.0" onAction="#onTextChanged" promptText="minuuttia" text="10" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="732.0" />
                         <Slider fx:id="myyntiPalvelupisteet" blockIncrement="1.0" layoutX="250.0" layoutY="71.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="LEFT_TO_RIGHT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="75.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
@@ -209,7 +209,7 @@
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="nettiPpKpl" layoutX="166.0" layoutY="148.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
+                        <Label fx:id="nettiPpKpl" layoutX="166.0" layoutY="148.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="150.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -229,12 +229,12 @@
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label fx:id="liittymäPpKpl" layoutX="166.0" layoutY="233.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
+                        <Label fx:id="liittymäPpKpl" layoutX="166.0" layoutY="233.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="233.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="laskutusPpKpl" layoutX="166.0" layoutY="318.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
+                        <Label fx:id="laskutusPpKpl" layoutX="166.0" layoutY="318.0" text="3 kpl" textFill="WHITE" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="318.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -243,7 +243,105 @@
                   </AnchorPane>
                   <Separator prefWidth="200.0" scaleY="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="403.0" AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane prefHeight="50.0" prefWidth="891.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="836.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="445.0" AnchorPane.topAnchor="836.0">
+                     <children>
+                        <TextField fx:id="myyntiPpJakauma" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="67.0" />
+                        <TextField fx:id="nettiPpJakauma" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="152.0" />
+                        <TextField fx:id="liittymäPpJakauma" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="238.0" />
+                        <TextField fx:id="laskutusPpJakauma" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="322.0" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Palvelupisteiden jakauma %:" AnchorPane.leftAnchor="116.0" AnchorPane.topAnchor="5.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Myynti:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="67.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Netti:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="152.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Liittymä:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="238.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Laskutus:" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="322.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="YksityisJakaumaProsentti" text="100" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="166.0">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="10.0" text="Yhteensä :" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="135.0">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="10.0" text="\%" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="140.0">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="443.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="836.0">
+                     <children>
+                        <TextField fx:id="myyntiYritysPpJakauma" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="67.0" />
+                        <TextField fx:id="nettiYritysPpJakauma" layoutX="10.0" layoutY="10.0" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="152.0" />
+                        <TextField fx:id="liittymäYritysPpJakauma" layoutX="10.0" layoutY="10.0" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="238.0" />
+                        <TextField fx:id="laskutusYritysPpJakauma" layoutX="20.0" layoutY="20.0" onAction="#onTextChanged" onKeyReleased="#onTextChanged" promptText="\%" text="25" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="322.0" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Palvelupisteiden jakauma %:" AnchorPane.leftAnchor="116.0" AnchorPane.topAnchor="5.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Myynti:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="67.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Netti:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="152.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Liittymä:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="238.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Laskutus:" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="322.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label fx:id="YritysJakaumaProsentti" text="100" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="166.0">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="10.0" text="Yhteensä : " textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="200.0">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="20.0" layoutY="20.0" text="\% " textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="135.0">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="50.0" prefWidth="891.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1236.0">
                      <children>
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulaattorin asetukset" AnchorPane.leftAnchor="317.0" AnchorPane.topAnchor="10.0">
                            <font>
