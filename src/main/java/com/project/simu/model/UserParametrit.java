@@ -1,25 +1,18 @@
 package com.project.simu.model;
 
-import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.project.eduni.distributions.Normal;
-import com.project.eduni.distributions.Uniform;
-import com.project.simu.constants.Tyovuoro;
+import com.project.simu.constants.Tyyppi;
 
 public class UserParametrit {
     // Singleton
     private static UserParametrit instance = null;
 
     // Puhelinvalikot vievät vähintään 3 spottia
-    private final static int MIN_PALVELUPISTE_MAARA = 3;
+    private static int MIN_PALVELUPISTE_MAARA = 3;
 
     // Asiakasmäärä tuntia kohden
     private double asMaara;
@@ -31,7 +24,7 @@ public class UserParametrit {
     private double maxJononPituus;
 
     // Mikä mahdollisuus % on asiakkaalla valita väärä linja puhelinvalikosta
-    private double vaaraValintaProsentti;
+    private double reRouteChance;
 
     // Kokonaisaika simulaatiolla (T)
     private double simulaationAika;
@@ -42,13 +35,8 @@ public class UserParametrit {
     // Array asiakaspalvelioitten ajoille
     private double[] ppAikaArray;
 
-    // Array yksityispiste jakaumalle
-    private double[] priAsTyyppiArr;
-    // Array yrityspiste jakaumalle
-    private double[] coAsTyyppiArr;
-
-    // Array asiakapalvelijoiden työvuoroille
-    private int[] tyoVuoroArr;
+    // Array asiakastyyppi prosenteille
+    private double[] asTyyppiArr;
 
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
@@ -70,12 +58,24 @@ public class UserParametrit {
         setDefaultArvot();
     }
 
-    public static int getMinimiPPMaara() {
+    public static int getMinPPMaara() {
         return UserParametrit.MIN_PALVELUPISTE_MAARA;
     }
 
     public void setDefaultArvot() {
-        ppMaaraArray = new int[11]; // Palvelupisteiden kokonaismäärä arraylistissä
+        this.pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
+        this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
+        this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
+        this.reRouteChance = 0; // 5 % asiakkaista valitsee väärin
+        this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
+
+        // 50% pri/co asiakkaita
+        this.asTyyppiJakauma = 50;
+
+        // Asiakaspisteitten jakauma käyttäjän asettamana
+        this.asTyyppiArr = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
+
+        this.ppMaaraArray = new int[Tyyppi.size]; // Palvelupisteiden kokonaismäärä arraylistissä
         for (int i = 0; i < ppMaaraArray.length; i++) {
             if (i > 7) {
                 ppMaaraArray[i] = 1;
@@ -84,8 +84,7 @@ public class UserParametrit {
             }
         }
 
-        ppAikaArray = new double[11]; // Keskiverto palvelupisteen palveluaika
-        pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
+        this.ppAikaArray = new double[Tyyppi.size]; // Keskiverto palvelupisteen palveluaika
         for (int i = 0; i < ppAikaArray.length; i++) {
             if (i > 7) {
                 ppAikaArray[i] = pValikkoAika;
@@ -93,26 +92,9 @@ public class UserParametrit {
                 ppAikaArray[i] = 10 * 60; // 10 minuuttia asiakaspalvelijat
             }
         }
-
-        tyoVuoroArr = new int[] { 0, 0, 0, 0, 0 };
-
-        this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
-        this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
-        this.vaaraValintaProsentti = 0; // 5 % asiakkaista valitsee väärin
-        this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
-
-        // 50% pri/co asiakkaita
-        this.asTyyppiJakauma = 50;
-
-        // Asiakaspisteitten jakauma käyttäjän asettamana
-        this.priAsTyyppiArr = new double[] { 25, 50, 75, 100 };
-        this.coAsTyyppiArr = new double[] { 25, 50, 75, 100 };
     }
 
     /**
-     * Tallennetaan käyttäjän parametrejä taulukkoon
-     * josta ne luetaan simulaation alkaessa.
-     * 
      * @param määrä  kuinka monta palvelupistettä on
      * @param ppType tätä tyyppi valueta vastaan (1-8)
      * @author Rasmus Hyyppä
@@ -131,9 +113,6 @@ public class UserParametrit {
     }
 
     /**
-     * Tallennetaan käyttäjän parametrejä taulukkoon
-     * josta ne luetaan simulaation alkaessa.
-     * 
      * @param aika   käyttäjän parametri ajalle (minuutteja)
      * @param ppType palvelupisteen tyyppi
      * @author Rasmus Hyyppä
@@ -143,30 +122,14 @@ public class UserParametrit {
     }
 
     /**
-     * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
-     * 
-     * @return True mikäli on, false mikäli ei
+     * @return Palauttaa haetun Palvelupistetyypin kpl maaran
      * @author Rasmus Hyyppä
      */
-    public boolean onkoVaaraValinta() {
-        if (new Uniform(1, 100).sample() < vaaraValintaProsentti) {
-            return true;
-        }
-        return false;
+    public int getPPMaara(int ppType) {
+        return ppMaaraArray[ppType - 1];
     }
 
     /**
-     * Käytetään alustuksessa jotta saadaan oikea määrä palvelupisteitä luotua
-     * 
-     * @return Palauttaa asiakaspalvelupisteiden kokonaismäärän
-     * @author Rasmus Hyyppä
-     */
-    public int getAllPPMaara() {
-        return (getPriPPMaara() + getCoPPMaara() + UserParametrit.MIN_PALVELUPISTE_MAARA);
-    }
-
-    /**
-     * 
      * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
      * @return Palauttaa Normal jaukaman keskimääräiselle palveluajalle
      * @author Rasmus Hyyppä
@@ -174,6 +137,14 @@ public class UserParametrit {
     public Normal getPAJakauma(int ppType) {
         double aika = getPPAvgAika(ppType);
         return new Normal(aika - (aika / 2), aika + (aika / 2));
+    }
+
+    public int getAllPPMaara() {
+        int kokonaisMaara = 0;
+        for (int i = 0; i < ppMaaraArray.length; i++) {
+            kokonaisMaara += ppMaaraArray[i];
+        }
+        return kokonaisMaara;
     }
 
     public double getSimulaationAika() {
@@ -216,79 +187,20 @@ public class UserParametrit {
         this.maxJononPituus = maxJononPituus;
     }
 
-    public double getVaaraValintaProsentti() {
-        return vaaraValintaProsentti;
+    public double getReRouteChance() {
+        return reRouteChance;
     }
 
-    public void setVaaraValintaProsentti(double vaaraValintaProsentti) {
-        this.vaaraValintaProsentti = vaaraValintaProsentti;
+    public void setReRouteChance(double reRouteChance) {
+        this.reRouteChance = reRouteChance;
     }
 
-    public double getPriAsTyyppiArr(int slot) {
-        return this.priAsTyyppiArr[slot];
+    public double[] getAsTyyppiArr() {
+        return this.asTyyppiArr;
     }
 
-    public void setPriAsTyyppiArr(double[] priAsTyyppiArr) {
-        this.priAsTyyppiArr = priAsTyyppiArr;
-    }
-
-    public double getCoAsTyyppiArr(int slot) {
-        return this.coAsTyyppiArr[slot];
-    }
-
-    public void setCoAsTyyppiArr(double[] coAsTyyppiArr) {
-        this.coAsTyyppiArr = coAsTyyppiArr;
-    }
-
-    public int getMinTyoVuoroArr() {
-        int minValue = tyoVuoroArr[0];
-        int minIndex = 0;
-        for (int i = 0; i < tyoVuoroArr.length; i++) {
-            if (tyoVuoroArr[i] < minValue) {
-                minValue = tyoVuoroArr[i];
-                minIndex = i;
-            }
-        }
-
-        System.out.println("Pienintä työvuoroa on: " + minValue + ", index: " + Tyovuoro.values()[minIndex]);
-        return minIndex;
-    }
-
-    public void addTyoVuoroArr(int tyoVuoroType) {
-        this.tyoVuoroArr[tyoVuoroType]++;
-    }
-
-    public int[] getTyoVuoroArr() {
-        int[] palautusArr = tyoVuoroArr;
-        tyoVuoroArr = new int[] { 0, 0, 0, 0, 0 }; // Resetti
-        return palautusArr;
-    }
-
-    /**
-     * Käyttäjä voi valita kuinka monta kappaletta asiakaspalvelioita on missäkin
-     * linjassa
-     * 
-     * @return Palauttaa haetun Palvelupistetyypin kpl maaran
-     * @author Rasmus Hyyppä
-     */
-    public int getPPMaara(int ppType) {
-        return ppMaaraArray[ppType - 1];
-    }
-
-    public int getPriPPMaara() {
-        int kokonaisMaara = 0;
-        for (int i = 0; i < 4; i++) {
-            kokonaisMaara += ppMaaraArray[i];
-        }
-        return kokonaisMaara;
-    }
-
-    public int getCoPPMaara() {
-        int kokonaisMaara = 0;
-        for (int i = 4; i < 8; i++) {
-            kokonaisMaara += ppMaaraArray[i];
-        }
-        return kokonaisMaara;
+    public void setAsTyyppiArr(double[] asTyyppiArr) {
+        this.asTyyppiArr = asTyyppiArr;
     }
 
     // dbName, tableName ,username, password get/set

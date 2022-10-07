@@ -11,9 +11,10 @@ public class Simulaattori { // Tekstipohjainen
 	public static void main(String[] args) {
 
 		UserParametrit uP = UserParametrit.getInstance();
-		uP.setDbParameters("olso", "testi","root", "root");
+		uP.setDbParameters("olso", "simulaatio", "root", "root");
 		ITuloksetDAO db = new TuloksetDAO();
-		SimulaationSuureet ss = SimulaationSuureet.getInstance();
+		SimulaationSuureet ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
+		uP.setDbParameters("olso", "testi", "root", "root");
 		db.openConnection();
 		db.dropTable();
 		db.openConnection();

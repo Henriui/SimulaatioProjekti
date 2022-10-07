@@ -279,7 +279,7 @@ public class SuureetController {
         simuloinninAikaField.setText(dF.format(uP.getSimulaationAika()));
         jakaumaSlider.setValue(3);
         kärsimättömyysAikaField.setText(dF.format(uP.getMaxJononPituus() / 60));
-        väärävalintaProsenttiField.setText(dF.format(uP.getVaaraValintaProsentti()));
+        väärävalintaProsenttiField.setText(dF.format(uP.getReRouteChance()));
         asiakasMääräField.setText(dF.format(uP.getAsMaara()));
 
         String jakaumaSaved = Double.toString(uP.getAsTyyppiJakauma());
@@ -350,7 +350,7 @@ public class SuureetController {
         uP.setSimulaationAika(Double.parseDouble(simuloinninAikaField.getText()));
         uP.setAsTyyppiJakauma(jakauma);
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
-        uP.setVaaraValintaProsentti(Double.parseDouble(väärävalintaProsenttiField.getText()));
+        uP.setReRouteChance(Double.parseDouble(väärävalintaProsenttiField.getText()));
         uP.setAsMaara(Double.parseDouble(asiakasMääräField.getText()));
     }
 
