@@ -24,7 +24,6 @@ public class AsiakaspalvelijaTest {
           Tyyppi aPTyyppi = Tyyppi.PRI_INVOICE_DEPART;
           Tyovuoro tV = Tyovuoro.EIGHT;
           asJakaumaArray = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
-
           for (int i = 0; i < 5; i++) {
                new Asiakaspalvelija(null, tapahtumalista, aPTyyppi, aika, tV);
           }
@@ -92,9 +91,8 @@ public class AsiakaspalvelijaTest {
                asiakaspalvelija.addJonoon(new Asiakas(0, 0, asJakaumaArray));
           }
           asiakaspalvelija.aloitaPalvelu();
-          Asiakas as = asiakaspalvelija.otaJonosta();
-          assertEquals(4, asiakaspalvelija.getJonoKoko(),
-                    "Asiakaspalvelijan jonossa on ei ole oikea määrä asiakkaita");
+          asiakaspalvelija.otaJonosta();
+          assertEquals(4, asiakaspalvelija.getJonoKoko(), "Asiakaspalvelijan jonossa on ei ole oikea määrä asiakkaita");
      }
 
      @Test
