@@ -90,7 +90,7 @@ public abstract class Palvelupiste {
 		this.tapahtumalista.lisaa(new Tapahtuma(this.ppTyyppi, Kello.getInstance().getAika() + pAika));
 	}
 
-	public boolean kyllastyiJonoon(Asiakas as, double jAika) {
+	protected boolean kyllastyiJonoon(Asiakas as, double jAika) {
 		if (jAika > maxJononPituus) {
 			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + as.getId());
 			this.jonoAika += jAika;
@@ -115,7 +115,7 @@ public abstract class Palvelupiste {
 		return this.jono.size() != 0;
 	}
 
-	public int getJonossaOlevatAs() {
+	public int getJonoKoko() {
 		return this.jono.size();
 	}
 
@@ -132,7 +132,7 @@ public abstract class Palvelupiste {
 		return this.ppTyyppi;
 	}
 
-	public int getPPNum() {
+	public int getPPId() {
 		return this.ppId;
 	}
 
@@ -150,6 +150,10 @@ public abstract class Palvelupiste {
 
 	public double getPpPoistumisAika() {
 		return this.ppPoistumisAika;
+	}
+
+	public double getMaxJononPituus() {
+		return this.maxJononPituus;
 	}
 
 	public int getAsPoistunutJonosta() {

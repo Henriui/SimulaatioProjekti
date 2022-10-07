@@ -2,7 +2,7 @@ package com.project.view;
 
 import java.io.IOException;
 import com.project.MainApp;
-import com.project.simu.framework.Moottori;
+import com.project.simu.framework.IMoottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
@@ -39,7 +39,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
-    Moottori m;
+    private IMoottori m;
 
     @FXML
     public void initialize() {
@@ -60,7 +60,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         Trace.setTraceLevel(Level.INFO);
         m = new OmaMoottori(this);
         m.setViive(0);
-        m.setSimulointiaika(uP.getSimulaationAika() * 3600);
+        m.setSimulointiAika(uP.getSimulaationAika() * 3600);
         ((Thread) m).start();
     }
 

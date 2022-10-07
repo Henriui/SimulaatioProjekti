@@ -142,10 +142,10 @@ public class OmaMoottori extends Moottori {
 		}
 
 		if (i > 0) {
-			return typeVastaavatPPt.get((int) new Uniform(0, i).sample()).getPPNum();
+			return typeVastaavatPPt.get((int) new Uniform(0, i).sample()).getPPId();
 		} else {
 			// Mikäli vain 1 kpl ppTyyppiä niin haetaan ensimmäisestä solusta arvot
-			return typeVastaavatPPt.get(0).getPPNum();
+			return typeVastaavatPPt.get(0).getPPId();
 		}
 	}
 
@@ -158,7 +158,7 @@ public class OmaMoottori extends Moottori {
 	private int otaPalveltuAs(Tyyppi ppType) {
 		for (Palvelupiste p : palvelupisteet) {
 			if ((p.getPPTyyppi() == ppType) && p.onVarattu()) {
-				return p.getPPNum();
+				return p.getPPId();
 			}
 		}
 		return -1;
@@ -171,7 +171,7 @@ public class OmaMoottori extends Moottori {
 			for (Palvelupiste p : palvelupisteet) {
 				if (p != null) {
 					if ((p.getPPTyyppi().getTypeValue() == (ppType + i))) {
-						jonossaAsiakkaita += p.getJonossaOlevatAs();
+						jonossaAsiakkaita += p.getJonoKoko();
 					}
 				}
 			}

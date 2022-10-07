@@ -104,4 +104,26 @@ public class Asiakaspalvelija extends Palvelupiste {
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " lopetti työt: " + getPpPoistumisAika());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " työvuoro: " + getTv());
     }
+
+    /**
+     * @param asReRoutedJonosta the asReRoutedJonosta to set
+     */
+    public void setAsReRoutedJonosta(int asReRoutedJonosta) {
+        this.asReRoutedJonosta = asReRoutedJonosta;
+    }
+
+    /**
+     * @return double return the reRouteAika
+     */
+    public double getReRouteAika() {
+        return reRouteAika;
+    }
+
+    /**
+     * @param reRouteAika the reRouteAika to set
+     */
+    public void setReRouteAika(double reRouteAika) {
+        this.reRouteAika = reRouteAika;
+    }
+
 }
