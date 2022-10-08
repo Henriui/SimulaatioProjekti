@@ -3,27 +3,28 @@ package com.project.simu.model;
 import com.project.view.INewSimulationControllerMtoV;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.project.eduni.distributions.Poisson;
-import com.project.eduni.distributions.Uniform;
 import com.project.simu.constants.Tyovuoro;
 import com.project.simu.constants.Tyyppi;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Saapumisprosessi;
 import com.project.simu.framework.Tapahtuma;
+import com.project.simu.utilities.ArrayUtilities;
 
 public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
-	private UserParametrit uP;
-	private SimulaationSuureet sS;
+	private Parametrit uP;
+	private SimulaatioData sS;
 
 	// OmaMoottori
 	public OmaMoottori(INewSimulationControllerMtoV kontrolleri) {
 		super(kontrolleri);
-		sS = new SimulaationSuureet();
-		uP = UserParametrit.getInstance();
+		sS = new SimulaatioData();
+		uP = Parametrit.getInstance();
 
 		palvelupisteet = new Palvelupiste[uP.getAllPPMaara()];
 		palvelupisteet[0] = new Puhelinvalikko(uP.getPAJakauma(11), tapahtumalista,
@@ -34,13 +35,12 @@ public class OmaMoottori extends Moottori {
 				Tyyppi.CO_VALIKKO_DEPART, uP.getMaxJononPituus());
 
 		// Muuttujat asiakaspalvelijoiden asettamiseksi
-		int ppIndex = UserParametrit.getMinPPMaara();
-		int simAikaT = (int) uP.getSimulaationAika() - 8; // 8 h
-		Uniform tyoVuoroGenerator = new Uniform(0, simAikaT + 1);
+		int[] tyoVuoroArr = new int[Tyovuoro.size];
+		int ppIndex = Parametrit.getMinPPMaara();
 		for (int j = 0; j < 8; j++) {
 			int ppType = Tyyppi.values()[j].getTypeValue();
 			for (int i = 0; i < uP.getPPMaara(ppType); i++) {
-				palvelupisteet[ppIndex] = luoAsiakaspalvelija(ppType, j, simAikaT, tyoVuoroGenerator);
+				palvelupisteet[ppIndex] = luoAsiakaspalvelija(ppType, j, tyoVuoroArr);
 				ppIndex++;
 			}
 		}
@@ -48,15 +48,12 @@ public class OmaMoottori extends Moottori {
 		// Poisson(tunti/asiakasmäärä tunnissa) -> käytetään real life examplena
 		saapumisprosessi = new Saapumisprosessi(new Poisson(3600 / uP.getAsMaara()), tapahtumalista,
 				Tyyppi.ARRIVAL);
-		// Kontrollerille tieto palvelupisteiden määrästä
-		// kontrolleri.ilmoitaPalveluPisteet(sS.getYritysPP(), sS.getYksityisPP());
 	}
 
 	// Alustukset
 	@Override
 	protected void alustukset() {
 		Kello.getInstance().setAika(0);
-		sS.resetSuureet();
 		// Ensimmäinen saapuminen järjestelmään.
 		saapumisprosessi.generoiSeuraava();
 	}
@@ -67,8 +64,8 @@ public class OmaMoottori extends Moottori {
 
 		Asiakas as;
 		Tyyppi tapahtuma = t.getTyyppi();
+		kontrolleri.paivitaPalveluPisteet(sS.getPPStatus(palvelupisteet));
 
-		kontrolleri.ilmoitaJononKoko(ppJonoStatus(1), ppJonoStatus(5));
 		// Saapumistapahtumat
 		if (tapahtuma == Tyyppi.ARRIVAL) {
 			as = new Asiakas(uP.getReRouteChance(), uP.getAsTyyppiJakauma(), uP.getAsTyyppiArr());
@@ -80,17 +77,12 @@ public class OmaMoottori extends Moottori {
 		// Blendervalikko
 		else if (tapahtuma == Tyyppi.BLENDER_VALIKKO_DEPART) {
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
-
-			// Lisätään jonoon
 			palvelupisteet[haeAs(as.getAsType())].addJonoon(as);
-
 		}
 
 		// Henkilö- ja yritysasiakas valikon poistumiset
 		else if (tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART) {
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
-
-			// Lisätään jonoon
 			palvelupisteet[haeAs(as.setAsType())].addJonoon(as);
 		}
 
@@ -98,7 +90,7 @@ public class OmaMoottori extends Moottori {
 		else {
 			// Otetaan jonosta ja asetetaan poistumisaika
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
-			if (as.getReRouted()) {
+			if (as.getReRouted() && !as.isJonotukseenKyllastynyt()) {
 				sS.addAsReRouted();
 				palvelupisteet[haeAs(as.setReRouted())].addJonoon(as);
 				return;
@@ -108,13 +100,9 @@ public class OmaMoottori extends Moottori {
 			if (as.isJonotukseenKyllastynyt()) {
 				sS.addAsPoistunut();
 			} else {
-				// Updatetaan tämän hetkinen tilanne
-				kontrolleri.asPPMaara(ppPalveltuStatus(1), ppPalveltuStatus(5));
 				sS.addAsPalveltu();
 			}
 
-			// Kuinka monta asiakasta on ulkona
-			kontrolleri.ulkonaAs(sS.getAsPalveltu() + sS.getAsPoistunut());
 			// Asiakas ulkona -> Raportoidaan
 			as.raportti();
 			sS.setAvgAsAikaSim((double) (Asiakas.getAsiakasSum() / as.getId()));
@@ -131,22 +119,25 @@ public class OmaMoottori extends Moottori {
 	 */
 	private int haeAs(int ppType) {
 		ArrayList<Palvelupiste> typeVastaavatPPt = new ArrayList<>();
-		int i = 0;
 		for (Palvelupiste p : palvelupisteet) {
-			if (p != null) {
-				if (p.getPPTyyppi().getTypeValue() == ppType && p.getOnPaikalla()) {
-					typeVastaavatPPt.add(p);
-					i++;
-				}
+			if (p.getPPTyyppi().getTypeValue() == ppType && p.getOnPaikalla()) {
+				typeVastaavatPPt.add(p);
 			}
 		}
 
-		if (i > 0) {
-			return typeVastaavatPPt.get((int) new Uniform(0, i).sample()).getPPNum();
-		} else {
-			// Mikäli vain 1 kpl ppTyyppiä niin haetaan ensimmäisestä solusta arvot
-			return typeVastaavatPPt.get(0).getPPNum();
+		if (typeVastaavatPPt.size() != 0) {
+			Collections.sort(typeVastaavatPPt);
+			return typeVastaavatPPt.get(0).getPPId();
 		}
+
+		// Mikäli ei ole vuorossa ketään lisätään asiakas töissä
+		// olleen jonoon mistä hän poistuu
+		for (Palvelupiste p : palvelupisteet) {
+			if (p.getPPTyyppi().getTypeValue() == ppType) {
+				typeVastaavatPPt.add(p);
+			}
+		}
+		return typeVastaavatPPt.get(0).getPPId();
 	}
 
 	/**
@@ -156,70 +147,43 @@ public class OmaMoottori extends Moottori {
 	 * @author Rasmus Hyyppä
 	 */
 	private int otaPalveltuAs(Tyyppi ppType) {
+		int indexOfPalvelupiste = 0;
+
 		for (Palvelupiste p : palvelupisteet) {
 			if ((p.getPPTyyppi() == ppType) && p.onVarattu()) {
-				return p.getPPNum();
+				// indexOfPalvelupiste =
+				return p.getPPId();// indexOfPalvelupiste;
 			}
 		}
-		return -1;
-	}
-
-	// Method joka palauttaa 4:n palvelupisteen jono tilanteen. (ppType 1 tai 5)
-	private int ppJonoStatus(int ppType) {
-		int jonossaAsiakkaita = 0;
-		for (int i = 0; i < 4; i++) {
-			for (Palvelupiste p : palvelupisteet) {
-				if (p != null) {
-					if ((p.getPPTyyppi().getTypeValue() == (ppType + i))) {
-						jonossaAsiakkaita += p.getJonossaOlevatAs();
-					}
-				}
-			}
-		}
-		return jonossaAsiakkaita;
-	}
-
-	// Method joka palauttaa tilanteen palveluista asiakkaista (ppType 1 tai 5)
-	private int ppPalveltuStatus(int ppType) {
-		int palveltujaAsiakkaita = 0;
-		for (int i = 0; i < 4; i++)
-			for (Palvelupiste p : palvelupisteet) {
-				if (p != null) {
-					if ((p.getPPTyyppi().getTypeValue() == (ppType + i))) {
-						palveltujaAsiakkaita += p.getAsPalveltuJonosta();
-					}
-				}
-			}
-		return palveltujaAsiakkaita;
+		return -1; // Error
 	}
 
 	// Method luo asiakaspalvelijan ja antaa työvuoron simulaatioajasta
-	private Asiakaspalvelija luoAsiakaspalvelija(int ppType, int j, int simAikaT, Uniform tyoVuoroG) {
+	private Asiakaspalvelija luoAsiakaspalvelija(int ppType, int j, int[] tyoVuoroArr) {
+		int simAikaTvIndex = (int) uP.getSimulaationAika() - 8; // 8 h
 		// Asetetaan ensimmäiseen työvuoroon joka päättyy 8h päästä
 		Asiakaspalvelija aP = new Asiakaspalvelija(uP.getPAJakauma(ppType), tapahtumalista, Tyyppi.values()[j],
-				uP.getMaxJononPituus(),
-				Tyovuoro.EIGHT);
+				uP.getMaxJononPituus(), Tyovuoro.EIGHT);
 		// Mikäli simulointiaika ei ylitä normaalia työpäivää
-		if (simAikaT == 0) {
-			sS.addTyoVuoroArr(0);
+		if (simAikaTvIndex <= 0) {
+			tyoVuoroArr[aP.getTvIndex()]++;
 			return aP;
 		}
-		int tVIndex = 0;
+
 		for (Palvelupiste p : palvelupisteet) {
 			if (p != null) {
 				// Asetetaan vikaan vuoroon vähintään yksi
-				if (p.getPPTyyppi().getTypeValue() == ppType && aP.getTv() == Tyovuoro.values()[0]) {
-					aP.setTv(simAikaT);
+				if (p.getPPTyyppi().getTypeValue() == ppType && aP.getTv() == Tyovuoro.EIGHT) {
+					aP.setTv(simAikaTvIndex);
 				}
 				// Mikäli työvuorot kattavat koko simuloinnin ajan
-				else if (aP.getTv() == Tyovuoro.values()[simAikaT]) {
-					tVIndex = sS.getMinTyoVuoroArr(); // Jaetaan aina pienimään
-					aP.setTv(tVIndex);
+				else if (aP.getTv() == Tyovuoro.values()[simAikaTvIndex]) {
+					aP.setTv(ArrayUtilities.getMinValue(tyoVuoroArr));
 				}
 			}
 		}
-		tVIndex = aP.getTvIndex();
-		sS.addTyoVuoroArr(tVIndex);
+		// Lopuksi
+		tyoVuoroArr[aP.getTvIndex()]++;
 		return aP;
 	}
 
@@ -232,5 +196,7 @@ public class OmaMoottori extends Moottori {
 		}
 		sS.setSimulointiAika(Kello.getInstance().getAika());
 		sS.tulosteet();
+
+		kontrolleri.showTulokset(sS);
 	}
 }

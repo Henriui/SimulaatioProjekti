@@ -9,22 +9,22 @@ import java.sql.SQLException;
 
 
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaationSuureet;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Parametrit;
 
 public class TuloksetDAO implements ITuloksetDAO {
-    private UserParametrit up;
+    private Parametrit up;
     private Connection connection;
     private PreparedStatement statement;
     private String dbName;
     private String tableName;
     private String user;
     private String password;
-    SimulaationSuureet ss;
+    SimulaatioData ss;
 
     public TuloksetDAO() {
         // Hae käyttäjän määrittämä tietokanta, username ja password.
-        up = UserParametrit.getInstance();
+        up = Parametrit.getInstance();
         tableName = up.getTableName();
         dbName = up.getDbName();
         user = up.getUsername();
@@ -138,7 +138,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @author Henri
      */
     @Override
-    public boolean addTulos(SimulaationSuureet suureet) {
+    public boolean addTulos(SimulaatioData suureet) {
 
         // Get values from SimulaationSuureet, create sql statement and execute.
 
@@ -157,7 +157,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             statement.setDouble(9, suureet.getPPViipymisATotal()); // useless
             statement.setDouble(10, suureet.getPPViipymisATotal()); // as_kok_aika
             statement.setDouble(11, suureet.getAvgAsAikaSim()); // as_avg_aika
-            statement.setInt(12, UserParametrit.getInstance().getAllPPMaara()); // pp_count
+            statement.setInt(12, Parametrit.getInstance().getAllPPMaara()); // pp_count
             statement.setDouble(13, suureet.getJonotusATotal()); // pp_jonotus_astatement set
 
             // Return true if INSERT successful;
@@ -215,7 +215,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
         // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
 
-        ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
+        ss = new SimulaatioData(); // SimulaationSuureet.getInstance();
         try {
             statement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ( ? )");
             statement.setInt(1, id);

@@ -1,12 +1,15 @@
 package com.project.view;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 import com.project.MainApp;
-import com.project.simu.framework.Moottori;
+import com.project.simu.framework.IMoottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Parametrit;
 import animatefx.animation.ZoomIn;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -39,14 +42,16 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
-    Moottori m;
+    private IMoottori m;
+    private SimulaatioData sS;
+ 
+    private Boolean simulationRunning = false;
 
     @FXML
     public void initialize() {
         new animatefx.animation.ZoomIn();
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
-
     }
 
     @FXML
@@ -55,18 +60,16 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     @FXML
-    public void aloitaSimulaatio() {
-        UserParametrit uP = UserParametrit.getInstance();
-        Trace.setTraceLevel(Level.INFO);
-        m = new OmaMoottori(this);
-        m.setViive(0);
-        m.setSimulointiaika(uP.getSimulaationAika() * 3600);
-        ((Thread) m).start();
-    }
-
-    public void ilmoitaJononKoko(int koko) {
-        String tulos = String.valueOf(koko);
-        yksityisJonossa.setText(tulos);
+    public void aloitaSimulaatio() throws InterruptedException {
+        if(!simulationRunning){
+            Parametrit uP = Parametrit.getInstance();
+            Trace.setTraceLevel(Level.INFO);
+            m = new OmaMoottori(this);
+            m.setViive(0);
+            m.setSimulointiAika(uP.getSimulaationAika() * 3600);
+            ((Thread) m).start();
+            simulationRunning = true;
+        }
     }
 
     @FXML
@@ -95,56 +98,128 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         }
     }
 
+    public void showTulokset(SimulaatioData sS) {
+        simulationRunning = false;
+        this.sS = sS;
+        Platform.runLater(new Runnable() {
+            public void run() {
+                runTulokset();
+            }
+        });
+    }
+
+    public void runTulokset() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/tuloksetDetailedPopUp.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Tulokset");
+            dialogStage.initStyle(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            TuloksedDetailedController controller = loader.getController();
+            controller.setSimulaationSuureet(sS);
+
+            scene.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+
+            // Can move window when mouse down and drag.
+            scene.setOnMouseDragged(event -> {
+                dialogStage.setX(event.getScreenX() - xOffset);
+                dialogStage.setY(event.getScreenY() - yOffset);
+            });
+            dialogStage.show();
+            controller.updateValues();
+            open = true;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     public void popupOpen(boolean isOpen) {
         open = isOpen;
     }
 
     // Finds fxml file from the resources folder.
-
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
-    // LIUTA TESTI METHODEITA -> nää vois siivota järkevämmäks ehkä?
-    // Jokanen tekee erillisen runin? jne jne
-    // Check: SimulaationSuureet.java updateSuureet()
     @Override
-    public void ilmoitaJononKoko(int yksityis, int yritys) {
+    public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap) {
         Platform.runLater(new Runnable() {
             public void run() {
-                YritysJonossa.setText(String.valueOf(yritys));
-                yksityisJonossa.setText(String.valueOf(yksityis));
-            }
-        });
+                // [i] = 0-7 = aspa, 8-10 = puhelinvalikko
+                // suureStatusMap.get("Palveltu")[i]
+                // suureStatusMap.get("Jonossa")[i]
+                // suureStatusMap.get("Quitter")[i]
+                // suureStatusMap.get("ReRouted")[i]
+                // suureStatusMap.get("Tyovuorossa")[i]
+                // suureStatusMap.get("Totalit")[i]
 
-    }
+                // Esim.
+                int yksityisTv = 0;
+                int yritysTv = 0;
+                for (int i = 0; i < suureStatusMap.get("Tyovuorossa").length; i++) {
+                    if (i < 4) {
+                        yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
+                    } else if (i > 3 && i < 8) {
+                        yritysTv += suureStatusMap.get("Tyovuorossa")[i];
+                    }
 
-    @Override
-    public void ilmoitaPalveluPisteet(int yritys, int yksityis) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityis));
-                yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritys));
-            }
-        });
-    }
+                }
+                yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityisTv));
+                yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritysTv));
 
-    @Override
-    public void asPPMaara(int yksityis, int yritys) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                palvelupisteellaYritys.setText("As. Oleskellut: " + String.valueOf(yritys));
-                palvelupisteellaYksityis.setText("As. Oleskellut: " + String.valueOf(yksityis));
-            }
-        });
-    }
+                int yksityisPalvelu = 0;
+                int yritysPalvelu = 0;
+                for (int i = 0; i < suureStatusMap.get("Palveltu").length; i++) {
+                    if (i < 4) {
+                        yksityisPalvelu += suureStatusMap.get("Palveltu")[i];
+                    } else if (i > 3 && i < 8) {
+                        yritysPalvelu += suureStatusMap.get("Palveltu")[i];
+                    }
+                }
+                palvelupisteellaYksityis.setText("Palveltuja as " + String.valueOf(yksityisPalvelu));
+                palvelupisteellaYritys.setText("Palveltuja as " + String.valueOf(yritysPalvelu));
 
-    @Override
-    public void ulkonaAs(int maara) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                suorittaneetMaara.setText("Ulkona: " + String.valueOf(maara));
+                int jonoYksityis = 0;
+                int jonoYritys = 0;
+                for (int i = 0; i < suureStatusMap.get("Jonossa").length; i++) {
+                    if (i < 4) {
+                        jonoYksityis += suureStatusMap.get("Jonossa")[i];
+                    } else if (i > 3 && i < 8) {
+                        jonoYritys += suureStatusMap.get("Jonossa")[i];
+                    }
+                }
+                yksityisJonossa.setText(String.valueOf(jonoYksityis));
+                YritysJonossa.setText(String.valueOf(jonoYritys));
+
+                // "Totalit" [0] = asiakkaitten kokonaismäärä simulaatiossa
+                // "Totalit" [1] = asiakkaita palveltu simulaatiossa
+                // "Totalit" [2] = asiakkaitta quitannut jonosta simulaatiossa
+                // "Totalit" [3] = asiakkaita reroutattu simulaatiossa
+
+                // Esim.
+                int kokonaisMaara = 0;
+                for (int i = 0; i < suureStatusMap.get("Totalit").length; i++) {
+                    if (i == 0) {
+                        // asiakkaitten kokonaismäärä simulaatiossa
+                        kokonaisMaara = suureStatusMap.get("Totalit")[i];
+                    } else if (i > 0 && i < 3) {
+                        // ulkona asiakkaita simulaatiosta (palveltu+quit)
+                    } else if (i == 4) {
+                        // asiakkaita rerouttattu simulaatiossa
+                    }
+                }
+                suorittaneetMaara.setText("Total: " + String.valueOf(kokonaisMaara));
             }
         });
     }
