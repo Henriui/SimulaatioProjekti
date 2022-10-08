@@ -234,4 +234,18 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             m.setViive(m.getViive() - 5);
         }
     }
+
+    // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
+    // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
+    @Override
+    public void visualisoiAsiakas(int asType) {
+
+    }
+
+    // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
+    // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
+    // Poistumistype: "Quitter" / "Palveltu"
+    @Override
+    public void visualisoiPoistuminen(int asType, String poistumisType) {
+    }
 }
