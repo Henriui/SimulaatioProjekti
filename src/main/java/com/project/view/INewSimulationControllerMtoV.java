@@ -8,6 +8,10 @@ public interface INewSimulationControllerMtoV {
 
     public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap);
 
+    public void visualisoiAsiakas(int asType);
+
+    public void visualisoiPoistuminen(int asType, String poistumisType);
+
     public void showTulokset(SimulaatioData sS);
 
 }

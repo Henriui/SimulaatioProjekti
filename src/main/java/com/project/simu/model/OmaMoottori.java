@@ -84,6 +84,7 @@ public class OmaMoottori extends Moottori {
 		else if (tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART) {
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
 			palvelupisteet[haeAs(as.setAsType())].addJonoon(as);
+			kontrolleri.visualisoiAsiakas(as.getAsType());
 		}
 
 		// Asiakaspalvelija pisteiden poistumiset
@@ -93,14 +94,17 @@ public class OmaMoottori extends Moottori {
 			if (as.getReRouted() && !as.isJonotukseenKyllastynyt()) {
 				sS.addAsReRouted();
 				palvelupisteet[haeAs(as.setReRouted())].addJonoon(as);
+				kontrolleri.visualisoiAsiakas(as.getAsType());
 				return;
 			}
 
 			as.setAsPoistumisaika(Kello.getInstance().getAika());
 			if (as.isJonotukseenKyllastynyt()) {
 				sS.addAsPoistunut();
+				kontrolleri.visualisoiPoistuminen(as.getAsType(), "Quitter");
 			} else {
 				sS.addAsPalveltu();
+				kontrolleri.visualisoiPoistuminen(as.getAsType(), "Palveltu");
 			}
 
 			// Asiakas ulkona -> Raportoidaan
@@ -147,8 +151,6 @@ public class OmaMoottori extends Moottori {
 	 * @author Rasmus Hyyppä
 	 */
 	private int otaPalveltuAs(Tyyppi ppType) {
-		int indexOfPalvelupiste = 0;
-
 		for (Palvelupiste p : palvelupisteet) {
 			if ((p.getPPTyyppi() == ppType) && p.onVarattu()) {
 				// indexOfPalvelupiste =
