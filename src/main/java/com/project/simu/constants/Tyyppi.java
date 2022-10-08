@@ -9,16 +9,17 @@ public enum Tyyppi {
 	PRI_NETWORK_DEPART(2),
 	PRI_SUBSCRIBER_DEPART(3),
 	PRI_INVOICE_DEPART(4),
-
 	CO_SALES_DEPART(5),
 	CO_NETWORK_DEPART(6),
 	CO_SUBSCRIBER_DEPART(7),
 	CO_INVOICE_DEPART(8),
 
-	// Saapumisprosessi ja puhelinvalikoista poistumiset
+	// Puhelinvalikkojen tapahtumatyypit
 	PRI_VALIKKO_DEPART(9),
 	CO_VALIKKO_DEPART(10),
 	BLENDER_VALIKKO_DEPART(11),
+
+	// Saapuminen simulaatioon
 	ARRIVAL(12);
 
 	// Saapumiset valikoihin animointia varten
@@ -46,15 +47,17 @@ public enum Tyyppi {
 
 	private int tapahtumanTypeNumero;
 
-	// AsiakasTyyppi
-
 	Tyyppi(int tapahtumanTypeNumero) {
 		this.tapahtumanTypeNumero = tapahtumanTypeNumero;
 	}
 
-	// getAsiakasTypeNumero
-
 	public int getTypeValue() {
 		return this.tapahtumanTypeNumero;
+	}
+
+	// Kokonais tyyppi koko - arrival
+	public static final int size;
+	static {
+		size = values().length - 1;
 	}
 }

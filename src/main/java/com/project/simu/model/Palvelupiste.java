@@ -28,7 +28,8 @@ public abstract class Palvelupiste {
 
 	protected double palveluAika;
 	protected double jonoAika;
-	protected double asTotalAika;
+	protected double asViipyminenPP;
+
 	protected double ppSaapumisAika;
 	protected double ppPoistumisAika;
 	protected double maxJononPituus;
@@ -50,7 +51,7 @@ public abstract class Palvelupiste {
 		this.asPoistunutJonosta = 0;
 		this.palveluAika = 0;
 		this.jonoAika = 0;
-		this.asTotalAika = 0;
+		this.asViipyminenPP = 0;
 
 		this.ppInfoStr = this.getClass().getSimpleName() + ": " + this.ppTyyppi + "," + this.ppId;
 	}
@@ -66,7 +67,7 @@ public abstract class Palvelupiste {
 		// Lisätään asiakkaan poistumisaika pp:ssä
 		as.setAsPoistumisaikaPP(Kello.getInstance().getAika());
 		this.varattu = false;
-		this.asTotalAika += as.getAsPoistumisaikaPP() - as.getAsSaapumisaikaPP();
+		this.asViipyminenPP += as.getAsPoistumisaikaPP() - as.getAsSaapumisaikaPP();
 		return as;
 	}
 
@@ -135,6 +136,14 @@ public abstract class Palvelupiste {
 		return this.ppId;
 	}
 
+	public double getPalveluAika() {
+		return this.palveluAika;
+	}
+
+	public double getJonoAika() {
+		return this.jonoAika;
+	}
+
 	public double getPpSaapumisAika() {
 		return this.ppSaapumisAika;
 	}
@@ -159,14 +168,6 @@ public abstract class Palvelupiste {
 		return this.palveluAika / this.asPalveltuJonosta;
 	}
 
-	public double getAvgOleskeluAika() {
-		return this.asTotalAika / this.asLisattyJonoon;
-	}
-
-	public double getAvgJonotusAika() {
-		return this.jonoAika / this.asLisattyJonoon;
-	}
-
 	public double getPProsentti() {
 		if (this.asLisattyJonoon == 0) {
 			return 100;
@@ -175,12 +176,20 @@ public abstract class Palvelupiste {
 				/ (double) (this.asPalveltuJonosta))) * 100;
 	}
 
+	public double getAvgViipyminenPP() {
+		return this.asViipyminenPP / this.asLisattyJonoon;
+	}
+
+	public double getAvgJonotusAika() {
+		return this.jonoAika / this.asLisattyJonoon;
+	}
+
 	public void raportti() {
 		Trace.out(Trace.Level.INFO, "\n" + ppInfoStr + " saapui asiakkaita: " + getAsLisattyJonoon());
 		Trace.out(Trace.Level.INFO, ppInfoStr + " palveluaika keskimääräisesti: " + getAvgPalveluAika());
 		Trace.out(Trace.Level.INFO, ppInfoStr + " jonotettiin keskimäärin: " + getAvgJonotusAika());
 		Trace.out(Trace.Level.INFO, ppInfoStr + " palveluprosentti: " + getPProsentti() + " %");
-		Trace.out(Trace.Level.INFO, ppInfoStr + " asiakkaitten total oleskeluaika: " + this.asTotalAika);
+		Trace.out(Trace.Level.INFO, ppInfoStr + " asiakkaitten total oleskeluaika: " + this.asViipyminenPP);
 		Trace.out(Trace.Level.INFO, ppInfoStr + " palveli: " + getAsPalveltuJonosta());
 		Trace.out(Trace.Level.INFO, ppInfoStr + " kyllästyi jonottamaan: " + getAsPoistunutJonosta());
 	}
