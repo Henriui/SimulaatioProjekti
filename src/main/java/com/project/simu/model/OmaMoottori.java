@@ -2,6 +2,7 @@ package com.project.simu.model;
 
 import com.project.view.INewSimulationControllerMtoV;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.project.eduni.distributions.Poisson;
@@ -232,5 +233,7 @@ public class OmaMoottori extends Moottori {
 		}
 		sS.setSimulointiAika(Kello.getInstance().getAika());
 		sS.tulosteet();
+
+		kontrolleri.showTulokset(sS);
 	}
 }
