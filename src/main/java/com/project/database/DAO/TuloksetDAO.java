@@ -17,7 +17,8 @@ public class TuloksetDAO implements ITuloksetDAO {
     private Connection connection;
     private PreparedStatement statement;
     private String dbName;
-    private String tableName;
+    private String tableName1;
+    private String tableName2;
     private String user;
     private String password;
     SimulaationSuureet ss;
@@ -25,7 +26,8 @@ public class TuloksetDAO implements ITuloksetDAO {
     public TuloksetDAO() {
         // Hae käyttäjän määrittämä tietokanta, username ja password.
         up = UserParametrit.getInstance();
-        tableName = up.getTableName();
+        tableName1 = up.getTableName1();
+        tableName1 = up.getTableName2();
         dbName = up.getDbName();
         user = up.getUsername();
         password = up.getPassword();
@@ -53,16 +55,26 @@ public class TuloksetDAO implements ITuloksetDAO {
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/" + dbName, user, password);
 
-            // See if we have a table in the given database.
+            // See if we have a table 1 in the given database.
 
             DatabaseMetaData dbm = connection.getMetaData();
-            ResultSet result = dbm.getTables(null, null, tableName, null);
+            ResultSet result = dbm.getTables(null, null, tableName1, null);
 
-            // Create if not found.
+            // Create table 1 if not found.
 
             if (!result.next()) {
-                System.out.println("Table " + tableName + " not found. Creating table...");
-                createTable();
+                System.out.println("Table " + tableName1 + " not found. Creating table...");
+                createTables(1);
+                System.out.println("Table created.");
+            }
+
+            result = dbm.getTables(null, null, tableName2, null);
+
+            // Create table 1 if not found.
+
+            if (!result.next()) {
+                System.out.println("Table " + tableName2 + " not found. Creating table...");
+                createTables(2);
                 System.out.println("Table created.");
             }
             return true;
@@ -80,31 +92,39 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @throws SQLException
      * @author Henri
      */
-    private boolean createTable() throws SQLException {
-
-        // Not good since opens project for sql injection attack but required for +3
-        // points junit tests. -Henri
-
-        statement = connection.prepareStatement("CREATE TABLE " + tableName + " ( "
-                + "    id                   INT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY   COMMENT 'Simulointikerta',"
-                + "    kesto                DOUBLE UNSIGNED NOT NULL                     COMMENT 'Simulaation kesto',"
-                + "    palveluprosentti     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Palveluprosentti simulaatiossa.',"
-                + "    as_count             INT UNSIGNED NOT NULL                        COMMENT 'Asiakkaiden määrä simulaatiossa.',"
-                + "    as_lisatyt           INT UNSIGNED NOT NULL                        COMMENT 'Simulaatioon lisätyt asiakkaat.',"
-                + "    as_palveltu          INT UNSIGNED NOT NULL                        COMMENT 'Simulaatiossa palvellut asiakkaat.',"
-                + "    as_routed            INT UNSIGNED NOT NULL                        COMMENT 'Asiakkaat jotka valitsi väärän linjan ja ohjattiin uudelleen.',"
-                + "    as_poistunut         INT UNSIGNED NOT NULL                        COMMENT 'Simulaatiosta poistuneet asiakkaat.',"
-                + "    as_jono_aika         DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan kokonaisjonotusaika.' ,"
-                + "    as_palvelu_aika      DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaiden kokonaispalveluaika.',"
-                + "    as_kok_aika          DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaiden kokonaisaika simulaatiossa.',"
-                + "    as_avg_aika          DOUBLE UNSIGNED NOT NULL                     COMMENT 'Keskimääräinen oleskeluaika simulaatiossa.',"
-                + "    pp_count             INT UNSIGNED NOT NULL                        COMMENT 'Palvelupisteiden määrä simulaatiossa.',"
-                + "    pp_jonotus_aika      DOUBLE UNSIGNED NOT NULL                     COMMENT 'Keskiarvo jonotusajasta simulaatiossa.'"
-                + " ) engine=InnoDB; ");
-        if (statement.execute() == true) {
-            return true;
+    private boolean createTables(int table) throws SQLException {
+        if ( table == 1){
+            statement = connection.prepareStatement("CREATE TABLE " + tableName1 + " ( "
+                    + " simulaatiokerta      INT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY   COMMENT 'Simulointikerta',"
+                    + " kesto                DOUBLE UNSIGNED NOT NULL                     COMMENT 'Simulaation kesto',"
+                    + " palveluprosentti     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Palveluprosentti simulaatiossa.',"
+                    + " as_maara             INT    UNSIGNED NOT NULL                     COMMENT 'Asiakkaiden määrä simulaatiossa.',"
+                    + " as_palveltu          INT    UNSIGNED NOT NULL                     COMMENT 'Simulaatiossa palvellut asiakkaat.',"
+                    + " as_routed            INT    UNSIGNED NOT NULL                     COMMENT 'Asiakkaat jotka valitsi väärän linjan ja ohjattiin uudelleen.',"
+                    + " as_poistunut         INT    UNSIGNED NOT NULL                     COMMENT 'Simulaatiosta poistuneet asiakkaat.',"
+                    + " as_keskijonoaika     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen jonotusaika.' ,"
+                    + " as_keskilapimeno     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen läpimenoaika.' ,"
+                    + " ) engine=InnoDB; ");
+            if (statement.execute() != true) {
+                return false;
+            }
         }
-        return false;
+        else if (table == 2){
+            statement = connection.prepareStatement("CREATE  "+ tableName2 +" ( "
+                    + "id                   INT             NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Id, primary key.',"
+                    + "simulaatiokerta      INT    UNSIGNED NOT NULL                            COMMENT 'Linkitys asiakkaiden pöytään.',"
+                    + "tyyppi               INT    UNSIGNED NOT NULL                            COMMENT 'Palvelupistetyyppi.',"
+                    + "palvellut_as         INT    UNSIGNED NOT NULL                            COMMENT 'Kuinka monta asiakasta palveltu.',"
+                    + "keskipalveluaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskipalveluaika palvelupisteelle.',"
+                    + "keskijonotusaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskijonotusaika palvelupisteelle.' "
+                    + " ) engine=InnoDB;");
+            if (statement.execute() != true) {
+                return false;
+            }
+        }
+        else
+            return false;
+        return true;
 
     }
 
@@ -143,22 +163,17 @@ public class TuloksetDAO implements ITuloksetDAO {
         // Get values from SimulaationSuureet, create sql statement and execute.
 
         try {
-            statement = connection.prepareStatement("INSERT INTO " + tableName
-                    + " (kesto, palveluprosentti, as_count, as_lisatyt, as_palveltu, as_routed, as_poistunut, as_jono_aika, as_palvelu_aika, as_kok_aika, as_avg_aika, pp_count, pp_jonotus_aika ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )");
+            statement = connection.prepareStatement("INSERT INTO " + tableName1
+                    + "( kesto, palveluprosentti, as_maara, as_palveltu, as_routed, as_poistunut, as_keskijonoaika, as_keskilapimeno) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
 
-            statement.setDouble(1, suureet.getSimulointiAika()); // kesto
-            statement.setDouble(2, suureet.getPalveluprosentti()); // palveluprosentti
-            statement.setInt(3, (int) suureet.getAsTotalMaara()); // as_count
-            statement.setInt(4, (int) suureet.getAsTotalMaara()); // as_lisatyt
-            statement.setInt(5, suureet.getAsPalveltu()); // as_palveltu
-            statement.setInt(6, suureet.getAsReRouted()); // as_routed
-            statement.setInt(7, suureet.getAsPoistunut()); // as_poistunut
-            statement.setDouble(8, suureet.getJonotusATotal()); // as_jono_aika
-            statement.setDouble(9, suureet.getPPViipymisATotal()); // useless
-            statement.setDouble(10, suureet.getPPViipymisATotal()); // as_kok_aika
-            statement.setDouble(11, suureet.getAvgAsAikaSim()); // as_avg_aika
-            statement.setInt(12, UserParametrit.getInstance().getAllPPMaara()); // pp_count
-            statement.setDouble(13, suureet.getJonotusATotal()); // pp_jonotus_astatement set
+            statement.setDouble(1, suureet.getSimulointiAika());    // kesto
+            statement.setDouble(2, suureet.getPalveluprosentti());  // palveluprosentti
+            statement.setInt(3, (int) suureet.getAsTotalMaara());   // as_maara
+            statement.setInt(4, suureet.getAsPalveltu());           // as_palveltu
+            statement.setInt(5, suureet.getAsReRouted());           // as_routed
+            statement.setInt(6, suureet.getAsPoistunut());          // as_poistunut
+            statement.setDouble(7, suureet.getAvgAsAikaSim());      // as_keskijonoaika
+            statement.setDouble(7, suureet.getAvgAsAikaSim());      // as_keskiläpimeno
 
             // Return true if INSERT successful;
 
@@ -185,7 +200,8 @@ public class TuloksetDAO implements ITuloksetDAO {
         // Delete given id.
 
         try {
-            statement = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id = ( ? )");
+            statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE id = ( ? )");
+            statement = connection.prepareStatement("DELETE FROM " + tableName2 + " WHERE id = ( ? )");
             statement.setInt(1, id);
 
             // Return true if DELETE successful;
@@ -217,7 +233,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
         ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
         try {
-            statement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ( ? )");
+            statement = connection.prepareStatement("SELECT * FROM " + tableName1 + " WHERE id = ( ? )");
             statement.setInt(1, id);
             ResultSet results = statement.executeQuery();
             if (results.next()) {
@@ -256,7 +272,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      */
     public boolean dropTable() {
         try {
-            statement = connection.prepareStatement("DROP TABLE " + tableName);
+            statement = connection.prepareStatement("DROP TABLE " + tableName1);
             statement.execute();
             System.out.println("Table dropped.");
             return true;
@@ -277,7 +293,7 @@ public class TuloksetDAO implements ITuloksetDAO {
     public int getRowCount(){
         int result;
         try{
-            statement = connection.prepareStatement("Select id from " + tableName);
+            statement = connection.prepareStatement("Select id from " + tableName1);
             ResultSet rs = statement.executeQuery();
             rs.last();
             

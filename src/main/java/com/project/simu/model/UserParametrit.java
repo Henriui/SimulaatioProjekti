@@ -43,7 +43,7 @@ public class UserParametrit {
 
     // Tietokannan käyttäjäparametrit
     private String dbName;
-    private String tableName;
+    private String tableName1, tableName2;
     private String username;
     private String password;
 
@@ -213,12 +213,18 @@ public class UserParametrit {
         this.dbName = dbName;
     }
 
-    public String getTableName() {
-        return tableName;
+    public String getTableName1() {
+        return tableName1;
+    }
+    public String getTableName2() {
+        return tableName2;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setTableName1(String tableName) {
+        this.tableName1 = tableName;
+    }
+    public void setTableName2(String tableName) {
+        this.tableName2 = tableName;
     }
 
     public String getUsername() {
@@ -237,9 +243,10 @@ public class UserParametrit {
         this.password = password;
     }
 
-    public void setDbParameters(String dbName, String tableName, String username, String password) {
+    public void setDbParameters(String dbName, String tableName1,String tableName2 , String username, String password) {
         this.dbName = dbName;
-        this.tableName = tableName;
+        this.tableName1 = tableName1;
+        this.tableName2 = tableName2;
         this.username = username;
         this.password = password;
     }
