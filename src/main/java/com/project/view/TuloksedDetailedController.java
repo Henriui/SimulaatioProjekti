@@ -1,6 +1,7 @@
 package com.project.view;
 
 import com.project.simu.model.PalveluPisteTulokset;
+import com.project.simu.model.SimulaationSuureet;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,11 +47,24 @@ public class TuloksedDetailedController {
     @FXML
     private Button saveButton;
 
+    private SimulaationSuureet sS;
+
+    public void updateValues() {
+        kestoLabel.setText(Double.toString(sS.getSimulointiAika()));
+        pProsenttiLabel.setText(Double.toString(sS.getPalveluprosentti()));
+    }
+
+
     @FXML
     private void remove() {
         Stage stage = (Stage) removeButton.getScene().getWindow();
         controller.popupOpen(false);
         stage.close();
+    }
+
+    public void setSimulaationSuureet(SimulaationSuureet sS){
+        this.sS = sS;
+        System.out.println(sS.getAsPalveltu());
     }
 
     @FXML

@@ -6,6 +6,7 @@ import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
+import com.project.simu.model.SimulaationSuureet;
 import com.project.simu.model.UserParametrit;
 import animatefx.animation.ZoomIn;
 import javafx.application.Platform;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -39,14 +41,15 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
-    Moottori m;
+    private SimulaationSuureet sS;
+    private Moottori m;
+    private Boolean simulationRunning = false;
 
     @FXML
     public void initialize() {
         new animatefx.animation.ZoomIn();
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
-
     }
 
     @FXML
@@ -55,13 +58,16 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     @FXML
-    public void aloitaSimulaatio() {
-        UserParametrit uP = UserParametrit.getInstance();
-        Trace.setTraceLevel(Level.INFO);
-        m = new OmaMoottori(this);
-        m.setViive(25);
-        m.setSimulointiaika(uP.getSimulaationAika() * 3600);
-        ((Thread) m).start();
+    public void aloitaSimulaatio() throws InterruptedException {
+        if(!simulationRunning){
+            UserParametrit uP = UserParametrit.getInstance();
+            Trace.setTraceLevel(Level.INFO);
+            m = new OmaMoottori(this);
+            m.setViive(25);
+            m.setSimulointiaika(uP.getSimulaationAika() * 3600);
+            ((Thread) m).start();
+            simulationRunning = true;
+        }
     }
 
     public void ilmoitaJononKoko(int koko) {
@@ -92,6 +98,52 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             });
             stage.show();
             open = true;
+        }
+    }
+
+    public void showTulokset(SimulaationSuureet sS) {
+        simulationRunning = false;
+        this.sS = sS;
+        System.out.println(sS.getAsPalveltu());
+        Platform.runLater(new Runnable() {
+            public void run() {
+                runTulokset();
+            }
+        });
+    }
+
+    public void runTulokset() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/tuloksetDetailedPopUp.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Tulokset");
+            dialogStage.initStyle(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            TuloksedDetailedController controller = loader.getController();
+            System.out.println("Nakyyko?");
+            controller.setSimulaationSuureet(sS);
+
+            scene.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+
+            // Can move window when mouse down and drag.
+            scene.setOnMouseDragged(event -> {
+                dialogStage.setX(event.getScreenX() - xOffset);
+                dialogStage.setY(event.getScreenY() - yOffset);
+            });
+            dialogStage.show();
+            controller.updateValues();
+            open = true;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
