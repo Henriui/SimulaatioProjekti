@@ -5,8 +5,12 @@ import com.project.MainApp;
 import animatefx.animation.FadeInDownBig;
 import animatefx.animation.FadeInUpBig;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class MainViewController {
 
@@ -28,10 +32,13 @@ public class MainViewController {
     private Pane ExitP;
     @FXML
     private Pane Stripe;
-
     @FXML
     private void uusiSimulaatio() throws IOException {
+        Stage stage = new Stage();
+        stage.setMaximized(true);
         MainApp.setRoot("NewSimulationGUI");
+        //Scene scene = new Scene(loadFXML("NewSimulationGUI"));
+       
     }
 
     @FXML
@@ -67,5 +74,9 @@ public class MainViewController {
         new animatefx.util.ParallelAnimationFX(trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9)
                 .play();
 
+    }
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 }

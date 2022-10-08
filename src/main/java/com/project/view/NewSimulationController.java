@@ -8,19 +8,40 @@ import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
 import com.project.simu.model.UserParametrit;
 import animatefx.animation.ZoomIn;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class NewSimulationController implements INewSimulationControllerVtoM, INewSimulationControllerMtoV {
     @FXML
     private AnchorPane backGround;
+    @FXML
+    private AnchorPane visuaalinenTausta;
     @FXML
     private Label yksityisJonossa;
     @FXML
@@ -35,6 +56,10 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private Label palvelupisteellaYritys;
     @FXML
     private Label suorittaneetMaara;
+    @FXML
+    private Circle liikkuu;
+    @FXML
+    private Pane asd;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -42,11 +67,28 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     Moottori m;
 
     @FXML
+	private Canvas visu;
+    @FXML
+	private Canvas ani;
+    private Visualisointi visualisointi;
+
+    public static final double W = 200; // canvas dimensions.
+    public static final double H = 200;
+
+    public static final double D = 20;  // diameter.
+    
+    
+    @FXML
     public void initialize() {
         new animatefx.animation.ZoomIn();
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
 
+        System.out.println("Start");
+		
+		visualisointi = new Visualisointi(visu);
+		
+        //asd();
     }
 
     @FXML
@@ -113,6 +155,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void ilmoitaJononKoko(int yksityis, int yritys) {
         Platform.runLater(new Runnable() {
             public void run() {
+                Platform.runLater(()->visualisointi.uusiAsiakas());
+                Platform.runLater(()->asd());
                 YritysJonossa.setText(String.valueOf(yritys));
                 yksityisJonossa.setText(String.valueOf(yksityis));
             }
@@ -124,6 +168,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void ilmoitaPalveluPisteet(int yritys, int yksityis) {
         Platform.runLater(new Runnable() {
             public void run() {
+                
                 yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityis));
                 yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritys));
             }
@@ -134,6 +179,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void asPPMaara(int yksityis, int yritys) {
         Platform.runLater(new Runnable() {
             public void run() {
+                asd();
                 palvelupisteellaYritys.setText("As. Oleskellut: " + String.valueOf(yritys));
                 palvelupisteellaYksityis.setText("As. Oleskellut: " + String.valueOf(yksityis));
             }
@@ -160,4 +206,32 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             m.setViive(m.getViive() - 5);
         }
     }
+
+    public void asd(){
+        
+        //Circle[] circle = new Circle[3]; 
+        //for(int i = 0; i < circle.length; i++){
+            Circle circle = new Circle(10);           // initialize circles with radius of 50
+            circle.setFill(Color.PINK);
+            visuaalinenTausta.getChildren().add(circle);
+            visualisointi.asiakasLiikkuu(circle, "laskutus");
+
+            Circle circle2 = new Circle(10);           // initialize circles with radius of 50
+            circle2.setFill(Color.RED);
+            visuaalinenTausta.getChildren().add(circle2);
+            visualisointi.asiakasLiikkuu(circle2, "myynti");
+
+            Circle circle3 = new Circle(10);           // initialize circles with radius of 50
+            circle3.setFill(Color.BLUE);
+            visuaalinenTausta.getChildren().add(circle3);
+            visualisointi.asiakasLiikkuu(circle3, "netti");
+
+            Circle circle4 = new Circle(10);           // initialize circles with radius of 50
+            circle4.setFill(Color.GREEN);
+            visuaalinenTausta.getChildren().add(circle4);
+            visualisointi.asiakasLiikkuu(circle4, "liittymä");
+       // }
+      //Displaying the contents of the stage 
+    }
+    
 }
