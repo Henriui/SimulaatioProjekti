@@ -1,7 +1,7 @@
 package com.project.view;
 
 import java.text.DecimalFormat;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.Parametrit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -20,11 +20,11 @@ import javafx.stage.Stage;
  * @author Jonne Borgman
  */
 
-public class SuureetController {
+public class ParametriController {
 
     private NewSimulationController controller = new NewSimulationController();
     private boolean canSave = false;
-    UserParametrit userParametrit = UserParametrit.getInstance();
+    Parametrit userParametrit = Parametrit.getInstance();
 
     @FXML
     private Button closeButton;
@@ -121,7 +121,7 @@ public class SuureetController {
     @FXML
     private TextField YrityslaskutusAikaField;
 
-    private UserParametrit uP = UserParametrit.getInstance();
+    private Parametrit uP = Parametrit.getInstance();
     private DecimalFormat dF;
 
     @FXML
@@ -323,7 +323,7 @@ public class SuureetController {
     private void setPPArvotSingletonista(Slider s, Label l, TextField tF, int ppType) {
         s.setValue(uP.getPPMaara(ppType));
         l.setText(uP.getPPMaara(ppType) + " kpl");
-        tF.setText(dF.format(uP.getPPAvgAika(ppType) / 60));
+        tF.setText(dF.format((uP.getPPAvgAika(ppType) / 60)));
     }
 
     /**

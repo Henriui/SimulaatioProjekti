@@ -8,8 +8,8 @@ import com.project.simu.framework.IMoottori;
 import com.project.simu.framework.Trace;
 import com.project.simu.framework.Trace.Level;
 import com.project.simu.model.OmaMoottori;
-import com.project.simu.model.SimulaationSuureet;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Parametrit;
 import animatefx.animation.ZoomIn;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -43,7 +43,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double yOffset = 0;
     private static boolean open = false;
     private IMoottori m;
-    private SimulaationSuureet sS;
+    private SimulaatioData sS;
  
     private Boolean simulationRunning = false;
 
@@ -62,7 +62,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     public void aloitaSimulaatio() throws InterruptedException {
         if(!simulationRunning){
-            UserParametrit uP = UserParametrit.getInstance();
+            Parametrit uP = Parametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this);
             m.setViive(0);
@@ -98,7 +98,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         }
     }
 
-    public void showTulokset(SimulaationSuureet sS) {
+    public void showTulokset(SimulaatioData sS) {
         simulationRunning = false;
         this.sS = sS;
         Platform.runLater(new Runnable() {

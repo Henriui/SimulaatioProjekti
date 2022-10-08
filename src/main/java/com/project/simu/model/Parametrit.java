@@ -9,9 +9,9 @@ import java.util.Arrays;
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
-public class UserParametrit {
+public class Parametrit {
     // Singleton
-    private static UserParametrit instance = null;
+    private static Parametrit instance = null;
 
     // Puhelinvalikot vievät vähintään 3 spottia
     private static int MIN_PALVELUPISTE_MAARA = 3;
@@ -49,19 +49,19 @@ public class UserParametrit {
     private String username;
     private String password;
 
-    public static synchronized UserParametrit getInstance() {
+    public static synchronized Parametrit getInstance() {
         if (instance == null) {
-            instance = new UserParametrit();
+            instance = new Parametrit();
         }
         return instance;
     }
 
-    private UserParametrit() {
+    private Parametrit() {
         setDefaultArvot();
     }
 
     public static int getMinPPMaara() {
-        return UserParametrit.MIN_PALVELUPISTE_MAARA;
+        return Parametrit.MIN_PALVELUPISTE_MAARA;
     }
 
     public void setDefaultArvot() {

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import com.project.simu.constants.Tyyppi;
 import com.project.simu.framework.Trace;
 
-public class SimulaationSuureet {
+public class SimulaatioData {
     // Kesto
     private double simulointiAika;
     // Vastausprosentti / Palveluprosentti
@@ -41,13 +41,13 @@ public class SimulaationSuureet {
     private double avgPPViipymisATotal;
     private double avgJonotusATotal;
 
-    public SimulaationSuureet() {
+    public SimulaatioData() {
         alustaSuureet();
     }
 
     public void alustaSuureet() {
         // Oleeliset
-        simulointiAika = UserParametrit.getInstance().getSimulaationAika();
+        simulointiAika = Parametrit.getInstance().getSimulaationAika();
         palveluprosentti = 0;
         asTotalMaara = 0;
         avgAvgAsAikaSim = 0;
@@ -97,7 +97,7 @@ public class SimulaationSuureet {
     }
 
     public double getPalveluprosentti() {
-        return palveluprosentti / (UserParametrit.getInstance().getAllPPMaara() - UserParametrit.getMinPPMaara());
+        return palveluprosentti / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 
     public long getAsTotalMaara() {
@@ -142,12 +142,12 @@ public class SimulaationSuureet {
 
     // DATABASE TALLENNUS anna tyyppi numero -> saa avg palveluaika
     public double getPalveluAika(int ppType) {
-        return palveluAikaArr[ppType - 1] / UserParametrit.getInstance().getPPMaara(ppType);
+        return palveluAikaArr[ppType - 1] / Parametrit.getInstance().getPPMaara(ppType);
     }
 
     // DATABASE TALLENNUS anna tyyppi numero -> saa avg jonotusaika
     public double getJonoAika(int ppType) {
-        return this.jonoAikaArr[ppType - 1] / UserParametrit.getInstance().getPPMaara(ppType);
+        return this.jonoAikaArr[ppType - 1] / Parametrit.getInstance().getPPMaara(ppType);
     }
 
     // DATABASE TALLENNUS anna tyyppi numero -> saa palvellut asiakkaat
@@ -245,14 +245,14 @@ public class SimulaationSuureet {
     }
 
     public double getPPViipymisATotal() {
-        return avgPPViipymisATotal / (UserParametrit.getInstance().getAllPPMaara() - UserParametrit.getMinPPMaara());
+        return avgPPViipymisATotal / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 
     public double getJonotusATotal() {
-        return avgJonotusATotal / (UserParametrit.getInstance().getAllPPMaara() - UserParametrit.getMinPPMaara());
+        return avgJonotusATotal / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 
     public double getPalveluATotal() {
-        return avgPalveluATotal / (UserParametrit.getInstance().getAllPPMaara() - UserParametrit.getMinPPMaara());
+        return avgPalveluATotal / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 }

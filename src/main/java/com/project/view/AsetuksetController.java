@@ -3,7 +3,7 @@ package com.project.view;
 import java.io.IOException;
 
 import com.project.MainApp;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.Parametrit;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -25,7 +25,7 @@ public class AsetuksetController {
     @FXML
     private Button saveButton;
 
-    private UserParametrit uP;
+    private Parametrit uP;
 
     /**
      * Ladattaessa täyttää mahdollisesti aiemmin tallennetut valinnat tekstikenttiin
@@ -34,7 +34,7 @@ public class AsetuksetController {
      */
     @FXML
     private void initialize() {
-        uP = UserParametrit.getInstance();
+        uP = Parametrit.getInstance();
         uP.lueTiedostostaDbParametrit();
         if (uP.getDbName() != null) {
             dbName.setText(uP.getDbName());

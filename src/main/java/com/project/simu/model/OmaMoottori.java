@@ -2,7 +2,6 @@ package com.project.simu.model;
 
 import com.project.view.INewSimulationControllerMtoV;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,14 +17,14 @@ import com.project.simu.utilities.ArrayUtilities;
 public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
-	private UserParametrit uP;
-	private SimulaationSuureet sS;
+	private Parametrit uP;
+	private SimulaatioData sS;
 
 	// OmaMoottori
 	public OmaMoottori(INewSimulationControllerMtoV kontrolleri) {
 		super(kontrolleri);
-		sS = new SimulaationSuureet();
-		uP = UserParametrit.getInstance();
+		sS = new SimulaatioData();
+		uP = Parametrit.getInstance();
 
 		palvelupisteet = new Palvelupiste[uP.getAllPPMaara()];
 		palvelupisteet[0] = new Puhelinvalikko(uP.getPAJakauma(11), tapahtumalista,
@@ -37,7 +36,7 @@ public class OmaMoottori extends Moottori {
 
 		// Muuttujat asiakaspalvelijoiden asettamiseksi
 		int[] tyoVuoroArr = new int[Tyovuoro.size];
-		int ppIndex = UserParametrit.getMinPPMaara();
+		int ppIndex = Parametrit.getMinPPMaara();
 		for (int j = 0; j < 8; j++) {
 			int ppType = Tyyppi.values()[j].getTypeValue();
 			for (int i = 0; i < uP.getPPMaara(ppType); i++) {
@@ -152,18 +151,11 @@ public class OmaMoottori extends Moottori {
 
 		for (Palvelupiste p : palvelupisteet) {
 			if ((p.getPPTyyppi() == ppType) && p.onVarattu()) {
-				indexOfPalvelupiste = p.getPPId();
-				return indexOfPalvelupiste;
+				// indexOfPalvelupiste =
+				return p.getPPId();// indexOfPalvelupiste;
 			}
 		}
-
-		for (Palvelupiste p : palvelupisteet) {
-			if (p.getPPTyyppi() == ppType) {
-				indexOfPalvelupiste = p.getPPId();
-			}
-		}
-
-		return indexOfPalvelupiste; // Error
+		return -1; // Error
 	}
 
 	// Method luo asiakaspalvelijan ja antaa työvuoron simulaatioajasta

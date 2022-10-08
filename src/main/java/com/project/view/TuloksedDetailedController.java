@@ -3,8 +3,8 @@ package com.project.view;
 import java.util.ArrayList;
 
 import com.project.simu.model.PalveluPisteTulokset;
-import com.project.simu.model.Palvelupiste;
-import com.project.simu.model.SimulaationSuureet;
+
+import com.project.simu.model.SimulaatioData;
 import com.project.simu.model.Tulokset;
 
 import javafx.fxml.FXML;
@@ -57,7 +57,7 @@ public class TuloksedDetailedController {
     @FXML
     private Button saveButton;
 
-    private SimulaationSuureet sS;
+    private SimulaatioData sS;
     private Tulokset tulokset;
 
     public void updateValues() {
@@ -85,7 +85,7 @@ public class TuloksedDetailedController {
         stage.close();
     }
 
-    public void setSimulaationSuureet(SimulaationSuureet sS) {
+    public void setSimulaationSuureet(SimulaatioData sS) {
         this.sS = sS;
         System.out.println(sS.getAsPalveltu());
     }
