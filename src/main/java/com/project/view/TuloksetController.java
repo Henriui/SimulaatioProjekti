@@ -31,7 +31,7 @@ public class TuloksetController {
         tulokset.openConnection();
         int r = tulokset.getRowCount();
         for (int i = 0; i < r; i++) {
-            tol.add(new Tulokset(tulokset.queryTulos(i)));
+            //tol.add(new Tulokset(tulokset.queryTulos(i)));
         }
     }
 

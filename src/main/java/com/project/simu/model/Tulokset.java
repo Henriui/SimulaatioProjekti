@@ -10,10 +10,11 @@ public class Tulokset {
     private int poistuneetAsiakkaat;
     private int uudelleenOhjatutAsiakkaat;
     private double keskiLapiMenoAika;
+    private double keskiJonotusAika;
     private PalveluPisteTulokset palveluPisteTulokset;
-
+    
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
-            int poistuneetAsiakkaat, int uudelleenOhjatutAsiakkaat, double keskiLapiMenoAika,
+            int poistuneetAsiakkaat, int uudelleenOhjatutAsiakkaat, double keskiLapiMenoAika, double keskiJonotusAika,
             PalveluPisteTulokset palveluPisteTulokset) {
         this.simulaatiokerta = simulaatiokerta;
         this.kesto = kesto;
@@ -23,6 +24,7 @@ public class Tulokset {
         this.poistuneetAsiakkaat = poistuneetAsiakkaat;
         this.uudelleenOhjatutAsiakkaat = uudelleenOhjatutAsiakkaat;
         this.keskiLapiMenoAika = keskiLapiMenoAika;
+        this.keskiJonotusAika = keskiJonotusAika;
         this.palveluPisteTulokset = palveluPisteTulokset;
     }
 
@@ -58,7 +60,11 @@ public class Tulokset {
         return keskiLapiMenoAika;
     }
 
-    public PalveluPisteTulokset getPalvelupisteTulokset() {
+    public double getKeskiJonotusAika() {
+        return keskiJonotusAika;
+    }
+
+    public PalveluPisteTulokset getPalveluPisteTulokset() {
         return palveluPisteTulokset;
     }
 }

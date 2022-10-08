@@ -6,14 +6,17 @@ public class PalveluPisteTulokset {
     private int simulaatiokerta;
     private int tyyppi;
     private int palvellutAsiakkaat;
-    private int keskiPalveluAika;
-
-    public PalveluPisteTulokset(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat, int keskiPalveluAika) {
+    private double keskiPalveluAika;
+    private double keskiJonotusAika;
+    
+    public PalveluPisteTulokset(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
+            double keskiPalveluAika, double keskiJonotusAika) {
         this.id = id;
         this.simulaatiokerta = simulaatiokerta;
         this.tyyppi = tyyppi;
         this.palvellutAsiakkaat = palvellutAsiakkaat;
         this.keskiPalveluAika = keskiPalveluAika;
+        this.keskiJonotusAika = keskiJonotusAika;
     }
 
     public int getId() {
@@ -32,8 +35,12 @@ public class PalveluPisteTulokset {
         return palvellutAsiakkaat;
     }
 
-    public int getKeskiPalveluAika() {
+    public double getKeskiPalveluAika() {
         return keskiPalveluAika;
     }
 
+    public double getKeskiJonotusAika() {
+        return keskiJonotusAika;
+    }
+    
 }
