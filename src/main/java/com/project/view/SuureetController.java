@@ -25,7 +25,7 @@ public class SuureetController {
     private NewSimulationController controller = new NewSimulationController();
     private boolean canSave = false;
     UserParametrit userParametrit = UserParametrit.getInstance();
-  
+
     @FXML
     private Button closeButton;
     @FXML
@@ -124,7 +124,6 @@ public class SuureetController {
     private UserParametrit uP = UserParametrit.getInstance();
     private DecimalFormat dF;
 
-
     @FXML
     private void initialize() {
         startValuet();
@@ -133,7 +132,7 @@ public class SuureetController {
     }
 
     @FXML
-    private void onTextChanged(){
+    private void onTextChanged() {
         // Yksityis
         setTextFieldListener(myyntiAikaField);
         setTextFieldListener(nettiAikaField);
@@ -162,11 +161,12 @@ public class SuureetController {
         setTextFieldListener(asiakasMääräField);
 
     }
+
     /**
-    * When the slider is changed, the value of the slider is set to the label.
-    *
-    * @author Jonne Borgman
-    */
+     * When the slider is changed, the value of the slider is set to the label.
+     *
+     * @author Jonne Borgman
+     */
     @FXML
     private void onSliderChanged() {
 
@@ -186,12 +186,13 @@ public class SuureetController {
         setJakauma(jakaumaSlider, jakaumaText);
     }
 
-  /**
-   * It checks if the all of the textfields contain numbers and if they do, it sets canSave to true.
-   * If textfields contains anything else than numbers, sets canSave to false.
-   * 
-   * @author Jonne Borgman
-   */
+    /**
+     * It checks if the all of the textfields contain numbers and if they do, it
+     * sets canSave to true.
+     * If textfields contains anything else than numbers, sets canSave to false.
+     * 
+     * @author Jonne Borgman
+     */
     @FXML
     private void textFieldCheck() {
         try {
@@ -220,11 +221,11 @@ public class SuureetController {
         }
     }
 
-   /**
-    * If the user has entered valid values, save them and close the window
-    *
-    * @author Jonne Borgman
-    */
+    /**
+     * If the user has entered valid values, save them and close the window
+     *
+     * @author Jonne Borgman
+     */
 
     @FXML
     private void tallenna() {
@@ -244,10 +245,10 @@ public class SuureetController {
     }
 
     /**
-    * Closes the window.
-    *
-    * @author Jonne Borgman
-    */
+     * Closes the window.
+     *
+     * @author Jonne Borgman
+     */
     @FXML
     private void peruuta() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -331,22 +332,31 @@ public class SuureetController {
      * @author Jonne Borgman
      */
     private void saveValues() {
-        uP.setPPMaara((int) myyntiPalvelupisteet.getValue(), 1);
-        uP.setPPMaara((int) nettiPalvelupisteet.getValue(), 2);
-        uP.setPPMaara((int) liittymäPalvelupisteet.getValue(), 3);
-        uP.setPPMaara((int) laskutusPalvelupisteet.getValue(), 4);
-        uP.setPPMaara((int) YritysmyyntiPp.getValue(), 5);
-        uP.setPPMaara((int) YritysnettiPp.getValue(), 6);
-        uP.setPPMaara((int) YritysliittymäPp.getValue(), 7);
-        uP.setPPMaara((int) YrityslaskutusPp.getValue(), 8);
-        uP.setPPAvgAika(Double.parseDouble(myyntiAikaField.getText()), 1);
-        uP.setPPAvgAika(Double.parseDouble(nettiAikaField.getText()), 2);
-        uP.setPPAvgAika(Double.parseDouble(liittymäAikaField.getText()), 3);
-        uP.setPPAvgAika(Double.parseDouble(laskutusAikaField.getText()), 4);
-        uP.setPPAvgAika(Double.parseDouble(YritysmyyntiAikaField.getText()), 5);
-        uP.setPPAvgAika(Double.parseDouble(YritysnettiAikaField.getText()), 6);
-        uP.setPPAvgAika(Double.parseDouble(YritysliittymäAikaField.getText()), 7);
-        uP.setPPAvgAika(Double.parseDouble(YrityslaskutusAikaField.getText()), 8);
+        uP.setPPMaara(new int[] { (int) myyntiPalvelupisteet.getValue(),
+                (int) nettiPalvelupisteet.getValue(),
+                (int) liittymäPalvelupisteet.getValue(),
+                (int) laskutusPalvelupisteet.getValue(),
+                (int) YritysmyyntiPp.getValue(),
+                (int) YritysnettiPp.getValue(),
+                (int) YritysliittymäPp.getValue(),
+                (int) YrityslaskutusPp.getValue(), 1, 1, 1 });
+        uP.setPPAvgAika(new double[] { Double.parseDouble(myyntiAikaField.getText()) * 60,
+                Double.parseDouble(nettiAikaField.getText()) * 60,
+                Double.parseDouble(liittymäAikaField.getText()) * 60,
+                Double.parseDouble(laskutusAikaField.getText()) * 60,
+                Double.parseDouble(YritysmyyntiAikaField.getText()) * 60,
+                Double.parseDouble(YritysnettiAikaField.getText()) * 60,
+                Double.parseDouble(YritysliittymäAikaField.getText()) * 60,
+                Double.parseDouble(YrityslaskutusAikaField.getText()) * 60, uP.getPValikkoAika(), uP.getPValikkoAika(),
+                uP.getPValikkoAika() });
+        uP.setAsTyyppiArr(new double[] { Double.parseDouble(myyntiPpJakauma.getText()),
+                Double.parseDouble(nettiPpJakauma.getText()),
+                Double.parseDouble(liittymäPpJakauma.getText()),
+                Double.parseDouble(laskutusPpJakauma.getText()),
+                Double.parseDouble(myyntiYritysPpJakauma.getText()),
+                Double.parseDouble(nettiYritysPpJakauma.getText()),
+                Double.parseDouble(liittymäYritysPpJakauma.getText()),
+                Double.parseDouble(laskutusYritysPpJakauma.getText()) });
         uP.setSimulaationAika(Double.parseDouble(simuloinninAikaField.getText()));
         uP.setAsTyyppiJakauma(jakauma);
         uP.setMaxJononPituus(Double.parseDouble(kärsimättömyysAikaField.getText()) * 60);
@@ -370,10 +380,12 @@ public class SuureetController {
     }
 
     /**
-     * When the slider value changes, the label text changes to the corresponding value and the
+     * When the slider value changes, the label text changes to the corresponding
+     * value and the
      * jakauma variable is set to the corresponding value.
      * 
-     * The jakauma variable is used to calculate the probability for what type of customers enter the simulation.
+     * The jakauma variable is used to calculate the probability for what type of
+     * customers enter the simulation.
      * 
      * @param s Slider
      * @param l Label that shows the current value of the slider
@@ -412,15 +424,15 @@ public class SuureetController {
         });
     }
 
-    public void prosentti(){
+    public void prosentti() {
         int yksityisProsentti = Integer.parseInt(YksityisJakaumaProsentti.getText());
         int yritysProsentti = Integer.parseInt(YritysJakaumaProsentti.getText());
 
-        if(yksityisProsentti > 100 || yritysProsentti > 100)
+        if (yksityisProsentti > 100 || yritysProsentti > 100)
             canSave = false;
-        
+
     }
-    
+
     private void setB2CJakaumaListener(TextField tF) {
         tF.textProperty().addListener((observable, oldValue, newValue) -> textFieldCheck());
 
@@ -442,12 +454,7 @@ public class SuureetController {
         int yhteensä = myynti + netti + liittymä + laskutus;
         YritysJakaumaProsentti.setText(String.valueOf(yhteensä));
     }
-    
-    /**
-     * Methodi textfield kuuntelijalle, jokainen input aiheuttaa textFieldCheckin()
-     * 
-     * @author Rasmus Hyyppä
-     */
+
     private void setTextFieldListener(TextField tF) {
         tF.textProperty().addListener((observable, oldValue, newValue) -> textFieldCheck());
     }

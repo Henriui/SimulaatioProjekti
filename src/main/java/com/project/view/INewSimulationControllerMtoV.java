@@ -1,18 +1,16 @@
 package com.project.view;
 
+<<<<<<< Updated upstream
 import java.io.IOException;
 
 import com.project.simu.model.SimulaationSuureet;
+=======
+import java.util.HashMap;
+>>>>>>> Stashed changes
 
 public interface INewSimulationControllerMtoV {
 
-    public void ulkonaAs(int maara);
-
-    public void asPPMaara(int type, int koko);
-
-    public void ilmoitaPalveluPisteet(int yritys, int yksityis);
-
-    public void ilmoitaJononKoko(int yksityis, int yritys);
+  public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap);
 
     public void showTulokset(SimulaationSuureet sS);
 

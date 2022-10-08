@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
+
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
@@ -75,7 +77,7 @@ public class UserParametrit {
         // Asiakaspisteitten jakauma käyttäjän asettamana
         this.asTyyppiArr = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
 
-        this.ppMaaraArray = new int[Tyyppi.size]; // Palvelupisteiden kokonaismäärä arraylistissä
+        this.ppMaaraArray = new int[Tyyppi.maxSize]; // Palvelupisteiden kokonaismäärä arraylistissä
         for (int i = 0; i < ppMaaraArray.length; i++) {
             if (i > 7) {
                 ppMaaraArray[i] = 1;
@@ -84,7 +86,7 @@ public class UserParametrit {
             }
         }
 
-        this.ppAikaArray = new double[Tyyppi.size]; // Keskiverto palvelupisteen palveluaika
+        this.ppAikaArray = new double[Tyyppi.maxSize]; // Keskiverto palvelupisteen palveluaika
         for (int i = 0; i < ppAikaArray.length; i++) {
             if (i > 7) {
                 ppAikaArray[i] = pValikkoAika;
@@ -99,8 +101,8 @@ public class UserParametrit {
      * @param ppType tätä tyyppi valueta vastaan (1-8)
      * @author Rasmus Hyyppä
      */
-    public void setPPMaara(int määrä, int ppType) {
-        ppMaaraArray[ppType - 1] = määrä;
+    public void setPPMaara(int[] ppMaaraArray) {
+        this.ppMaaraArray = ppMaaraArray;
     }
 
     /**
@@ -117,8 +119,12 @@ public class UserParametrit {
      * @param ppType palvelupisteen tyyppi
      * @author Rasmus Hyyppä
      */
-    public void setPPAvgAika(double aika, int ppType) {
-        ppAikaArray[ppType - 1] = aika * 60;
+    // public void setPPAvgAika(double aika, int ppType) {
+    // ppAikaArray[ppType - 1] = aika * 60;
+    // }
+
+    public void setPPAvgAika(double[] ppAikaArray) {
+        this.ppAikaArray = ppAikaArray;
     }
 
     /**
@@ -136,7 +142,13 @@ public class UserParametrit {
      */
     public Normal getPAJakauma(int ppType) {
         double aika = getPPAvgAika(ppType);
-        return new Normal(aika - (aika / 2), aika + (aika / 2));
+        if (aika > 0) {
+            return new Normal(aika - (aika / 2), aika + (aika / 2));
+        } else {
+            aika = 10 * 60;
+            return new Normal(aika - (aika / 2), aika + (aika / 2));
+        }
+
     }
 
     public int getAllPPMaara() {
@@ -200,6 +212,17 @@ public class UserParametrit {
     }
 
     public void setAsTyyppiArr(double[] asTyyppiArr) {
+        for (int i = 0; i < asTyyppiArr.length; i++) {
+            if (i > 0 && i < 4) {
+                asTyyppiArr[i] += asTyyppiArr[i - 1];
+            }
+
+            if (i > 4) {
+                asTyyppiArr[i] += asTyyppiArr[i - 1];
+            }
+        }
+
+        System.out.println("asTyyppiArr: " + Arrays.toString(asTyyppiArr));
         this.asTyyppiArr = asTyyppiArr;
     }
 

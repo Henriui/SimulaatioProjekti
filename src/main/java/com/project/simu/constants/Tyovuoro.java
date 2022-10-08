@@ -42,5 +42,9 @@ public enum Tyovuoro {
         }
         return tyoVuoroIndex;
     }
-
+	// Kokonais tyyppi koko - arrival
+	public static final int size;
+	static {
+		size = values().length;
+	}
 }
