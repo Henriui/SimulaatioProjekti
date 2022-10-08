@@ -44,7 +44,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private static boolean open = false;
     private IMoottori m;
     private SimulaatioData sS;
- 
+
     private Boolean simulationRunning = false;
 
     @FXML
@@ -61,7 +61,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     @FXML
     public void aloitaSimulaatio() throws InterruptedException {
-        if(!simulationRunning){
+        if (!simulationRunning) {
             Parametrit uP = Parametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this);
@@ -137,7 +137,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             controller.updateValues();
             open = true;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

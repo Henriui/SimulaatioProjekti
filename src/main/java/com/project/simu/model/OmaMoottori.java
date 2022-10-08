@@ -147,8 +147,6 @@ public class OmaMoottori extends Moottori {
 	 * @author Rasmus Hyyppä
 	 */
 	private int otaPalveltuAs(Tyyppi ppType) {
-		int indexOfPalvelupiste = 0;
-
 		for (Palvelupiste p : palvelupisteet) {
 			if ((p.getPPTyyppi() == ppType) && p.onVarattu()) {
 				// indexOfPalvelupiste =
