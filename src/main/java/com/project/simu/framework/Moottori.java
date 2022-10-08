@@ -3,7 +3,7 @@ package com.project.simu.framework;
 import com.project.view.INewSimulationControllerMtoV;
 import com.project.simu.model.Palvelupiste;
 
-public abstract class Moottori extends Thread {
+public abstract class Moottori extends Thread implements IMoottori {
 
 	private double simulointiaika = 0;
 	private long viive = 0;
@@ -25,7 +25,7 @@ public abstract class Moottori extends Thread {
 
 	}
 
-	public void setSimulointiaika(double aika) {
+	public void setSimulointiAika(double aika) {
 		simulointiaika = aika;
 	}
 
@@ -40,6 +40,7 @@ public abstract class Moottori extends Thread {
 	public void run() {
 		alustukset(); // luodaan mm. ensimmäinen tapahtuma
 		while (simuloidaan()) {
+			viive();
 
 			Trace.out(Trace.Level.INFO, "\nA-vaihe: kello on " + nykyaika());
 			kello.setAika(nykyaika());
@@ -49,10 +50,8 @@ public abstract class Moottori extends Thread {
 
 			Trace.out(Trace.Level.INFO, "\nC-vaihe:");
 			yritaCTapahtumat();
-
 		}
 		tulokset();
-
 	}
 
 	private void suoritaBTapahtumat() {
@@ -74,7 +73,6 @@ public abstract class Moottori extends Thread {
 	}
 
 	private boolean simuloidaan() {
-		viive();
 		return kello.getAika() < simulointiaika;
 	}
 
@@ -89,7 +87,8 @@ public abstract class Moottori extends Thread {
 
 	protected abstract void alustukset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 
-	protected abstract void suoritaTapahtuma(Tapahtuma t); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
+	protected abstract void suoritaTapahtuma(Tapahtuma t); // Määritellään simu.model-pakkauksessa Moottorin
+												// aliluokassa
 
 	protected abstract void tulokset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 
