@@ -1,5 +1,7 @@
 package com.project.simu.model;
 
+import java.util.ArrayList;
+
 public class Tulokset {
 
     private int simulaatiokerta;
@@ -9,13 +11,15 @@ public class Tulokset {
     private int palvellutAsiakkaat;
     private int poistuneetAsiakkaat;
     private int uudelleenOhjatutAsiakkaat;
-    private double keskiLapiMenoAika;
     private double keskiJonotusAika;
-    private PalveluPisteTulokset palveluPisteTulokset;
+    private double keskiLapiMenoAika;
+    private ArrayList<PalveluPisteTulokset> palveluPisteTuloksets = new ArrayList<PalveluPisteTulokset>();
     
+    
+
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
-            int poistuneetAsiakkaat, int uudelleenOhjatutAsiakkaat, double keskiLapiMenoAika, double keskiJonotusAika,
-            PalveluPisteTulokset palveluPisteTulokset) {
+            int poistuneetAsiakkaat, int uudelleenOhjatutAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
+            ArrayList<PalveluPisteTulokset> palveluPisteTuloksets) {
         this.simulaatiokerta = simulaatiokerta;
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
@@ -23,9 +27,23 @@ public class Tulokset {
         this.palvellutAsiakkaat = palvellutAsiakkaat;
         this.poistuneetAsiakkaat = poistuneetAsiakkaat;
         this.uudelleenOhjatutAsiakkaat = uudelleenOhjatutAsiakkaat;
-        this.keskiLapiMenoAika = keskiLapiMenoAika;
         this.keskiJonotusAika = keskiJonotusAika;
-        this.palveluPisteTulokset = palveluPisteTulokset;
+        this.keskiLapiMenoAika = keskiLapiMenoAika;
+        this.palveluPisteTuloksets = palveluPisteTuloksets;
+    }
+
+    public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int poistuneetAsiakkaat,
+            int uudelleenOhjatutAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
+            ArrayList<PalveluPisteTulokset> palveluPisteTuloksets) {
+        this.kesto = kesto;
+        this.palveluProsentti = palveluProsentti;
+        this.asMaara = asMaara;
+        this.palvellutAsiakkaat = palvellutAsiakkaat;
+        this.poistuneetAsiakkaat = poistuneetAsiakkaat;
+        this.uudelleenOhjatutAsiakkaat = uudelleenOhjatutAsiakkaat;
+        this.keskiJonotusAika = keskiJonotusAika;
+        this.keskiLapiMenoAika = keskiLapiMenoAika;
+        this.palveluPisteTuloksets = palveluPisteTuloksets;
     }
 
     public int getSimulaatiokerta() {
@@ -64,7 +82,44 @@ public class Tulokset {
         return keskiJonotusAika;
     }
 
-    public PalveluPisteTulokset getPalveluPisteTulokset() {
-        return palveluPisteTulokset;
+    public ArrayList<PalveluPisteTulokset> getPalveluPisteTuloksets() {
+        return palveluPisteTuloksets;
     }
+
+    public String getSimulaatiokertaString() {
+        return Integer.toString(simulaatiokerta);
+    }
+
+    public String getKestoString() {
+        return Double.toString(kesto);
+    }
+
+    public String getPalveluProsenttiString() {
+        return Double.toString(palveluProsentti);
+    }
+
+    public String getAsMaaraString() {
+        return Integer.toString(asMaara);
+    }
+
+    public String getPalvellutAsiakkaatString() {
+        return Integer.toString(palvellutAsiakkaat);
+    }
+
+    public String getPoistuneetAsiakkaatString() {
+        return Integer.toString(poistuneetAsiakkaat);
+    }
+
+    public String getUudelleenOhjatutAsiakkaatString() {
+        return Integer.toString(uudelleenOhjatutAsiakkaat);
+    }
+
+    public String getKeskiLapiMenoAikaString() {
+        return Double.toString(keskiLapiMenoAika);
+    }
+
+    public String getKeskiJonotusAikaString() {
+        return Double.toString(keskiJonotusAika);
+    }
+
 }

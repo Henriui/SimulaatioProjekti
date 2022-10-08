@@ -63,7 +63,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             UserParametrit uP = UserParametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this);
-            m.setViive(25);
+            m.setViive(0);
             m.setSimulointiaika(uP.getSimulaationAika() * 3600);
             ((Thread) m).start();
             simulationRunning = true;
@@ -104,7 +104,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void showTulokset(SimulaationSuureet sS) {
         simulationRunning = false;
         this.sS = sS;
-        System.out.println(sS.getAsPalveltu());
         Platform.runLater(new Runnable() {
             public void run() {
                 runTulokset();
@@ -125,7 +124,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             dialogStage.setScene(scene);
 
             TuloksedDetailedController controller = loader.getController();
-            System.out.println("Nakyyko?");
             controller.setSimulaationSuureet(sS);
 
             scene.setOnMousePressed(event -> {
