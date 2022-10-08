@@ -93,8 +93,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         System.out.println("Start");
 		
 		visualisointi = new Visualisointi(visu);
-		
-        //asd();
     }
 
     @FXML
@@ -111,7 +109,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             m.setViive(0);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
             visualisointi.visuaalinenNopeus(m.getViive());
-            System.out.println("VIIVE--" + m.getViive());
             ((Thread) m).start();
             simulationRunning = true;
         }
@@ -182,7 +179,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             controller.updateValues();
             open = true;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
