@@ -69,7 +69,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private static boolean open = false;
     private IMoottori m;
     private SimulaatioData sS;
-<<<<<<< HEAD
  
     private Boolean simulationRunning = false;
 
@@ -81,10 +80,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     public static final double W = 200; // canvas dimensions.
     public static final double H = 200;
-=======
-
-    private Boolean simulationRunning = false;
->>>>>>> main
 
     public static final double D = 20;  // diameter.
     
@@ -94,15 +89,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         new animatefx.animation.ZoomIn();
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
-<<<<<<< HEAD
 
         System.out.println("Start");
 		
 		visualisointi = new Visualisointi(visu);
 		
         //asd();
-=======
->>>>>>> main
     }
 
     @FXML
@@ -112,16 +104,14 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     @FXML
     public void aloitaSimulaatio() throws InterruptedException {
-<<<<<<< HEAD
-        if(!simulationRunning){
-=======
         if (!simulationRunning) {
->>>>>>> main
             Parametrit uP = Parametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this);
             m.setViive(0);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
+            visualisointi.visuaalinenNopeus(m.getViive());
+            System.out.println("VIIVE--" + m.getViive());
             ((Thread) m).start();
             simulationRunning = true;
         }
@@ -156,7 +146,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void showTulokset(SimulaatioData sS) {
         simulationRunning = false;
         this.sS = sS;
-<<<<<<< HEAD
         Platform.runLater(new Runnable() {
             public void run() {
                 runTulokset();
@@ -246,101 +235,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 palvelupisteellaYksityis.setText("Palveltuja as " + String.valueOf(yksityisPalvelu));
                 palvelupisteellaYritys.setText("Palveltuja as " + String.valueOf(yritysPalvelu));
 
-=======
-        Platform.runLater(new Runnable() {
-            public void run() {
-                runTulokset();
-            }
-        });
-    }
-
-    public void runTulokset() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/tuloksetDetailedPopUp.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Tulokset");
-            dialogStage.initStyle(StageStyle.TRANSPARENT);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            TuloksedDetailedController controller = loader.getController();
-            controller.setSimulaationSuureet(sS);
-
-            scene.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-
-            // Can move window when mouse down and drag.
-            scene.setOnMouseDragged(event -> {
-                dialogStage.setX(event.getScreenX() - xOffset);
-                dialogStage.setY(event.getScreenY() - yOffset);
-            });
-            dialogStage.show();
-            controller.updateValues();
-            open = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void popupOpen(boolean isOpen) {
-        open = isOpen;
-    }
-
-    // Finds fxml file from the resources folder.
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-
-    @Override
-    public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                // [i] = 0-7 = aspa, 8-10 = puhelinvalikko
-                // suureStatusMap.get("Palveltu")[i]
-                // suureStatusMap.get("Jonossa")[i]
-                // suureStatusMap.get("Quitter")[i]
-                // suureStatusMap.get("ReRouted")[i]
-                // suureStatusMap.get("Tyovuorossa")[i]
-                // suureStatusMap.get("Totalit")[i]
-
-                // Esim.
-                int yksityisTv = 0;
-                int yritysTv = 0;
-                for (int i = 0; i < suureStatusMap.get("Tyovuorossa").length; i++) {
-                    if (i < 4) {
-                        yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
-                    } else if (i > 3 && i < 8) {
-                        yritysTv += suureStatusMap.get("Tyovuorossa")[i];
-                    }
-
-                }
-                yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityisTv));
-                yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritysTv));
-
-                int yksityisPalvelu = 0;
-                int yritysPalvelu = 0;
-                for (int i = 0; i < suureStatusMap.get("Palveltu").length; i++) {
-                    if (i < 4) {
-                        yksityisPalvelu += suureStatusMap.get("Palveltu")[i];
-                    } else if (i > 3 && i < 8) {
-                        yritysPalvelu += suureStatusMap.get("Palveltu")[i];
-                    }
-                }
-                palvelupisteellaYksityis.setText("Palveltuja as " + String.valueOf(yksityisPalvelu));
-                palvelupisteellaYritys.setText("Palveltuja as " + String.valueOf(yritysPalvelu));
-
->>>>>>> main
                 int jonoYksityis = 0;
                 int jonoYritys = 0;
                 for (int i = 0; i < suureStatusMap.get("Jonossa").length; i++) {
                     if (i < 4) {
                         jonoYksityis += suureStatusMap.get("Jonossa")[i];
+                        visualisointi.visuaalinenJono(i);
                     } else if (i > 3 && i < 8) {
                         jonoYritys += suureStatusMap.get("Jonossa")[i];
                     }
@@ -373,6 +273,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @Override
     public void hidastaSimulaatiota() {
         m.setViive(m.getViive() + 5);
+        visualisointi.visuaalinenNopeus(m.getViive());
     }
 
     @Override
@@ -380,49 +281,82 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         if (m.getViive() > 0) {
             m.setViive(m.getViive() - 5);
         }
+        visualisointi.visuaalinenNopeus(m.getViive());
     }
 
-<<<<<<< HEAD
-    public void asd(){
-        
-        //Circle[] circle = new Circle[3]; 
-        //for(int i = 0; i < circle.length; i++){
-            Circle circle = new Circle(10);           // initialize circles with radius of 50
-            circle.setFill(Color.PINK);
-            visuaalinenTausta.getChildren().add(circle);
-            visualisointi.asiakasLiikkuu(circle, "laskutus");
-
-            Circle circle2 = new Circle(10);           // initialize circles with radius of 50
-            circle2.setFill(Color.RED);
-            visuaalinenTausta.getChildren().add(circle2);
-            visualisointi.asiakasLiikkuu(circle2, "myynti");
-
-            Circle circle3 = new Circle(10);           // initialize circles with radius of 50
-            circle3.setFill(Color.BLUE);
-            visuaalinenTausta.getChildren().add(circle3);
-            visualisointi.asiakasLiikkuu(circle3, "netti");
-
-            Circle circle4 = new Circle(10);           // initialize circles with radius of 50
-            circle4.setFill(Color.GREEN);
-            visuaalinenTausta.getChildren().add(circle4);
-            visualisointi.asiakasLiikkuu(circle4, "liittymä");
+    
        // }
       //Displaying the contents of the stage 
-    }
+
     
-=======
     // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
     @Override
     public void visualisoiAsiakas(int asType) {
-
-    }
+        Platform.runLater(new Runnable() {
+            public void run() {
+                switch (asType){
+                case 1:
+                    Circle circle1 = new Circle(10);           // initialize circles with radius of 10
+                    circle1.setFill(Color.RED);
+                    visuaalinenTausta.getChildren().add(circle1);
+                    visualisointi.asiakasLiikkuu(circle1, "Pmyynti");
+                    break;
+                case 2:
+                    Circle circle2 = new Circle(10);           // initialize circles with radius of 10
+                    circle2.setFill(Color.BLUE);
+                    visuaalinenTausta.getChildren().add(circle2);
+                    visualisointi.asiakasLiikkuu(circle2, "Pnetti");
+                    break;
+                case 3:
+                    Circle circle3 = new Circle(10);           // initialize circles with radius of 10
+                    circle3.setFill(Color.GREEN);
+                    visuaalinenTausta.getChildren().add(circle3);
+                    visualisointi.asiakasLiikkuu(circle3, "Pliittymä");
+                    break;
+                case 4:
+                    Circle circle4 = new Circle(10);           // initialize circles with radius of 10
+                    circle4.setFill(Color.PINK);
+                    visuaalinenTausta.getChildren().add(circle4);
+                    visualisointi.asiakasLiikkuu(circle4, "Plaskutus");
+                    break;
+                case 5:
+                   Circle circle5= new Circle(10);           // initialize circles with radius of 10
+                   circle5.setFill(Color.RED);
+                   visuaalinenTausta.getChildren().add(circle5);
+                   visualisointi.asiakasLiikkuu(circle5, "Ymyynti");
+                   break;
+                case 6:
+                    Circle circle6= new Circle(10);           // initialize circles with radius of 10
+                    circle6.setFill(Color.BLUE);
+                    visuaalinenTausta.getChildren().add(circle6);
+                    visualisointi.asiakasLiikkuu(circle6, "Ynetti");
+                    break;
+                case 7:
+                    Circle circle7= new Circle(10);           // initialize circles with radius of 10
+                    circle7.setFill(Color.GREEN);
+                    visuaalinenTausta.getChildren().add(circle7);
+                    visualisointi.asiakasLiikkuu(circle7, "Yliittymä");
+                    break;
+                case 8:
+                    Circle circle8= new Circle(10);           // initialize circles with radius of 10
+                    circle8.setFill(Color.PINK);
+                    visuaalinenTausta.getChildren().add(circle8);
+                    visualisointi.asiakasLiikkuu(circle8, "Ylaskutus");
+                    break;
+            }
+        }
+    });
+}
 
     // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
     // Poistumistype: "Quitter" / "Palveltu"
     @Override
     public void visualisoiPoistuminen(int asType, String poistumisType) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+            }
+        });
     }
->>>>>>> main
 }

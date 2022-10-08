@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="backGround" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.NewSimulationController">
@@ -20,7 +19,7 @@
          <left>
             <AnchorPane prefHeight="701.0" prefWidth="252.0" style="-fx-background-color: #3F005E;" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutY="102.0" prefHeight="64.0" prefWidth="252.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;" AnchorPane.bottomAnchor="634.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="102.0">
+                  <Pane layoutY="102.0" prefHeight="66.0" prefWidth="252.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;" AnchorPane.bottomAnchor="532.7462505868299" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="102.0">
                      <children>
                         <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Uusi Simulaatio" textFill="#f9f9f9">
                            <font>
@@ -89,28 +88,28 @@
                <children>
                   <AnchorPane fx:id="visuaalinenTausta" layoutX="374.0" layoutY="154.0" prefHeight="200.0" prefWidth="1058.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Pane layoutX="27.0" layoutY="-116.0" prefHeight="142.0" prefWidth="300.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                        <Pane layoutX="65.0" layoutY="-83.0" prefHeight="142.0" prefWidth="300.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" text="Yksityis Asiakkaita Jonossa : " textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="yksityisJonossa" layoutX="106.0" layoutY="72.0" text="Label" textFill="#e3b9b9">
+                              <Label fx:id="yksityisJonossa" layoutX="106.0" layoutY="90.0" text="Yksityis" textFill="#e3b9b9">
                                  <font>
                                     <Font size="27.0" />
                                  </font>
                               </Label>
                            </children>
                         </Pane>
-                        <Pane layoutX="782.0" layoutY="-117.0" prefHeight="143.0" prefWidth="275.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                        <Pane layoutX="664.0" layoutY="-84.0" prefHeight="143.0" prefWidth="275.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" text="Yritys Asiakkaita Jonossa : " textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="YritysJonossa" layoutX="106.0" layoutY="72.0" text="Label" textFill="#e3b9b9">
+                              <Label fx:id="YritysJonossa" layoutX="106.0" layoutY="90.0" text="Yritys:" textFill="#e3b9b9">
                                  <font>
                                     <Font size="27.0" />
                                  </font>
@@ -131,27 +130,26 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Pane layoutX="328.0" layoutY="656.0" prefHeight="143.0" prefWidth="275.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                        <Pane layoutX="462.0" layoutY="584.0" prefHeight="110.0" prefWidth="140.0" style="-fx-background-color: #ad5389; -fx-background-radius: 20;">
                            <children>
-                              <Label layoutX="60.0" layoutY="14.0" text="Asiakkaita ulkona" textFill="#e1e1e1">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="suorittaneetMaara" layoutX="99.0" layoutY="71.0" text="Määrä" textFill="#e3b9b9">
+                              <Label fx:id="suorittaneetMaara" layoutX="14.0" layoutY="77.0" text="Total: 0" textAlignment="CENTER" textFill="WHITE" underline="true">
                                  <font>
                                     <Font size="27.0" />
                                  </font>
                               </Label>
+                              <ImageView fitHeight="83.0" fitWidth="90.0" layoutX="29.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/callend.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
-                        <ImageView fitHeight="118.0" fitWidth="93.0" layoutX="483.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" scaleZ="2000.0">
+                        <ImageView fitHeight="118.0" fitWidth="93.0" layoutX="474.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" scaleZ="2000.0">
                            <image>
                               <Image url="@../icons/mobilephoen.png" />
                            </image>
                         </ImageView>
-                        <Canvas fx:id="visu" height="145.0" layoutX="474.0" layoutY="220.0" width="278.0" />
-                        <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="410.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="yksityisPalvelupisteita11" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -173,7 +171,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="410.0" AnchorPane.rightAnchor="375.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="yksityisPalvelupisteita3" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -195,7 +193,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="410.0" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="yksityisPalvelupisteita22" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -217,7 +215,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="410.0" AnchorPane.rightAnchor="30.13430111061497" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="yksityisPalvelupisteita211" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -239,7 +237,6 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Circle fx:id="liikkuu" fill="#ff1f2b" layoutX="183.0" layoutY="60.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
                      </children>
                   </AnchorPane>
                   <Canvas fx:id="ani" height="153.0" layoutX="53.0" layoutY="200.0" width="278.0" />
@@ -331,6 +328,7 @@
                         </ImageView>
                      </children>
                   </Pane>
+                  <Canvas fx:id="visu" height="225.0" layoutX="25.0" layoutY="51.0" width="80.0" />
                </children>
             </AnchorPane>
          </center>
