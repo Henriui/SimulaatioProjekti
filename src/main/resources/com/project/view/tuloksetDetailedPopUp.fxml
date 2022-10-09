@@ -35,35 +35,35 @@
          <children>
             <Pane layoutX="572.0" layoutY="14.0" prefHeight="494.0" prefWidth="320.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
                <children>
-                  <Label layoutX="79.0" layoutY="14.0" text="Palvelupisteet:">
+                  <Label layoutX="84.0" layoutY="14.0" text="Palvelupisteet:">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="128.0" layoutY="57.0" text="Yritys">
+                  <Label layoutX="138.0" layoutY="272.0" text="Yritys">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="121.0" layoutY="278.0" text="Yksityis">
+                  <Label layoutX="131.0" layoutY="56.0" text="Yksityis">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="yritysPisteetTable" layoutX="10.0" layoutY="84.0" prefHeight="175.0" prefWidth="300.0">
+                  <TableView fx:id="yritysPisteetTable" layoutX="10.0" layoutY="299.0" prefHeight="175.0" prefWidth="300.0">
                     <columns>
                       <TableColumn fx:id="yriPisteColumn" prefWidth="75.0" text="Piste" />
                       <TableColumn fx:id="yriKplColumn" prefWidth="75.0" text="Kpl" />
-                        <TableColumn fx:id="yriKeskAikColumn" prefWidth="75.0" text="Jonotusaika" />
-                        <TableColumn fx:id="yriPalveluProColumn" prefWidth="75.0" text="Palvelu%" />
+                        <TableColumn fx:id="yriKeskiJonoAikaColumn" prefWidth="75.0" text="Jonotusaika" />
+                        <TableColumn fx:id="yriKeskiPalveluAikaColumn" prefWidth="75.0" text="Palveluaika" />
                     </columns>
                   </TableView>
-                  <TableView fx:id="yksityisPisteetTable" layoutX="10.0" layoutY="305.0" prefHeight="175.0" prefWidth="300.0">
+                  <TableView fx:id="yksityisPisteetTable" layoutX="10.0" layoutY="83.0" prefHeight="175.0" prefWidth="300.0">
                      <columns>
                         <TableColumn fx:id="yksPisteColumn" prefWidth="75.0" text="Piste" />
                         <TableColumn fx:id="yksKplColumn" prefWidth="75.0" text="Kpl" />
-                        <TableColumn fx:id="yksKeskAikColumn" prefWidth="75.0" text="Jonotusaika" />
-                        <TableColumn fx:id="yksPalveluProColumn" prefWidth="75.0" text="Palvelu%" />
+                        <TableColumn fx:id="yksKeskiJonoAikaColumn" prefWidth="75.0" text="Jonotusaika" />
+                        <TableColumn fx:id="yksKeskiPalveluAikaColumn" prefWidth="75.0" text="Palveluaika" />
                      </columns>
                   </TableView>
                </children>
