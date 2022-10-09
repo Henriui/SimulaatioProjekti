@@ -127,16 +127,11 @@
                               <DropShadow height="255.0" radius="82.0" width="75.0" />
                            </effect>
                         </Pane>
-                        <Pane layoutX="768.0" layoutY="558.0" prefHeight="143.0" prefWidth="275.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                        <Pane layoutX="768.0" layoutY="558.0" opacity="0.0" prefHeight="143.0" prefWidth="275.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
                            <children>
                               <Label fx:id="yritysPalvelupisteita" layoutX="44.0" layoutY="14.0" text="Palvelupisteitä : X kpl" textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="palvelupisteellaYritys" layoutX="41.0" layoutY="72.0" text="Asiakas pisteellä" textFill="#e3b9b9">
-                                 <font>
-                                    <Font size="27.0" />
                                  </font>
                               </Label>
                               <Label fx:id="yksityisPalvelupisteita" layoutX="45.0" layoutY="44.0" text="Palvelupisteitä : X kpl" textFill="#e1e1e1">
@@ -146,9 +141,97 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Pane layoutX="462.0" layoutY="582.0" prefHeight="112.0" prefWidth="140.0" scaleZ="100.0" style="-fx-background-color: #ad5389; -fx-background-radius: 20;" translateZ="100.0">
+                        <ImageView fitHeight="118.0" fitWidth="93.0" layoutX="474.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" scaleZ="2000.0">
+                           <image>
+                              <Image url="@../icons/mobilephoen.png" />
+                           </image>
+                           <effect>
+                              <DropShadow height="110.88" offsetX="10.0" radius="40.83" width="54.44" />
+                           </effect>
+                        </ImageView>
+                        <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
                            <children>
-                              <Label fx:id="suorittaneetMaara" layoutX="14.0" layoutY="77.0" text="Total: 0" textAlignment="CENTER" textFill="WHITE" underline="true">
+                              <Label fx:id="CliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/palvelupiste.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                           <children>
+                              <Label fx:id="ClaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/palvelupiste.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                           <children>
+                              <Label fx:id="CnettiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/palvelupiste.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                           <children>
+                              <Label fx:id="CmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/palvelupiste.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <Pane layoutX="454.0" layoutY="588.0" prefHeight="112.0" prefWidth="140.0" style="-fx-background-color: #ad5389; -fx-background-radius: 20;">
+                           <children>
+                              <Label fx:id="kokonaismäärä" layoutX="14.0" layoutY="77.0" text="Total: 0" textAlignment="CENTER" textFill="WHITE" underline="true">
                                  <font>
                                     <Font size="27.0" />
                                  </font>
@@ -167,120 +250,12 @@
                               </DropShadow>
                            </effect>
                         </Pane>
-                        <ImageView fitHeight="118.0" fitWidth="93.0" layoutX="474.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" scaleZ="2000.0">
-                           <image>
-                              <Image url="@../icons/mobilephoen.png" />
-                           </image>
-                           <effect>
-                              <DropShadow height="110.88" offsetX="10.0" radius="40.83" width="54.44" />
-                           </effect>
-                        </ImageView>
-                        <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
-                           <children>
-                              <Label fx:id="yksityisPalvelupisteita11" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="palvelupisteellaYksityis11" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                                 <font>
-                                    <Font size="27.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../icons/palvelupiste.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                        </Pane>
-                        <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
-                           <children>
-                              <Label fx:id="yksityisPalvelupisteita3" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="palvelupisteellaYksityis3" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                                 <font>
-                                    <Font size="27.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../icons/palvelupiste.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                        </Pane>
-                        <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
-                           <children>
-                              <Label fx:id="yksityisPalvelupisteita22" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="palvelupisteellaYksityis22" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                                 <font>
-                                    <Font size="27.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../icons/palvelupiste.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                        </Pane>
-                        <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
-                           <children>
-                              <Label fx:id="yksityisPalvelupisteita211" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="palvelupisteellaYksityis211" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                                 <font>
-                                    <Font size="27.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../icons/palvelupiste.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                        </Pane>
                      </children>
                   </AnchorPane>
                   <Canvas fx:id="ani" height="153.0" layoutX="53.0" layoutY="200.0" width="278.0" />
-                  <Pane layoutX="130.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                  <Pane layoutX="130.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YnettiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                        <Label fx:id="YnettiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -288,24 +263,27 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="palvelupisteellaYksityis1" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </Label>
                         <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/palvelupiste.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="25.0" layoutY="25.0" prefHeight="0.0" prefWidth="53.0" text="Netti" textFill="#e3b9b9">
+                           <font>
+                              <Font name="Bauhaus 93" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
                      </children>
                      <effect>
                         <DropShadow />
                      </effect>
                   </Pane>
-                  <Pane layoutX="14.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                  <Pane layoutX="14.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                        <Label fx:id="YmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -313,24 +291,27 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="palvelupisteellaYksityis" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </Label>
                         <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/palvelupiste.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="25.0" layoutY="25.0" text="Myynti" textFill="#e3b9b9">
+                           <font>
+                              <Font name="Bauhaus 93" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
                      </children>
                      <effect>
                         <DropShadow />
                      </effect>
                   </Pane>
-                  <Pane layoutX="247.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                  <Pane layoutX="247.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                        <Label fx:id="YliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -338,24 +319,27 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="palvelupisteellaYksityis2" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </Label>
                         <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/palvelupiste.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="25.0" layoutY="24.0" prefHeight="18.0" prefWidth="80.0" text="Liittymä" textFill="#e3b9b9">
+                           <font>
+                              <Font name="Bauhaus 93" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
                      </children>
                      <effect>
                         <DropShadow />
                      </effect>
                   </Pane>
-                  <Pane layoutX="365.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                  <Pane layoutX="365.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YlaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                        <Label fx:id="YlaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -363,16 +347,19 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="palvelupisteellaYksityis21" layoutX="41.0" layoutY="14.0" opacity="0.04" text="Asiakas pisteellä" textFill="#e3b9b9">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </Label>
                         <ImageView fitHeight="124.0" fitWidth="130.0" layoutX="-11.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/palvelupiste.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="25.0" layoutY="25.0" prefHeight="18.0" prefWidth="80.0" text="Laskutus" textFill="#e3b9b9">
+                           <font>
+                              <Font name="Bauhaus 93" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
                      </children>
                      <effect>
                         <DropShadow />

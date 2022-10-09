@@ -2,7 +2,10 @@ package com.project.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.project.MainApp;
 import com.project.simu.framework.IMoottori;
@@ -62,6 +65,14 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private Label YliittymäTv;
     @FXML
     private Label YlaskutusTv;
+    @FXML
+    private Label CmyyntiTv;
+    @FXML
+    private Label CnettiTv;
+    @FXML
+    private Label CliittymäTv;
+    @FXML
+    private Label ClaskutusTv;
    
     @FXML
     private Label palvelupisteellaYksityis;
@@ -70,11 +81,9 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     private Label palvelupisteellaYritys;
     @FXML
-    private Label suorittaneetMaara;
+    private Label kokonaismäärä;
     @FXML
     private Circle liikkuu;
-    @FXML
-    private Pane asd;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -90,13 +99,17 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 	private Canvas ani;
     private Visualisointi visualisointi = new Visualisointi();
 
-    public static final double W = 200; // canvas dimensions.
-    public static final double H = 200;
-
-    public static final double D = 20;  // diameter.
-    
+    // Yksityisasiakkaat lista.
+    LinkedList<Circle> myyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> nettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> liittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> laskutusAsiakkaat = new LinkedList<Circle>();
+    // Yritysasiakkaat lista.
+    LinkedList<Circle> CmyyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> CnettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> CliittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> ClaskutusAsiakkaat = new LinkedList<Circle>();
    
-    
     @FXML
     public void initialize() {
         new animatefx.animation.ZoomIn();
@@ -119,7 +132,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             Parametrit uP = Parametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this);
-            m.setViive(25);
+            m.setViive(100);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
             visualisointi.visuaalinenNopeus(m.getViive());
             ((Thread) m).start();
@@ -248,6 +261,28 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                         } 
                     } else if (i > 3 && i < 8) {
                         yritysTv += suureStatusMap.get("Tyovuorossa")[i];
+                        int Ymyynti = suureStatusMap.get("Tyovuorossa")[0];
+                        int Ynetti = suureStatusMap.get("Tyovuorossa")[1];
+                        int Yliittymä = suureStatusMap.get("Tyovuorossa")[2];
+                        int Ylaskutus = suureStatusMap.get("Tyovuorossa")[3];
+                        switch (i){
+                            case 4:
+                                System.out.println("Myynnin työvuorossa = " + Ymyynti);
+                                CmyyntiTv.setText(String.valueOf(Ymyynti));
+                                break;
+                            case 5:
+                                System.out.println("Netin työvuorossa = " + Ynetti);
+                                CnettiTv.setText(String.valueOf(Ynetti));
+                                break;
+                            case 6:
+                                System.out.println("Liittymä työvuorossa = " + Yliittymä);
+                                CliittymäTv.setText(String.valueOf(Yliittymä));
+                                break;
+                            case 7:
+                                System.out.println("Laskutus työvuorossa = " + Ylaskutus);
+                                ClaskutusTv.setText(String.valueOf(Ylaskutus));
+                                break;
+                        } 
                     }
 
                 }
@@ -284,17 +319,19 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
                 // Esim.
                 int kokonaisMaara = 0;
+                int ulkona = 0;
                 for (int i = 0; i < suureStatusMap.get("Totalit").length; i++) {
                     if (i == 0) {
                         // asiakkaitten kokonaismäärä simulaatiossa
                         kokonaisMaara = suureStatusMap.get("Totalit")[i];
                     } else if (i > 0 && i < 3) {
                         // ulkona asiakkaita simulaatiosta (palveltu+quit)
+                        ulkona = suureStatusMap.get("Totalit")[1];
                     } else if (i == 4) {
                         // asiakkaita rerouttattu simulaatiossa
                     }
                 }
-                //suorittaneetMaara.setText("Total: " + String.valueOf(kokonaisMaara));
+                kokonaismäärä.setText("Total: " + String.valueOf(ulkona));   
             }
         });
     }
@@ -312,11 +349,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         }
         visualisointi.visuaalinenNopeus(m.getViive());
     }
-
-    
-       // }
-      //Displaying the contents of the stage 
-
     
     // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
@@ -324,52 +356,61 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void visualisoiAsiakas(int asType) {
         Platform.runLater(new Runnable() {
             public void run() {
+                
                 switch (asType){
                 case 1:
                     Circle circle1 = new Circle(10);           // initialize circles with radius of 10
                     circle1.setFill(Color.RED);
+                    myyntiAsiakkaat.addLast(circle1);
                     visuaalinenTausta.getChildren().addAll(circle1);
                     visualisointi.asiakasLiikkuu(circle1, "Pmyynti");
                     break;
                 case 2:
                     Circle circle2 = new Circle(10);           // initialize circles with radius of 10
                     circle2.setFill(Color.BLUE);
+                    nettiAsiakkaat.addLast(circle2);
                     visuaalinenTausta.getChildren().add(circle2);
                     visualisointi.asiakasLiikkuu(circle2, "Pnetti");
                     break;
                 case 3:
                     Circle circle3 = new Circle(10);           // initialize circles with radius of 10
                     circle3.setFill(Color.GREEN);
+                    liittymäAsiakkaat.addLast(circle3);
                     visuaalinenTausta.getChildren().add(circle3);
                     visualisointi.asiakasLiikkuu(circle3, "Pliittymä");
                     break;
                 case 4:
                     Circle circle4 = new Circle(10);           // initialize circles with radius of 10
                     circle4.setFill(Color.PINK);
+                    laskutusAsiakkaat.addLast(circle4);
                     visuaalinenTausta.getChildren().add(circle4);
                     visualisointi.asiakasLiikkuu(circle4, "Plaskutus");
                     break;
                 case 5:
                    Circle circle5= new Circle(10);           // initialize circles with radius of 10
                    circle5.setFill(Color.RED);
+                   CmyyntiAsiakkaat.addLast(circle5);
                    visuaalinenTausta.getChildren().add(circle5);
                    visualisointi.asiakasLiikkuu(circle5, "Ymyynti");
                    break;
                 case 6:
                     Circle circle6= new Circle(10);           // initialize circles with radius of 10
                     circle6.setFill(Color.BLUE);
+                    CnettiAsiakkaat.addLast(circle6);
                     visuaalinenTausta.getChildren().add(circle6);
                     visualisointi.asiakasLiikkuu(circle6, "Ynetti");
                     break;
                 case 7:
                     Circle circle7= new Circle(10);           // initialize circles with radius of 10
                     circle7.setFill(Color.GREEN);
+                    CliittymäAsiakkaat.addLast(circle7);
                     visuaalinenTausta.getChildren().add(circle7);
                     visualisointi.asiakasLiikkuu(circle7, "Yliittymä");
                     break;
                 case 8:
                     Circle circle8= new Circle(10);           // initialize circles with radius of 10
                     circle8.setFill(Color.PINK);
+                    ClaskutusAsiakkaat.addLast(circle8);
                     visuaalinenTausta.getChildren().add(circle8);
                     visualisointi.asiakasLiikkuu(circle8, "Ylaskutus");
                     break;
@@ -377,6 +418,48 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         }
     });
 }
+    // Poista yksityisasiakkaan pallo jonosta.
+    public void poistaMyyntiJono(){
+        Circle m = myyntiAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(m);
+        myyntiAsiakkaat.removeLast();
+    }
+    public void poistaNettiJono(){
+        Circle n = nettiAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(n);
+        nettiAsiakkaat.removeLast();
+    }
+    public void poistaLiittymäJono(){
+        Circle li = liittymäAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(li);
+        liittymäAsiakkaat.removeLast();
+    }
+    public void poistaLaskutusJono(){
+        Circle la = laskutusAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(la);
+        laskutusAsiakkaat.removeLast();
+    }
+    // Poista yritysasiakkaan pallo jonosta.
+    public void CpoistaMyyntiJono(){
+        Circle m = CmyyntiAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(m);
+        CmyyntiAsiakkaat.removeLast();
+    }
+    public void CpoistaNettiJono(){
+        Circle n = CnettiAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(n);
+        CnettiAsiakkaat.removeLast();
+    }
+    public void CpoistaLiittymäJono(){
+        Circle li = CliittymäAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(li);
+        CliittymäAsiakkaat.removeLast();
+    }
+    public void CpoistaLaskutusJono(){
+        Circle la = ClaskutusAsiakkaat.getLast();
+        visuaalinenTausta.getChildren().remove(la);
+        ClaskutusAsiakkaat.removeLast();
+    }
 
     // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
@@ -399,9 +482,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Pmyynti", poistumisType);
+                            poistaMyyntiJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle1);
+                            poistaMyyntiJono();
                         }
                         visualisointi.asiakasPoistuu(circle1, "Pmyynti", poistumisType);
                         break;
@@ -417,9 +502,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Pnetti", poistumisType);
+                            poistaNettiJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle2);
+                            poistaNettiJono();
                         }
 
                         visualisointi.asiakasPoistuu(circle2, "Pnetti", poistumisType);
@@ -435,9 +522,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Pliittymä", poistumisType);
+                            poistaLiittymäJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle3);
+                            poistaLiittymäJono();
                         }
                         visualisointi.asiakasPoistuu(circle3, "Pliittymä", poistumisType);
                         break;
@@ -452,9 +541,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Plaskutus", poistumisType);
+                            poistaLaskutusJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle4);
+                            poistaLaskutusJono();
                         }
                         visualisointi.asiakasPoistuu(circle4, "Plaskutus", poistumisType);
                         break;
@@ -469,9 +560,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                         ivDiver.setImage(diverImage);
                         visuaalinenTausta.getChildren().addAll(ivDiver);
                         visualisointi.asiakasSuuttuu(ivDiver, "Ymyynti", poistumisType);
+                        CpoistaMyyntiJono();
                         break;
                     }else{
                         visuaalinenTausta.getChildren().addAll(circle5);
+                        CpoistaMyyntiJono();
                     }
                        visualisointi.asiakasPoistuu(circle5, "Ymyynti", poistumisType);
                        break;
@@ -486,9 +579,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Ynetti", poistumisType);
+                            CpoistaNettiJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle6);
+                            CpoistaNettiJono();
                         }
                         visualisointi.asiakasPoistuu(circle6, "Ynetti", poistumisType);
                         break;
@@ -503,9 +598,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Yliittymä", poistumisType);
+                            CpoistaLiittymäJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle7);
+                            CpoistaLiittymäJono();
                         }
                         visualisointi.asiakasPoistuu(circle7, "Yliittymä", poistumisType);
                         break;
@@ -520,9 +617,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Ylaskutus", poistumisType);
+                            CpoistaLaskutusJono();
                             break;
                         }else{
                             visuaalinenTausta.getChildren().addAll(circle8);
+                            CpoistaLaskutusJono();
                         }
                         visualisointi.asiakasPoistuu(circle8, "Ylaskutus", poistumisType);
                         break;
