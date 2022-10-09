@@ -88,7 +88,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 	private Canvas visu;
     @FXML
 	private Canvas ani;
-    private Visualisointi visualisointi;
+    private Visualisointi visualisointi = new Visualisointi();
 
     public static final double W = 200; // canvas dimensions.
     public static final double H = 200;
@@ -105,7 +105,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
         System.out.println("Start");
 		
-		visualisointi = new Visualisointi(visu);
+		//visualisointi = new Visualisointi(visu);
     }
 
     @FXML
@@ -245,15 +245,14 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                                 System.out.println("Laskutus työvuorossa = " + laskutus);
                                 YlaskutusTv.setText(String.valueOf(laskutus));
                                 break;
-                        }
+                        } 
                     } else if (i > 3 && i < 8) {
                         yritysTv += suureStatusMap.get("Tyovuorossa")[i];
                     }
 
                 }
-                yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityisTv));
-                yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritysTv));
-
+                //yksityisPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yksityisTv));
+                //yritysPalvelupisteita.setText("Palvelupisteitä: " + String.valueOf(yritysTv));
                 int yksityisPalvelu = 0;
                 int yritysPalvelu = 0;
                 for (int i = 0; i < suureStatusMap.get("Palveltu").length; i++) {
@@ -263,21 +262,20 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                         yritysPalvelu += suureStatusMap.get("Palveltu")[i];
                     }
                 }
-                palvelupisteellaYksityis.setText("Palveltuja as " + String.valueOf(yksityisPalvelu));
-                palvelupisteellaYritys.setText("Palveltuja as " + String.valueOf(yritysPalvelu));
+                //palvelupisteellaYksityis.setText("Palveltuja as " + String.valueOf(yksityisPalvelu));
+                //palvelupisteellaYritys.setText("Palveltuja as " + String.valueOf(yritysPalvelu));
 
                 int jonoYksityis = 0;
                 int jonoYritys = 0;
                 for (int i = 0; i < suureStatusMap.get("Jonossa").length; i++) {
                     if (i < 4) {
                         jonoYksityis += suureStatusMap.get("Jonossa")[i];
-                        visualisointi.visuaalinenJono(i);
                     } else if (i > 3 && i < 8) {
                         jonoYritys += suureStatusMap.get("Jonossa")[i];
                     }
                 }
-                yksityisJonossa.setText(String.valueOf(jonoYksityis));
-                YritysJonossa.setText(String.valueOf(jonoYritys));
+                //yksityisJonossa.setText(String.valueOf(jonoYksityis));
+                //YritysJonossa.setText(String.valueOf(jonoYritys));
 
                 // "Totalit" [0] = asiakkaitten kokonaismäärä simulaatiossa
                 // "Totalit" [1] = asiakkaita palveltu simulaatiossa
@@ -296,7 +294,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                         // asiakkaita rerouttattu simulaatiossa
                     }
                 }
-                suorittaneetMaara.setText("Total: " + String.valueOf(kokonaisMaara));
+                //suorittaneetMaara.setText("Total: " + String.valueOf(kokonaisMaara));
             }
         });
     }
