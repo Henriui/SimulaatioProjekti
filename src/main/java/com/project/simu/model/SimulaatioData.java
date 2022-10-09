@@ -202,6 +202,17 @@ public class SimulaatioData {
         }
     }
 
+    // Suurestatusmap guide:
+    // [i] = 0-7 = aspa, 8-10 = puhelinvalikko
+    // suureStatusMap.get("Palveltu")[i]
+    // suureStatusMap.get("Jonossa")[i]
+    // suureStatusMap.get("Quitter")[i]
+    // suureStatusMap.get("ReRouted")[i]
+    // suureStatusMap.get("Tyovuorossa")[i]
+    // suureStatusMap.get("Varattu")[i] Palvelupisteistä kuinka monta on varattuna!
+    // suureStatusMap.get("Totalit")[i]
+    // suureStatusMap.get("Palveluprosentti")[i]
+
     public HashMap<String, int[]> getPPStatus(Palvelupiste[] palvelupisteet) {
         reloadHashMap();
         for (Palvelupiste pp : palvelupisteet) {

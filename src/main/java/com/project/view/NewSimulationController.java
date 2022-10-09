@@ -218,6 +218,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // suureStatusMap.get("Tyovuorossa")[i]
                 // suureStatusMap.get("Varattu")[i] Palvelupisteistä kuinka monta on varattuna!
                 // suureStatusMap.get("Totalit")[i]
+                // suureStatusMap.get("Palveluprosentti")[i]
 
                 // Esim.
                 int yksityisTv = 0;
