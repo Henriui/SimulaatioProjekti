@@ -26,7 +26,8 @@ public class SimulaatioData {
     private Parametrit uP;
 
     // Hashmap for view
-    HashMap<String, int[]> suureStatusMap;
+    private HashMap<String, int[]> suureStatusMap;
+
     // Arrayt
     private int[] palveluMaaraArr;
     private int[] palveluJonoArr;
@@ -212,6 +213,10 @@ public class SimulaatioData {
     // suureStatusMap.get("Varattu")[i] Palvelupisteistä kuinka monta on varattuna!
     // suureStatusMap.get("Totalit")[i]
     // suureStatusMap.get("Palveluprosentti")[i]
+
+    public HashMap<String, int[]> getSuureStatusMap() {
+        return this.suureStatusMap;
+    }
 
     public HashMap<String, int[]> getPPStatus(Palvelupiste[] palvelupisteet) {
         reloadHashMap();
