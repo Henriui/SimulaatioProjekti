@@ -1,6 +1,6 @@
 package com.project.simu.model;
 
-public class PalveluPisteTulokset {
+public class PalvelupisteTulokset {
 
     private int id;
     private int simulaatiokerta;
@@ -9,7 +9,7 @@ public class PalveluPisteTulokset {
     private double keskiJonotusAika;
     private double keskiPalveluAika;
     
-    public PalveluPisteTulokset(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
+    public PalvelupisteTulokset(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
             double keskiJonotusAika, double keskiPalveluAika) {
         this.id = id;
         this.simulaatiokerta = simulaatiokerta;
@@ -19,7 +19,7 @@ public class PalveluPisteTulokset {
         this.keskiPalveluAika = keskiPalveluAika;
     }
 
-    public PalveluPisteTulokset(int tyyppi, int palvellutAsiakkaat, double keskiJonotusAika, double keskiPalveluAika) {
+    public PalvelupisteTulokset(int tyyppi, int palvellutAsiakkaat, double keskiJonotusAika, double keskiPalveluAika) {
         this.tyyppi = tyyppi;
         this.palvellutAsiakkaat = palvellutAsiakkaat;
         this.keskiJonotusAika = keskiJonotusAika;
@@ -59,7 +59,25 @@ public class PalveluPisteTulokset {
     }
 
     public String getTyyppiString() {
-        return Integer.toString(id);
+        switch(tyyppi){
+            case 1:
+            return "Myynti";
+            case 2:
+            return "Netti";
+            case 3:
+            return "Liittymä";
+            case 4:
+            return "Laskutus";
+            case 5:
+            return "Myynti";
+            case 6:
+            return "Netti";
+            case 7:
+            return "Liittymä";
+            case 8:
+            return "Laskutus";
+        }
+        return Integer.toString(tyyppi);
     }
 
     public String getPalvellutAsiakkaatString() {
@@ -67,11 +85,11 @@ public class PalveluPisteTulokset {
     }
 
     public String getKeskiPalveluAikaString() {
-        return Double.toString(keskiPalveluAika);
+        return String.format("%.0f", keskiPalveluAika);
     }
 
     public String getKeskiJonotusAikaString() {
-        return Double.toString(keskiJonotusAika);
+        return String.format("%.0f", keskiJonotusAika);
     }
     
 }
