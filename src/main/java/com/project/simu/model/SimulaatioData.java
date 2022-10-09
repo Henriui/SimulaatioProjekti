@@ -23,7 +23,7 @@ public class SimulaatioData {
     // Asiakkaiden kokonais viipyminen keskimääräisesti simulaatiossa
     private double avgAvgAsAikaSim;
 
-    Parametrit uP;
+    private Parametrit uP;
 
     // Hashmap for view
     HashMap<String, int[]> suureStatusMap;
@@ -84,8 +84,8 @@ public class SimulaatioData {
         palveluReRoutedArr = new int[Tyyppi.maxSize];
         palveluVuoroArr = new int[Tyyppi.maxSize];
         palveluVarattuArr = new int[Tyyppi.maxSize];
-        palveluTotalArr = new int[] { (int) asTotalMaara, asPalveltu, asPoistunut, asReRoutattu, (int) simulointiAika,
-                (int) palveluprosentti };
+        palveluTotalArr = new int[] { (int) asTotalMaara, asPalveltu,
+                asPoistunut, asReRoutattu, (int) simulointiAika };
         suureStatusMap.put("Palveltu", palveluMaaraArr);
         suureStatusMap.put("Jonossa", palveluJonoArr);
         suureStatusMap.put("Quitter", palveluQuitterArr);

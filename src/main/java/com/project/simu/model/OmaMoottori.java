@@ -155,8 +155,7 @@ public class OmaMoottori extends Moottori {
 	private int otaPalveltuAs(Tyyppi ppType) {
 		for (Palvelupiste p : palvelupisteet) {
 			if ((p.getPPTyyppi() == ppType) && p.onVarattu()) {
-				// indexOfPalvelupiste =
-				return p.getPPId();// indexOfPalvelupiste;
+				return p.getPPId();
 			}
 		}
 		return -1; // Error

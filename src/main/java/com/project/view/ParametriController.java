@@ -289,26 +289,18 @@ public class ParametriController {
         canSave = true;
         dF = new DecimalFormat("#0");
 
-        double[] uPArr = userParametrit.getAsTyyppiArr();
-        uPArr[7] -= uPArr[6];
-        uPArr[6] -= uPArr[5];
-        uPArr[5] -= uPArr[4];
-        uPArr[3] -= uPArr[2];
-        uPArr[2] -= uPArr[1];
-        uPArr[1] -= uPArr[0];
-
         // Yksityispuolen asetukset.
-        setPalvelupisteArvot(myyntiPalvelupisteet, myyntiPpKpl, myyntiAikaField, 1, myyntiPpJakauma, uPArr);
-        setPalvelupisteArvot(nettiPalvelupisteet, nettiPpKpl, nettiAikaField, 2, nettiPpJakauma, uPArr);
-        setPalvelupisteArvot(liittymäPalvelupisteet, liittymäPpKpl, liittymäAikaField, 3, liittymäPpJakauma, uPArr);
-        setPalvelupisteArvot(laskutusPalvelupisteet, laskutusPpKpl, laskutusAikaField, 4, laskutusPpJakauma, uPArr);
+        setPalvelupisteArvot(myyntiPalvelupisteet, myyntiPpKpl, myyntiAikaField, 1, myyntiPpJakauma);
+        setPalvelupisteArvot(nettiPalvelupisteet, nettiPpKpl, nettiAikaField, 2, nettiPpJakauma);
+        setPalvelupisteArvot(liittymäPalvelupisteet, liittymäPpKpl, liittymäAikaField, 3, liittymäPpJakauma);
+        setPalvelupisteArvot(laskutusPalvelupisteet, laskutusPpKpl, laskutusAikaField, 4, laskutusPpJakauma);
         // Yrityspuolen asetukset.
-        setPalvelupisteArvot(YritysmyyntiPp, YritysmyyntiPpKpl, YritysmyyntiAikaField, 5, myyntiYritysPpJakauma, uPArr);
-        setPalvelupisteArvot(YritysnettiPp, YritysnettiPpKpl, YritysnettiAikaField, 6, nettiYritysPpJakauma, uPArr);
+        setPalvelupisteArvot(YritysmyyntiPp, YritysmyyntiPpKpl, YritysmyyntiAikaField, 5, myyntiYritysPpJakauma);
+        setPalvelupisteArvot(YritysnettiPp, YritysnettiPpKpl, YritysnettiAikaField, 6, nettiYritysPpJakauma);
         setPalvelupisteArvot(YritysliittymäPp, YritysliittymäPpKpl, YritysliittymäAikaField, 7,
-                liittymäYritysPpJakauma, uPArr);
+                liittymäYritysPpJakauma);
         setPalvelupisteArvot(YrityslaskutusPp, YrityslaskutusPpKpl, YrityslaskutusAikaField, 8,
-                laskutusYritysPpJakauma, uPArr);
+                laskutusYritysPpJakauma);
 
         setTextFields();
 
@@ -387,7 +379,7 @@ public class ParametriController {
                 Double.parseDouble(YrityslaskutusAikaField.getText()) * 60, userParametrit.getPValikkoAika(),
                 userParametrit.getPValikkoAika(),
                 userParametrit.getPValikkoAika() });
-        userParametrit.setAsTyyppiArr(new double[] { Double.parseDouble(myyntiPpJakauma.getText()),
+        userParametrit.setAsTyyppiParametri(new double[] { Double.parseDouble(myyntiPpJakauma.getText()),
                 Double.parseDouble(nettiPpJakauma.getText()),
                 Double.parseDouble(liittymäPpJakauma.getText()),
                 Double.parseDouble(laskutusPpJakauma.getText()),
@@ -451,12 +443,11 @@ public class ParametriController {
      * 
      * @author Rasmus Hyyppä
      */
-    private void setPalvelupisteArvot(Slider s, Label l, TextField tF, int ppType, TextField ppJakauma,
-            double[] uPArr) {
+    private void setPalvelupisteArvot(Slider s, Label l, TextField tF, int ppType, TextField ppJakauma) {
         s.setValue(userParametrit.getPPMaara(ppType));
         l.setText(userParametrit.getPPMaara(ppType) + " kpl");
         tF.setText(dF.format((userParametrit.getPPAvgAika(ppType) / 60)));
-        ppJakauma.setText(dF.format(uPArr[ppType - 1]));
+        ppJakauma.setText(dF.format(userParametrit.getAsTyyppiParametri(ppType)));
     }
 
     private void setTextFieldListener(TextField tF) {

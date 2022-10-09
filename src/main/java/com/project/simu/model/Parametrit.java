@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
+import org.mariadb.jdbc.plugin.codec.IntCodec;
+
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
@@ -37,6 +39,8 @@ public class Parametrit {
     // Array asiakastyyppi prosenteille
     private double[] asTyyppiArr;
 
+    private double[] asTyyppiParametri;
+
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
 
@@ -66,7 +70,7 @@ public class Parametrit {
 
         // Asiakaspisteitten jakauma käyttäjän asettamana
         this.asTyyppiArr = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
-
+        this.asTyyppiParametri = new double[] { 25, 25, 25, 25, 25, 25, 25, 25 };
         this.ppMaaraArray = new int[Tyyppi.maxSize]; // Palvelupisteiden kokonaismäärä arraylistissä
         for (int i = 0; i < ppMaaraArray.length; i++) {
             if (i > 7) {
@@ -201,7 +205,20 @@ public class Parametrit {
         return asTyyppiArr;
     }
 
-    public void setAsTyyppiArr(double[] asTyyppiArr) {
+    public double getAsTyyppiParametri(int ppType) {
+        return this.asTyyppiParametri[ppType - 1];
+    }
+
+    public void setAsTyyppiParametri(double[] asTyyppiParametri) {
+        this.asTyyppiParametri = new double[asTyyppiArr.length];
+        for (int i = 0; i < asTyyppiArr.length; i++) {
+            this.asTyyppiParametri[i] += asTyyppiParametri[i];
+        }
+        System.out.println("asTyyppiParametri" + Arrays.toString(asTyyppiParametri));
+        setAsTyyppiArr(asTyyppiParametri);
+    }
+
+    private void setAsTyyppiArr(double[] asTyyppiArr) {
         for (int i = 0; i < asTyyppiArr.length; i++) {
             if (i > 0 && i < 4) {
                 asTyyppiArr[i] += asTyyppiArr[i - 1];

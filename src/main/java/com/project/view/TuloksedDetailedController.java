@@ -120,7 +120,6 @@ public class TuloksedDetailedController {
                 uudelleenOhjAsLabel.setText(tulokset.getUudelleenOhjatutAsiakkaatString());
                 keskiJonotusAikLabel.setText(tulokset.getKeskiJonotusAikaString());
                 keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString());
-
         }
 
         @FXML

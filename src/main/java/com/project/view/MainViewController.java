@@ -32,6 +32,7 @@ public class MainViewController {
     @FXML
     private void uusiSimulaatio() throws IOException {
         MainApp.setRoot("NewSimulationGUI");
+        // Scene scene = new Scene(loadFXML("NewSimulationGUI"));
     }
 
     @FXML
