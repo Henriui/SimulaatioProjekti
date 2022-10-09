@@ -320,7 +320,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                         kokonaisMaara = suureStatusMap.get("Totalit")[i];
                     } else if (i > 0 && i < 3) {
                         // ulkona asiakkaita simulaatiosta (palveltu[1]+quitterit[2])
-                        ulkona = suureStatusMap.get("Totalit")[i];
+                        ulkona += suureStatusMap.get("Totalit")[i];
                     } else if (i == 4) {
                         // asiakkaita rerouttattu simulaatiossa
                     } else if (i == 5) {
