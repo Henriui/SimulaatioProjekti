@@ -13,13 +13,13 @@ public class Tulokset {
     private int uudelleenOhjatutAsiakkaat;
     private double keskiJonotusAika;
     private double keskiLapiMenoAika;
-    private ArrayList<PalveluPisteTulokset> palveluPisteTuloksets = new ArrayList<PalveluPisteTulokset>();
+    private ArrayList<PalvelupisteTulokset> palveluPisteTuloksets = new ArrayList<PalvelupisteTulokset>();
     
     
 
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
             int poistuneetAsiakkaat, int uudelleenOhjatutAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
-            ArrayList<PalveluPisteTulokset> palveluPisteTuloksets) {
+            ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
         this.simulaatiokerta = simulaatiokerta;
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
@@ -34,7 +34,7 @@ public class Tulokset {
 
     public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int poistuneetAsiakkaat,
             int uudelleenOhjatutAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
-            ArrayList<PalveluPisteTulokset> palveluPisteTuloksets) {
+            ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
         this.asMaara = asMaara;
@@ -82,7 +82,7 @@ public class Tulokset {
         return keskiJonotusAika;
     }
 
-    public ArrayList<PalveluPisteTulokset> getPalveluPisteTuloksets() {
+    public ArrayList<PalvelupisteTulokset> getPalveluPisteTulokset() {
         return palveluPisteTuloksets;
     }
 
@@ -91,11 +91,11 @@ public class Tulokset {
     }
 
     public String getKestoString() {
-        return Double.toString(kesto);
+        return String.format("%.0f", kesto);
     }
 
     public String getPalveluProsenttiString() {
-        return Double.toString(palveluProsentti);
+        return String.format("%.0f", palveluProsentti);
     }
 
     public String getAsMaaraString() {
@@ -115,11 +115,11 @@ public class Tulokset {
     }
 
     public String getKeskiLapiMenoAikaString() {
-        return Double.toString(keskiLapiMenoAika);
+        return String.format("%.0f", keskiLapiMenoAika);
     }
 
     public String getKeskiJonotusAikaString() {
-        return Double.toString(keskiJonotusAika);
+        return String.format("%.0f", keskiJonotusAika);
     }
 
 }
