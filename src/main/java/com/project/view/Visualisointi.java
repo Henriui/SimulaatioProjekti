@@ -44,10 +44,10 @@ public class Visualisointi {
         nopeus = viive;
     }
 
-    Path path = new Path();
     public void asiakasLiikkuu(Circle asiakas, String tyyppi){
         switch(tyyppi){
             case "Pmyynti":
+                Path path = new Path();
                 path.getElements().add(new MoveTo(485,50));
                 path.getElements().add(new LineTo(63,50));
                 path.getElements().add(new LineTo(63,myyntijono));
