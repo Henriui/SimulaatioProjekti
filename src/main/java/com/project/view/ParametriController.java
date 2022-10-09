@@ -135,7 +135,7 @@ public class ParametriController {
     private void initialize() {
         integerFilter = change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("([1-9][0-9]*)")) {
+            if (newText.matches("([0-9][0-9]*)")) {
                 return change;
             }
             return null;
@@ -194,33 +194,34 @@ public class ParametriController {
             YksityisJakaumaProsentti.setText(String.valueOf(priyhteensä));
             YritysJakaumaProsentti.setText(String.valueOf(coyhteensä));
 
-            if (priyhteensä == 100 && coyhteensä == 100) {
-                canSave = true;
-                return null;
-            }
-
             canSave = false;
 
             if (Double.parseDouble(simuloinninAikaField.getText()) > 12) {
-                return "12h on maximi simulointi aika";
+                return "Simulointiaika: " + Double.parseDouble(simuloinninAikaField.getText())
+                        + ", on yli maksimi limitin 12h.";
             }
 
             if (Double.parseDouble(väärävalintaProsenttiField.getText()) > 100) {
-                return "100% on maksimi määrä harhaan soittaneille";
+                return Double.parseDouble(väärävalintaProsenttiField.getText())
+                        + " väärävalintaprosentin arvona, aseta max 100%.";
             }
 
             if (coyhteensä > 100) {
-                YritysJakaumaProsentti.setText(">200");
+                // YritysJakaumaProsentti.setText("100");
                 return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
             } else if (coyhteensä < 100) {
                 return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
             }
 
             if (priyhteensä > 100) {
-                YksityisJakaumaProsentti.setText(">200");
+                // YksityisJakaumaProsentti.setText("100");
                 return "Henkilöpalveluspisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
             } else if (priyhteensä < 100) {
                 return "Henkilöpalvelupisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
+            }
+
+            if (priyhteensä == 100 && coyhteensä == 100) {
+                canSave = true;
             }
 
         } catch (NumberFormatException e) {
@@ -253,6 +254,7 @@ public class ParametriController {
     @FXML
     private void tallenna() {
         // Check that all values are ok.
+        textFieldCheck();
         if (canSave) {
             saveValues();
             Stage stage = (Stage) closeButton.getScene().getWindow();

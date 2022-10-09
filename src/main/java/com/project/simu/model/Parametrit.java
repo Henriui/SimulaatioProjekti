@@ -62,7 +62,7 @@ public class Parametrit {
         this.pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
         this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
         this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
-        this.reRouteChance = 0; // 5 % asiakkaista valitsee väärin
+        this.reRouteChance = 5; // 5 % asiakkaista valitsee väärin
         this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
 
         // 50% pri/co asiakkaita
