@@ -10,9 +10,6 @@ import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
 public class Parametrit {
-    // Singleton
-    private static Parametrit instance = null;
-
     // Puhelinvalikot vievät vähintään 3 spottia
     private static int MIN_PALVELUPISTE_MAARA = 3;
 
@@ -49,14 +46,7 @@ public class Parametrit {
     private String username;
     private String password;
 
-    public static synchronized Parametrit getInstance() {
-        if (instance == null) {
-            instance = new Parametrit();
-        }
-        return instance;
-    }
-
-    private Parametrit() {
+    public Parametrit() {
         setDefaultArvot();
     }
 
@@ -208,7 +198,7 @@ public class Parametrit {
     }
 
     public double[] getAsTyyppiArr() {
-        return this.asTyyppiArr;
+        return asTyyppiArr;
     }
 
     public void setAsTyyppiArr(double[] asTyyppiArr) {

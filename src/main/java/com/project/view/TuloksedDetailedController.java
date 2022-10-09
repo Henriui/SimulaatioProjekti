@@ -15,7 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
-    private NewSimulationController controller = new NewSimulationController();
+    private NewSimulationController controller;
     @FXML
     private Label kestoLabel;
     @FXML
@@ -62,11 +62,14 @@ public class TuloksedDetailedController {
 
     public void updateValues() {
         ArrayList<PalveluPisteTulokset> palveluPisteTuloksets = new ArrayList<PalveluPisteTulokset>();
-        for(int i = 1; i < 9; i++){
-            palveluPisteTuloksets.add(new PalveluPisteTulokset(i, sS.getPalveluMaara(i), sS.getJonoAika(i), sS.getPalveluAika(i)));
+        for (int i = 1; i < 9; i++) {
+            palveluPisteTuloksets
+                    .add(new PalveluPisteTulokset(i, sS.getPalveluMaara(i), sS.getJonoAika(i), sS.getPalveluAika(i)));
         }
 
-        tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(), (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsPoistunut(), sS.getAsReRouted(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTuloksets);
+        tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
+                (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsPoistunut(), sS.getAsReRouted(),
+                sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTuloksets);
 
         kestoLabel.setText(tulokset.getKestoString());
         pProsenttiLabel.setText(tulokset.getPalveluProsenttiString());
@@ -88,6 +91,10 @@ public class TuloksedDetailedController {
     public void setSimulaationSuureet(SimulaatioData sS) {
         this.sS = sS;
         System.out.println(sS.getAsPalveltu());
+    }
+
+    public void setSimulationController(NewSimulationController nSc){
+        controller = nSc;
     }
 
     @FXML

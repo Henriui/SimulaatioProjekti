@@ -21,10 +21,11 @@ public class OmaMoottori extends Moottori {
 	private SimulaatioData sS;
 
 	// OmaMoottori
-	public OmaMoottori(INewSimulationControllerMtoV kontrolleri) {
+	public OmaMoottori(INewSimulationControllerMtoV kontrolleri, Parametrit parametrit) {
 		super(kontrolleri);
-		sS = new SimulaatioData();
-		uP = Parametrit.getInstance();
+
+		uP = parametrit;
+		sS = new SimulaatioData(uP);
 
 		palvelupisteet = new Palvelupiste[uP.getAllPPMaara()];
 		palvelupisteet[0] = new Puhelinvalikko(uP.getPAJakauma(11), tapahtumalista,
@@ -64,6 +65,7 @@ public class OmaMoottori extends Moottori {
 
 		Asiakas as;
 		Tyyppi tapahtuma = t.getTyyppi();
+		sS.setSimulointiAika(Kello.getInstance().getAika());
 		kontrolleri.paivitaPalveluPisteet(sS.getPPStatus(palvelupisteet));
 
 		// Saapumistapahtumat

@@ -24,7 +24,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
     public TuloksetDAO() {
         // Hae käyttäjän määrittämä tietokanta, username ja password.
-        up = Parametrit.getInstance();
+        up = new Parametrit();
         tableName = up.getTableName();
         dbName = up.getDbName();
         user = up.getUsername();
@@ -157,7 +157,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             statement.setDouble(9, suureet.getPPViipymisATotal()); // useless
             statement.setDouble(10, suureet.getPPViipymisATotal()); // as_kok_aika
             statement.setDouble(11, suureet.getAvgAsAikaSim()); // as_avg_aika
-            statement.setInt(12, Parametrit.getInstance().getAllPPMaara()); // pp_count
+            statement.setInt(12, up.getAllPPMaara()); // pp_count
             statement.setDouble(13, suureet.getJonotusATotal()); // pp_jonotus_astatement set
 
             // Return true if INSERT successful;
@@ -215,7 +215,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
         // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
 
-        ss = new SimulaatioData(); // SimulaationSuureet.getInstance();
+        ss = new SimulaatioData(up); // SimulaationSuureet.getInstance();
         try {
             statement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ( ? )");
             statement.setInt(1, id);

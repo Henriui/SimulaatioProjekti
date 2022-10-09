@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.*;
 
-import com.project.database.DAO.TuloksetDAO;
+
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.SimulaatioData;
 import com.project.simu.model.Parametrit;
@@ -27,21 +27,21 @@ public class DAOtest {
     @Test
     @DisplayName("addTulos testi")
     public void addTulosTesti() {
-        SimulaatioData ss = new SimulaatioData();// SimulaationSuureet.getInstance();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         assertTrue(dao.addTulos(ss), "Tuloksen lisäys ei onnistu.");
     }
 
     @Test
     @DisplayName("addTulos testi")
     public void queryTulosTesti() {
-        SimulaatioData ss = new SimulaatioData();// SimulaationSuureet.getInstance();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         assertTrue(dao.queryTulos(1), "Tuloksen lisäys ei onnistu.");
     }
 
     @Test
     @DisplayName("removeTulos testi")
     public void removeTulosTesti() {
-        SimulaatioData ss = new SimulaatioData();// SimulaationSuureet.getInstance();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         dao.dropTable();
         dao.openConnection();
         dao.addTulos(ss);
@@ -59,7 +59,7 @@ public class DAOtest {
     public void getRowCountTest() {
         dao.dropTable();
         dao.openConnection();
-        SimulaatioData ss = new SimulaatioData();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());
         dao.addTulos(ss);
         dao.addTulos(ss);
         dao.addTulos(ss); // add 3 rows.

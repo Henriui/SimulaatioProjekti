@@ -14,7 +14,6 @@ import animatefx.animation.ZoomIn;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -39,16 +38,17 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     private Label suorittaneetMaara;
 
+    private IMoottori m;
+    private Parametrit uP;
+
     private double xOffset = 0;
     private double yOffset = 0;
     private static boolean open = false;
-    private IMoottori m;
-    private SimulaatioData sS;
-
-    private Boolean simulationRunning = false;
+    private boolean simulationRunning = false;
 
     @FXML
     public void initialize() {
+        uP = new Parametrit();
         new animatefx.animation.ZoomIn();
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
@@ -62,9 +62,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     public void aloitaSimulaatio() throws InterruptedException {
         if (!simulationRunning) {
-            Parametrit uP = Parametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
-            m = new OmaMoottori(this);
+            m = new OmaMoottori(this, uP);
             m.setViive(0);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
             ((Thread) m).start();
@@ -75,10 +74,10 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     public void setSuureet() throws IOException {
         if (!open) {
-            Scene scene = new Scene(loadFXML("Parametrit"));
+            FXMLLoader loader = loadFXML("Parametrit");
+            Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
-
             stage.setTitle("Suureiden asetukset");
             stage.initStyle(StageStyle.TRANSPARENT);
 
@@ -93,6 +92,9 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
             });
+
+            ParametriController controller = loader.getController();
+            controller.setSimulationController(this);
             stage.show();
             open = true;
         }
@@ -100,29 +102,29 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     public void showTulokset(SimulaatioData sS) {
         simulationRunning = false;
-        this.sS = sS;
         Platform.runLater(new Runnable() {
             public void run() {
-                runTulokset();
+                try {
+                    runTulokset(sS);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public void runTulokset() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/tuloksetDetailedPopUp.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Tulokset");
-            dialogStage.initStyle(StageStyle.TRANSPARENT);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
+    public void runTulokset(SimulaatioData sS) throws IOException {
+        if (!open) {
+            FXMLLoader loader = loadFXML("tuloksetDetailedPopUp");
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Suureiden asetukset");
+            stage.initStyle(StageStyle.TRANSPARENT);
 
             TuloksedDetailedController controller = loader.getController();
             controller.setSimulaationSuureet(sS);
-
+            controller.setSimulationController(this);
             scene.setOnMousePressed(event -> {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
@@ -130,14 +132,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
             // Can move window when mouse down and drag.
             scene.setOnMouseDragged(event -> {
-                dialogStage.setX(event.getScreenX() - xOffset);
-                dialogStage.setY(event.getScreenY() - yOffset);
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
             });
-            dialogStage.show();
+            stage.show();
             controller.updateValues();
             open = true;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -145,10 +145,18 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         open = isOpen;
     }
 
+    public Parametrit getParametri() {
+        return uP;
+    }
+
+    public void setParametri(Parametrit parametri) {
+        uP = parametri;
+    }
+
     // Finds fxml file from the resources folder.
-    private static Parent loadFXML(String fxml) throws IOException {
+    private static FXMLLoader loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
-        return fxmlLoader.load();
+        return fxmlLoader;
     }
 
     @Override
@@ -166,11 +174,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // Esim.
                 int yksityisTv = 0;
                 int yritysTv = 0;
-                for (int i = 0; i < suureStatusMap.get("Tyovuorossa").length; i++) {
+                for (int i = 0; i < suureStatusMap.get("Varattu").length; i++) {
                     if (i < 4) {
-                        yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
+                        yksityisTv += suureStatusMap.get("Varattu")[i];
                     } else if (i > 3 && i < 8) {
-                        yritysTv += suureStatusMap.get("Tyovuorossa")[i];
+                        yritysTv += suureStatusMap.get("Varattu")[i];
                     }
 
                 }
@@ -205,6 +213,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // "Totalit" [1] = asiakkaita palveltu simulaatiossa
                 // "Totalit" [2] = asiakkaitta quitannut jonosta simulaatiossa
                 // "Totalit" [3] = asiakkaita reroutattu simulaatiossa
+                // "Totalit" [4] = simulaationaika
+                // "Totalit" [5] = palveluprosentti
 
                 // Esim.
                 int kokonaisMaara = 0;
