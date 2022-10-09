@@ -35,6 +35,7 @@ public class SimulaatioData {
     private int[] palveluVuoroArr;
     private int[] palveluVarattuArr;
     private int[] palveluTotalArr;
+    private int[] palveluProsenttiArr;
 
     private double[] palveluAikaArr;
     private double[] jonoAikaArr;
@@ -84,6 +85,7 @@ public class SimulaatioData {
         palveluReRoutedArr = new int[Tyyppi.maxSize];
         palveluVuoroArr = new int[Tyyppi.maxSize];
         palveluVarattuArr = new int[Tyyppi.maxSize];
+        palveluProsenttiArr = new int[Tyyppi.maxSize];
         palveluTotalArr = new int[] { (int) asTotalMaara, asPalveltu,
                 asPoistunut, asReRoutattu, (int) simulointiAika };
         suureStatusMap.put("Palveltu", palveluMaaraArr);
@@ -93,6 +95,7 @@ public class SimulaatioData {
         suureStatusMap.put("Tyovuorossa", palveluVuoroArr);
         suureStatusMap.put("Totalit", palveluTotalArr);
         suureStatusMap.put("Varattu", palveluVarattuArr);
+        suureStatusMap.put("Palveluprosentti", palveluProsenttiArr);
     }
 
     // Oleeliset
@@ -178,6 +181,10 @@ public class SimulaatioData {
         return palveluReRoutedArr[ppType - 1];
     }
 
+    public int getPalveluProsenttiArr(int ppType) {
+        return palveluProsenttiArr[ppType - 1];
+    }
+
     public void addVuoroMaara(int ppType, boolean tulos) {
         if (tulos) {
             palveluVuoroArr[ppType]++;
@@ -202,6 +209,7 @@ public class SimulaatioData {
             palveluMaaraArr[ppTyyppi] += pp.getAsPalveltuJonosta();
             palveluJonoArr[ppTyyppi] += pp.getJonoKoko();
             palveluQuitterArr[ppTyyppi] += pp.getAsPoistunutJonosta();
+            palveluProsenttiArr[ppTyyppi] += (int) pp.getPProsentti();
             if (ppTyyppi < 8) {
                 palveluReRoutedArr[ppTyyppi] += ((Asiakaspalvelija) pp).getAsReRoutedJonosta();
                 addVuoroMaara(ppTyyppi, pp.getOnPaikalla());
