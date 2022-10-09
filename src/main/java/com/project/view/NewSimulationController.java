@@ -87,7 +87,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             });
 
             // Can move window when mouse down and drag.
-
             scene.setOnMouseDragged(event -> {
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);

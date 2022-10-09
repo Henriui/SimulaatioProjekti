@@ -1,8 +1,7 @@
 package com.project.view;
 
 import java.text.DecimalFormat;
-import java.text.spi.NumberFormatProvider;
-import java.util.Arrays;
+
 import java.util.function.UnaryOperator;
 
 import com.project.simu.model.Parametrit;

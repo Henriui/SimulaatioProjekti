@@ -8,7 +8,7 @@ public class PalvelupisteTulokset {
     private int palvellutAsiakkaat;
     private double keskiJonotusAika;
     private double keskiPalveluAika;
-    
+
     public PalvelupisteTulokset(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
             double keskiJonotusAika, double keskiPalveluAika) {
         this.id = id;
@@ -49,7 +49,7 @@ public class PalvelupisteTulokset {
     public double getKeskiJonotusAika() {
         return keskiJonotusAika;
     }
-    
+
     public String getIdString() {
         return Integer.toString(id);
     }
@@ -59,23 +59,23 @@ public class PalvelupisteTulokset {
     }
 
     public String getTyyppiString() {
-        switch(tyyppi){
+        switch (tyyppi) {
             case 1:
-            return "Myynti";
+                return "Myynti";
             case 2:
-            return "Netti";
+                return "Netti";
             case 3:
-            return "Liittymä";
+                return "Liittymä";
             case 4:
-            return "Laskutus";
+                return "Laskutus";
             case 5:
-            return "Myynti";
+                return "Myynti";
             case 6:
-            return "Netti";
+                return "Netti";
             case 7:
-            return "Liittymä";
+                return "Liittymä";
             case 8:
-            return "Laskutus";
+                return "Laskutus";
         }
         return Integer.toString(tyyppi);
     }
@@ -91,5 +91,5 @@ public class PalvelupisteTulokset {
     public String getKeskiJonotusAikaString() {
         return String.format("%.0f", keskiJonotusAika);
     }
-    
+
 }
