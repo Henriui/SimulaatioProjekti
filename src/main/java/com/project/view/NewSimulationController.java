@@ -1,5 +1,6 @@
 package com.project.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -27,6 +28,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -51,6 +54,15 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private Label YritysJonossa;
     @FXML
     private Label yksityisPalvelupisteita;
+    @FXML
+    private Label YmyyntiTv;
+    @FXML
+    private Label YnettiTv;
+    @FXML
+    private Label YliittymäTv;
+    @FXML
+    private Label YlaskutusTv;
+   
     @FXML
     private Label palvelupisteellaYksityis;
     @FXML
@@ -83,6 +95,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     public static final double D = 20;  // diameter.
     
+   
     
     @FXML
     public void initialize() {
@@ -106,7 +119,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             Parametrit uP = Parametrit.getInstance();
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this);
-            m.setViive(0);
+            m.setViive(25);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
             visualisointi.visuaalinenNopeus(m.getViive());
             ((Thread) m).start();
@@ -211,6 +224,28 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 for (int i = 0; i < suureStatusMap.get("Tyovuorossa").length; i++) {
                     if (i < 4) {
                         yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
+                        int myynti = suureStatusMap.get("Tyovuorossa")[0];
+                        int netti = suureStatusMap.get("Tyovuorossa")[1];
+                        int liittymä = suureStatusMap.get("Tyovuorossa")[2];
+                        int laskutus = suureStatusMap.get("Tyovuorossa")[3];
+                        switch (i){
+                            case 0:
+                                System.out.println("Myynnin työvuorossa = " + myynti);
+                                YmyyntiTv.setText(String.valueOf(myynti));
+                                break;
+                            case 1:
+                                System.out.println("Netin työvuorossa = " + netti);
+                                YnettiTv.setText(String.valueOf(netti));
+                                break;
+                            case 2:
+                                System.out.println("Liittymä työvuorossa = " + liittymä);
+                                YliittymäTv.setText(String.valueOf(liittymä));
+                                break;
+                            case 3:
+                                System.out.println("Laskutus työvuorossa = " + laskutus);
+                                YlaskutusTv.setText(String.valueOf(laskutus));
+                                break;
+                        }
                     } else if (i > 3 && i < 8) {
                         yritysTv += suureStatusMap.get("Tyovuorossa")[i];
                     }
@@ -295,7 +330,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 case 1:
                     Circle circle1 = new Circle(10);           // initialize circles with radius of 10
                     circle1.setFill(Color.RED);
-                    visuaalinenTausta.getChildren().add(circle1);
+                    visuaalinenTausta.getChildren().addAll(circle1);
                     visualisointi.asiakasLiikkuu(circle1, "Pmyynti");
                     break;
                 case 2:
@@ -349,9 +384,151 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
     // Poistumistype: "Quitter" / "Palveltu"
     @Override
-    public void visualisoiPoistuminen(int asType, String poistumisType) {
+    public void visualisoiPoistuminen(int asType, String poistumisType) { 
         Platform.runLater(new Runnable() {
             public void run() {
+                
+                switch (asType){
+                    case 1:
+                        Circle circle1 = new Circle(10);           // initialize circles with radius of 10
+                        circle1.setFill(Color.RED);
+
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Pmyynti", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle1);
+                        }
+                        visualisointi.asiakasPoistuu(circle1, "Pmyynti", poistumisType);
+                        break;
+                    case 2:
+                        Circle circle2 = new Circle(10);           // initialize circles with radius of 10
+                        circle2.setFill(Color.BLUE);
+
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Pnetti", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle2);
+                        }
+
+                        visualisointi.asiakasPoistuu(circle2, "Pnetti", poistumisType);
+                        break;
+                    case 3:
+                        Circle circle3 = new Circle(10);           // initialize circles with radius of 10
+                        circle3.setFill(Color.GREEN);
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Pliittymä", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle3);
+                        }
+                        visualisointi.asiakasPoistuu(circle3, "Pliittymä", poistumisType);
+                        break;
+                    case 4:
+                        Circle circle4 = new Circle(10);           // initialize circles with radius of 10
+                        circle4.setFill(Color.PINK);
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Plaskutus", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle4);
+                        }
+                        visualisointi.asiakasPoistuu(circle4, "Plaskutus", poistumisType);
+                        break;
+                    case 5:
+                       Circle circle5= new Circle(10);           // initialize circles with radius of 10
+                       circle5.setFill(Color.RED);
+                       if(poistumisType.equals("Quitter")){
+                        File diverFile;
+                        ImageView ivDiver = new ImageView();
+                        diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                        Image diverImage = new Image(diverFile.toURI().toString());
+                        ivDiver.setImage(diverImage);
+                        visuaalinenTausta.getChildren().addAll(ivDiver);
+                        visualisointi.asiakasSuuttuu(ivDiver, "Ymyynti", poistumisType);
+                        break;
+                    }else{
+                        visuaalinenTausta.getChildren().addAll(circle5);
+                    }
+                       visualisointi.asiakasPoistuu(circle5, "Ymyynti", poistumisType);
+                       break;
+                    case 6:
+                        Circle circle6= new Circle(10);           // initialize circles with radius of 10
+                        circle6.setFill(Color.BLUE);
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Ynetti", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle6);
+                        }
+                        visualisointi.asiakasPoistuu(circle6, "Ynetti", poistumisType);
+                        break;
+                    case 7:
+                        Circle circle7= new Circle(10);           // initialize circles with radius of 10
+                        circle7.setFill(Color.GREEN);
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Yliittymä", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle7);
+                        }
+                        visualisointi.asiakasPoistuu(circle7, "Yliittymä", poistumisType);
+                        break;
+                    case 8:
+                        Circle circle8= new Circle(10);           // initialize circles with radius of 10
+                        circle8.setFill(Color.PINK);
+                        if(poistumisType.equals("Quitter")){
+                            File diverFile;
+                            ImageView ivDiver = new ImageView();
+                            diverFile = new File("src/main/resources/com/project/icons/angry.png");
+                            Image diverImage = new Image(diverFile.toURI().toString());
+                            ivDiver.setImage(diverImage);
+                            visuaalinenTausta.getChildren().addAll(ivDiver);
+                            visualisointi.asiakasSuuttuu(ivDiver, "Ylaskutus", poistumisType);
+                            break;
+                        }else{
+                            visuaalinenTausta.getChildren().addAll(circle8);
+                        }
+                        visualisointi.asiakasPoistuu(circle8, "Ylaskutus", poistumisType);
+                        break;
+                }
             }
         });
     }
