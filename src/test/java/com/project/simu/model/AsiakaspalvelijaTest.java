@@ -25,7 +25,8 @@ public class AsiakaspalvelijaTest {
           Tyovuoro tV = Tyovuoro.EIGHT;
           asJakaumaArray = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
           for (int i = 0; i < 5; i++) {
-               new Asiakaspalvelija(null, tapahtumalista, aPTyyppi, aika, tV);
+               new Asiakaspalvelija(new Normal(aika - (aika / 2), aika + (aika / 2)), tapahtumalista, aPTyyppi, aika,
+                         tV);
           }
 
           asiakaspalvelija = new Asiakaspalvelija(new Normal(aika - (aika / 2), aika + (aika / 2)),

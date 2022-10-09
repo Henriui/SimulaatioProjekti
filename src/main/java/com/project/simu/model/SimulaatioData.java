@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import com.project.simu.constants.Tyyppi;
+import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
 
 public class SimulaatioData {
@@ -22,6 +23,8 @@ public class SimulaatioData {
     // Asiakkaiden kokonais viipyminen keskimääräisesti simulaatiossa
     private double avgAvgAsAikaSim;
 
+    private Parametrit uP;
+
     // Hashmap for view
     HashMap<String, int[]> suureStatusMap;
     // Arrayt
@@ -30,6 +33,7 @@ public class SimulaatioData {
     private int[] palveluQuitterArr;
     private int[] palveluReRoutedArr;
     private int[] palveluVuoroArr;
+    private int[] palveluVarattuArr;
     private int[] palveluTotalArr;
 
     private double[] palveluAikaArr;
@@ -41,13 +45,14 @@ public class SimulaatioData {
     private double avgPPViipymisATotal;
     private double avgJonotusATotal;
 
-    public SimulaatioData() {
+    public SimulaatioData(Parametrit parametrit) {
+        uP = parametrit;
         alustaSuureet();
     }
 
     public void alustaSuureet() {
         // Oleeliset
-        simulointiAika = Parametrit.getInstance().getSimulaationAika();
+        simulointiAika = Kello.getInstance().getAika();
         palveluprosentti = 0;
         asTotalMaara = 0;
         avgAvgAsAikaSim = 0;
@@ -78,13 +83,16 @@ public class SimulaatioData {
         palveluQuitterArr = new int[Tyyppi.maxSize];
         palveluReRoutedArr = new int[Tyyppi.maxSize];
         palveluVuoroArr = new int[Tyyppi.maxSize];
-        palveluTotalArr = new int[] { (int) asTotalMaara, asPalveltu, asPoistunut, asReRoutattu };
+        palveluVarattuArr = new int[Tyyppi.maxSize];
+        palveluTotalArr = new int[] { (int) asTotalMaara, asPalveltu,
+                asPoistunut, asReRoutattu, (int) simulointiAika };
         suureStatusMap.put("Palveltu", palveluMaaraArr);
         suureStatusMap.put("Jonossa", palveluJonoArr);
         suureStatusMap.put("Quitter", palveluQuitterArr);
         suureStatusMap.put("ReRouted", palveluReRoutedArr);
         suureStatusMap.put("Tyovuorossa", palveluVuoroArr);
         suureStatusMap.put("Totalit", palveluTotalArr);
+        suureStatusMap.put("Varattu", palveluVarattuArr);
     }
 
     // Oleeliset
@@ -97,7 +105,7 @@ public class SimulaatioData {
     }
 
     public double getPalveluprosentti() {
-        return palveluprosentti / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
+        return palveluprosentti / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 
     public long getAsTotalMaara() {
@@ -142,12 +150,12 @@ public class SimulaatioData {
 
     // DATABASE TALLENNUS anna tyyppi numero -> saa avg palveluaika
     public double getPalveluAika(int ppType) {
-        return palveluAikaArr[ppType - 1] / Parametrit.getInstance().getPPMaara(ppType);
+        return palveluAikaArr[ppType - 1] / uP.getPPMaara(ppType);
     }
 
     // DATABASE TALLENNUS anna tyyppi numero -> saa avg jonotusaika
     public double getJonoAika(int ppType) {
-        return this.jonoAikaArr[ppType - 1] / Parametrit.getInstance().getPPMaara(ppType);
+        return this.jonoAikaArr[ppType - 1] / uP.getPPMaara(ppType);
     }
 
     // DATABASE TALLENNUS anna tyyppi numero -> saa palvellut asiakkaat
@@ -171,16 +179,20 @@ public class SimulaatioData {
     }
 
     public void addVuoroMaara(int ppType, boolean tulos) {
-        if (ppType < 8) {
-            if (tulos) {
-                palveluVuoroArr[ppType]++;
-            }
+        if (tulos) {
+            palveluVuoroArr[ppType]++;
         }
     }
 
     // Viewi juttuja
     public int getVuoroMaara(int ppType) {
         return palveluVuoroArr[ppType - 1];
+    }
+
+    public void addVarattuMaara(int ppType, boolean tulos) {
+        if (tulos) {
+            palveluVarattuArr[ppType]++;
+        }
     }
 
     public HashMap<String, int[]> getPPStatus(Palvelupiste[] palvelupisteet) {
@@ -193,6 +205,7 @@ public class SimulaatioData {
             if (ppTyyppi < 8) {
                 palveluReRoutedArr[ppTyyppi] += ((Asiakaspalvelija) pp).getAsReRoutedJonosta();
                 addVuoroMaara(ppTyyppi, pp.getOnPaikalla());
+                addVarattuMaara(ppTyyppi, pp.onVarattu());
             }
         }
         return suureStatusMap;
@@ -245,14 +258,14 @@ public class SimulaatioData {
     }
 
     public double getPPViipymisATotal() {
-        return avgPPViipymisATotal / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
+        return avgPPViipymisATotal / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 
     public double getJonotusATotal() {
-        return avgJonotusATotal / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
+        return avgJonotusATotal / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 
     public double getPalveluATotal() {
-        return avgPalveluATotal / (Parametrit.getInstance().getAllPPMaara() - Parametrit.getMinPPMaara());
+        return avgPalveluATotal / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 }

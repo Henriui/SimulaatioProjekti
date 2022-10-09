@@ -18,7 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
-        private NewSimulationController controller = new NewSimulationController();
+        private NewSimulationController controller;
         @FXML
         private Label kestoLabel;
         @FXML
@@ -120,7 +120,6 @@ public class TuloksedDetailedController {
                 uudelleenOhjAsLabel.setText(tulokset.getUudelleenOhjatutAsiakkaatString());
                 keskiJonotusAikLabel.setText(tulokset.getKeskiJonotusAikaString());
                 keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString());
-
         }
 
         @FXML
@@ -130,13 +129,18 @@ public class TuloksedDetailedController {
                 stage.close();
         }
 
+        @FXML
+        private void save() {
+
+        }
+
         public void setSimulaationSuureet(SimulaatioData sS) {
                 this.sS = sS;
                 System.out.println(sS.getAsPalveltu());
         }
 
-        @FXML
-        private void save() {
-
+        public void setSimulationController(NewSimulationController nSc) {
+                controller = nSc;
         }
+
 }

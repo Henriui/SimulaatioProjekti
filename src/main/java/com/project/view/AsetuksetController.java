@@ -34,7 +34,7 @@ public class AsetuksetController {
      */
     @FXML
     private void initialize() {
-        uP = Parametrit.getInstance();
+        uP = new Parametrit(); 
         uP.lueTiedostostaDbParametrit();
         if (uP.getDbName() != null) {
             dbName.setText(uP.getDbName());

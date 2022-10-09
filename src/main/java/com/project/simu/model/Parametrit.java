@@ -6,13 +6,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
+import org.mariadb.jdbc.plugin.codec.IntCodec;
+
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
 public class Parametrit {
-    // Singleton
-    private static Parametrit instance = null;
-
     // Puhelinvalikot vievät vähintään 3 spottia
     private static int MIN_PALVELUPISTE_MAARA = 3;
 
@@ -40,6 +39,8 @@ public class Parametrit {
     // Array asiakastyyppi prosenteille
     private double[] asTyyppiArr;
 
+    private double[] asTyyppiParametri;
+
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
 
@@ -49,14 +50,7 @@ public class Parametrit {
     private String username;
     private String password;
 
-    public static synchronized Parametrit getInstance() {
-        if (instance == null) {
-            instance = new Parametrit();
-        }
-        return instance;
-    }
-
-    private Parametrit() {
+    public Parametrit() {
         setDefaultArvot();
     }
 
@@ -68,7 +62,7 @@ public class Parametrit {
         this.pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
         this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
         this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
-        this.reRouteChance = 0; // 5 % asiakkaista valitsee väärin
+        this.reRouteChance = 5; // 5 % asiakkaista valitsee väärin
         this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
 
         // 50% pri/co asiakkaita
@@ -76,7 +70,7 @@ public class Parametrit {
 
         // Asiakaspisteitten jakauma käyttäjän asettamana
         this.asTyyppiArr = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
-
+        this.asTyyppiParametri = new double[] { 25, 25, 25, 25, 25, 25, 25, 25 };
         this.ppMaaraArray = new int[Tyyppi.maxSize]; // Palvelupisteiden kokonaismäärä arraylistissä
         for (int i = 0; i < ppMaaraArray.length; i++) {
             if (i > 7) {
@@ -208,10 +202,23 @@ public class Parametrit {
     }
 
     public double[] getAsTyyppiArr() {
-        return this.asTyyppiArr;
+        return asTyyppiArr;
     }
 
-    public void setAsTyyppiArr(double[] asTyyppiArr) {
+    public double getAsTyyppiParametri(int ppType) {
+        return this.asTyyppiParametri[ppType - 1];
+    }
+
+    public void setAsTyyppiParametri(double[] asTyyppiParametri) {
+        this.asTyyppiParametri = new double[asTyyppiArr.length];
+        for (int i = 0; i < asTyyppiArr.length; i++) {
+            this.asTyyppiParametri[i] += asTyyppiParametri[i];
+        }
+        System.out.println("asTyyppiParametri" + Arrays.toString(asTyyppiParametri));
+        setAsTyyppiArr(asTyyppiParametri);
+    }
+
+    private void setAsTyyppiArr(double[] asTyyppiArr) {
         for (int i = 0; i < asTyyppiArr.length; i++) {
             if (i > 0 && i < 4) {
                 asTyyppiArr[i] += asTyyppiArr[i - 1];
