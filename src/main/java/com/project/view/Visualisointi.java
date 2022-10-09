@@ -10,10 +10,7 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 public class Visualisointi {
-
-    private double i = 0;
-    private double j = 10;
-
+    
     private static double nopeus;
     // Yksityisjonon Y value.
     private static int myyntijono = 260;
