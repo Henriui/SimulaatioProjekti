@@ -109,7 +109,8 @@ public class SimulaatioData {
     }
 
     public double getPalveluprosentti() {
-        return palveluprosentti / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
+        palveluprosentti = asPalveltu / (double) asTotalMaara;
+        return (palveluprosentti * 100);
     }
 
     public long getAsTotalMaara() {
@@ -182,7 +183,7 @@ public class SimulaatioData {
         return palveluReRoutedArr[ppType - 1];
     }
 
-    public int getPalveluProsenttiArr(int ppType) {
+    public int getPalveluProsentti(int ppType) {
         return palveluProsenttiArr[ppType - 1] / uP.getPPMaara(ppType);
     }
 
@@ -240,7 +241,6 @@ public class SimulaatioData {
         palveluAikaArr[ppTyyppi] += pp.getAvgPalveluAika();
         jonoAikaArr[ppTyyppi] += pp.getAvgJonotusAika();
         if (ppTyyppi < 8) {
-            palveluprosentti += pp.getPProsentti();
             jonoATotal += pp.getJonoAika();
             avgJonotusATotal += pp.getAvgJonotusAika();
             avgPPViipymisATotal += pp.getAvgViipyminenPP();
