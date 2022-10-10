@@ -46,6 +46,8 @@ public class TuloksedDetailedController {
         @FXML
         private TableColumn<PalvelupisteTulokset, String> yriKeskiPalveluAikaColumn;
         @FXML
+        private TableColumn<PalvelupisteTulokset, String> yriPalveluprosenttiColumn;
+        @FXML
         private TableView<PalvelupisteTulokset> yksityisPisteetTable;
         @FXML
         private TableColumn<PalvelupisteTulokset, String> yksPisteColumn;
@@ -55,6 +57,8 @@ public class TuloksedDetailedController {
         private TableColumn<PalvelupisteTulokset, String> yksKeskiJonoAikaColumn;
         @FXML
         private TableColumn<PalvelupisteTulokset, String> yksKeskiPalveluAikaColumn;
+        @FXML
+        private TableColumn<PalvelupisteTulokset, String> yksPalveluprosenttiColumn;
         @FXML
         private Button removeButton;
         @FXML
@@ -71,7 +75,7 @@ public class TuloksedDetailedController {
                 for (int i = 1; i < 9; i++) {
                         palveluPisteTulokset
                                         .add(new PalvelupisteTulokset(i, sS.getPalveluMaara(i), sS.getJonoAika(i),
-                                                        sS.getPalveluAika(i)));
+                                                        sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
                 }
                 for (int i = 0; i < 4; i++) {
                         yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
@@ -96,6 +100,8 @@ public class TuloksedDetailedController {
                                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
                 yriKeskiPalveluAikaColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiPalveluAikaString()));
+                yriPalveluprosenttiColumn.setCellValueFactory(
+                                cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
                 yksPisteColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getTyyppiString()));
@@ -105,6 +111,8 @@ public class TuloksedDetailedController {
                                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
                 yksKeskiPalveluAikaColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiPalveluAikaString()));
+                yksPalveluprosenttiColumn.setCellValueFactory(
+                                cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
                 tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
                                 (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsPoistunut(),
