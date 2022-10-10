@@ -3,19 +3,35 @@ package com.project.database;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.*;
 
-
+import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaatioData;
-import com.project.simu.model.Parametrit;
+import com.project.simu.model.Tulokset;
+import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.PalvelupisteTulokset;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
-
+    private static Tulokset tulos;
+    PalvelupisteTulokset ppTulos;
+    ArrayList<PalvelupisteTulokset> ppList = new ArrayList<PalvelupisteTulokset>();
+    
     @BeforeEach
     public void avaaYhteys() {
+        UserAsetukset up = new UserAsetukset("olso", "root", "root");
+        dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
+
+        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10);
+
+        ppList.add(ppTulos);
+
+        tulos = new Tulokset(1, 2, 3, 4, 5, 
+                         6, 7, 8, 9, ppList);
     }
 
     @Test
@@ -26,28 +42,40 @@ public class DAOtest {
 
     @Test
     @DisplayName("addTulos testi")
-    public void addTulosTesti() {
-        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
-        assertTrue(dao.addTulos(ss), "Tuloksen lisäys ei onnistu.");
+    public void addTulosTesti(){ 
+        assertTrue(dao.addTulos(tulos), "Asiakas tuloksen lisäys ei onnistu.");
     }
-
+    
     @Test
     @DisplayName("addTulos testi")
     public void queryTulosTesti() {
-        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
-        assertTrue(dao.queryTulos(1), "Tuloksen lisäys ei onnistu.");
+        Tulokset tulos1 = null;
+        dao.dropTable();
+        dao.openConnection();
+
+        dao.addTulos(tulos);
+
+        try {
+            tulos1 = dao.queryTulos(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(tulos1.getSimulaatiokerta());
+        assertEquals(1, tulos1.getSimulaatiokerta(), "gay");
+        assertEquals(5, tulos1.getPalvellutAsiakkaat());
+
+
     }
 
     @Test
     @DisplayName("removeTulos testi")
     public void removeTulosTesti() {
-        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         dao.dropTable();
         dao.openConnection();
-        dao.addTulos(ss);
+        dao.addTulos(tulos);
         assertTrue(dao.removeTulos(1), "Tuloksen lisäys ei onnistu.");
     }
-
+    
     @Test
     @DisplayName("dropTable testi")
     public void dropTableTesti() {
@@ -59,10 +87,9 @@ public class DAOtest {
     public void getRowCountTest() {
         dao.dropTable();
         dao.openConnection();
-        SimulaatioData ss = new SimulaatioData(new Parametrit());
-        dao.addTulos(ss);
-        dao.addTulos(ss);
-        dao.addTulos(ss); // add 3 rows.
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
         assertEquals(3, dao.getRowCount(), "Rows not counted well.");
     }
 }

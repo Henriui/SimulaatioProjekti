@@ -6,6 +6,7 @@ import com.project.MainApp;
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
+import com.project.simu.model.UserAsetukset;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +19,11 @@ public class TuloksetController {
     @FXML
     private TableView tw;
 
-    private ITuloksetDAO tulokset = new TuloksetDAO();
+    // Hakee asetukset ja kutsuu tietokannan
+    UserAsetukset asetukset; // TODO: VAATII ASETUKSET
+
+    private ITuloksetDAO tulokset = new TuloksetDAO(asetukset, true);
+
     private ObservableList<Tulokset> tol = FXCollections.observableArrayList();
 
     @FXML
