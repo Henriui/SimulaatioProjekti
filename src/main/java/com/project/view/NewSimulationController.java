@@ -26,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Translate;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -142,6 +143,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             stage.setScene(scene);
             stage.setTitle("Suureiden asetukset");
             stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
 
             scene.setOnMousePressed(event -> {
                 xOffset = event.getSceneX();
@@ -182,6 +184,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             stage.setScene(scene);
             stage.setTitle("Suureiden asetukset");
             stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
 
             scene.setOnMousePressed(event -> {
                 xOffset = event.getSceneX();

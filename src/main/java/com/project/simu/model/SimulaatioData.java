@@ -183,7 +183,7 @@ public class SimulaatioData {
     }
 
     public int getPalveluProsenttiArr(int ppType) {
-        return palveluProsenttiArr[ppType - 1];
+        return palveluProsenttiArr[ppType - 1] / uP.getPPMaara(ppType);
     }
 
     public void addVuoroMaara(int ppType, boolean tulos) {
