@@ -43,7 +43,6 @@ public class Parametrit {
 
     // Tietokannan käyttäjäparametrit
     private String dbName;
-    private String tableName1, tableName2;
     private String username;
     private String password;
 

@@ -12,7 +12,9 @@ import java.sql.SQLException;
 
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.PalvelupisteTulokset;
 import com.project.simu.model.Parametrit;
 
 public class TuloksetDAO implements ITuloksetDAO {
@@ -24,7 +26,8 @@ public class TuloksetDAO implements ITuloksetDAO {
     private String tableName2;
     private String user;
     private String password;
-    SimulaatioData ss;
+    private SimulaatioData ss;
+    private int simulaatiokerta;
 
     public TuloksetDAO(UserAsetukset asetukset, boolean simulaatio) {
         
@@ -162,63 +165,55 @@ public class TuloksetDAO implements ITuloksetDAO {
      * Returns true if parameter read and added to a row in database. Otherwise
      * returns false.
      * 
-     * @param suureet
+     * @param data
      * @return boolean
      * @author Henri
      */
     @Override
-    public boolean addTulos(SimulaatioData suureet) {
+    public boolean addAsiakasTulos(Tulokset data) {
 
-        boolean success = false;
-        // Get values from SimulaationSuureet, create sql statement and execute.
+        // Get values from SimulaationData, create sql statement and execute.
 
         try {
             statement = connection.prepareStatement("INSERT INTO " + tableName1
                     + "( kesto, palveluprosentti, as_maara, as_palveltu, as_routed, as_poistunut, as_keskijonoaika, as_keskilapimeno) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )");
 
-            statement.setDouble(1, suureet.getSimulointiAika());    // kesto
-            statement.setDouble(2, suureet.getPalveluprosentti());  // palveluprosentti
-            statement.setInt(3, up.getAllPPMaara());                // as_maara
-            statement.setInt(4, suureet.getAsPalveltu());           // as_palveltu
-            statement.setInt(5, suureet.getAsReRouted());           // as_routed
-            statement.setInt(6, suureet.getAsPoistunut());          // as_poistunut
-            statement.setDouble(7, suureet.getAvgAsAikaSim());      // as_keskijonoaika
-            statement.setDouble(7, suureet.getAvgAsAikaSim());      // as_keskiläpimeno
+            statement.setDouble(1, data.getKesto());    // kesto
+            statement.setDouble(2, data.getPalveluProsentti());  // palveluprosentti
+            statement.setInt(3, data.getAsMaara());                // as_maara
+            statement.setInt(4, data.getPalvellutAsiakkaat());           // as_palveltu
+            statement.setInt(5, data.getUudelleenOhjatutAsiakkaat());           // as_routed
+            statement.setInt(6, data.getPoistuneetAsiakkaat());          // as_poistunut
+            statement.setDouble(7, data.getKeskiJonotusAika());      // as_keskijonoaika
+            statement.setDouble(8, data.getKeskiLapiMenoAika());      // as_keskiläpimeno
 
-            // Get id of last created row of table 1.
-            
-            int table1Id;
-            statement = connection.prepareStatement("Select id from " + tableName1);
-            ResultSet rs = statement.executeQuery();
-            rs.last();
-            
-            table1Id = rs.getInt(1);
+            statement.
+            // Store value of simulaatiokerta for palvelupiste insertion.
+            simulaatiokerta = data.getSimulaatiokerta();
 
-            // Return true if INSERT successful;
-
-            if (statement.executeUpdate() >= 1)
-                success = true;
-
-                statement = connection.prepareStatement("INSERT INTO " + tableName1
-                + "simulaatiokerta, tyyppi, palvellutas, keskipalveluaika, keskijonotusaika VALUES ( ?, ?, ?, ?, ? )");
-                
-                // statement.setInt(1,table1Id);
-                // statement.setInt(2, );    // tyyppi
-                // statement.setInt(3, );    // palvellutas
-                // statement.setDouble(4, ); // keskipalveluaika
-                // statement.setDouble(5, ); // keskijonotusaika
-
-                if (statement.executeUpdate() >= 1)
-                success = true;
-
-                if (success)
-                    return true;
+           
         } catch (SQLException e) {
             e.printStackTrace();
         }
     
         return false;
     }
+
+public boolean addPalvelupisteTulos(PalvelupisteTulokset ppTulos){
+
+
+    statement = connection.prepareStatement("INSERT INTO " + tableName1
+    + "simulaatiokerta, tyyppi, palvellutas, keskipalveluaika, keskijonotusaika VALUES ( ?, ?, ?, ?, ? )");
+
+    statement.setInt(1,simulaatiokerta);
+    statement.setInt(2, );    // tyyppi
+    statement.setInt(3, );    // palvellutas
+    statement.setDouble(4, ); // keskipalveluaika
+    statement.setDouble(5, ); // keskijonotusaika
+
+    if (statement.executeUpdate() >= 1)
+        return true;
+}
 
     /**
      * Returns true if row with given id is deleted successfully. Otherwise returns false.
@@ -251,7 +246,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
     /**
      * Fetches a row with given id from the database.
-     * Sets the retrieved data to the singleton class SimulaationSuureet.
+     * Sets the retrieved data to the singleton class Simulaationdata.
      * Returns true if row found and retrieved. Otherwise returns false.
      * 
      * @param id
@@ -262,7 +257,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
         // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
 
-        ss = new SimulaatioData(up); // SimulaationSuureet.getInstance();
+        ss = new SimulaatioData(up); // Simulaationdata.getInstance();
         try {
             statement = connection.prepareStatement("SELECT * FROM " + tableName1 + " WHERE id = ( ? )");
             statement.setInt(1, id);
@@ -315,14 +310,14 @@ public class TuloksetDAO implements ITuloksetDAO {
     }
 
     /**
-     * Fetches column count of database.
-     * Returns int value if successful, otherwise retuns null.
+     * Fetches row count of asiakas table from database.
+     * Returns int value if successful, otherwise retuns 0.
      * 
      * @return int
      * @Author Henri
      */
     public int getRowCount(){
-        int result, result2;
+        int result;
         try{
             statement = connection.prepareStatement("Select id from " + tableName1);
             ResultSet rs = statement.executeQuery();
@@ -330,16 +325,8 @@ public class TuloksetDAO implements ITuloksetDAO {
             
             result = rs.getInt(1);
 
-            statement = connection.prepareStatement("Select id from " + tableName2);
-            rs = statement.executeQuery();
-            rs.last();
-            
-            result2 = rs.getInt(1);
+            return result;
 
-            if(result == result2)
-                return result;
-            else
-                System.out.println("Database tables out of sync. Suggestion: Drop tables.");
         } catch (SQLException e) {
             System.out.println("No rows or something went wrong.");
             e.printStackTrace();
