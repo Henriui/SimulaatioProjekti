@@ -1,7 +1,7 @@
 package com.project.database.interfaces;
 
 import com.project.simu.model.Tulokset;
-import com.project.simu.model.PalvelupisteTulokset;
+
 
 public interface ITuloksetDAO {
     // Connection open/close.
@@ -9,8 +9,7 @@ public interface ITuloksetDAO {
     public abstract boolean closeConnection();
 
     // Methods to use database.
-    public abstract boolean addAsiakasTulos(Tulokset data);
-    public abstract boolean addPalvelupisteTulos(PalvelupisteTulokset ppTulos);
+    public abstract boolean addTulos(Tulokset data);
     public abstract boolean removeTulos(int id);
     public abstract Tulokset queryTulos(int id);
     public abstract boolean dropTable();

@@ -1,26 +1,35 @@
 package com.project.testi;
 
+import java.util.ArrayList;
+
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
-import com.project.simu.model.Parametrit;
+import com.project.simu.model.PalvelupisteTulokset;
 
 //Tämä muutetaan test filuks jossain vaiheessa 
 public class Simulaattori { // Tekstipohjainen
+    private static ArrayList<PalvelupisteTulokset> ppList = new ArrayList<PalvelupisteTulokset>();
+    private static PalvelupisteTulokset ppTulos;
+    private static Tulokset tulos;
 
 	public static void main(String[] args) {
 		UserAsetukset ua = new UserAsetukset("olso","root","root");
-
 		ITuloksetDAO db = new TuloksetDAO(ua, false);
-		Parametrit up = new Parametrit();
-		SimulaatioData ss = new SimulaatioData(up); // SimulaationSuureet.getInstance();
+		
 		db.openConnection();
 		db.dropTable();
 		db.openConnection();
-		db.addTulos(ss);
-		db.addTulos(ss);
-		db.addTulos(ss);
+
+		ppTulos = new PalvelupisteTulokset(1,1,7,8,9,10);
+
+        ppList.add(ppTulos);
+
+        tulos = new Tulokset(1, 2, 3, 4, 5, 6, 7, 8, 9, ppList);
+		
+		db.addTulos(tulos);
+		
 		// System.out.println(db.getRowCount());
 		/*
 		 * Trace.setTraceLevel(Level.INFO);

@@ -12,10 +12,8 @@ import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.PalvelupisteTulokset;
-import com.project.simu.model.Parametrit;
 
 public class TuloksetDAO implements ITuloksetDAO {
-    private Parametrit up;
     private Connection connection;
     private PreparedStatement statement;
     private String dbName;
@@ -165,13 +163,13 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @author Henri
      */
     @Override
-    public boolean addAsiakasTulos(Tulokset data) {
+    public boolean addTulos(Tulokset data) {
 
         // Get values from SimulaationData, create sql statement and execute.
 
         try {
             statement = connection.prepareStatement("INSERT INTO " + tableName1
-                    + "( kesto, palveluprosentti, as_maara, as_palveltu, as_routed, as_poistunut, as_keskijonoaika, as_keskilapimeno) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )");
+                    + "( kesto, palveluprosentti, as_maara, as_palveltu, as_routed, as_poistunut, as_keskijonoaika, as_keskilapimeno ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )");
 
             statement.setDouble(1, data.getKesto());                    // kesto
             statement.setDouble(2, data.getPalveluProsentti());         // palveluprosentti
@@ -181,9 +179,10 @@ public class TuloksetDAO implements ITuloksetDAO {
             statement.setInt(6, data.getPoistuneetAsiakkaat());         // as_poistunut
             statement.setDouble(7, data.getKeskiJonotusAika());         // as_keskijonoaika
             statement.setDouble(8, data.getKeskiLapiMenoAika());        // as_keskiläpimeno
-            if (statement.executeUpdate() >= 1)
-                return true;
-           
+            statement.executeUpdate();
+
+            return addPalvelupisteTulos(data.getPalveluPisteTulokset());
+       
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -196,29 +195,24 @@ public class TuloksetDAO implements ITuloksetDAO {
      * 
      * @param PalvelupisteTulokset
      * @return boolean
+     * @throws SQLException
      * @Author Henri
      */
-    @Override
-    public boolean addPalvelupisteTulos(PalvelupisteTulokset ppTulos){
-        try {
-        
-        statement = connection.prepareStatement("INSERT INTO " + tableName1
-        + "simulaatiokerta, tyyppi, palvellutas, keskipalveluaika, keskijonotusaika VALUES ( ?, ?, ?, ?, ? )");
-
-            statement.setInt(1, ppTulos.getSimulaatiokerta());     // Sim kerta
-            statement.setInt(2, ppTulos.getTyyppi());              // tyyppi
-            statement.setInt(3, ppTulos.getPalvellutAsiakkaat());  // palvellutas
-            statement.setDouble(4, ppTulos.getKeskiPalveluAika()); // keskipalveluaika
-            statement.setDouble(5, ppTulos.getKeskiJonotusAika()); // keskijonotusaika
+    private boolean addPalvelupisteTulos(ArrayList<PalvelupisteTulokset> ppTulos) throws SQLException{
+            for (PalvelupisteTulokset palvelupisteTulokset : ppTulos) {
             
-            if (statement.executeUpdate() >= 1)
-                return true;
+                statement = connection.prepareStatement("INSERT INTO " + tableName2
+                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika ) VALUES ( ?, ?, ?, ?, ?, ? )");
+                statement.setInt(1, palvelupisteTulokset.getId());                  // id
+                statement.setInt(2, palvelupisteTulokset.getSimulaatiokerta());     // Sim kerta
+                statement.setInt(3, palvelupisteTulokset.getTyyppi());              // tyyppi
+                statement.setInt(4, palvelupisteTulokset.getPalvellutAsiakkaat());  // palvellut_as
+                statement.setDouble(5, palvelupisteTulokset.getKeskiPalveluAika()); // keskipalveluaika
+                statement.setDouble(6, palvelupisteTulokset.getKeskiJonotusAika()); // keskijonotusaika
 
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
+                statement.executeUpdate();
+            }
+            return true;
     }
 
     /**
