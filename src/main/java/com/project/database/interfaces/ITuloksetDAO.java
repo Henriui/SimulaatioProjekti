@@ -1,6 +1,6 @@
 package com.project.database.interfaces;
 
-import com.project.simu.model.SimulaationSuureet;
+import com.project.simu.model.SimulaatioData;
 
 public interface ITuloksetDAO {
     // Connection open/close.
@@ -8,7 +8,7 @@ public interface ITuloksetDAO {
     public abstract boolean closeConnection();
 
     // Methods to use database.
-    public abstract boolean addTulos(SimulaationSuureet suureet);
+    public abstract boolean addTulos(SimulaatioData suureet);
     public abstract boolean removeTulos(int id);
     public abstract boolean queryTulos(int id);
     public abstract boolean dropTable();

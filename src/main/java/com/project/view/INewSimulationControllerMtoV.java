@@ -1,13 +1,17 @@
 package com.project.view;
 
+import java.util.HashMap;
+
+import com.project.simu.model.SimulaatioData;
+
 public interface INewSimulationControllerMtoV {
 
-    public void ulkonaAs(int maara);
+    public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap);
 
-    public void asPPMaara(int type, int koko);
+    public void visualisoiAsiakas(int asType);
 
-    public void ilmoitaPalveluPisteet(int yritys, int yksityis);
+    public void visualisoiPoistuminen(int asType, String poistumisType);
 
-    public void ilmoitaJononKoko(int yksityis, int yritys);
+    public void showTulokset(SimulaatioData sS);
 
 }

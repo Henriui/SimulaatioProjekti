@@ -11,7 +11,7 @@ import com.project.simu.framework.Trace;
 
 // Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
 
-public abstract class Palvelupiste {
+public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 
 	protected static int ppUId = 0;
 
@@ -90,7 +90,7 @@ public abstract class Palvelupiste {
 		this.tapahtumalista.lisaa(new Tapahtuma(this.ppTyyppi, Kello.getInstance().getAika() + pAika));
 	}
 
-	public boolean kyllastyiJonoon(Asiakas as, double jAika) {
+	protected boolean kyllastyiJonoon(Asiakas as, double jAika) {
 		if (jAika > maxJononPituus) {
 			Trace.out(Trace.Level.INFO, "Asiakas kyllästyi jonottamaan: " + as.getId());
 			this.jonoAika += jAika;
@@ -115,7 +115,7 @@ public abstract class Palvelupiste {
 		return this.jono.size() != 0;
 	}
 
-	public int getJonossaOlevatAs() {
+	public int getJonoKoko() {
 		return this.jono.size();
 	}
 
@@ -132,7 +132,7 @@ public abstract class Palvelupiste {
 		return this.ppTyyppi;
 	}
 
-	public int getPPNum() {
+	public int getPPId() {
 		return this.ppId;
 	}
 
@@ -152,6 +152,10 @@ public abstract class Palvelupiste {
 		return this.ppPoistumisAika;
 	}
 
+	public double getMaxJononPituus() {
+		return this.maxJononPituus;
+	}
+
 	public int getAsPoistunutJonosta() {
 		return this.asPoistunutJonosta;
 	}
@@ -165,6 +169,9 @@ public abstract class Palvelupiste {
 	}
 
 	public double getAvgPalveluAika() {
+		if (palveluAika == 0) {
+			return 0;
+		}
 		return this.palveluAika / this.asPalveltuJonosta;
 	}
 
@@ -192,5 +199,15 @@ public abstract class Palvelupiste {
 		Trace.out(Trace.Level.INFO, ppInfoStr + " asiakkaitten total oleskeluaika: " + this.asViipyminenPP);
 		Trace.out(Trace.Level.INFO, ppInfoStr + " palveli: " + getAsPalveltuJonosta());
 		Trace.out(Trace.Level.INFO, ppInfoStr + " kyllästyi jonottamaan: " + getAsPoistunutJonosta());
+	}
+
+	@Override
+	public int compareTo(Palvelupiste p) {
+		if (this.asPalveltuJonosta < p.asPalveltuJonosta) { // Less
+			return -1;
+		} else if (this.asPalveltuJonosta > p.asPalveltuJonosta) { // More
+			return 1;
+		}
+		return 0; // Equal
 	}
 }

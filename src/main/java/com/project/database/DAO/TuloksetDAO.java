@@ -9,11 +9,11 @@ import java.sql.SQLException;
 
 
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaationSuureet;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Parametrit;
 
 public class TuloksetDAO implements ITuloksetDAO {
-    private UserParametrit up;
+    private Parametrit up;
     private Connection connection;
     private PreparedStatement statement;
     private String dbName;
@@ -21,14 +21,17 @@ public class TuloksetDAO implements ITuloksetDAO {
     private String tableName2;
     private String user;
     private String password;
-    SimulaationSuureet ss;
+    SimulaatioData ss;
 
     public TuloksetDAO() {
         openConnection();
     }
 
     private void getCredentials(){
-        up = UserParametrit.getInstance();
+
+        // Hae käyttäjän määrittämä tietokanta, username ja password.
+        
+        up = new Parametrit();
         tableName1 = up.getTableName1();
         tableName2 = up.getTableName2();
         dbName = up.getDbName();
@@ -161,7 +164,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @author Henri
      */
     @Override
-    public boolean addTulos(SimulaationSuureet suureet) {
+    public boolean addTulos(SimulaatioData suureet) {
 
         boolean success = false;
         // Get values from SimulaationSuureet, create sql statement and execute.
@@ -172,7 +175,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
             statement.setDouble(1, suureet.getSimulointiAika());    // kesto
             statement.setDouble(2, suureet.getPalveluprosentti());  // palveluprosentti
-            statement.setInt(3, (int) suureet.getAsTotalMaara());   // as_maara
+            statement.setInt(3, up.getAllPPMaara());                // as_maara
             statement.setInt(4, suureet.getAsPalveltu());           // as_palveltu
             statement.setInt(5, suureet.getAsReRouted());           // as_routed
             statement.setInt(6, suureet.getAsPoistunut());          // as_poistunut
@@ -256,7 +259,7 @@ public class TuloksetDAO implements ITuloksetDAO {
 
         // TODO: lisää haku tietokannasta kun tiedetään mitä haetaan.
 
-        ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
+        ss = new SimulaatioData(up); // SimulaationSuureet.getInstance();
         try {
             statement = connection.prepareStatement("SELECT * FROM " + tableName1 + " WHERE id = ( ? )");
             statement.setInt(1, id);

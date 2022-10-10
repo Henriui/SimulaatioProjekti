@@ -7,8 +7,9 @@ import org.junit.jupiter.api.*;
 
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaationSuureet;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.Parametrit;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
@@ -16,7 +17,8 @@ public class DAOtest {
     
     @BeforeEach
     public void avaaYhteys() {
-        UserParametrit.getInstance().setDbParameters("olso", "testitable", "testi2", "root", "root");
+        UserAsetukset up = new UserAsetukset("olso", "root", "root");
+        dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
     }
 
@@ -29,28 +31,26 @@ public class DAOtest {
     @Test
     @DisplayName("addTulos testi")
     public void addTulosTesti() {
-        SimulaationSuureet ss = new SimulaationSuureet();// SimulaationSuureet.getInstance();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         assertTrue(dao.addTulos(ss), "Tuloksen lisäys ei onnistu.");
     }
 
     @Test
     @DisplayName("addTulos testi")
     public void queryTulosTesti() {
-        SimulaationSuureet ss = new SimulaationSuureet();// SimulaationSuureet.getInstance();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         assertTrue(dao.queryTulos(1), "Tuloksen lisäys ei onnistu.");
     }
-/*
- * 
- @Test
- @DisplayName("removeTulos testi")
- public void removeTulosTesti() {
-        SimulaationSuureet ss = new SimulaationSuureet();// SimulaationSuureet.getInstance();
+
+    @Test
+    @DisplayName("removeTulos testi")
+    public void removeTulosTesti() {
+        SimulaatioData ss = new SimulaatioData(new Parametrit());// SimulaationSuureet.getInstance();
         dao.dropTable();
         dao.openConnection();
         dao.addTulos(ss);
         assertTrue(dao.removeTulos(1), "Tuloksen lisäys ei onnistu.");
     }
-    */
     
     @Test
     @DisplayName("dropTable testi")
@@ -63,7 +63,7 @@ public class DAOtest {
     public void getRowCountTest() {
         dao.dropTable();
         dao.openConnection();
-        SimulaationSuureet ss = new SimulaationSuureet();
+        SimulaatioData ss = new SimulaatioData(new Parametrit());
         dao.addTulos(ss);
         dao.addTulos(ss);
         dao.addTulos(ss); // add 3 rows.

@@ -10,7 +10,6 @@ import com.project.simu.framework.Trace;
 
 public class Asiakaspalvelija extends Palvelupiste {
 
-    // private SimulaationSuureet sS;
     private Tyovuoro tv;
 
     private int asReRoutedJonosta;
@@ -21,7 +20,6 @@ public class Asiakaspalvelija extends Palvelupiste {
         super(generator, tapahtumalista, tyyppi, maxJononPituus);
         this.tv = tv;
 
-        // this.sS = SimulaationSuureet.getInstance();
         this.reRouteAika = 30; // 30 sekunttia reroute keskustelu
         this.asReRoutedJonosta = 0;
         tyoVuoronAjat();
@@ -29,8 +27,16 @@ public class Asiakaspalvelija extends Palvelupiste {
 
     @Override
     public void addJonoon(Asiakas as) {
-        super.addJonoon(as);
-        // sS.addAsJonoon();
+        if (this.getOnPaikalla()) {
+            super.addJonoon(as);
+        }
+        // Mikäli kaikki asiakaspalvelijat ovat lähteneet töistä
+        // Asiakas kuulee 15 sekunnin nauhotteen asiasta ja saa luurin korvaan
+        else {
+            Trace.out(Trace.Level.INFO, "Asiakas ei saanut palvelua enään: " + as.getId());
+            maxJononPituus = 15;
+            super.addJonoon(as);
+        }
     }
 
     private void tyoVuoronAjat() {
@@ -52,6 +58,10 @@ public class Asiakaspalvelija extends Palvelupiste {
         double pAika = generator.sample();
 
         this.varattu = true;
+
+        if (!getOnPaikalla()) {
+            jAika = 16;
+        }
         // Mikäli jonotusaika ylitti niin asiakas poistui ennen palvelua.
         if (kyllastyiJonoon(as, jAika)) {
             return;
@@ -104,4 +114,26 @@ public class Asiakaspalvelija extends Palvelupiste {
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " lopetti työt: " + getPpPoistumisAika());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " työvuoro: " + getTv());
     }
+
+    /**
+     * @param asReRoutedJonosta the asReRoutedJonosta to set
+     */
+    public void setAsReRoutedJonosta(int asReRoutedJonosta) {
+        this.asReRoutedJonosta = asReRoutedJonosta;
+    }
+
+    /**
+     * @return double return the reRouteAika
+     */
+    public double getReRouteAika() {
+        return reRouteAika;
+    }
+
+    /**
+     * @param reRouteAika the reRouteAika to set
+     */
+    public void setReRouteAika(double reRouteAika) {
+        this.reRouteAika = reRouteAika;
+    }
+
 }

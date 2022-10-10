@@ -2,18 +2,18 @@ package com.project.testi;
 
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaationSuureet;
-import com.project.simu.model.UserParametrit;
+import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.Parametrit;
 
 //Tämä muutetaan test filuks jossain vaiheessa 
 public class Simulaattori { // Tekstipohjainen
 
 	public static void main(String[] args) {
-		UserParametrit uP = UserParametrit.getInstance();
+		Parametrit uP = new Parametrit();
 		uP.setDbParameters("olso", "testi", "testi2", "root", "root");
 
 		ITuloksetDAO db = new TuloksetDAO();
-		SimulaationSuureet ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
+		SimulaatioData ss = new SimulaatioData(uP); // SimulaationSuureet.getInstance();
 		db.openConnection();
 		db.dropTable();
 		db.openConnection();

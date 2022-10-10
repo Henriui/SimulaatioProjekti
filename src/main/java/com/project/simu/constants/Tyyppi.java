@@ -56,8 +56,8 @@ public enum Tyyppi {
 	}
 
 	// Kokonais tyyppi koko - arrival
-	public static final int size;
+	public static final int maxSize;
 	static {
-		size = values().length - 1;
+		maxSize = values().length - 1;
 	}
 }
