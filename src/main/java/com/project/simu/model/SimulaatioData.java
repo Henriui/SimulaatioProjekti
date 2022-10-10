@@ -26,7 +26,8 @@ public class SimulaatioData {
     private Parametrit uP;
 
     // Hashmap for view
-    HashMap<String, int[]> suureStatusMap;
+    private HashMap<String, int[]> suureStatusMap;
+
     // Arrayt
     private int[] palveluMaaraArr;
     private int[] palveluJonoArr;
@@ -35,6 +36,7 @@ public class SimulaatioData {
     private int[] palveluVuoroArr;
     private int[] palveluVarattuArr;
     private int[] palveluTotalArr;
+    private int[] palveluProsenttiArr;
 
     private double[] palveluAikaArr;
     private double[] jonoAikaArr;
@@ -84,6 +86,7 @@ public class SimulaatioData {
         palveluReRoutedArr = new int[Tyyppi.maxSize];
         palveluVuoroArr = new int[Tyyppi.maxSize];
         palveluVarattuArr = new int[Tyyppi.maxSize];
+        palveluProsenttiArr = new int[Tyyppi.maxSize];
         palveluTotalArr = new int[] { (int) asTotalMaara, asPalveltu,
                 asPoistunut, asReRoutattu, (int) simulointiAika };
         suureStatusMap.put("Palveltu", palveluMaaraArr);
@@ -93,6 +96,7 @@ public class SimulaatioData {
         suureStatusMap.put("Tyovuorossa", palveluVuoroArr);
         suureStatusMap.put("Totalit", palveluTotalArr);
         suureStatusMap.put("Varattu", palveluVarattuArr);
+        suureStatusMap.put("Palveluprosentti", palveluProsenttiArr);
     }
 
     // Oleeliset
@@ -178,6 +182,10 @@ public class SimulaatioData {
         return palveluReRoutedArr[ppType - 1];
     }
 
+    public int getPalveluProsenttiArr(int ppType) {
+        return palveluProsenttiArr[ppType - 1];
+    }
+
     public void addVuoroMaara(int ppType, boolean tulos) {
         if (tulos) {
             palveluVuoroArr[ppType]++;
@@ -195,6 +203,21 @@ public class SimulaatioData {
         }
     }
 
+    // Suurestatusmap guide:
+    // [i] = 0-7 = aspa, 8-10 = puhelinvalikko
+    // suureStatusMap.get("Palveltu")[i]
+    // suureStatusMap.get("Jonossa")[i]
+    // suureStatusMap.get("Quitter")[i]
+    // suureStatusMap.get("ReRouted")[i]
+    // suureStatusMap.get("Tyovuorossa")[i]
+    // suureStatusMap.get("Varattu")[i] Palvelupisteistä kuinka monta on varattuna!
+    // suureStatusMap.get("Totalit")[i]
+    // suureStatusMap.get("Palveluprosentti")[i]
+
+    public HashMap<String, int[]> getSuureStatusMap() {
+        return this.suureStatusMap;
+    }
+
     public HashMap<String, int[]> getPPStatus(Palvelupiste[] palvelupisteet) {
         reloadHashMap();
         for (Palvelupiste pp : palvelupisteet) {
@@ -202,6 +225,7 @@ public class SimulaatioData {
             palveluMaaraArr[ppTyyppi] += pp.getAsPalveltuJonosta();
             palveluJonoArr[ppTyyppi] += pp.getJonoKoko();
             palveluQuitterArr[ppTyyppi] += pp.getAsPoistunutJonosta();
+            palveluProsenttiArr[ppTyyppi] += (int) pp.getPProsentti();
             if (ppTyyppi < 8) {
                 palveluReRoutedArr[ppTyyppi] += ((Asiakaspalvelija) pp).getAsReRoutedJonosta();
                 addVuoroMaara(ppTyyppi, pp.getOnPaikalla());
