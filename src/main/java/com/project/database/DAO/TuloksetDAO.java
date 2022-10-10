@@ -160,11 +160,12 @@ public class TuloksetDAO implements ITuloksetDAO {
     @Override
     public boolean addTulos(SimulaationSuureet suureet) {
 
+        boolean success = false;
         // Get values from SimulaationSuureet, create sql statement and execute.
 
         try {
             statement = connection.prepareStatement("INSERT INTO " + tableName1
-                    + "( kesto, palveluprosentti, as_maara, as_palveltu, as_routed, as_poistunut, as_keskijonoaika, as_keskilapimeno) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+                    + "( kesto, palveluprosentti, as_maara, as_palveltu, as_routed, as_poistunut, as_keskijonoaika, as_keskilapimeno) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )");
 
             statement.setDouble(1, suureet.getSimulointiAika());    // kesto
             statement.setDouble(2, suureet.getPalveluprosentti());  // palveluprosentti
@@ -175,21 +176,43 @@ public class TuloksetDAO implements ITuloksetDAO {
             statement.setDouble(7, suureet.getAvgAsAikaSim());      // as_keskijonoaika
             statement.setDouble(7, suureet.getAvgAsAikaSim());      // as_keskiläpimeno
 
+            // Get id of last created row of table 1.
+            
+            int table1Id;
+            statement = connection.prepareStatement("Select id from " + tableName1);
+            ResultSet rs = statement.executeQuery();
+            rs.last();
+            
+            table1Id = rs.getInt(1);
+
             // Return true if INSERT successful;
 
-            if (statement.executeUpdate() >= 1) {
-                return true;
-            }
+            if (statement.executeUpdate() >= 1)
+                success = true;
+
+                statement = connection.prepareStatement("INSERT INTO " + tableName1
+                + "simulaatiokerta, tyyppi, palvellutas, keskipalveluaika, keskijonotusaika VALUES ( ?, ?, ?, ?, ? )");
+                
+                statement.setInt(1,table1Id);
+                statement.setInt(2, );    // tyyppi
+                statement.setInt(3, );    // palvellutas
+                statement.setDouble(4, ); // keskipalveluaika
+                statement.setDouble(5, ); // keskijonotusaika
+
+                if (statement.executeUpdate() >= 1)
+                success = true;
+
+                if (success)
+                    return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    
         return false;
     }
 
     /**
-     * Returns true if row with given id is deleted successfully. Otherwise returns
-     * false.
+     * Returns true if row with given id is deleted successfully. Otherwise returns false.
      * 
      * @param id
      * @return boolean
@@ -200,10 +223,10 @@ public class TuloksetDAO implements ITuloksetDAO {
         // Delete given id.
 
         try {
-            statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE id = ( ? )");
-            statement = connection.prepareStatement("DELETE FROM " + tableName2 + " WHERE id = ( ? )");
+            statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE id = ( ? ); DELETE FROM " + tableName2 + " WHERE id = ( ? )");
             statement.setInt(1, id);
-
+            statement.setInt(2, id);
+            
             // Return true if DELETE successful;
 
             if (statement.executeUpdate() >= 1) {
@@ -272,9 +295,9 @@ public class TuloksetDAO implements ITuloksetDAO {
      */
     public boolean dropTable() {
         try {
-            statement = connection.prepareStatement("DROP TABLE " + tableName1);
+            statement = connection.prepareStatement("DROP TABLE " + tableName1 + "; DROP TABLE " + tableName2);
             statement.execute();
-            System.out.println("Table dropped.");
+            System.out.println("Table(s) dropped.");
             return true;
         } catch (SQLException e) {
             System.out.println("Something went wrong.");
@@ -291,14 +314,24 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @Author Henri
      */
     public int getRowCount(){
-        int result;
+        int result, result2;
         try{
             statement = connection.prepareStatement("Select id from " + tableName1);
             ResultSet rs = statement.executeQuery();
             rs.last();
             
             result = rs.getInt(1);
-            return result;
+
+            statement = connection.prepareStatement("Select id from " + tableName2);
+            rs = statement.executeQuery();
+            rs.last();
+            
+            result2 = rs.getInt(1);
+
+            if(result == result2)
+                return result;
+            else
+                System.out.println("Database tables out of sync. Suggestion: Drop tables.");
         } catch (SQLException e) {
             System.out.println("No rows or something went wrong.");
             e.printStackTrace();
