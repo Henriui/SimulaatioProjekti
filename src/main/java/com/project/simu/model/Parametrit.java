@@ -230,53 +230,6 @@ public class Parametrit {
         this.asTyyppiArr = asTyyppiArr;
     }
 
-    // dbName, tableName ,username, password get/set
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-
-    public String getTableName1() {
-        return tableName1;
-    }
-    public String getTableName2() {
-        return tableName2;
-    }
-
-    public void setTableName1(String tableName) {
-        this.tableName1 = tableName;
-    }
-    public void setTableName2(String tableName) {
-        this.tableName2 = tableName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setDbParameters(String dbName, String tableName1,String tableName2 , String username, String password) {
-        this.dbName = dbName;
-        this.tableName1 = tableName1;
-        this.tableName2 = tableName2;
-        this.username = username;
-        this.password = password;
-    }
 
     /**
      * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla

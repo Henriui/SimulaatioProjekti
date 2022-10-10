@@ -1,5 +1,7 @@
 package com.project.database.DAO;
 
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.Parametrit;
 
 public class TuloksetDAO implements ITuloksetDAO {
@@ -23,20 +26,21 @@ public class TuloksetDAO implements ITuloksetDAO {
     private String password;
     SimulaatioData ss;
 
-    public TuloksetDAO() {
-        openConnection();
-    }
-
-    private void getCredentials(){
-
-        // Hae käyttäjän määrittämä tietokanta, username ja password.
+    public TuloksetDAO(UserAsetukset asetukset, boolean simulaatio) {
         
-        up = new Parametrit();
-        tableName1 = up.getTableName1();
-        tableName2 = up.getTableName2();
-        dbName = up.getDbName();
-        user = up.getUsername();
-        password = up.getPassword();
+        dbName = asetukset.getDbName();
+        user = asetukset.getUsername();
+        password = asetukset.getPassword();
+        if (simulaatio){
+            tableName1 = "asiakkaat";
+            tableName2 = "palvelupisteet";
+        }
+        else{
+            tableName1 = "testiasiakkaat";
+            tableName2 = "testipalvelupisteet";
+        }
+
+        openConnection();
     }
 
     /**
@@ -56,7 +60,6 @@ public class TuloksetDAO implements ITuloksetDAO {
         }
 
         // Open connection
-        getCredentials();
 
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/" + dbName, user, password);
