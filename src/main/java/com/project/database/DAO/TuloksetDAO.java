@@ -250,63 +250,57 @@ public class TuloksetDAO implements ITuloksetDAO {
      * 
      * @param id
      * @return Tulokset
+     * @throws SQLException
      * @Author Henri
      */
-    public Tulokset queryTulos(int id) {
+    public Tulokset queryTulos(int id) throws SQLException {
 
         Tulokset tulos = null;
         ArrayList<PalvelupisteTulokset> pptulosList = new ArrayList<>();
-       
-        try {
-            // Prepare statement to select pptulokset.
 
-            statement = connection.prepareStatement("SELECT * FROM " + tableName2 + " WHERE simulaatiokerta = ( ? )");
-            statement.setInt(1, id);
-            ResultSet results = statement.executeQuery();
+        // Prepare statement to select pptulokset.
 
-            // Pack pptulokset into array from db.
+        statement = connection.prepareStatement("SELECT * FROM " + tableName2 + " WHERE simulaatiokerta = ( ? )");
+        statement.setInt(1, id);
+        ResultSet results = statement.executeQuery();
 
-            while( results.next() ){
-                PalvelupisteTulokset ppTulos = new PalvelupisteTulokset(
-                    results.getInt(1),
-                    results.getInt(2),
-                    results.getInt(3),
-                    results.getInt(4),
-                    results.getDouble(5),
-                    results.getDouble(6) );
-                    
-                    pptulosList.add(ppTulos);
-                }
+        // Pack pptulokset into array from db.
+
+        while( results.next() ){
+            PalvelupisteTulokset ppTulos = new PalvelupisteTulokset(
+                results.getInt(1),
+                results.getInt(2),
+                results.getInt(3),
+                results.getInt(4),
+                results.getDouble(5),
+                results.getDouble(6) );
                 
-            } catch (SQLException e) {
-                System.out.println("Something went wrong.");
-                e.printStackTrace();
-            // Prepare statement to get asiakastiedot from db.
-                
-            try {
-                statement = connection.prepareStatement("SELECT * FROM " + tableName1 + " WHERE simulaatiokerta = ( ? )");
-                statement.setInt(1, id);
-                ResultSet results = statement.executeQuery();
-
-            // Pack all together for return.
-
-            if (results.next()) {
-                tulos = new Tulokset(
-                    results.getDouble(1),
-                    results.getDouble(2),
-                    results.getInt(3),
-                    results.getInt(4),
-                    results.getInt(5),
-                    results.getInt(6),
-                    results.getDouble(7),
-                    results.getDouble(8), 
-                    pptulosList);
-                }
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                pptulosList.add(ppTulos);
             }
+            
+            // Prepare statement to get asiakastiedot from db.
+            
+            
+            statement = connection.prepareStatement("SELECT * FROM " + tableName1 + " WHERE simulaatiokerta = ( ? )");
+            statement.setInt(1, id);
+            results = statement.executeQuery();
+            
+            // Pack all together for return.
+            
+            if (results.next()) {
+            tulos = new Tulokset(
+                results.getInt(1),
+            results.getDouble(2),
+            results.getDouble(3),
+            results.getInt(4),
+            results.getInt(5),
+            results.getInt(6),
+            results.getInt(7),
+            results.getDouble(8),
+            results.getDouble(9), 
+            pptulosList);
         }
+        
         return tulos;
     }
 

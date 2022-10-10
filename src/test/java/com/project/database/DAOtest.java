@@ -3,6 +3,7 @@ package com.project.database;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.*;
@@ -48,12 +49,20 @@ public class DAOtest {
     @Test
     @DisplayName("addTulos testi")
     public void queryTulosTesti() {
+        Tulokset tulos1 = null;
         dao.dropTable();
         dao.openConnection();
+
         dao.addTulos(tulos);
-        tulos = dao.queryTulos(2);
-        assertEquals(1, tulos.getSimulaatiokerta(), "gay");
-        assertEquals(2, tulos.getPalvellutAsiakkaat());
+
+        try {
+            tulos1 = dao.queryTulos(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(tulos1.getSimulaatiokerta());
+        assertEquals(1, tulos1.getSimulaatiokerta(), "gay");
+        assertEquals(5, tulos1.getPalvellutAsiakkaat());
 
 
     }

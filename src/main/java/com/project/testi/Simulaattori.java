@@ -1,5 +1,6 @@
 package com.project.testi;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.project.database.DAO.TuloksetDAO;
@@ -18,8 +19,8 @@ public class Simulaattori { // Tekstipohjainen
 		UserAsetukset ua = new UserAsetukset("olso","root","root");
 		ITuloksetDAO db = new TuloksetDAO(ua, false);
 		
-		db.openConnection();
-		db.dropTable();
+		// db.openConnection();
+		// db.dropTable();
 		db.openConnection();
 
 		ppTulos = new PalvelupisteTulokset(1,1,7,8,9,10);
@@ -29,6 +30,16 @@ public class Simulaattori { // Tekstipohjainen
         tulos = new Tulokset(1, 2, 3, 4, 5, 6, 7, 8, 9, ppList);
 		
 		db.addTulos(tulos);
+
+		Tulokset tulos1 = null;
+		try {
+			tulos1 = db.queryTulos(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("aaaaaaa" + tulos1.getAsMaara() + "  " + tulos.getPalvellutAsiakkaatString());
 		
 		// System.out.println(db.getRowCount());
 		/*

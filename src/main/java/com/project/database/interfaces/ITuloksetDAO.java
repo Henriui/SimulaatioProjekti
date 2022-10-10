@@ -1,5 +1,7 @@
 package com.project.database.interfaces;
 
+import java.sql.SQLException;
+
 import com.project.simu.model.Tulokset;
 
 
@@ -11,7 +13,7 @@ public interface ITuloksetDAO {
     // Methods to use database.
     public abstract boolean addTulos(Tulokset data);
     public abstract boolean removeTulos(int id);
-    public abstract Tulokset queryTulos(int id);
+    public abstract Tulokset queryTulos(int id) throws SQLException;
     public abstract boolean dropTable();
     public abstract int     getRowCount();
 }
