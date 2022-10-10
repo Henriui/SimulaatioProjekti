@@ -12,7 +12,7 @@ public interface ITuloksetDAO {
     public abstract boolean addAsiakasTulos(Tulokset data);
     public abstract boolean addPalvelupisteTulos(PalvelupisteTulokset ppTulos);
     public abstract boolean removeTulos(int id);
-    public abstract boolean queryTulos(int id);
+    public abstract Tulokset queryTulos(int id);
     public abstract boolean dropTable();
     public abstract int     getRowCount();
 }
