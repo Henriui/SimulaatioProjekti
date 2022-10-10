@@ -16,6 +16,7 @@ import animatefx.animation.ZoomIn;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
@@ -24,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -72,6 +74,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     private double yOffset = 0;
     private static boolean open = false;
     private boolean simulationRunning = false;
+    private boolean pallotNäytöllä = false;
 
     @FXML
     private Canvas visu;
@@ -84,11 +87,22 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<Circle> nettiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> liittymäAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> laskutusAsiakkaat = new LinkedList<Circle>();
+
+    // Yksityisasiakkaat poistuminen lista.
+    LinkedList<Circle> PoistumyyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> PoistunettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> PoistuliittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> PoistulaskutusAsiakkaat = new LinkedList<Circle>();
     // Yritysasiakkaat lista.
     LinkedList<Circle> CmyyntiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> CnettiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> CliittymäAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> ClaskutusAsiakkaat = new LinkedList<Circle>();
+    // Yritysasiakkaat poistuminen lista.
+    LinkedList<Circle> PoistuCmyyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> PoistuCnettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> PoistuCliittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> PoistuClaskutusAsiakkaat = new LinkedList<Circle>();
 
     @FXML
     public void initialize() {
@@ -107,7 +121,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     @FXML
     public void aloitaSimulaatio() throws InterruptedException {
-        if (!simulationRunning) {
+        alustaPallot();
+        if (!simulationRunning && !pallotNäytöllä ) {
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this, uP);
             m.setViive(0);
@@ -347,13 +362,240 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         visualisointi.visuaalinenNopeus(m.getViive());
     }
 
-    // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
+     // Poistaa kaikki pallot näytöltä
+     public void alustaPallot(){
+        visualisointi.alustaJonot();
+        while(!myyntiAsiakkaat.isEmpty() || !nettiAsiakkaat.isEmpty() || !liittymäAsiakkaat.isEmpty() || !laskutusAsiakkaat.isEmpty()
+            || !CmyyntiAsiakkaat.isEmpty() || !CnettiAsiakkaat.isEmpty() || !CliittymäAsiakkaat.isEmpty() || !ClaskutusAsiakkaat.isEmpty()
+            || !PoistunettiAsiakkaat.isEmpty() || !PoistumyyntiAsiakkaat.isEmpty() || !PoistuliittymäAsiakkaat.isEmpty() || !PoistulaskutusAsiakkaat.isEmpty()
+            || !PoistuCnettiAsiakkaat.isEmpty() || !PoistuCmyyntiAsiakkaat.isEmpty() || !PoistuCliittymäAsiakkaat.isEmpty() || !PoistuClaskutusAsiakkaat.isEmpty()){
+            
+            // Tulevat pallot.
+            while (myyntiAsiakkaat.iterator().hasNext()) { 
+                Circle m = myyntiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(m);
+                myyntiAsiakkaat.removeFirst();
+            } 
+            while (nettiAsiakkaat.iterator().hasNext()) { 
+                Circle mn = nettiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mn);
+                nettiAsiakkaat.removeFirst();
+            } 
+            while (liittymäAsiakkaat.iterator().hasNext()) { 
+                Circle mli = liittymäAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mli);
+                liittymäAsiakkaat.removeFirst();
+            } 
+            while (laskutusAsiakkaat.iterator().hasNext()) { 
+                Circle mla = laskutusAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mla);
+                laskutusAsiakkaat.removeFirst();
+            } 
+            while (CmyyntiAsiakkaat.iterator().hasNext()) { 
+                Circle mcm = CmyyntiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mcm);
+                CmyyntiAsiakkaat.removeFirst();
+            } 
+            while (CnettiAsiakkaat.iterator().hasNext()) { 
+                Circle mcn = CnettiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mcn);
+                CnettiAsiakkaat.removeFirst();
+            } 
+            while (CliittymäAsiakkaat.iterator().hasNext()) { 
+                Circle mcli = CliittymäAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mcli);
+                CliittymäAsiakkaat.removeFirst();
+            } 
+            while (ClaskutusAsiakkaat.iterator().hasNext()) { 
+                Circle mcla = ClaskutusAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(mcla);
+                ClaskutusAsiakkaat.removeFirst();
+            }
+
+            // Poistuneet pallot
+            while (PoistumyyntiAsiakkaat.iterator().hasNext()) { 
+                Circle Pm = PoistumyyntiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pm);
+                PoistumyyntiAsiakkaat.removeFirst();
+            } 
+            while (PoistunettiAsiakkaat.iterator().hasNext()) { 
+                Circle Pmn = PoistunettiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmn);
+                PoistunettiAsiakkaat.removeFirst();
+            } 
+            while (PoistuliittymäAsiakkaat.iterator().hasNext()) { 
+                Circle Pmli = PoistuliittymäAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmli);
+                PoistuliittymäAsiakkaat.removeFirst();
+            } 
+            while (PoistulaskutusAsiakkaat.iterator().hasNext()) { 
+                Circle Pmla = PoistulaskutusAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmla);
+                PoistulaskutusAsiakkaat.removeFirst();
+            } 
+            while (PoistuCmyyntiAsiakkaat.iterator().hasNext()) { 
+                Circle Pmcm = PoistuCmyyntiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmcm);
+                PoistuCmyyntiAsiakkaat.removeFirst();
+            } 
+            while (PoistuCnettiAsiakkaat.iterator().hasNext()) { 
+                Circle Pmcn = PoistuCnettiAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmcn);
+                PoistuCnettiAsiakkaat.removeFirst();
+            } 
+            while (PoistuCliittymäAsiakkaat.iterator().hasNext()) { 
+                Circle Pmcli = PoistuCliittymäAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmcli);
+                PoistuCliittymäAsiakkaat.removeFirst();
+            } 
+            while (PoistuClaskutusAsiakkaat.iterator().hasNext()) { 
+                Circle Pmcla = PoistuClaskutusAsiakkaat.getFirst();
+                visuaalinenTausta.getChildren().remove(Pmcla);
+                PoistuClaskutusAsiakkaat.removeFirst();
+            }
+        }
+    pallotNäytöllä = false;
+    }
+   
+    // Poista yksityisasiakkaan pallo jonosta.
+    public void poistaMyyntiJono() {
+        Circle m = myyntiAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(m);
+        myyntiAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < myyntiAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cm = myyntiAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cm.getTransforms().add(translate);
+        } 
+    }
+
+    public void poistaNettiJono() {
+        Circle n = nettiAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(n);
+        nettiAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < nettiAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cn = nettiAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cn.getTransforms().add(translate);
+        } 
+
+    }
+
+    public void poistaLiittymäJono() {
+        Circle li = liittymäAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(li);
+        liittymäAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < liittymäAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cli = liittymäAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cli.getTransforms().add(translate);
+        } 
+    }
+
+    public void poistaLaskutusJono() {
+        Circle la = laskutusAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(la);
+        laskutusAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < laskutusAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cla = laskutusAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cla.getTransforms().add(translate);
+        } 
+
+    }
+
+    // Poista yritysasiakkaan pallo jonosta.
+    public void CpoistaMyyntiJono() {
+        Circle m = CmyyntiAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(m);
+        CmyyntiAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < CmyyntiAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cm = CmyyntiAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cm.getTransforms().add(translate);
+        } 
+    }
+
+    public void CpoistaNettiJono() {
+        Circle n = CnettiAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(n);
+        CnettiAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < CnettiAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cn = CnettiAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cn.getTransforms().add(translate);
+        } 
+    }
+
+    public void CpoistaLiittymäJono() {
+        Circle li = CliittymäAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(li);
+        CliittymäAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < CliittymäAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cli = CliittymäAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cli.getTransforms().add(translate);
+        } 
+    }
+
+    public void CpoistaLaskutusJono() {
+        Circle la = ClaskutusAsiakkaat.getFirst();
+        visuaalinenTausta.getChildren().remove(la);
+        ClaskutusAsiakkaat.removeFirst();
+
+        // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
+        for (int i = 0; i < ClaskutusAsiakkaat.size(); i++) { 
+            int y = 20;
+            Circle cla = ClaskutusAsiakkaat.get(i);
+    
+            Translate translate = new Translate();
+            translate.setY(y);
+            cla.getTransforms().add(translate);
+        } 
+    }
+
+     // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
     @Override
     public void visualisoiAsiakas(int asType) {
+        pallotNäytöllä = true;
         Platform.runLater(new Runnable() {
             public void run() {
-
                 switch (asType) {
                     case 1:
                         Circle circle1 = new Circle(10); // initialize circles with radius of 10
@@ -416,56 +658,6 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         });
     }
 
-    // Poista yksityisasiakkaan pallo jonosta.
-    public void poistaMyyntiJono() {
-        Circle m = myyntiAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(m);
-        myyntiAsiakkaat.removeLast();
-    }
-
-    public void poistaNettiJono() {
-        Circle n = nettiAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(n);
-        nettiAsiakkaat.removeLast();
-    }
-
-    public void poistaLiittymäJono() {
-        Circle li = liittymäAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(li);
-        liittymäAsiakkaat.removeLast();
-    }
-
-    public void poistaLaskutusJono() {
-        Circle la = laskutusAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(la);
-        laskutusAsiakkaat.removeLast();
-    }
-
-    // Poista yritysasiakkaan pallo jonosta.
-    public void CpoistaMyyntiJono() {
-        Circle m = CmyyntiAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(m);
-        CmyyntiAsiakkaat.removeLast();
-    }
-
-    public void CpoistaNettiJono() {
-        Circle n = CnettiAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(n);
-        CnettiAsiakkaat.removeLast();
-    }
-
-    public void CpoistaLiittymäJono() {
-        Circle li = CliittymäAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(li);
-        CliittymäAsiakkaat.removeLast();
-    }
-
-    public void CpoistaLaskutusJono() {
-        Circle la = ClaskutusAsiakkaat.getLast();
-        visuaalinenTausta.getChildren().remove(la);
-        ClaskutusAsiakkaat.removeLast();
-    }
-
     // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
     // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
     // Poistumistype: "Quitter" / "Palveltu"
@@ -478,6 +670,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 1:
                         Circle circle1 = new Circle(10); // initialize circles with radius of 10
                         circle1.setFill(Color.RED);
+                        PoistumyyntiAsiakkaat.addLast(circle1);
 
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
@@ -498,6 +691,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 2:
                         Circle circle2 = new Circle(10); // initialize circles with radius of 10
                         circle2.setFill(Color.BLUE);
+                        PoistunettiAsiakkaat.addLast(circle2);
 
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
@@ -513,12 +707,13 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             visuaalinenTausta.getChildren().addAll(circle2);
                             poistaNettiJono();
                         }
-
                         visualisointi.asiakasPoistuu(circle2, "Pnetti", poistumisType);
                         break;
                     case 3:
                         Circle circle3 = new Circle(10); // initialize circles with radius of 10
                         circle3.setFill(Color.GREEN);
+                        PoistuliittymäAsiakkaat.addLast(circle3);
+
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
                             ImageView ivDiver = new ImageView();
@@ -538,6 +733,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 4:
                         Circle circle4 = new Circle(10); // initialize circles with radius of 10
                         circle4.setFill(Color.PINK);
+                        PoistulaskutusAsiakkaat.addLast(circle4);
+
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
                             ImageView ivDiver = new ImageView();
@@ -557,6 +754,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 5:
                         Circle circle5 = new Circle(10); // initialize circles with radius of 10
                         circle5.setFill(Color.RED);
+                        PoistuCmyyntiAsiakkaat.addLast(circle5);
+
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
                             ImageView ivDiver = new ImageView();
@@ -576,6 +775,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 6:
                         Circle circle6 = new Circle(10); // initialize circles with radius of 10
                         circle6.setFill(Color.BLUE);
+                        PoistuCnettiAsiakkaat.addLast(circle6);
+
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
                             ImageView ivDiver = new ImageView();
@@ -595,6 +796,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 7:
                         Circle circle7 = new Circle(10); // initialize circles with radius of 10
                         circle7.setFill(Color.GREEN);
+                        PoistuCliittymäAsiakkaat.addLast(circle7);
+
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
                             ImageView ivDiver = new ImageView();
@@ -614,6 +817,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     case 8:
                         Circle circle8 = new Circle(10); // initialize circles with radius of 10
                         circle8.setFill(Color.PINK);
+                        PoistuClaskutusAsiakkaat.addLast(circle8);
+
                         if (poistumisType.equals("Quitter")) {
                             File diverFile;
                             ImageView ivDiver = new ImageView();

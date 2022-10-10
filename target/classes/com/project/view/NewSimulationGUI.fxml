@@ -91,7 +91,8 @@
          <center>
             <AnchorPane prefHeight="700.0" prefWidth="1300.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane fx:id="visuaalinenTausta" layoutX="374.0" layoutY="154.0" prefHeight="200.0" prefWidth="1058.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="visuaalinenTausta" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane layoutX="374.0" layoutY="154.0" prefHeight="200.0" prefWidth="1058.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Pane layoutX="65.0" layoutY="-83.0" prefHeight="142.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to top left,  #302b63, #24243e); -fx-background-radius: 20;">
                            <children>
