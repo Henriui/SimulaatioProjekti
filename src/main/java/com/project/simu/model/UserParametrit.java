@@ -251,12 +251,6 @@ public class UserParametrit {
         this.password = password;
     }
 
-    public void setDbParameters(String dbName, String username, String password) {
-        this.dbName = dbName;
-        this.username = username;
-        this.password = password;
-    }
-
     /**
      * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla
      * tiedostoon

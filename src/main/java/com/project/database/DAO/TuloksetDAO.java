@@ -24,14 +24,16 @@ public class TuloksetDAO implements ITuloksetDAO {
     SimulaationSuureet ss;
 
     public TuloksetDAO() {
-        // Hae käyttäjän määrittämä tietokanta, username ja password.
+        openConnection();
+    }
+
+    private void getCredentials(){
         up = UserParametrit.getInstance();
         tableName1 = up.getTableName1();
-        tableName1 = up.getTableName2();
+        tableName2 = up.getTableName2();
         dbName = up.getDbName();
         user = up.getUsername();
         password = up.getPassword();
-        openConnection();
     }
 
     /**
@@ -51,10 +53,10 @@ public class TuloksetDAO implements ITuloksetDAO {
         }
 
         // Open connection
+        getCredentials();
 
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/" + dbName, user, password);
-
             // See if we have a table 1 in the given database.
 
             DatabaseMetaData dbm = connection.getMetaData();
@@ -63,7 +65,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             // Create table 1 if not found.
 
             if (!result.next()) {
-                System.out.println("Table " + tableName1 + " not found. Creating table...");
+                System.out.println("Table one" + tableName1 + " not found. Creating table...");
                 createTables(1);
                 System.out.println("Table created.");
             }
@@ -73,7 +75,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             // Create table 1 if not found.
 
             if (!result.next()) {
-                System.out.println("Table " + tableName2 + " not found. Creating table...");
+                System.out.println("Table two " + tableName2 + " not found. Creating table...");
                 createTables(2);
                 System.out.println("Table created.");
             }
@@ -103,20 +105,21 @@ public class TuloksetDAO implements ITuloksetDAO {
                     + " as_routed            INT    UNSIGNED NOT NULL                     COMMENT 'Asiakkaat jotka valitsi väärän linjan ja ohjattiin uudelleen.',"
                     + " as_poistunut         INT    UNSIGNED NOT NULL                     COMMENT 'Simulaatiosta poistuneet asiakkaat.',"
                     + " as_keskijonoaika     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen jonotusaika.' ,"
-                    + " as_keskilapimeno     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen läpimenoaika.' ,"
+                    + " as_keskilapimeno     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen läpimenoaika.' "
                     + " ) engine=InnoDB; ");
             if (statement.execute() != true) {
                 return false;
             }
         }
         else if (table == 2){
-            statement = connection.prepareStatement("CREATE  "+ tableName2 +" ( "
-                    + "id                   INT             NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Id, primary key.',"
-                    + "simulaatiokerta      INT    UNSIGNED NOT NULL                            COMMENT 'Linkitys asiakkaiden pöytään.',"
+            statement = connection.prepareStatement("CREATE TABLE "+ tableName2 +" ( "
+                    + "id                   INT    NOT NULL AUTO_INCREMENT PRIMARY KEY          COMMENT 'Id, primary key.',"
+                    + "simulaatiokerta      INT    NOT NULL                            COMMENT 'Linkitys asiakkaiden pöytään.',"
                     + "tyyppi               INT    UNSIGNED NOT NULL                            COMMENT 'Palvelupistetyyppi.',"
                     + "palvellut_as         INT    UNSIGNED NOT NULL                            COMMENT 'Kuinka monta asiakasta palveltu.',"
                     + "keskipalveluaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskipalveluaika palvelupisteelle.',"
-                    + "keskijonotusaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskijonotusaika palvelupisteelle.' "
+                    + "keskijonotusaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskijonotusaika palvelupisteelle.' ,"
+                    + "FOREIGN KEY (simulaatiokerta) REFERENCES "+ tableName1 +" (simulaatiokerta) ON DELETE CASCADE ON UPDATE RESTRICT"
                     + " ) engine=InnoDB;");
             if (statement.execute() != true) {
                 return false;
@@ -193,11 +196,11 @@ public class TuloksetDAO implements ITuloksetDAO {
                 statement = connection.prepareStatement("INSERT INTO " + tableName1
                 + "simulaatiokerta, tyyppi, palvellutas, keskipalveluaika, keskijonotusaika VALUES ( ?, ?, ?, ?, ? )");
                 
-                statement.setInt(1,table1Id);
-                statement.setInt(2, );    // tyyppi
-                statement.setInt(3, );    // palvellutas
-                statement.setDouble(4, ); // keskipalveluaika
-                statement.setDouble(5, ); // keskijonotusaika
+                // statement.setInt(1,table1Id);
+                // statement.setInt(2, );    // tyyppi
+                // statement.setInt(3, );    // palvellutas
+                // statement.setDouble(4, ); // keskipalveluaika
+                // statement.setDouble(5, ); // keskijonotusaika
 
                 if (statement.executeUpdate() >= 1)
                 success = true;
@@ -223,9 +226,8 @@ public class TuloksetDAO implements ITuloksetDAO {
         // Delete given id.
 
         try {
-            statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE id = ( ? ); DELETE FROM " + tableName2 + " WHERE id = ( ? )");
+            statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE id = ( ? )");
             statement.setInt(1, id);
-            statement.setInt(2, id);
             
             // Return true if DELETE successful;
 
@@ -295,7 +297,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      */
     public boolean dropTable() {
         try {
-            statement = connection.prepareStatement("DROP TABLE " + tableName1 + "; DROP TABLE " + tableName2);
+            statement = connection.prepareStatement("DROP TABLE IF EXISTS " + tableName2 +", " + tableName1 );
             statement.execute();
             System.out.println("Table(s) dropped.");
             return true;

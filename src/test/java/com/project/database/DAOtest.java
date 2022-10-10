@@ -12,9 +12,11 @@ import com.project.simu.model.UserParametrit;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
-
+    
+    
     @BeforeEach
     public void avaaYhteys() {
+        UserParametrit.getInstance().setDbParameters("olso", "testitable", "testi2", "root", "root");
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
     }
 
@@ -37,17 +39,19 @@ public class DAOtest {
         SimulaationSuureet ss = new SimulaationSuureet();// SimulaationSuureet.getInstance();
         assertTrue(dao.queryTulos(1), "Tuloksen lisäys ei onnistu.");
     }
-
-    @Test
-    @DisplayName("removeTulos testi")
-    public void removeTulosTesti() {
+/*
+ * 
+ @Test
+ @DisplayName("removeTulos testi")
+ public void removeTulosTesti() {
         SimulaationSuureet ss = new SimulaationSuureet();// SimulaationSuureet.getInstance();
         dao.dropTable();
         dao.openConnection();
         dao.addTulos(ss);
         assertTrue(dao.removeTulos(1), "Tuloksen lisäys ei onnistu.");
     }
-
+    */
+    
     @Test
     @DisplayName("dropTable testi")
     public void dropTableTesti() {

@@ -9,19 +9,18 @@ import com.project.simu.model.UserParametrit;
 public class Simulaattori { // Tekstipohjainen
 
 	public static void main(String[] args) {
-
 		UserParametrit uP = UserParametrit.getInstance();
-		uP.setDbParameters("olso", "simulaatio", "root", "root");
+		uP.setDbParameters("olso", "testi", "testi2", "root", "root");
+
 		ITuloksetDAO db = new TuloksetDAO();
 		SimulaationSuureet ss = new SimulaationSuureet(); // SimulaationSuureet.getInstance();
-		uP.setDbParameters("olso", "testi", "root", "root");
 		db.openConnection();
 		db.dropTable();
 		db.openConnection();
 		db.addTulos(ss);
 		db.addTulos(ss);
 		db.addTulos(ss);
-		System.out.println(db.getRowCount());
+		// System.out.println(db.getRowCount());
 		/*
 		 * Trace.setTraceLevel(Level.INFO);
 		 * Moottori m = new OmaMoottori();
