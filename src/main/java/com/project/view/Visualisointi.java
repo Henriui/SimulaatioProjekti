@@ -23,6 +23,17 @@ public class Visualisointi {
     private static int Cliittymäjono = 260;
     private static int Claskutusjono = 260;
 
+    public void alustaJonot(){
+        myyntijono = 260;
+        nettijono = 260;
+        liittymäjono = 260;
+        laskutusjono = 260;
+        
+        Cmyyntijono = 260;
+        Cnettijono = 260;
+        Cliittymäjono = 260;
+        Claskutusjono = 260;
+    }
     public void visuaalinenNopeus(long viive){
         nopeus = viive;
     }
