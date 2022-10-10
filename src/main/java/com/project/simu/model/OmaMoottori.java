@@ -193,6 +193,7 @@ public class OmaMoottori extends Moottori {
 	// tulokset
 	@Override
 	protected void tulokset() {
+		sS.getPPStatus(palvelupisteet);
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 			sS.getSuureetPP(p);

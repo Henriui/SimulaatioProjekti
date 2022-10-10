@@ -7,7 +7,6 @@ import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,7 +30,7 @@ public class TuloksetController {
         tulokset.openConnection();
         int r = tulokset.getRowCount();
         for (int i = 0; i < r; i++) {
-            //tol.add(new Tulokset(tulokset.queryTulos(i)));
+            // tol.add(new Tulokset(tulokset.queryTulos(i)));
         }
     }
 

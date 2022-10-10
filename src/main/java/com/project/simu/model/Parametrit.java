@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-
-import org.mariadb.jdbc.plugin.codec.IntCodec;
-
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
