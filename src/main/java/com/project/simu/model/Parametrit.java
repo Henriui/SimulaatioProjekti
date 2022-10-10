@@ -110,9 +110,10 @@ public class Parametrit {
      * @param ppType palvelupisteen tyyppi
      * @author Rasmus Hyyppä
      */
-    // public void setPPAvgAika(double aika, int ppType) {
-    // ppAikaArray[ppType - 1] = aika * 60;
-    // }
+
+    public void setPPAvgAika(double aika, int ppType) {
+        ppAikaArray[ppType - 1] = aika * 60;
+    }
 
     public void setPPAvgAika(double[] ppAikaArray) {
         this.ppAikaArray = ppAikaArray;
@@ -134,10 +135,10 @@ public class Parametrit {
     public Normal getPAJakauma(int ppType) {
         double aika = getPPAvgAika(ppType);
         if (aika > 0) {
-            return new Normal(aika - (aika / 2), aika + (aika / 2));
+            return new Normal(aika, aika);
         } else {
             aika = 10 * 60;
-            return new Normal(aika - (aika / 2), aika + (aika / 2));
+            return new Normal(aika, aika);
         }
 
     }

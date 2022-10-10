@@ -179,8 +179,7 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		if (this.asLisattyJonoon == 0) {
 			return 100;
 		}
-		return (1 / ((double) (this.asLisattyJonoon)
-				/ (double) (this.asPalveltuJonosta))) * 100;
+		return (this.asPalveltuJonosta / this.asLisattyJonoon) * 100;
 	}
 
 	public double getAvgViipyminenPP() {
