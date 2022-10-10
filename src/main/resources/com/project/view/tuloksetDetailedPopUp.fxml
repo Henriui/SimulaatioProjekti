@@ -37,7 +37,7 @@
          <content>
             <AnchorPane prefHeight="532.0" prefWidth="890.0" style="-fx-background-color: #5F008F;">
                <children>
-                  <Pane layoutX="572.0" layoutY="199.0" prefHeight="309.0" prefWidth="862.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="14.0">
+                  <Pane layoutX="572.0" layoutY="199.0" prefHeight="300.0" prefWidth="862.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="14.0">
                      <children>
                         <Label layoutX="355.0" layoutY="14.0" text="Palvelupisteet:">
                            <font>
@@ -74,7 +74,7 @@
                         </TableView>
                      </children>
                   </Pane>
-                  <Pane layoutX="14.0" layoutY="14.0" prefHeight="150.0" prefWidth="862.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="371.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                  <Pane layoutX="14.0" layoutY="14.0" prefHeight="150.0" prefWidth="862.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.bottomAnchor="368.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                      <children>
                         <Label layoutX="22.0" layoutY="25.0" text="Kokonaiskesto: ">
                            <font>
