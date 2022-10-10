@@ -35,7 +35,6 @@ public class Simulaattori { // Tekstipohjainen
 		try {
 			tulos1 = db.queryTulos(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
