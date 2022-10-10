@@ -85,11 +85,11 @@ public class PalvelupisteTulokset {
     }
 
     public String getKeskiPalveluAikaString() {
-        return String.format("%.0f", keskiPalveluAika);
+        return String.format("%.1f", (keskiPalveluAika / 60));
     }
 
     public String getKeskiJonotusAikaString() {
-        return String.format("%.0f", keskiJonotusAika);
+        return String.format("%.1f", (keskiJonotusAika / 60));
     }
 
 }

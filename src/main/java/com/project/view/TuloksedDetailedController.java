@@ -90,9 +90,8 @@ public class TuloksedDetailedController {
 
                 yriPisteColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getTyyppiString()));
-                yriKplColumn.setCellValueFactory(
-                                cellData -> new SimpleStringProperty(
-                                                cellData.getValue().getPalvellutAsiakkaatString()));
+                yriKplColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                                cellData.getValue().getPalvellutAsiakkaatString()));
                 yriKeskiJonoAikaColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
                 yriKeskiPalveluAikaColumn.setCellValueFactory(
@@ -100,9 +99,8 @@ public class TuloksedDetailedController {
 
                 yksPisteColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getTyyppiString()));
-                yksKplColumn.setCellValueFactory(
-                                cellData -> new SimpleStringProperty(
-                                                cellData.getValue().getPalvellutAsiakkaatString()));
+                yksKplColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                                cellData.getValue().getPalvellutAsiakkaatString()));
                 yksKeskiJonoAikaColumn.setCellValueFactory(
                                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
                 yksKeskiPalveluAikaColumn.setCellValueFactory(

@@ -91,7 +91,7 @@ public class Tulokset {
     }
 
     public String getKestoString() {
-        return String.format("%.0f", kesto);
+        return String.format("%.0f", (kesto / 60));
     }
 
     public String getPalveluProsenttiString() {
@@ -115,11 +115,11 @@ public class Tulokset {
     }
 
     public String getKeskiLapiMenoAikaString() {
-        return String.format("%.0f", keskiLapiMenoAika);
+        return String.format("%.1f", (keskiLapiMenoAika / 60));
     }
 
     public String getKeskiJonotusAikaString() {
-        return String.format("%.0f", keskiJonotusAika);
+        return String.format("%.1f", (keskiJonotusAika / 60));
     }
 
 }
