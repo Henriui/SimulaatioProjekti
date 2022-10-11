@@ -308,6 +308,30 @@ public class TuloksetDAO implements ITuloksetDAO {
         return tulos;
     }
 
+    public ArrayList<Tulokset> queryTulokset() throws SQLException{
+
+        ArrayList<Tulokset> tulosList = new ArrayList<>();
+        statement = connection.prepareStatement("SELECT * FROM " + tableName1);
+        ResultSet results = statement.executeQuery();
+
+        while (results.next()) {
+            Tulokset tulos = new Tulokset(
+            results.getInt(1),
+            results.getDouble(2),
+            results.getDouble(3),
+            results.getInt(4),
+            results.getInt(5),
+            results.getInt(6),
+            results.getInt(7),
+            results.getDouble(8),
+            results.getDouble(9)
+            );
+            tulosList.add(tulos);
+        }
+        return tulosList;
+    }
+
+
     /**
      * Drops table from the database.
      * Returns true if successful. Otherwise returns false.

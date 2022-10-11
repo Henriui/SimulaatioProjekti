@@ -11,10 +11,8 @@ import com.project.simu.model.PalvelupisteTulos;
 
 //Tämä muutetaan test filuks jossain vaiheessa 
 public class Simulaattori { // Tekstipohjainen
-    private static ArrayList<PalvelupisteTulos> ppList = new ArrayList<PalvelupisteTulos>();
-    private static PalvelupisteTulos ppTulos;
-    private static Tulokset tulos;
-
+	
+	
 	public static void main(String[] args) {
 		UserAsetukset ua = new UserAsetukset("simulaattori","jonne","jonnensalasana");
 		ITuloksetDAO db = new TuloksetDAO(ua, false);
@@ -22,23 +20,26 @@ public class Simulaattori { // Tekstipohjainen
 		db.openConnection();
 		db.dropTable();
 		db.openConnection();
-
-		ppTulos = new PalvelupisteTulos(1,1,7,8,9,10,99);
-
-        ppList.add(ppTulos);
-
-        tulos = new Tulokset(1, 2, 3, 4, 5, 6, 7, 8, 9, ppList);
 		
-		db.addTulos(tulos);
+		for(int i=1; i< 5; i++){
 
-		Tulokset tulos1 = null;
+			ArrayList<PalvelupisteTulos> ppList = new ArrayList<>();
+
+			Tulokset tulos = new Tulokset( 2, 3, 4, 5, 6, 7, 8, 9, ppList);
+			db.addTulos(tulos);
+		}
+		ArrayList<Tulokset> tulosList = null;
+
 		try {
-			tulos1 = db.queryTulos(1);
+			 tulosList = db.queryTulokset();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("aaaaaaa" + tulos1.getAsMaara() + "  " + tulos.getPalvellutAsiakkaatString());
+		System.out.println(tulosList.size());
+		for (Tulokset tulokset : tulosList) {
+			System.out.println("aaaaaaa .... " + tulokset.getSimulaatiokerta());
+			
+		}
 		
 		// System.out.println(db.getRowCount());
 		/*
