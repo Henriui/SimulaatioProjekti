@@ -224,11 +224,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // suureStatusMap.get("Palveluprosentti")[i]
 
                 // Esim.
-                int yksityisTv = 0;
-                int yritysTv = 0;
+                // int yksityisTv = 0;
+                // int yritysTv = 0;
                 for (int i = 0; i < suureStatusMap.get("Varattu").length; i++) {
                     if (i < 4) {
-                        yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
+                        // yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
                         int myynti = suureStatusMap.get("Tyovuorossa")[0];
                         int netti = suureStatusMap.get("Tyovuorossa")[1];
                         int liittymä = suureStatusMap.get("Tyovuorossa")[2];
@@ -252,7 +252,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                                 break;
                         }
                     } else if (i > 3 && i < 8) {
-                        yritysTv += suureStatusMap.get("Tyovuorossa")[i];
+                        // yritysTv += suureStatusMap.get("Tyovuorossa")[i];
                         int Ymyynti = suureStatusMap.get("Tyovuorossa")[0];
                         int Ynetti = suureStatusMap.get("Tyovuorossa")[1];
                         int Yliittymä = suureStatusMap.get("Tyovuorossa")[2];
@@ -282,13 +282,13 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // String.valueOf(yksityisTv));
                 // yritysPalvelupisteita.setText("Palvelupisteitä: " +
                 // String.valueOf(yritysTv));
-                int yksityisPalvelu = 0;
-                int yritysPalvelu = 0;
+                // int yksityisPalvelu = 0;
+                // int yritysPalvelu = 0;
                 for (int i = 0; i < suureStatusMap.get("Palveltu").length; i++) {
                     if (i < 4) {
-                        yksityisPalvelu += suureStatusMap.get("Palveltu")[i];
+                        // yksityisPalvelu += suureStatusMap.get("Palveltu")[i];
                     } else if (i > 3 && i < 8) {
-                        yritysPalvelu += suureStatusMap.get("Palveltu")[i];
+                        // yritysPalvelu += suureStatusMap.get("Palveltu")[i];
                     }
                 }
                 // palvelupisteellaYksityis.setText("Palveltuja as " +
@@ -296,13 +296,13 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // palvelupisteellaYritys.setText("Palveltuja as " +
                 // String.valueOf(yritysPalvelu));
 
-                int jonoYksityis = 0;
-                int jonoYritys = 0;
+                // int jonoYksityis = 0;
+                // int jonoYritys = 0;
                 for (int i = 0; i < suureStatusMap.get("Jonossa").length; i++) {
                     if (i < 4) {
-                        jonoYksityis += suureStatusMap.get("Jonossa")[i];
+                        // jonoYksityis += suureStatusMap.get("Jonossa")[i];
                     } else if (i > 3 && i < 8) {
-                        jonoYritys += suureStatusMap.get("Jonossa")[i];
+                        // jonoYritys += suureStatusMap.get("Jonossa")[i];
                     }
                 }
                 // yksityisJonossa.setText(String.valueOf(jonoYksityis));
@@ -316,12 +316,12 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 // "Totalit" [5] = palveluprosentti
 
                 // Esim.
-                int kokonaisMaara = 0;
+                // int kokonaisMaara = 0;
                 int ulkona = 0;
                 for (int i = 0; i < suureStatusMap.get("Totalit").length; i++) {
                     if (i == 0) {
                         // asiakkaitten kokonaismäärä simulaatiossa
-                        kokonaisMaara = suureStatusMap.get("Totalit")[i];
+                        // kokonaisMaara = suureStatusMap.get("Totalit")[i];
                     } else if (i > 0 && i < 3) {
                         // ulkona asiakkaita simulaatiosta (palveltu[1]+quitterit[2])
                         ulkona += suureStatusMap.get("Totalit")[i];
