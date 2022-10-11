@@ -22,7 +22,7 @@ public class DAOtest {
     
     @BeforeEach
     public void avaaYhteys() {
-        UserAsetukset up = new UserAsetukset("olso", "root", "root");
+        UserAsetukset up = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
 
