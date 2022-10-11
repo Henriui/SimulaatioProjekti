@@ -46,6 +46,19 @@ public class Tulokset {
         this.palveluPisteTuloksets = palveluPisteTuloksets;
     }
 
+    public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int uudelleenOhjatutAsiakkaat,
+                    int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika) {
+        this.simulaatiokerta = simulaatiokerta;
+        this.kesto = kesto;
+        this.palveluProsentti = palveluProsentti;
+        this.asMaara = asMaara;
+        this.palvellutAsiakkaat = palvellutAsiakkaat;
+        this.poistuneetAsiakkaat = poistuneetAsiakkaat;
+        this.uudelleenOhjatutAsiakkaat = uudelleenOhjatutAsiakkaat;
+        this.keskiJonotusAika = keskiJonotusAika;
+        this.keskiLapiMenoAika = keskiLapiMenoAika;
+    }
+
     public int getSimulaatiokerta() {
         return simulaatiokerta;
     }
