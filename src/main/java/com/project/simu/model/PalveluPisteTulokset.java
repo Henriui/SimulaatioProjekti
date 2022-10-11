@@ -19,7 +19,6 @@ public class PalvelupisteTulokset {
         this.keskiJonotusAika = keskiJonotusAika;
         this.keskiPalveluAika = keskiPalveluAika;
         this.palveluProsentti = palveluProsentti;
-
     }
 
     public PalvelupisteTulokset(int tyyppi, int palvellutAsiakkaat, double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {

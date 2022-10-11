@@ -2,6 +2,7 @@ package com.project.view;
 
 import java.util.ArrayList;
 
+import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.PalvelupisteTulokset;
 
 import com.project.simu.model.SimulaatioData;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
         private NewSimulationController controller;
+        private ITuloksetDAO tuloksetDAO;
         @FXML
         private Label kestoLabel;
         @FXML
@@ -67,14 +69,14 @@ public class TuloksedDetailedController {
         private SimulaatioData sS;
         private Tulokset tulokset;
 
-        public void updateValues() {
-                ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-                ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-                ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+        ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+        ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+        ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
 
+        public void updateValues() {
                 for (int i = 1; i < 9; i++) {
                         palveluPisteTulokset
-                                        .add(new PalvelupisteTulokset(i, sS.getPalveluMaara(i), sS.getJonoAika(i),
+                                        .add(,new PalvelupisteTulokset(i, sS.getPalveluMaara(i), sS.getJonoAika(i),
                                                         sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
                 }
                 for (int i = 0; i < 4; i++) {
@@ -137,6 +139,10 @@ public class TuloksedDetailedController {
 
         @FXML
         private void save() {
+
+        }
+
+        private void saveToDatabase(){
 
         }
 
