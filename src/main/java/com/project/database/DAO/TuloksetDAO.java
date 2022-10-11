@@ -340,8 +340,9 @@ public class TuloksetDAO implements ITuloksetDAO {
         try{
             statement = connection.prepareStatement("Select simulaatiokerta from " + tableName1);
             ResultSet rs = statement.executeQuery();
-            rs.last();
-            
+            if (!rs.last())
+                return 0;
+                
             result = rs.getInt(1);
 
             return result;

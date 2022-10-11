@@ -76,14 +76,13 @@ public class TuloksedDetailedController {
     ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
 
     public void updateValues() {
-        UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
+        UserAsetukset ua = new UserAsetukset("olso", "root", "root");
         db = new TuloksetDAO(ua, true);
         for (int i = 1; i < 9; i++) {
             palveluPisteTulokset
-                    .add(new PalvelupisteTulokset((db.getRowCount() + 1), i, sS.getPalveluMaara(i), sS.getJonoAika(i),
+                    .add( new PalvelupisteTulokset(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i), sS.getJonoAika(i),
                             sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
         }
-        db.closeConnection();
         for (int i = 0; i < 4; i++) {
             yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
         }
