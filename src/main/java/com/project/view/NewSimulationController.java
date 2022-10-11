@@ -97,6 +97,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<Circle> PoistunettiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> PoistuliittymäAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> PoistulaskutusAsiakkaat = new LinkedList<Circle>();
+    // Yksityisasiakkaat suuttuneet lista.
+    LinkedList<ImageView> quitterMyyntiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> quitterNettiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> quitterLiittymäAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> quitterLaskutusAsiakkaat = new LinkedList<ImageView>();
     // Yritysasiakkaat lista.
     LinkedList<Circle> CmyyntiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> CnettiAsiakkaat = new LinkedList<Circle>();
@@ -107,6 +112,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<Circle> PoistuCnettiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> PoistuCliittymäAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> PoistuClaskutusAsiakkaat = new LinkedList<Circle>();
+    // Yritysasiakkaat suuttuneet lista.
+    LinkedList<ImageView> quitterCmyyntiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> quitterCnettiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> quitterCliittymäAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> quitterClaskutusAsiakkaat = new LinkedList<ImageView>();
 
     /**
      * Alustaa parametrit sekä toistaa animaation kun näkymä avataan.
@@ -522,6 +532,49 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             visuaalinenTausta.getChildren().remove(Pmcla);
             PoistuClaskutusAsiakkaat.removeFirst();
         }
+
+        // Yksityisasiakkaat Quitterit.
+        while (quitterMyyntiAsiakkaat.iterator().hasNext()) { 
+            ImageView m = quitterMyyntiAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(m);
+            quitterMyyntiAsiakkaat.removeFirst();
+        } 
+        while (quitterNettiAsiakkaat.iterator().hasNext()) { 
+            ImageView mn = quitterNettiAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mn);
+            quitterNettiAsiakkaat.removeFirst();
+        } 
+        while (quitterLiittymäAsiakkaat.iterator().hasNext()) { 
+            ImageView mli = quitterLiittymäAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mli);
+            quitterLiittymäAsiakkaat.removeFirst();
+        } 
+        while (quitterLaskutusAsiakkaat.iterator().hasNext()) { 
+            ImageView mla = quitterLaskutusAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mla);
+            quitterLaskutusAsiakkaat.removeFirst();
+        } 
+        // Yritysasiakkaat Quitterit.
+        while (quitterCmyyntiAsiakkaat.iterator().hasNext()) { 
+            ImageView mcm = quitterCmyyntiAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mcm);
+            quitterCmyyntiAsiakkaat.removeFirst();
+        } 
+        while (quitterCnettiAsiakkaat.iterator().hasNext()) { 
+            ImageView mcn = quitterCnettiAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mcn);
+            quitterCnettiAsiakkaat.removeFirst();
+        } 
+        while (quitterCliittymäAsiakkaat.iterator().hasNext()) { 
+            ImageView mcli = quitterCliittymäAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mcli);
+            quitterCliittymäAsiakkaat.removeFirst();
+        } 
+        while (quitterClaskutusAsiakkaat.iterator().hasNext()) { 
+            ImageView mcla = quitterClaskutusAsiakkaat.getFirst();
+            visuaalinenTausta.getChildren().remove(mcla);
+            quitterClaskutusAsiakkaat.removeFirst();
+        }
         pallotNäytöllä = false;
     }
    
@@ -800,6 +853,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterMyyntiAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Pmyynti", poistumisType);
                             poistaMyyntiJono();
                             break;
@@ -821,6 +875,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterNettiAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Pnetti", poistumisType);
                             poistaNettiJono();
                             break;
@@ -842,6 +897,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterLiittymäAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Pliittymä", poistumisType);
                             poistaLiittymäJono();
                             break;
@@ -863,6 +919,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterLaskutusAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Plaskutus", poistumisType);
                             poistaLaskutusJono();
                             break;
@@ -884,6 +941,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterCmyyntiAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Ymyynti", poistumisType);
                             CpoistaMyyntiJono();
                             break;
@@ -905,6 +963,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterCnettiAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Ynetti", poistumisType);
                             CpoistaNettiJono();
                             break;
@@ -926,6 +985,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterCliittymäAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Yliittymä", poistumisType);
                             CpoistaLiittymäJono();
                             break;
@@ -947,6 +1007,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             Image diverImage = new Image(diverFile.toURI().toString());
                             ivDiver.setImage(diverImage);
                             visuaalinenTausta.getChildren().addAll(ivDiver);
+                            quitterClaskutusAsiakkaat.addLast(ivDiver);
                             visualisointi.asiakasSuuttuu(ivDiver, "Ylaskutus", poistumisType);
                             CpoistaLaskutusJono();
                             break;
