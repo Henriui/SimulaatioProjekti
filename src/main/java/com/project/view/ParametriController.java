@@ -133,6 +133,25 @@ public class ParametriController {
 
     @FXML
     private void initialize() {
+        canSave = true;
+
+        dF = new DecimalFormat("#0");
+
+        integerFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^([0-9])*$")) {
+                return change;
+            }
+            return null;
+        };
+        intConverter = new IntegerStringConverter() {
+            @Override
+            public Integer fromString(String s) {
+                if (s.isEmpty())
+                    return 0;
+                return super.fromString(s);
+            }
+        };
     }
 
     public void setSimulationController(NewSimulationController nSc) {
@@ -164,7 +183,6 @@ public class ParametriController {
     @FXML
     private String textFieldCheck() {
         canSave = false;
-
         int priyhteensä = getTextFieldInt(myyntiPpJakauma, 0) + getTextFieldInt(nettiPpJakauma, 0)
                 + getTextFieldInt(liittymäPpJakauma, 0) + getTextFieldInt(laskutusPpJakauma, 0);
         YksityisJakaumaProsentti.setText(String.valueOf(priyhteensä));
@@ -173,13 +191,13 @@ public class ParametriController {
         YritysJakaumaProsentti.setText(String.valueOf(coyhteensä));
 
         if (getTextFieldInt(simuloinninAikaField, 1) > 12) {
-            return "Simulointiaika: " + Integer.parseInt(simuloinninAikaField.getText())
-                    + ", on yli maksimi limitin 12h.";
+            return "Simulointiaika:" + Integer.parseInt(simuloinninAikaField.getText())
+                    + ", max arvo 12h.";
         }
 
         if (getTextFieldInt(väärävalintaProsenttiField, 0) > 100) {
-            return Integer.parseInt(väärävalintaProsenttiField.getText())
-                    + " väärävalintaprosentin arvona, aseta max 100%.";
+            return "Väärävalintaprosentti:" + Integer.parseInt(väärävalintaProsenttiField.getText())
+                    + ", max arvo 100%.";
         }
 
         if (coyhteensä > 100) {
@@ -203,8 +221,16 @@ public class ParametriController {
                 || getTextFieldInt(YritysmyyntiAikaField, 1) <= 0
                 || getTextFieldInt(YritysnettiAikaField, 1) <= 0
                 || getTextFieldInt(YritysliittymäAikaField, 1) <= 0
-                || getTextFieldInt(YritysliittymäAikaField, 1) <= 0) {
-            return "Palveluaika error";
+                || getTextFieldInt(YrityslaskutusAikaField, 1) <= 0
+                || getTextFieldInt(myyntiAikaField, 1) >= 10000
+                || getTextFieldInt(nettiAikaField, 1) >= 10000
+                || getTextFieldInt(liittymäAikaField, 1) >= 10000
+                || getTextFieldInt(laskutusAikaField, 1) >= 10000
+                || getTextFieldInt(YritysmyyntiAikaField, 1) >= 10000
+                || getTextFieldInt(YritysnettiAikaField, 1) >= 10000
+                || getTextFieldInt(YritysliittymäAikaField, 1) >= 10000
+                || getTextFieldInt(YrityslaskutusAikaField, 1) >= 10000) {
+            return "Palveluajoissa virhe.";
         }
 
         if (priyhteensä == 100 && coyhteensä == 100) {
@@ -212,6 +238,7 @@ public class ParametriController {
         }
 
         return null;
+
     }
 
     /**
@@ -223,6 +250,8 @@ public class ParametriController {
     @FXML
     private void tallenna() {
         // Check that all values are ok.
+        // onTextChanged();
+        canSave = false;
         textFieldCheck();
         if (canSave) {
             saveValues();
@@ -257,23 +286,6 @@ public class ParametriController {
      * @author Jonne Borgman
      */
     private void startValuet() {
-        canSave = true;
-        dF = new DecimalFormat("#0");
-        integerFilter = change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("^([0-9])*$")) {
-                return change;
-            }
-            return null;
-        };
-        intConverter = new IntegerStringConverter() {
-            @Override
-            public Integer fromString(String s) {
-                if (s.isEmpty())
-                    return 0;
-                return super.fromString(s);
-            }
-        };
         // Yksityispuolen asetukset.
         setPalvelupisteArvot(myyntiPalvelupisteet, myyntiPpKpl, myyntiAikaField, 1, myyntiPpJakauma);
         setPalvelupisteArvot(nettiPalvelupisteet, nettiPpKpl, nettiAikaField, 2, nettiPpJakauma);
