@@ -43,7 +43,6 @@ public class Parametrit {
 
     // Tietokannan käyttäjäparametrit
     private String dbName;
-    private String tableName;
     private String username;
     private String password;
 
@@ -224,7 +223,6 @@ public class Parametrit {
         System.out.println("asTyyppiArr: " + Arrays.toString(asTyyppiArr));
         this.asTyyppiArr = asTyyppiArr;
     }
-
     // dbName, tableName ,username, password get/set
 
     public String getDbName() {
@@ -234,15 +232,6 @@ public class Parametrit {
     public void setDbName(String dbName) {
         this.dbName = dbName;
     }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -256,13 +245,6 @@ public class Parametrit {
     }
 
     public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setDbParameters(String dbName, String tableName, String username, String password) {
-        this.dbName = dbName;
-        this.tableName = tableName;
-        this.username = username;
         this.password = password;
     }
 
