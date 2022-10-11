@@ -9,6 +9,7 @@ import com.project.simu.model.PalvelupisteTulos;
 import com.project.simu.model.SimulaatioData;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.UserAsetuksetController;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -79,7 +80,8 @@ public class TuloksedDetailedController {
     private ArrayList<PalvelupisteTulos> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
 
     public void updateValues() {
-        ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
+        UserAsetuksetController uac = new UserAsetuksetController();
+        ua = uac.lueTiedostostaDbParametrit();
         db = new TuloksetDAO(ua, true);
         if (useSS) {
             int r = db.getRowCount() +1;
@@ -102,7 +104,7 @@ public class TuloksedDetailedController {
                 }
         }
         else{
-            saveButton.setDisable(true);
+            saveButton.setText("Takaisin");
             removeButton.setText("Takaisin");
             for (int i = 0; i < 4; i++) {
                 yksPalveluPisteTulokset.add(tulokset.getPalveluPisteTulokset().get(i));
@@ -155,6 +157,7 @@ public class TuloksedDetailedController {
 
     @FXML
     private void remove() {
+        System.out.println(removeButton.getText() + " painettu");
         Stage stage = (Stage) removeButton.getScene().getWindow();
         if(useSS){
             controller.popupOpen(false);
@@ -164,7 +167,7 @@ public class TuloksedDetailedController {
 
     @FXML
     private void save() {
-        System.out.println("Tallenna painettu");
+        System.out.println(saveButton.getText() + " painettu");
         Stage stage = (Stage) removeButton.getScene().getWindow();
         if(useSS){
             saveToDatabase();
@@ -186,13 +189,10 @@ public class TuloksedDetailedController {
 
     public void setTulokset(Tulokset tulokset){
         this.tulokset = tulokset;
+        useSS = false;
     }
 
     public void setSimulationController(NewSimulationController nSc) {
         controller = nSc;
-    }
-
-    public void setTuloksetController(TuloksetController tuloksetController){
-        tuloksetController = this.tuloksetController;
     }
 }

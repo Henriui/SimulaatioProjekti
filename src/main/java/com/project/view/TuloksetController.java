@@ -9,6 +9,7 @@ import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.UserAsetuksetController;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -48,11 +49,9 @@ public class TuloksetController {
     private TableColumn<Tulokset, String> keskiLapiMenoAikColumn;
 
     // Hakee asetukset ja kutsuu tietokannan
-    private UserAsetukset asetukset; // TODO: VAATII ASETUKSET
     private ITuloksetDAO db;
     private double xOffset = 0;
     private double yOffset = 0;
-    private static boolean open = false;
 
     @FXML
     private void initialize() {
@@ -60,7 +59,8 @@ public class TuloksetController {
     }
 
     public void setTableView() {
-        UserAsetukset ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
+        UserAsetuksetController uac = new UserAsetuksetController();
+        UserAsetukset ua = uac.lueTiedostostaDbParametrit();
         db = new TuloksetDAO(ua, true);
         ArrayList<Tulokset> tuloksetArrayList = new ArrayList<Tulokset>();
         for (int i = 1; i <= db.getRowCount(); i++) {
@@ -137,7 +137,6 @@ public class TuloksetController {
 
         TuloksedDetailedController controller = loader.getController();
         controller.setTulokset(tulokset);
-        controller.setTuloksetController(this);
         stage.show();
         controller.updateValues();
     }
