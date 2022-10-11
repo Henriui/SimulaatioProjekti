@@ -82,9 +82,10 @@ public class TuloksedDetailedController {
         ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
         db = new TuloksetDAO(ua, true);
         if (useSS) {
+            int r = db.getRowCount() +1;
             for (int i = 1; i < 9; i++) {
                 palveluPisteTulokset
-                        .add(new PalvelupisteTulos(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i),
+                        .add(new PalvelupisteTulos(i, r, i, sS.getPalveluMaara(i),
                                 sS.getJonoAika(i),
                                 sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
             }
@@ -149,6 +150,7 @@ public class TuloksedDetailedController {
         uudelleenOhjAsLabel.setText(tulokset.getUudelleenOhjatutAsiakkaatString());
         keskiJonotusAikLabel.setText(tulokset.getKeskiJonotusAikaString());
         keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString());
+        db.closeConnection();
     }
 
     @FXML
@@ -172,6 +174,7 @@ public class TuloksedDetailedController {
     }
 
     private void saveToDatabase() {
+        db.openConnection();
         db.addTulos(tulokset);
         db.closeConnection();
     }

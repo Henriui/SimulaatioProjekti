@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import com.project.MainApp;
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.SimulaatioData;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
 
@@ -50,7 +49,6 @@ public class TuloksetController {
 
     // Hakee asetukset ja kutsuu tietokannan
     private UserAsetukset asetukset; // TODO: VAATII ASETUKSET
-    private Tulokset tulokset;
     private ITuloksetDAO db;
     private double xOffset = 0;
     private double yOffset = 0;
@@ -68,7 +66,7 @@ public class TuloksetController {
         for (int i = 1; i <= db.getRowCount(); i++) {
             try {
                 Tulokset t = db.queryTulos(i);
-                if (t != null){
+                if (t != null) {
                     tuloksetArrayList.add(t);
                 }
             } catch (SQLException e) {
@@ -105,46 +103,43 @@ public class TuloksetController {
                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiLapiMenoAikaString()));
 
         tw.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> {
-                try {
-                    runTulokset(newValue);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            });
+                (observable, oldValue, newValue) -> {
+                    try {
+                        runTulokset(newValue);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                });
 
         System.out.println("Ajettu");
     }
 
     public void runTulokset(Tulokset tulokset) throws IOException {
-        if (!open) {
-            FXMLLoader loader = loadFXML("tuloksetDetailedPopUp");
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Simulaatiokerran tulos");
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = loadFXML("tuloksetDetailedPopUp");
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Simulaatiokerran tulos");
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
 
-            scene.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
+        scene.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
 
-            // Can move window when mouse down and drag.
-            scene.setOnMouseDragged(event -> {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
-            });
+        // Can move window when mouse down and drag.
+        scene.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
 
-            TuloksedDetailedController controller = loader.getController();
-            controller.setTulokset(tulokset);
-            controller.setTuloksetController(this);
-            stage.show();
-            controller.updateValues();
-            open = true;
-        }
+        TuloksedDetailedController controller = loader.getController();
+        controller.setTulokset(tulokset);
+        controller.setTuloksetController(this);
+        stage.show();
+        controller.updateValues();
     }
 
     // Finds fxml file from the resources folder.
