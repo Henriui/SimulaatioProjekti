@@ -7,12 +7,12 @@ import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
-import com.project.simu.model.PalvelupisteTulokset;
+import com.project.simu.model.PalvelupisteTulos;
 
 //Tämä muutetaan test filuks jossain vaiheessa 
 public class Simulaattori { // Tekstipohjainen
-    private static ArrayList<PalvelupisteTulokset> ppList = new ArrayList<PalvelupisteTulokset>();
-    private static PalvelupisteTulokset ppTulos;
+    private static ArrayList<PalvelupisteTulos> ppList = new ArrayList<PalvelupisteTulos>();
+    private static PalvelupisteTulos ppTulos;
     private static Tulokset tulos;
 
 	public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class Simulaattori { // Tekstipohjainen
 		db.dropTable();
 		db.openConnection();
 
-		ppTulos = new PalvelupisteTulokset(1,1,7,8,9,10,99);
+		ppTulos = new PalvelupisteTulos(1,1,7,8,9,10,99);
 
         ppList.add(ppTulos);
 

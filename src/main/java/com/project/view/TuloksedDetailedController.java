@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.PalvelupisteTulokset;
+import com.project.simu.model.PalvelupisteTulos;
 
 import com.project.simu.model.SimulaatioData;
 import com.project.simu.model.Tulokset;
@@ -40,29 +40,29 @@ public class TuloksedDetailedController {
     @FXML
     private Label keskiLapiMenoAikLabel;
     @FXML
-    private TableView<PalvelupisteTulokset> yritysPisteetTable;
+    private TableView<PalvelupisteTulos> yritysPisteetTable;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriPisteColumn;
+    private TableColumn<PalvelupisteTulos, String> yriPisteColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriKplColumn;
+    private TableColumn<PalvelupisteTulos, String> yriKplColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriKeskiJonoAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yriKeskiJonoAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriKeskiPalveluAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yriKeskiPalveluAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriPalveluprosenttiColumn;
+    private TableColumn<PalvelupisteTulos, String> yriPalveluprosenttiColumn;
     @FXML
-    private TableView<PalvelupisteTulokset> yksityisPisteetTable;
+    private TableView<PalvelupisteTulos> yksityisPisteetTable;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksPisteColumn;
+    private TableColumn<PalvelupisteTulos, String> yksPisteColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksKplColumn;
+    private TableColumn<PalvelupisteTulos, String> yksKplColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksKeskiJonoAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yksKeskiJonoAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksKeskiPalveluAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yksKeskiPalveluAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksPalveluprosenttiColumn;
+    private TableColumn<PalvelupisteTulos, String> yksPalveluprosenttiColumn;
     @FXML
     private Button removeButton;
     @FXML
@@ -71,28 +71,28 @@ public class TuloksedDetailedController {
     private SimulaatioData sS;
     private Tulokset tulokset;
 
-    private ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    private ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    private ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+    private ArrayList<PalvelupisteTulos> PalvelupisteTulos = new ArrayList<PalvelupisteTulos>();
+    private ArrayList<PalvelupisteTulos> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
+    private ArrayList<PalvelupisteTulos> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
 
     public void updateValues() {
         UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
         db = new TuloksetDAO(ua, true);
         for (int i = 1; i < 9; i++) {
-            palveluPisteTulokset
-                    .add( new PalvelupisteTulokset(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i), sS.getJonoAika(i),
+            PalvelupisteTulos
+                    .add( new PalvelupisteTulos(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i), sS.getJonoAika(i),
                             sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
         }
         for (int i = 0; i < 4; i++) {
-            yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
+            yksPalveluPisteTulokset.add(PalvelupisteTulos.get(i));
         }
         for (int i = 4; i < 8; i++) {
-            yriPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
+            yriPalveluPisteTulokset.add(PalvelupisteTulos.get(i));
         }
 
-        ObservableList<PalvelupisteTulokset> oListYriPalvelupisteTulokset = FXCollections
+        ObservableList<PalvelupisteTulos> oListYriPalvelupisteTulokset = FXCollections
                 .observableArrayList(yriPalveluPisteTulokset);
-        ObservableList<PalvelupisteTulokset> oListYksPalvelupisteTulokset = FXCollections
+        ObservableList<PalvelupisteTulos> oListYksPalvelupisteTulokset = FXCollections
                 .observableArrayList(yksPalveluPisteTulokset);
 
         yritysPisteetTable.setItems(oListYriPalvelupisteTulokset);
@@ -122,7 +122,7 @@ public class TuloksedDetailedController {
 
         tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
                 (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsReRouted(),
-                sS.getAsPoistunut(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTulokset);
+                sS.getAsPoistunut(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), PalvelupisteTulos);
 
         kestoLabel.setText(tulokset.getKestoString());
         pProsenttiLabel.setText(tulokset.getPalveluProsenttiString());
