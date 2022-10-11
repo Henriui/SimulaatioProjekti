@@ -21,6 +21,16 @@ public class PalvelupisteTulokset {
         this.palveluProsentti = palveluProsentti;
     }
 
+    public PalvelupisteTulokset(int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
+            double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {
+        this.simulaatiokerta = simulaatiokerta;
+        this.tyyppi = tyyppi;
+        this.palvellutAsiakkaat = palvellutAsiakkaat;
+        this.keskiJonotusAika = keskiJonotusAika;
+        this.keskiPalveluAika = keskiPalveluAika;
+        this.palveluProsentti = palveluProsentti;
+    }
+
     public PalvelupisteTulokset(int tyyppi, int palvellutAsiakkaat, double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {
         this.tyyppi = tyyppi;
         this.palvellutAsiakkaat = palvellutAsiakkaat;

@@ -22,11 +22,11 @@ public class TuloksetDAO implements ITuloksetDAO {
     private String user;
     private String password;
 
-    public TuloksetDAO(UserAsetukset asetukset, boolean simulaatio) {
+    public TuloksetDAO(boolean simulaatio) {
         
-        dbName = asetukset.getDbName();
-        user = asetukset.getUsername();
-        password = asetukset.getPassword();
+        dbName = "projekti";
+        user = "olso";
+        password = "olso";
         if (simulaatio){
             tableName1 = "asiakkaat";
             tableName2 = "palvelupisteet";

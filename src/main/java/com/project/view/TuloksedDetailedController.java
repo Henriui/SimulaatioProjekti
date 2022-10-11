@@ -2,6 +2,7 @@ package com.project.view;
 
 import java.util.ArrayList;
 
+import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.PalvelupisteTulokset;
 
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
         private NewSimulationController controller;
-        private ITuloksetDAO tuloksetDAO;
+        private ITuloksetDAO db;
         @FXML
         private Label kestoLabel;
         @FXML
@@ -74,11 +75,13 @@ public class TuloksedDetailedController {
         ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
 
         public void updateValues() {
+                db = new TuloksetDAO(true);
                 for (int i = 1; i < 9; i++) {
                         palveluPisteTulokset
-                                        .add(,new PalvelupisteTulokset(i, sS.getPalveluMaara(i), sS.getJonoAika(i),
+                                        .add(new PalvelupisteTulokset((db.getRowCount() +1), i, sS.getPalveluMaara(i), sS.getJonoAika(i),
                                                         sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
                 }
+                db.closeConnection();
                 for (int i = 0; i < 4; i++) {
                         yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
                 }
@@ -139,11 +142,13 @@ public class TuloksedDetailedController {
 
         @FXML
         private void save() {
-
+                saveToDatabase();
         }
 
         private void saveToDatabase(){
-
+                db.openConnection();
+                db.addTulos(tulokset);
+                db.closeConnection();
         }
 
         public void setSimulaationSuureet(SimulaatioData sS) {

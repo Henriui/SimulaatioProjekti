@@ -22,7 +22,7 @@ public class TuloksetController {
     // Hakee asetukset ja kutsuu tietokannan
     UserAsetukset asetukset; // TODO: VAATII ASETUKSET
 
-    private ITuloksetDAO tulokset = new TuloksetDAO(asetukset, true);
+    private ITuloksetDAO tulokset = new TuloksetDAO(true);
 
     private ObservableList<Tulokset> tol = FXCollections.observableArrayList();
 

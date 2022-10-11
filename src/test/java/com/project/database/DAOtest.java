@@ -26,7 +26,7 @@ public class DAOtest {
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
 
-        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10, 99);
+        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10,70);
 
         ppList.add(ppTulos);
 
