@@ -71,12 +71,12 @@ public class TuloksedDetailedController {
     private SimulaatioData sS;
     private Tulokset tulokset;
 
-    ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+    private ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+    private ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+    private ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
 
     public void updateValues() {
-        UserAsetukset ua = new UserAsetukset("olso", "root", "root");
+        UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
         db = new TuloksetDAO(ua, true);
         for (int i = 1; i < 9; i++) {
             palveluPisteTulokset
@@ -149,6 +149,9 @@ public class TuloksedDetailedController {
     private void saveToDatabase() {
         db.addTulos(tulokset);
         db.closeConnection();
+        Stage stage = (Stage) removeButton.getScene().getWindow();
+        controller.popupOpen(false);
+        stage.close();
     }
 
     public void setSimulaationSuureet(SimulaatioData sS) {
