@@ -163,78 +163,52 @@ public class ParametriController {
      */
     @FXML
     private String textFieldCheck() {
-        try {
-            canSave = false;
+        canSave = false;
 
-            int primyynti = Integer.parseInt(myyntiPpJakauma.getText());
-            int prinetti = Integer.parseInt(nettiPpJakauma.getText());
-            int priliittymä = Integer.parseInt(liittymäPpJakauma.getText());
-            int prilaskutus = Integer.parseInt(laskutusPpJakauma.getText());
-            int priyhteensä = primyynti + prinetti + priliittymä + prilaskutus;
-            YksityisJakaumaProsentti.setText(String.valueOf(priyhteensä));
+        int priyhteensä = getTextFieldInt(myyntiPpJakauma, 0) + getTextFieldInt(nettiPpJakauma, 0)
+                + getTextFieldInt(liittymäPpJakauma, 0) + getTextFieldInt(laskutusPpJakauma, 0);
+        YksityisJakaumaProsentti.setText(String.valueOf(priyhteensä));
+        int coyhteensä = getTextFieldInt(myyntiYritysPpJakauma, 0) + getTextFieldInt(nettiYritysPpJakauma, 0)
+                + getTextFieldInt(liittymäYritysPpJakauma, 0) + getTextFieldInt(laskutusYritysPpJakauma, 0);
+        YritysJakaumaProsentti.setText(String.valueOf(coyhteensä));
 
-            int comyynti = Integer.parseInt(myyntiYritysPpJakauma.getText());
-            int conetti = Integer.parseInt(nettiYritysPpJakauma.getText());
-            int coliittymä = Integer.parseInt(liittymäYritysPpJakauma.getText());
-            int colaskutus = Integer.parseInt(laskutusYritysPpJakauma.getText());
-            int coyhteensä = comyynti + conetti + coliittymä + colaskutus;
-            YritysJakaumaProsentti.setText(String.valueOf(coyhteensä));
+        if (getTextFieldInt(simuloinninAikaField, 1) > 12) {
+            return "Simulointiaika: " + Integer.parseInt(simuloinninAikaField.getText())
+                    + ", on yli maksimi limitin 12h.";
+        }
 
-            if (Integer.parseInt(simuloinninAikaField.getText()) > 12) {
-                return "Simulointiaika: " + Integer.parseInt(simuloinninAikaField.getText())
-                        + ", on yli maksimi limitin 12h.";
-            }
+        if (getTextFieldInt(väärävalintaProsenttiField, 0) > 100) {
+            return Integer.parseInt(väärävalintaProsenttiField.getText())
+                    + " väärävalintaprosentin arvona, aseta max 100%.";
+        }
 
-            if (Integer.parseInt(väärävalintaProsenttiField.getText()) > 100) {
-                return Integer.parseInt(väärävalintaProsenttiField.getText())
-                        + " väärävalintaprosentin arvona, aseta max 100%.";
-            }
+        if (coyhteensä > 100) {
+            // YritysJakaumaProsentti.setText("100");
+            return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
+        } else if (coyhteensä < 100) {
+            return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
+        }
 
-            if (coyhteensä > 100) {
-                // YritysJakaumaProsentti.setText("100");
-                return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
-            } else if (coyhteensä < 100) {
-                return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
-            }
+        if (priyhteensä > 100) {
+            // YksityisJakaumaProsentti.setText("100");
+            return "Henkilöpalveluspisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
+        } else if (priyhteensä < 100) {
+            return "Henkilöpalvelupisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
+        }
 
-            if (priyhteensä > 100) {
-                // YksityisJakaumaProsentti.setText("100");
-                return "Henkilöpalveluspisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
-            } else if (priyhteensä < 100) {
-                return "Henkilöpalvelupisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
-            }
+        if (getTextFieldInt(myyntiAikaField, 1) <= 0
+                || getTextFieldInt(nettiAikaField, 1) <= 0
+                || getTextFieldInt(liittymäAikaField, 1) <= 0
+                || getTextFieldInt(laskutusAikaField, 1) <= 0
+                || getTextFieldInt(YritysmyyntiAikaField, 1) <= 0
+                || getTextFieldInt(YritysnettiAikaField, 1) <= 0
+                || getTextFieldInt(YritysliittymäAikaField, 1) <= 0
+                || getTextFieldInt(YritysliittymäAikaField, 1) <= 0) {
+            return "Palveluaika error";
+        }
 
-            if (Integer.parseInt(myyntiAikaField.getText()) <= 0
-                    || Integer.parseInt(nettiAikaField.getText()) <= 0
-                    || Integer.parseInt(liittymäAikaField.getText()) <= 0
-                    || Integer.parseInt(laskutusAikaField.getText()) <= 0
-                    || Integer.parseInt(YritysmyyntiAikaField.getText()) <= 0
-                    || Integer.parseInt(YritysnettiAikaField.getText()) <= 0
-                    || Integer.parseInt(YritysliittymäAikaField.getText()) <= 0
-                    || Integer.parseInt(YritysliittymäAikaField.getText()) <= 0) {
-                return "Palveluaika täytyy olla enemmän kuin 0 min.";
-            }
-
-            if (priyhteensä == 100 && coyhteensä == 100) {
-                canSave = true;
-            }
-
-        } catch (NumberFormatException e) {
-            myyntiPpJakauma.setText("25");
-            nettiPpJakauma.setText("25");
-            liittymäPpJakauma.setText("25");
-            laskutusPpJakauma.setText("25");
-            myyntiYritysPpJakauma.setText("25");
-            nettiYritysPpJakauma.setText("25");
-            liittymäYritysPpJakauma.setText("25");
-            laskutusYritysPpJakauma.setText("25");
-            YritysJakaumaProsentti.setText("100");
-            YksityisJakaumaProsentti.setText("100");
-            Alert alert = new Alert(AlertType.ERROR, "Too many numbers typed reseting input area",
-                    ButtonType.CLOSE);
-            alert.setTitle("Parametrit väärin!");
-            alert.setHeaderText("Virhe");
-            alert.showAndWait();
+        if (priyhteensä == 100 && coyhteensä == 100) {
+            canSave = true;
         }
 
         return null;
@@ -454,19 +428,28 @@ public class ParametriController {
      * 
      * @author Rasmus Hyyppä
      */
-    private void setPalvelupisteArvot(Slider s, Label l, TextField tF, int ppType, TextField ppJakauma) {
+    private void setPalvelupisteArvot(Slider s, Label l, TextField ppAikaField, int ppType, TextField ppJakaumaField) {
         s.setValue(userParametrit.getPPMaara(ppType));
         l.setText(userParametrit.getPPMaara(ppType) + " kpl");
-        tF.setText(dF.format((userParametrit.getPPAvgAika(ppType) / 60)));
-        ppJakauma.setText(dF.format(userParametrit.getAsTyyppiParametri(ppType)));
+        ppAikaField.setText(dF.format((userParametrit.getPPAvgAika(ppType) / 60)));
+        ppJakaumaField.setText(dF.format(userParametrit.getAsTyyppiParametri(ppType)));
     }
 
-    private void setTextFieldListener(TextField tF) {
+    private void setTextFieldListener(TextField tF, int minVal) {
         TextFormatter<Integer> textFormat = new TextFormatter<Integer>(intConverter,
                 (int) Double.parseDouble(tF.getText()),
                 integerFilter);
         tF.setTextFormatter(textFormat);
-        tF.textFormatterProperty().addListener((observable, oldValue, newValue) -> textFieldCheck());
+        tF.textFormatterProperty().addListener((observable, oldValue, newValue) -> getTextFieldInt(tF, minVal));
+    }
+
+    private int getTextFieldInt(TextField tF, int minInt) {
+        try {
+            return Integer.parseInt(tF.getText());
+        } catch (NumberFormatException e) {
+            tF.setText("");
+            return minInt;
+        }
     }
 
     /**
@@ -486,29 +469,29 @@ public class ParametriController {
 
     private void setTextFields() {
         // Yksityis
-        setTextFieldListener(myyntiAikaField);
-        setTextFieldListener(nettiAikaField);
-        setTextFieldListener(liittymäAikaField);
-        setTextFieldListener(laskutusAikaField);
+        setTextFieldListener(myyntiAikaField, 1);
+        setTextFieldListener(nettiAikaField, 1);
+        setTextFieldListener(liittymäAikaField, 1);
+        setTextFieldListener(laskutusAikaField, 1);
         // Yritys
-        setTextFieldListener(YritysmyyntiAikaField);
-        setTextFieldListener(YritysnettiAikaField);
-        setTextFieldListener(YritysliittymäAikaField);
-        setTextFieldListener(YrityslaskutusAikaField);
+        setTextFieldListener(YritysmyyntiAikaField, 1);
+        setTextFieldListener(YritysnettiAikaField, 1);
+        setTextFieldListener(YritysliittymäAikaField, 1);
+        setTextFieldListener(YrityslaskutusAikaField, 1);
         // Simulaattorin asetukset
-        setTextFieldListener(simuloinninAikaField);
-        setTextFieldListener(kärsimättömyysAikaField);
-        setTextFieldListener(väärävalintaProsenttiField);
-        setTextFieldListener(asiakasMääräField);
+        setTextFieldListener(simuloinninAikaField, 1);
+        setTextFieldListener(kärsimättömyysAikaField, 1);
+        setTextFieldListener(väärävalintaProsenttiField, 1);
+        setTextFieldListener(asiakasMääräField, 1);
         // Palvelupiste jakaumat
-        setTextFieldListener(myyntiPpJakauma);
-        setTextFieldListener(nettiPpJakauma);
-        setTextFieldListener(liittymäPpJakauma);
-        setTextFieldListener(laskutusPpJakauma);
-        setTextFieldListener(myyntiYritysPpJakauma);
-        setTextFieldListener(nettiYritysPpJakauma);
-        setTextFieldListener(liittymäYritysPpJakauma);
-        setTextFieldListener(laskutusYritysPpJakauma);
+        setTextFieldListener(myyntiPpJakauma, 0);
+        setTextFieldListener(nettiPpJakauma, 0);
+        setTextFieldListener(liittymäPpJakauma, 0);
+        setTextFieldListener(laskutusPpJakauma, 0);
+        setTextFieldListener(myyntiYritysPpJakauma, 0);
+        setTextFieldListener(nettiYritysPpJakauma, 0);
+        setTextFieldListener(liittymäYritysPpJakauma, 0);
+        setTextFieldListener(laskutusYritysPpJakauma, 0);
     }
 
 }
