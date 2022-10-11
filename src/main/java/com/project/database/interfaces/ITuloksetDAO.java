@@ -16,4 +16,5 @@ public interface ITuloksetDAO {
     public abstract Tulokset queryTulos(int id) throws SQLException;
     public abstract boolean dropTable();
     public abstract int     getRowCount();
+    public abstract int     getRowIndex();
 }

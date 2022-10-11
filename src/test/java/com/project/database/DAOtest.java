@@ -94,4 +94,14 @@ public class DAOtest {
         dao.addTulos(tulos);
         assertEquals(3, dao.getRowCount(), "Rows not counted well.");
     }
+    @Test
+    @DisplayName("getRowIndexTesti testi")
+    public void getRowIndexTesti() {
+        dao.dropTable();
+        dao.openConnection();
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        assertEquals(3, dao.getRowIndex(), "Rows not counted well.");
+    }
 }
