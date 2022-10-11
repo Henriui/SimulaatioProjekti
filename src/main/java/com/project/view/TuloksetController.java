@@ -61,13 +61,16 @@ public class TuloksetController {
         setTableView();
     }
 
-    private void setTableView() {
-        UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
+    public void setTableView() {
+        UserAsetukset ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
         db = new TuloksetDAO(ua, true);
         ArrayList<Tulokset> tuloksetArrayList = new ArrayList<Tulokset>();
         for (int i = 1; i <= db.getRowCount(); i++) {
             try {
-                tuloksetArrayList.add(db.queryTulos(i));
+                Tulokset t = db.queryTulos(i);
+                if (t != null){
+                    tuloksetArrayList.add(t);
+                }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -137,6 +140,7 @@ public class TuloksetController {
 
             TuloksedDetailedController controller = loader.getController();
             controller.setTulokset(tulokset);
+            controller.setTuloksetController(this);
             stage.show();
             controller.updateValues();
             open = true;

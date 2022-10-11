@@ -8,8 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * Pää-näkymän controlleri.
+ * @author Jonne Borgman
+ */
 public class MainViewController {
-
     @FXML
     private Button SimulationB;
     @FXML
@@ -29,27 +32,50 @@ public class MainViewController {
     @FXML
     private Pane Stripe;
 
+    /**
+     * Avaa uusi simulaatio näkymän.
+     * @author Jonne Borgman
+     * @throws IOException
+     */
     @FXML
     private void uusiSimulaatio() throws IOException {
         MainApp.setRoot("NewSimulationGUI");
         // Scene scene = new Scene(loadFXML("NewSimulationGUI"));
     }
 
+    /**
+     * Avaa tulokset näkymän.
+     * @author Jonne Borgman
+     * @throws IOException
+     */
     @FXML
     public void tulokset() throws IOException {
         MainApp.setRoot("tulokset");
     }
 
+    /**
+     * Avaa tietokannan asetukset näkymän.
+     * @author Jonne Borgman
+     * @throws IOException
+     */
     @FXML
     public void asetukset() throws IOException {
         MainApp.setRoot("asetukset");
     }
 
+    /**
+     * Sulkee ohjelman.
+     * @author Jonne Borgman
+     */
     @FXML
     public void Exit() {
         System.exit(0);
     }
 
+    /**
+     * Käynnistyksessä aloittaa pienen animaation näkymälle.
+     * @author Jonne Borgman
+     */
     @FXML
     public void initialize() {
         SimulationB.setOpacity(0.0);

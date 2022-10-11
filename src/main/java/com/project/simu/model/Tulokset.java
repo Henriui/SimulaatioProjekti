@@ -13,13 +13,13 @@ public class Tulokset {
     private int uudelleenOhjatutAsiakkaat;
     private double keskiJonotusAika;
     private double keskiLapiMenoAika;
-    private ArrayList<PalvelupisteTulokset> palveluPisteTuloksets = new ArrayList<PalvelupisteTulokset>();
+    private ArrayList<PalvelupisteTulos> palveluPisteTuloksets = new ArrayList<PalvelupisteTulos>();
     
     
 
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
             int uudelleenOhjatutAsiakkaat, int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
-            ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
+            ArrayList<PalvelupisteTulos> palveluPisteTuloksets) {
         this.simulaatiokerta = simulaatiokerta;
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
@@ -34,7 +34,7 @@ public class Tulokset {
 
     public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int uudelleenOhjatutAsiakkaat,
             int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
-            ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
+            ArrayList<PalvelupisteTulos> palveluPisteTuloksets) {
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
         this.asMaara = asMaara;
@@ -82,7 +82,7 @@ public class Tulokset {
         return keskiJonotusAika;
     }
 
-    public ArrayList<PalvelupisteTulokset> getPalveluPisteTulokset() {
+    public ArrayList<PalvelupisteTulos> getPalveluPisteTulokset() {
         return palveluPisteTuloksets;
     }
 

@@ -1,6 +1,6 @@
 package com.project.simu.model;
 
-public class PalvelupisteTulokset {
+public class PalvelupisteTulos {
 
     private int id;
     private int simulaatiokerta;
@@ -10,7 +10,7 @@ public class PalvelupisteTulokset {
     private double keskiPalveluAika;
     private double palveluProsentti;
 
-    public PalvelupisteTulokset(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
+    public PalvelupisteTulos(int id, int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
             double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {
         this.id = id;
         this.simulaatiokerta = simulaatiokerta;
@@ -21,7 +21,7 @@ public class PalvelupisteTulokset {
         this.palveluProsentti = palveluProsentti;
     }
 
-    public PalvelupisteTulokset(int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
+    public PalvelupisteTulos(int simulaatiokerta, int tyyppi, int palvellutAsiakkaat,
             double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {
         this.simulaatiokerta = simulaatiokerta;
         this.tyyppi = tyyppi;
@@ -31,7 +31,7 @@ public class PalvelupisteTulokset {
         this.palveluProsentti = palveluProsentti;
     }
 
-    public PalvelupisteTulokset(int tyyppi, int palvellutAsiakkaat, double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {
+    public PalvelupisteTulos(int tyyppi, int palvellutAsiakkaat, double keskiJonotusAika, double keskiPalveluAika, double palveluProsentti) {
         this.tyyppi = tyyppi;
         this.palvellutAsiakkaat = palvellutAsiakkaat;
         this.keskiJonotusAika = keskiJonotusAika;

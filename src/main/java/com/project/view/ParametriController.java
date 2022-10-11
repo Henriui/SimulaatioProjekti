@@ -398,8 +398,8 @@ public class ParametriController {
 
     /**
      * When the slider value changes, the label text changes to the corresponding
-     * value and the
-     * jakauma variable is set to the corresponding value.
+     * value and the jakauma variable is set to the corresponding value.
+     * 
      * 
      * The jakauma variable is used to calculate the probability for what type of
      * customers enter the simulation.

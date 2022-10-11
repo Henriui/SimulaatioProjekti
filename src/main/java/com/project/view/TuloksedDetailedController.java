@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
-import com.project.simu.model.PalvelupisteTulokset;
+import com.project.simu.model.PalvelupisteTulos;
 
 import com.project.simu.model.SimulaatioData;
 import com.project.simu.model.Tulokset;
@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
     private NewSimulationController controller;
+    private TuloksetController tuloksetController;
     private ITuloksetDAO db;
     @FXML
     private Label kestoLabel;
@@ -40,29 +41,29 @@ public class TuloksedDetailedController {
     @FXML
     private Label keskiLapiMenoAikLabel;
     @FXML
-    private TableView<PalvelupisteTulokset> yritysPisteetTable;
+    private TableView<PalvelupisteTulos> yritysPisteetTable;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriPisteColumn;
+    private TableColumn<PalvelupisteTulos, String> yriPisteColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriKplColumn;
+    private TableColumn<PalvelupisteTulos, String> yriKplColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriKeskiJonoAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yriKeskiJonoAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriKeskiPalveluAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yriKeskiPalveluAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yriPalveluprosenttiColumn;
+    private TableColumn<PalvelupisteTulos, String> yriPalveluprosenttiColumn;
     @FXML
-    private TableView<PalvelupisteTulokset> yksityisPisteetTable;
+    private TableView<PalvelupisteTulos> yksityisPisteetTable;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksPisteColumn;
+    private TableColumn<PalvelupisteTulos, String> yksPisteColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksKplColumn;
+    private TableColumn<PalvelupisteTulos, String> yksKplColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksKeskiJonoAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yksKeskiJonoAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksKeskiPalveluAikaColumn;
+    private TableColumn<PalvelupisteTulos, String> yksKeskiPalveluAikaColumn;
     @FXML
-    private TableColumn<PalvelupisteTulokset, String> yksPalveluprosenttiColumn;
+    private TableColumn<PalvelupisteTulos, String> yksPalveluprosenttiColumn;
     @FXML
     private Button removeButton;
     @FXML
@@ -73,24 +74,17 @@ public class TuloksedDetailedController {
     private UserAsetukset ua;
     private boolean useSS = false;
 
-    private ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    private ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    private ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
-    
-    private void setUp(){
-        ua = new UserAsetukset("projekti", "olso", "olso");
-        db = new TuloksetDAO(ua, true);
-        if(!useSS){
-            saveButton.setText("Takaisin");
-        }
-    }
+    private ArrayList<PalvelupisteTulos> palveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
+    private ArrayList<PalvelupisteTulos> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
+    private ArrayList<PalvelupisteTulos> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
 
     public void updateValues() {
-        setUp();
+        ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
+        db = new TuloksetDAO(ua, true);
         if (useSS) {
             for (int i = 1; i < 9; i++) {
                 palveluPisteTulokset
-                        .add(new PalvelupisteTulokset(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i),
+                        .add(new PalvelupisteTulos(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i),
                                 sS.getJonoAika(i),
                                 sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
             }
@@ -107,6 +101,8 @@ public class TuloksedDetailedController {
                 }
         }
         else{
+            saveButton.setDisable(true);
+            removeButton.setText("Takaisin");
             for (int i = 0; i < 4; i++) {
                 yksPalveluPisteTulokset.add(tulokset.getPalveluPisteTulokset().get(i));
             }
@@ -115,9 +111,9 @@ public class TuloksedDetailedController {
             }
         }
 
-        ObservableList<PalvelupisteTulokset> oListYriPalvelupisteTulokset = FXCollections
+        ObservableList<PalvelupisteTulos> oListYriPalvelupisteTulokset = FXCollections
                 .observableArrayList(yriPalveluPisteTulokset);
-        ObservableList<PalvelupisteTulokset> oListYksPalvelupisteTulokset = FXCollections
+        ObservableList<PalvelupisteTulos> oListYksPalvelupisteTulokset = FXCollections
                 .observableArrayList(yksPalveluPisteTulokset);
 
         yritysPisteetTable.setItems(oListYriPalvelupisteTulokset);
@@ -161,21 +157,17 @@ public class TuloksedDetailedController {
         if(useSS){
             controller.popupOpen(false);
         }
-        else{
-            System.out.println(tulokset.getSimulaatiokerta());
-            db.removeTulos(tulokset.getSimulaatiokerta());
-        }
         stage.close();
     }
 
     @FXML
     private void save() {
+        System.out.println("Tallenna painettu");
         Stage stage = (Stage) removeButton.getScene().getWindow();
         if(useSS){
             saveToDatabase();
             controller.popupOpen(false);
         }
-        updateValues();
         stage.close();
     }
 
@@ -195,5 +187,9 @@ public class TuloksedDetailedController {
 
     public void setSimulationController(NewSimulationController nSc) {
         controller = nSc;
+    }
+
+    public void setTuloksetController(TuloksetController tuloksetController){
+        tuloksetController = this.tuloksetController;
     }
 }

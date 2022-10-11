@@ -12,21 +12,21 @@ import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
-import com.project.simu.model.PalvelupisteTulokset;
+import com.project.simu.model.PalvelupisteTulos;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
     private static Tulokset tulos;
-    PalvelupisteTulokset ppTulos;
-    ArrayList<PalvelupisteTulokset> ppList = new ArrayList<PalvelupisteTulokset>();
+    PalvelupisteTulos ppTulos;
+    ArrayList<PalvelupisteTulos> ppList = new ArrayList<PalvelupisteTulos>();
     
     @BeforeEach
     public void avaaYhteys() {
-        UserAsetukset up = new UserAsetukset("olso", "root", "root");
+        UserAsetukset up = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
 
-        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10,70);
+        ppTulos = new PalvelupisteTulos(5,1,7,8,9,10,70);
 
         ppList.add(ppTulos);
 
@@ -93,5 +93,15 @@ public class DAOtest {
         dao.addTulos(tulos);
         dao.addTulos(tulos);
         assertEquals(3, dao.getRowCount(), "Rows not counted well.");
+    }
+    @Test
+    @DisplayName("getRowIndexTesti testi")
+    public void getRowIndexTesti() {
+        dao.dropTable();
+        dao.openConnection();
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        assertEquals(3, dao.getRowIndex(), "Rows not counted well.");
     }
 }
