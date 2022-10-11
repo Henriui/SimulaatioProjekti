@@ -111,8 +111,8 @@ public class TuloksetController {
                         e.printStackTrace();
                     }
                 });
-
-        System.out.println("Ajettu");
+        db.closeConnection();
+        System.out.println("Lista päivitetty");
     }
 
     public void runTulokset(Tulokset tulokset) throws IOException {
