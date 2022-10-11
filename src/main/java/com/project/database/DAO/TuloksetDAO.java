@@ -121,6 +121,7 @@ public class TuloksetDAO implements ITuloksetDAO {
                     + "palvellut_as         INT    UNSIGNED NOT NULL                            COMMENT 'Kuinka monta asiakasta palveltu.',"
                     + "keskipalveluaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskipalveluaika palvelupisteelle.',"
                     + "keskijonotusaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskijonotusaika palvelupisteelle.' ,"
+                    + "palveluprosentti     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Palveluprosentti palvelupisteelle.' ,"
                     + "FOREIGN KEY (simulaatiokerta) REFERENCES "+ tableName1 +" (simulaatiokerta) ON DELETE CASCADE ON UPDATE RESTRICT"
                     + " ) engine=InnoDB;");
             if (statement.execute() != true) {
@@ -202,7 +203,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             for (PalvelupisteTulokset palvelupisteTulokset : ppTulos) {
             
                 statement = connection.prepareStatement("INSERT INTO " + tableName2
-                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika ) VALUES ( ?, ?, ?, ?, ?, ? )");
+                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika, palveluprosentti ) VALUES ( ?, ?, ?, ?, ?, ? )");
                 statement.setInt(1, palvelupisteTulokset.getId());                  // id
                 statement.setInt(2, palvelupisteTulokset.getSimulaatiokerta());     // Sim kerta
                 statement.setInt(3, palvelupisteTulokset.getTyyppi());              // tyyppi
@@ -273,7 +274,9 @@ public class TuloksetDAO implements ITuloksetDAO {
                 results.getInt(3),
                 results.getInt(4),
                 results.getDouble(5),
-                results.getDouble(6) );
+                results.getDouble(6), 
+                results.getDouble(7) 
+                );
                 
                 pptulosList.add(ppTulos);
             }
