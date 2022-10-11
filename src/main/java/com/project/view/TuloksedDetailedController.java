@@ -22,9 +22,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
-    private NewSimulationController controller;
-    private TuloksetController tuloksetController;
-    private ITuloksetDAO db;
+    
+    //FXML komponentit
     @FXML
     private Label kestoLabel;
     @FXML
@@ -70,32 +69,47 @@ public class TuloksedDetailedController {
     @FXML
     private Button saveButton;
 
-    private SimulaatioData sS;
+    private NewSimulationController controller;
+    private ITuloksetDAO db;
+    private SimulaatioData sd;
     private Tulokset tulokset;
-    private UserAsetukset ua;
-    private boolean useSS = false;
+    private boolean useSS = false; //Boolean jotta tiedetään kummalta sivulta ollaan tulossa
 
-    private ArrayList<PalvelupisteTulos> palveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
-    private ArrayList<PalvelupisteTulos> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
-    private ArrayList<PalvelupisteTulos> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
 
+    /**
+     * Methodi millä haetaan data riippuen siitä mistä ollaan tulossa ja laitetaan se sivulle
+     * 
+     *@author Lassi Bågman
+     */
     public void updateValues() {
+
+        //ArrayListit Palvelupiste tuloksein hallintaan
+        ArrayList<PalvelupisteTulos> palveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
+        ArrayList<PalvelupisteTulos> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
+        ArrayList<PalvelupisteTulos> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
+
         UserAsetuksetController uac = new UserAsetuksetController();
-        ua = uac.lueTiedostostaDbParametrit();
-        db = new TuloksetDAO(ua, true);
+        UserAsetukset ua = uac.lueTiedostostaDbParametrit(); //Hakee databasen asetukset filestä
+        db = new TuloksetDAO(ua, true); //Luo yhteyden databaseen
+
+        //Jos tullaan NewSimulationGUI.fxml kautta
         if (useSS) {
-            int r = db.getRowCount() +1;
+            int r = db.getRowCount() +1; //Haetaan simulaatiokertojen määrä ja lisätään 1 mahdollista tulevaa tallennusta varten
+
+            //Palvelupiste data simulaatio datasta
             for (int i = 1; i < 9; i++) {
                 palveluPisteTulokset
-                        .add(new PalvelupisteTulos(i, r, i, sS.getPalveluMaara(i),
-                                sS.getJonoAika(i),
-                                sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
+                        .add(new PalvelupisteTulos(i, r, i, sd.getPalveluMaara(i),
+                                sd.getJonoAika(i),
+                                sd.getPalveluAika(i), sd.getPalveluProsentti(i)));
             }
 
-            tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
-                (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsReRouted(),
-                sS.getAsPoistunut(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTulokset);
+            //Tulokset simulaatio datasta
+            tulokset = new Tulokset(sd.getSimulointiAika(), sd.getPalveluprosentti(),
+                (sd.getAsPalveltu() + sd.getAsPoistunut()), sd.getAsPalveltu(), sd.getAsReRouted(),
+                sd.getAsPoistunut(), sd.getJonotusATotal(), sd.getAvgAsAikaSim(), palveluPisteTulokset);
 
+                //Yksityis palvelupisteet erotettuna yritys palvelupisteistä
                 for (int i = 0; i < 4; i++) {
                     yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
                 }
@@ -103,9 +117,14 @@ public class TuloksedDetailedController {
                     yriPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
                 }
         }
+
+        //Jos tullaan tulokset.fxml kautta
         else{
+            //Napit vastaamaan paremmin tilannetta
             saveButton.setText("Takaisin");
             removeButton.setText("Takaisin");
+
+            //Yksityis palvelupisteet erotettuna yritys palvelupisteistä
             for (int i = 0; i < 4; i++) {
                 yksPalveluPisteTulokset.add(tulokset.getPalveluPisteTulokset().get(i));
             }
@@ -114,14 +133,17 @@ public class TuloksedDetailedController {
             }
         }
 
+        //Palvelupiste ArrayListit ObservableListeiksi
         ObservableList<PalvelupisteTulos> oListYriPalvelupisteTulokset = FXCollections
                 .observableArrayList(yriPalveluPisteTulokset);
         ObservableList<PalvelupisteTulos> oListYksPalvelupisteTulokset = FXCollections
                 .observableArrayList(yksPalveluPisteTulokset);
 
+        //ObservableListit TableVieweihin
         yritysPisteetTable.setItems(oListYriPalvelupisteTulokset);
         yksityisPisteetTable.setItems(oListYksPalvelupisteTulokset);
 
+        //Yritys TableViewin columnit kuntoon
         yriPisteColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getTyyppiString()));
         yriKplColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -133,6 +155,7 @@ public class TuloksedDetailedController {
         yriPalveluprosenttiColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
+        //Yksityis TableViewin columnit kuntoon
         yksPisteColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getTyyppiString()));
         yksKplColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -144,6 +167,7 @@ public class TuloksedDetailedController {
         yksPalveluprosenttiColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
+        //Yleinen informaatio kuntoon
         kestoLabel.setText(tulokset.getKestoString());
         pProsenttiLabel.setText(tulokset.getPalveluProsenttiString());
         asMaaraLabel.setText(tulokset.getAsMaaraString());
@@ -152,23 +176,37 @@ public class TuloksedDetailedController {
         uudelleenOhjAsLabel.setText(tulokset.getUudelleenOhjatutAsiakkaatString());
         keskiJonotusAikLabel.setText(tulokset.getKeskiJonotusAikaString());
         keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString());
-        db.closeConnection();
+        db.closeConnection(); //Putket kiinni ettei data karkaa
     }
 
+    /**
+     * Methodi poista nappia varten. Toiminto vaihtelee sen mukaan mistä ollaan tulossa
+     * 
+     * @author Lassi Bågman
+     */
     @FXML
     private void remove() {
         System.out.println(removeButton.getText() + " painettu");
         Stage stage = (Stage) removeButton.getScene().getWindow();
+
+        //NewSimulationGUI.fxml kautta tullessa ilmoitetaan sen controllerille tarvittava tieto
         if(useSS){
             controller.popupOpen(false);
         }
         stage.close();
     }
 
+    /**
+     * Methodi tallenna nappia varten. Toiminto vaihtelee sen mukaan mistä ollaan tulossa
+     * 
+     * @author Lassi Bågman
+     */
     @FXML
     private void save() {
         System.out.println(saveButton.getText() + " painettu");
         Stage stage = (Stage) removeButton.getScene().getWindow();
+
+        //NewSimulationGUI.fxml kautta tullessa tallennetaan tiedot databaseen
         if(useSS){
             saveToDatabase();
             controller.popupOpen(false);
@@ -176,22 +214,44 @@ public class TuloksedDetailedController {
         stage.close();
     }
 
+    /**
+     * Methodi varmistaa että yhteys databaseen on auki ja tallentaa tulokset databaseen
+     * 
+     * @author Lassi Bågman
+     */
     private void saveToDatabase() {
         db.openConnection();
         db.addTulos(tulokset);
         db.closeConnection();
     }
 
-    public void setSimulaationSuureet(SimulaatioData sS) {
-        this.sS = sS;
+    /**
+     * Välittää simulaation datan
+     * 
+     * @param sd SimulaatioData
+     * @author Lassi Bågman
+     */
+    public void setSimulaationData(SimulaatioData sd) {
+        this.sd = sd;
         useSS = true;
     }
 
+    /**
+     * Välittää tulokset
+     * 
+     * @param tulokset Tulokset
+     * @author Lassi Bågman
+     */
     public void setTulokset(Tulokset tulokset){
         this.tulokset = tulokset;
         useSS = false;
     }
 
+    /**
+     * Välittää kontrollerin jotta sille voidaan antaa komentoja
+     * 
+     * @param nSc NewSimulationController
+     */
     public void setSimulationController(NewSimulationController nSc) {
         controller = nSc;
     }

@@ -3,7 +3,6 @@ package com.project.view;
 import java.io.IOException;
 
 import com.project.MainApp;
-import com.project.simu.model.Parametrit;
 import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.UserAsetuksetController;
 
@@ -17,13 +16,10 @@ public class AsetuksetController {
 
     @FXML
     private TextField dbName;
-
     @FXML
     private TextField username;
-
     @FXML
     private TextField password;
-
     @FXML
     private Button saveButton;
 

@@ -25,8 +25,9 @@ import javafx.stage.StageStyle;
 
 public class TuloksetController {
 
+    //FXML komponentit
     @FXML
-    private TableView<Tulokset> tw;
+    private TableView<Tulokset> tableView;
     @FXML
     private TableColumn<Tulokset, String> simulaatiokertaColumn;
     @FXML
@@ -48,8 +49,8 @@ public class TuloksetController {
     @FXML
     private TableColumn<Tulokset, String> keskiLapiMenoAikColumn;
 
-    // Hakee asetukset ja kutsuu tietokannan
     private ITuloksetDAO db;
+    //Koordinaatit ruudun liikuttamista varten
     private double xOffset = 0;
     private double yOffset = 0;
 
@@ -58,26 +59,33 @@ public class TuloksetController {
         setTableView();
     }
 
+    /**
+     * Methodi joka järjestää listan hakemalla tiedot databasesta
+     * 
+     * @author Lassi Bågman
+     */
     public void setTableView() {
         UserAsetuksetController uac = new UserAsetuksetController();
-        UserAsetukset ua = uac.lueTiedostostaDbParametrit();
-        db = new TuloksetDAO(ua, true);
+        UserAsetukset ua = uac.lueTiedostostaDbParametrit(); //Hakee databasen asetukset filestä
+        db = new TuloksetDAO(ua, true); //Luo yhteyden databaseen
+
+        //Luo ArrayListin ja kerää sinne kaikki rivit databasesta
         ArrayList<Tulokset> tuloksetArrayList = new ArrayList<Tulokset>();
         for (int i = 1; i <= db.getRowCount(); i++) {
             try {
-                Tulokset t = db.queryTulos(i);
-                if (t != null) {
-                    tuloksetArrayList.add(t);
-                }
+                tuloksetArrayList.add(db.queryTulos(i));
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
+                System.err.println("Tulosten haku ei onnistunut!");
                 e.printStackTrace();
             }
         }
+
+        //ArrayList ObservableListiksi ja se TableViewiin
         ObservableList<Tulokset> tuloksetObservableList = FXCollections
                 .observableArrayList(tuloksetArrayList);
-        tw.setItems(tuloksetObservableList);
+        tableView.setItems(tuloksetObservableList);
 
+        //Asettaa datat Columneihin
         simulaatiokertaColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getSimulaatiokertaString()));
         kestoColumn.setCellValueFactory(
@@ -102,19 +110,29 @@ public class TuloksetController {
         keskiPalveluAikColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiLapiMenoAikaString()));
 
-        tw.getSelectionModel().selectedItemProperty().addListener(
+        //Kuuntelija jos listasta halutaan tarkastella jotain riviä tarkemmin
+        tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     try {
                         runTulokset(newValue);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        System.err.println("Tuloksen avaaminen ei onnistunut!");
                         e.printStackTrace();
                     }
                 });
+        
+        //Putket kiinni ettei data karkaa
         db.closeConnection();
         System.out.println("Lista päivitetty");
     }
 
+    /**
+     * Methodi millä välitetään valittu tulos eteenpäin tuloksetDetailedPopUpille tarkempaan tarkasteluun
+     * 
+     * @param tulokset
+     * @throws IOException
+     * @author Lassi Bågman
+     */
     public void runTulokset(Tulokset tulokset) throws IOException {
         FXMLLoader loader = loadFXML("tuloksetDetailedPopUp");
         Scene scene = new Scene(loader.load());
@@ -124,12 +142,11 @@ public class TuloksetController {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
 
+        // Can move window when mouse down and drag.
         scene.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
-
-        // Can move window when mouse down and drag.
         scene.setOnMouseDragged(event -> {
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
@@ -141,7 +158,13 @@ public class TuloksetController {
         controller.updateValues();
     }
 
-    // Finds fxml file from the resources folder.
+    /**
+     * 
+     * @param fxml
+     * @return
+     * @throws IOException
+     * @author Jonne
+     */
     private static FXMLLoader loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
         return fxmlLoader;
