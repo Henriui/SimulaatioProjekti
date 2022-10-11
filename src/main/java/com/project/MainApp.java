@@ -29,7 +29,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
 
         // Transparent upper bar.
-        //stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
 
         // Grab your root here
 
