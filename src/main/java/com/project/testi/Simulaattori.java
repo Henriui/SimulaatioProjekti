@@ -16,7 +16,7 @@ public class Simulaattori { // Tekstipohjainen
     private static Tulokset tulos;
 
 	public static void main(String[] args) {
-		UserAsetukset ua = new UserAsetukset("projekti","olso","olso");
+		UserAsetukset ua = new UserAsetukset("simulaattori","jonne","jonnensalasana");
 		ITuloksetDAO db = new TuloksetDAO(ua, false);
 		
 		db.openConnection();

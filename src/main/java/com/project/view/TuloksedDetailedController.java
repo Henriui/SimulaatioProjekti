@@ -76,7 +76,7 @@ public class TuloksedDetailedController {
     private ArrayList<PalvelupisteTulos> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulos>();
 
     public void updateValues() {
-        UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
+        UserAsetukset ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
         db = new TuloksetDAO(ua, true);
         for (int i = 1; i < 9; i++) {
             PalvelupisteTulos
