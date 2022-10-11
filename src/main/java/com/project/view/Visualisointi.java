@@ -8,7 +8,10 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
-
+/**
+ * Luokka animoi näytöllä asiakkaitten tulemisia sekä poistumisia.
+ * @author Jonne Borgman
+ */
 public class Visualisointi {
     
     private static double nopeus;
@@ -23,6 +26,10 @@ public class Visualisointi {
     private static int Cliittymäjono = 260;
     private static int Claskutusjono = 260;
 
+    /**
+     * Simulaatoiden välissä alustaa jonon Y valuen 260.
+     * @author Jonne Borgman
+     */
     public void alustaJonot(){
         myyntijono = 260;
         nettijono = 260;
@@ -34,18 +41,31 @@ public class Visualisointi {
         Cliittymäjono = 260;
         Claskutusjono = 260;
     }
+    /**
+     * Asettaa animaatioille nopeuden simulaation nopeuden mukaan.
+     * @param viive
+     * @author Jonne Borgman
+     */
     public void visuaalinenNopeus(long viive){
         nopeus = viive;
     }
 
+   /**
+    * Antaa asiakkaille polun, jota pitkin tietyn tyyppiset asiakkaat liikkuvat.
+    * @param asiakas
+    * @param tyyppi
+    * @author Jonne Borgman
+    */
     public void asiakasLiikkuu(Circle asiakas, String tyyppi){
         switch(tyyppi){
             case "Pmyynti":
-                Path path = new Path();
-                path.getElements().add(new MoveTo(485,50));
-                path.getElements().add(new LineTo(63,50));
-                path.getElements().add(new LineTo(63,myyntijono));
+                // Luodaan polku asiakkaalle.
+                Path path = new Path(); 
+                path.getElements().add(new MoveTo(485,50));         // Aloituspiste.
+                path.getElements().add(new LineTo(63,50));          // Vasemmalle.
+                path.getElements().add(new LineTo(63,myyntijono));  // Alas.
 
+                // Asetetaan animaatio käyntiin simulaation nopeudella. 
                 PathTransition transition = new PathTransition();
                 transition.setNode(asiakas);
                 transition.setDuration(Duration.millis(nopeus + 100));
@@ -56,9 +76,9 @@ public class Visualisointi {
                 break;
             case "Pnetti":
                 Path path2 = new Path();
-                path2.getElements().add(new MoveTo(485,50));
-                path2.getElements().add(new LineTo(183,50));
-                path2.getElements().add(new LineTo(183,nettijono));
+                path2.getElements().add(new MoveTo(485,50));        // Aloituspiste.
+                path2.getElements().add(new LineTo(183,50));        // Vasemmalle.  
+                path2.getElements().add(new LineTo(183,nettijono)); // Alas.
 
                 PathTransition transition2 = new PathTransition();
                 transition2.setNode(asiakas);
@@ -70,9 +90,9 @@ public class Visualisointi {
                 break;
             case "Pliittymä":
                 Path path3 = new Path();
-                path3.getElements().add(new MoveTo(485,50));
-                path3.getElements().add(new LineTo(300,50));
-                path3.getElements().add(new LineTo(300,liittymäjono));
+                path3.getElements().add(new MoveTo(485,50));            // Aloituspiste.    
+                path3.getElements().add(new LineTo(300,50));            // Vasemmalle.  
+                path3.getElements().add(new LineTo(300,liittymäjono));  // Alas.
 
                 PathTransition transition3 = new PathTransition();
                 transition3.setNode(asiakas);
@@ -84,9 +104,9 @@ public class Visualisointi {
                 break;
             case "Plaskutus":
                 Path path4 = new Path();
-                path4.getElements().add(new MoveTo(485,50));
-                path4.getElements().add(new LineTo(418,50));
-                path4.getElements().add(new LineTo(418,laskutusjono));
+                path4.getElements().add(new MoveTo(485,50));            // Aloituspiste.
+                path4.getElements().add(new LineTo(418,50));            // Vasemmalle.
+                path4.getElements().add(new LineTo(418,laskutusjono));  // Alas.
 
                 PathTransition transition4 = new PathTransition();
                 transition4.setNode(asiakas);
@@ -99,9 +119,9 @@ public class Visualisointi {
 
             case "Ymyynti":
                 Path path5 = new Path();
-                path5.getElements().add(new MoveTo(565,50));
-                path5.getElements().add(new LineTo(977,50));
-                path5.getElements().add(new LineTo(977,Cmyyntijono));
+                path5.getElements().add(new MoveTo(565,50));            // Aloituspiste.
+                path5.getElements().add(new LineTo(977,50));            // Oikealle.
+                path5.getElements().add(new LineTo(977,Cmyyntijono));   // Alas.
 
                 PathTransition transition5 = new PathTransition();
                 transition5.setNode(asiakas);
@@ -113,9 +133,9 @@ public class Visualisointi {
                 break;
             case "Ynetti":
                 Path path6 = new Path();
-                path6.getElements().add(new MoveTo(565,50));
-                path6.getElements().add(new LineTo(857,50));
-                path6.getElements().add(new LineTo(857,Cnettijono));
+                path6.getElements().add(new MoveTo(565,50));          // Aloituspiste.  
+                path6.getElements().add(new LineTo(857,50));          // Oikealle.
+                path6.getElements().add(new LineTo(857,Cnettijono));  // Alas.
 
                 PathTransition transition6 = new PathTransition();
                 transition6.setNode(asiakas);
@@ -127,9 +147,9 @@ public class Visualisointi {
                 break;
             case "Yliittymä":
                 Path path7 = new Path();
-                path7.getElements().add(new MoveTo(565,50));
-                path7.getElements().add(new LineTo(740,50));
-                path7.getElements().add(new LineTo(740,Cliittymäjono));
+                path7.getElements().add(new MoveTo(565,50));            // Aloituspiste.
+                path7.getElements().add(new LineTo(740,50));            // Oikealle.
+                path7.getElements().add(new LineTo(740,Cliittymäjono)); // Alas.
 
                 PathTransition transition7 = new PathTransition();
                 transition7.setNode(asiakas);
@@ -141,9 +161,9 @@ public class Visualisointi {
                 break;
             case "Ylaskutus":
                 Path path8 = new Path();
-                path8.getElements().add(new MoveTo(565,50));
-                path8.getElements().add(new LineTo(622,50));
-                path8.getElements().add(new LineTo(622,Claskutusjono));
+                path8.getElements().add(new MoveTo(565,50));            // Aloituspiste.
+                path8.getElements().add(new LineTo(622,50));            // Oikealle.
+                path8.getElements().add(new LineTo(622,Claskutusjono)); // Alas.
 
                 PathTransition transition8 = new PathTransition();
                 transition8.setNode(asiakas);
@@ -156,7 +176,13 @@ public class Visualisointi {
         }
     }
 
-
+    /**
+     * Jos asiakas suuttuu, luodaan poistuminen kuvalla animoimalla.
+     * @param image
+     * @param tyyppi
+     * @param poistumusType
+     * @author Jonne Borgman
+     */
     public void asiakasSuuttuu(ImageView image, String tyyppi, String poistumusType){
        
         switch(tyyppi){
@@ -271,7 +297,13 @@ public class Visualisointi {
                 break;
         }
     }
-
+    /**
+     * Asiakkaan poistumis polun määrittäminen.
+     * @param asiakas
+     * @param tyyppi
+     * @param poistumusType
+     * @author Jonne Borgman
+     */
     public void asiakasPoistuu(Circle asiakas, String tyyppi, String poistumusType){
         Circle circle = new Circle(100);
         circle.setRadius(200);
