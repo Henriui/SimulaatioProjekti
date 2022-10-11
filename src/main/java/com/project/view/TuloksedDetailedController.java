@@ -81,8 +81,7 @@ public class TuloksedDetailedController {
         ua = new UserAsetukset("projekti", "olso", "olso");
         db = new TuloksetDAO(ua, true);
         if(!useSS){
-            removeButton.setText("Delete");
-            saveButton.setText("Back");
+            saveButton.setText("Takaisin");
         }
     }
 
