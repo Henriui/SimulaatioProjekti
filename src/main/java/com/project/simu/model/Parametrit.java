@@ -259,47 +259,4 @@ public class Parametrit {
         this.username = username;
         this.password = password;
     }
-
-    /**
-     * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla
-     * tiedostoon
-     * 
-     * @return true jos onnistui, false jos ei
-     * @author Lassi Bågman
-     */
-    public boolean kirjoitaTiedostoonDbParametrit() {
-        try (FileOutputStream virta = new FileOutputStream("data\\dbAsetukset.data");
-                ObjectOutputStream tuloste = new ObjectOutputStream(virta);) {
-            tuloste.writeObject(new UserAsetukset(dbName, username, password));
-            tuloste.close();
-            return true;
-        } catch (Exception e) {
-            System.out.println("Tiedostoon tallentaminen ei onnistunut");
-            System.err.println(e);
-            return false;
-        }
-    }
-
-    /**
-     * Lukee tiedoston jos se on olemassa ja palauttaa tiedostosta löytyvän
-     * UserAsetukset.java olion
-     * jonka avulla päivittää singletonin parametrit
-     * 
-     * @return true jos onnistui, false jos ei
-     * @author Lassi Bågman
-     */
-    public boolean lueTiedostostaDbParametrit() {
-        try (FileInputStream virta = new FileInputStream("data\\dbAsetukset.data");
-                ObjectInputStream syote = new ObjectInputStream(virta);) {
-            UserAsetukset ua = (UserAsetukset) syote.readObject();
-            dbName = ua.getDbName();
-            username = ua.getUsername();
-            password = ua.getPassword();
-            return true;
-        } catch (Exception e) {
-            System.out.println("Tiedoston lukeminen ei onnistunut");
-            System.err.println(e);
-            return false;
-        }
-    }
 }
