@@ -184,7 +184,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * TODO:     * @param sS
+     * TODO:     
+     * @param sS
      * @author Lassi
      */
     public void showTulokset(SimulaatioData sS) {
@@ -201,7 +202,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * TODO:     * @param sS
+     * TODO:     
+     * @param sS
      * @throws IOException
      * @author Lassi
      */
@@ -245,14 +247,16 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * TODO:     * @return
+     * TODO:     
+     * @return
      */
     public Parametrit getParametri() {
         return uP;
     }
 
     /**
-     * TODO:     * @param parametri
+     * TODO:     
+     * @param parametri
      */
     public void setParametri(Parametrit parametri) {
         uP = parametri;
