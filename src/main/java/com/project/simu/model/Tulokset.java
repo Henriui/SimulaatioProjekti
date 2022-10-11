@@ -18,7 +18,7 @@ public class Tulokset {
     
 
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
-            int poistuneetAsiakkaat, int uudelleenOhjatutAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
+            int uudelleenOhjatutAsiakkaat, int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
             ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
         this.simulaatiokerta = simulaatiokerta;
         this.kesto = kesto;
@@ -32,8 +32,8 @@ public class Tulokset {
         this.palveluPisteTuloksets = palveluPisteTuloksets;
     }
 
-    public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int poistuneetAsiakkaat,
-            int uudelleenOhjatutAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
+    public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int uudelleenOhjatutAsiakkaat,
+            int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
             ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;

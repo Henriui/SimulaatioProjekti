@@ -115,8 +115,8 @@ public class TuloksedDetailedController {
                                 cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
                 tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
-                                (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsPoistunut(),
-                                sS.getAsReRouted(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTulokset);
+                                (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsReRouted(),
+                                sS.getAsPoistunut(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTulokset);
 
                 kestoLabel.setText(tulokset.getKestoString());
                 pProsenttiLabel.setText(tulokset.getPalveluProsenttiString());

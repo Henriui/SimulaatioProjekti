@@ -1,6 +1,9 @@
 package com.project.database.interfaces;
 
-import com.project.simu.model.SimulaatioData;
+import java.sql.SQLException;
+
+import com.project.simu.model.Tulokset;
+
 
 public interface ITuloksetDAO {
     // Connection open/close.
@@ -8,9 +11,9 @@ public interface ITuloksetDAO {
     public abstract boolean closeConnection();
 
     // Methods to use database.
-    public abstract boolean addTulos(SimulaatioData suureet);
+    public abstract boolean addTulos(Tulokset data);
     public abstract boolean removeTulos(int id);
-    public abstract boolean queryTulos(int id);
+    public abstract Tulokset queryTulos(int id) throws SQLException;
     public abstract boolean dropTable();
     public abstract int     getRowCount();
 }
