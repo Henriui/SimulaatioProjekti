@@ -336,10 +336,10 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                         }
                     } else if (i > 3 && i < 8) {
                         yritysTv += suureStatusMap.get("Tyovuorossa")[i];
-                        int Ymyynti = suureStatusMap.get("Tyovuorossa")[0];
-                        int Ynetti = suureStatusMap.get("Tyovuorossa")[1];
-                        int Yliittymä = suureStatusMap.get("Tyovuorossa")[2];
-                        int Ylaskutus = suureStatusMap.get("Tyovuorossa")[3];
+                        int Ymyynti = suureStatusMap.get("Tyovuorossa")[4];
+                        int Ynetti = suureStatusMap.get("Tyovuorossa")[5];
+                        int Yliittymä = suureStatusMap.get("Tyovuorossa")[6];
+                        int Ylaskutus = suureStatusMap.get("Tyovuorossa")[7];
                         switch (i) {
                             case 4:
                                 System.out.println("Myynnin työvuorossa = " + Ymyynti);
