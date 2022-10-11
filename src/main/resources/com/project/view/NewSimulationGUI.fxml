@@ -2,7 +2,6 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -21,7 +20,7 @@
          <left>
             <AnchorPane prefHeight="701.0" prefWidth="252.0" style="-fx-background-color: #3F005E;" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutY="102.0" prefHeight="66.0" prefWidth="252.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;" AnchorPane.bottomAnchor="532.7462505868299" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="102.0">
+                  <Pane layoutY="102.0" prefHeight="66.0" prefWidth="252.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="102.0">
                      <children>
                         <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Uusi Simulaatio" textFill="#f9f9f9">
                            <font>
@@ -150,7 +149,7 @@
                               <DropShadow height="110.88" offsetX="10.0" radius="40.83" width="54.44" />
                            </effect>
                         </ImageView>
-                        <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="CliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -170,7 +169,7 @@
                               <DropShadow />
                            </effect>
                         </Pane>
-                        <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="ClaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -190,7 +189,7 @@
                               <DropShadow />
                            </effect>
                         </Pane>
-                        <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="CnettiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -210,7 +209,7 @@
                               <DropShadow />
                            </effect>
                         </Pane>
-                        <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="275.0">
+                        <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
                               <Label fx:id="CmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
@@ -253,7 +252,6 @@
                         </Pane>
                      </children>
                   </AnchorPane>
-                  <Canvas fx:id="ani" height="153.0" layoutX="53.0" layoutY="200.0" width="278.0" />
                   <Pane layoutX="130.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
                         <Label fx:id="YnettiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
@@ -366,7 +364,6 @@
                         <DropShadow />
                      </effect>
                   </Pane>
-                  <Canvas fx:id="visu" height="225.0" layoutX="25.0" layoutY="51.0" width="80.0" />
                </children>
             </AnchorPane>
          </center>

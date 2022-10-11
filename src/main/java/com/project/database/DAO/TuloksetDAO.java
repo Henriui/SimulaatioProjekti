@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
-import com.project.simu.model.PalvelupisteTulokset;
+import com.project.simu.model.PalvelupisteTulos;
 
 public class TuloksetDAO implements ITuloksetDAO {
     private Connection connection;
@@ -22,11 +22,11 @@ public class TuloksetDAO implements ITuloksetDAO {
     private String user;
     private String password;
 
-    public TuloksetDAO(UserAsetukset asetukset, boolean simulaatio) {
+    public TuloksetDAO(UserAsetukset ua, boolean simulaatio) {
         
-        dbName = asetukset.getDbName();
-        user = asetukset.getUsername();
-        password = asetukset.getPassword();
+        dbName = ua.getDbName();
+        user = ua.getUsername();
+        password = ua.getPassword();
         if (simulaatio){
             tableName1 = "asiakkaat";
             tableName2 = "palvelupisteet";
@@ -121,6 +121,7 @@ public class TuloksetDAO implements ITuloksetDAO {
                     + "palvellut_as         INT    UNSIGNED NOT NULL                            COMMENT 'Kuinka monta asiakasta palveltu.',"
                     + "keskipalveluaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskipalveluaika palvelupisteelle.',"
                     + "keskijonotusaika     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Keskijonotusaika palvelupisteelle.' ,"
+                    + "palveluprosentti     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Palveluprosentti palvelupisteelle.' ,"
                     + "FOREIGN KEY (simulaatiokerta) REFERENCES "+ tableName1 +" (simulaatiokerta) ON DELETE CASCADE ON UPDATE RESTRICT"
                     + " ) engine=InnoDB;");
             if (statement.execute() != true) {
@@ -193,22 +194,23 @@ public class TuloksetDAO implements ITuloksetDAO {
     /**
      * Returns true if palvelupistetulos added successfully. Otherwise returns false.
      * 
-     * @param PalvelupisteTulokset
+     * @param PalvelupisteTulos
      * @return boolean
      * @throws SQLException
      * @Author Henri
      */
-    private boolean addPalvelupisteTulos(ArrayList<PalvelupisteTulokset> ppTulos) throws SQLException{
-            for (PalvelupisteTulokset palvelupisteTulokset : ppTulos) {
+    private boolean addPalvelupisteTulos(ArrayList<PalvelupisteTulos> ppTulos) throws SQLException{
+            for (PalvelupisteTulos PalvelupisteTulos : ppTulos) {
             
                 statement = connection.prepareStatement("INSERT INTO " + tableName2
-                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika ) VALUES ( ?, ?, ?, ?, ?, ? )");
-                statement.setInt(1, palvelupisteTulokset.getId());                  // id
-                statement.setInt(2, palvelupisteTulokset.getSimulaatiokerta());     // Sim kerta
-                statement.setInt(3, palvelupisteTulokset.getTyyppi());              // tyyppi
-                statement.setInt(4, palvelupisteTulokset.getPalvellutAsiakkaat());  // palvellut_as
-                statement.setDouble(5, palvelupisteTulokset.getKeskiPalveluAika()); // keskipalveluaika
-                statement.setDouble(6, palvelupisteTulokset.getKeskiJonotusAika()); // keskijonotusaika
+                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika, palveluprosentti ) VALUES ( ?, ?, ?, ?, ?, ?, ? )");
+                statement.setInt(1, PalvelupisteTulos.getId());                  // id
+                statement.setInt(2, PalvelupisteTulos.getSimulaatiokerta());     // Sim kerta
+                statement.setInt(3, PalvelupisteTulos.getTyyppi());              // tyyppi
+                statement.setInt(4, PalvelupisteTulos.getPalvellutAsiakkaat());  // palvellut_as
+                statement.setDouble(5, PalvelupisteTulos.getKeskiPalveluAika()); // keskipalveluaika
+                statement.setDouble(6, PalvelupisteTulos.getKeskiJonotusAika()); // keskijonotusaika
+                statement.setDouble(7, PalvelupisteTulos.getPalveluProsentti()); // keskijonotusaika
 
                 statement.executeUpdate();
             }
@@ -256,7 +258,7 @@ public class TuloksetDAO implements ITuloksetDAO {
     public Tulokset queryTulos(int id) throws SQLException {
 
         Tulokset tulos = null;
-        ArrayList<PalvelupisteTulokset> pptulosList = new ArrayList<>();
+        ArrayList<PalvelupisteTulos> pptulosList = new ArrayList<>();
 
         // Prepare statement to select pptulokset.
 
@@ -267,13 +269,15 @@ public class TuloksetDAO implements ITuloksetDAO {
         // Pack pptulokset into array from db.
 
         while( results.next() ){
-            PalvelupisteTulokset ppTulos = new PalvelupisteTulokset(
+            PalvelupisteTulos ppTulos = new PalvelupisteTulos(
                 results.getInt(1),
                 results.getInt(2),
                 results.getInt(3),
                 results.getInt(4),
                 results.getDouble(5),
-                results.getDouble(6) );
+                results.getDouble(6), 
+                results.getDouble(7) 
+                );
                 
                 pptulosList.add(ppTulos);
             }
@@ -336,8 +340,9 @@ public class TuloksetDAO implements ITuloksetDAO {
         try{
             statement = connection.prepareStatement("Select simulaatiokerta from " + tableName1);
             ResultSet rs = statement.executeQuery();
-            rs.last();
-            
+            if (!rs.last())
+                return 0;
+                
             result = rs.getInt(1);
 
             return result;

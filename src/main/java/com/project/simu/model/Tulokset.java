@@ -13,13 +13,13 @@ public class Tulokset {
     private int uudelleenOhjatutAsiakkaat;
     private double keskiJonotusAika;
     private double keskiLapiMenoAika;
-    private ArrayList<PalvelupisteTulokset> palveluPisteTuloksets = new ArrayList<PalvelupisteTulokset>();
+    private ArrayList<PalvelupisteTulos> palveluPisteTuloksets = new ArrayList<PalvelupisteTulos>();
     
     
 
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
             int uudelleenOhjatutAsiakkaat, int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
-            ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
+            ArrayList<PalvelupisteTulos> palveluPisteTuloksets) {
         this.simulaatiokerta = simulaatiokerta;
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
@@ -34,7 +34,7 @@ public class Tulokset {
 
     public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int uudelleenOhjatutAsiakkaat,
             int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
-            ArrayList<PalvelupisteTulokset> palveluPisteTuloksets) {
+            ArrayList<PalvelupisteTulos> palveluPisteTuloksets) {
         this.kesto = kesto;
         this.palveluProsentti = palveluProsentti;
         this.asMaara = asMaara;
@@ -82,7 +82,7 @@ public class Tulokset {
         return keskiJonotusAika;
     }
 
-    public ArrayList<PalvelupisteTulokset> getPalveluPisteTulokset() {
+    public ArrayList<PalvelupisteTulos> getPalveluPisteTulokset() {
         return palveluPisteTuloksets;
     }
 
@@ -91,7 +91,7 @@ public class Tulokset {
     }
 
     public String getKestoString() {
-        return String.format("%.0f", kesto);
+        return String.format("%.0f", (kesto / 60));
     }
 
     public String getPalveluProsenttiString() {
@@ -115,11 +115,11 @@ public class Tulokset {
     }
 
     public String getKeskiLapiMenoAikaString() {
-        return String.format("%.0f", keskiLapiMenoAika);
+        return String.format("%.1f", (keskiLapiMenoAika / 60));
     }
 
     public String getKeskiJonotusAikaString() {
-        return String.format("%.0f", keskiJonotusAika);
+        return String.format("%.1f", (keskiJonotusAika / 60));
     }
 
 }

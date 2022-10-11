@@ -12,13 +12,13 @@ import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
-import com.project.simu.model.PalvelupisteTulokset;
+import com.project.simu.model.PalvelupisteTulos;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
     private static Tulokset tulos;
-    PalvelupisteTulokset ppTulos;
-    ArrayList<PalvelupisteTulokset> ppList = new ArrayList<PalvelupisteTulokset>();
+    PalvelupisteTulos ppTulos;
+    ArrayList<PalvelupisteTulos> ppList = new ArrayList<PalvelupisteTulos>();
     
     @BeforeEach
     public void avaaYhteys() {
@@ -26,7 +26,7 @@ public class DAOtest {
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
 
-        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10);
+        ppTulos = new PalvelupisteTulos(5,1,7,8,9,10,70);
 
         ppList.add(ppTulos);
 
@@ -43,6 +43,8 @@ public class DAOtest {
     @Test
     @DisplayName("addTulos testi")
     public void addTulosTesti(){ 
+        dao.dropTable();
+        dao.openConnection();
         assertTrue(dao.addTulos(tulos), "Asiakas tuloksen lisäys ei onnistu.");
     }
     
