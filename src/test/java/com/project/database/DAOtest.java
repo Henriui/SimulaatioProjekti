@@ -26,7 +26,7 @@ public class DAOtest {
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
 
-        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10);
+        ppTulos = new PalvelupisteTulokset(5,1,7,8,9,10, 99);
 
         ppList.add(ppTulos);
 
@@ -43,6 +43,8 @@ public class DAOtest {
     @Test
     @DisplayName("addTulos testi")
     public void addTulosTesti(){ 
+        dao.dropTable();
+        dao.openConnection();
         assertTrue(dao.addTulos(tulos), "Asiakas tuloksen lisäys ei onnistu.");
     }
     

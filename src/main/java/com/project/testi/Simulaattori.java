@@ -19,11 +19,11 @@ public class Simulaattori { // Tekstipohjainen
 		UserAsetukset ua = new UserAsetukset("olso","root","root");
 		ITuloksetDAO db = new TuloksetDAO(ua, false);
 		
-		// db.openConnection();
-		// db.dropTable();
+		db.openConnection();
+		db.dropTable();
 		db.openConnection();
 
-		ppTulos = new PalvelupisteTulokset(1,1,7,8,9,10);
+		ppTulos = new PalvelupisteTulokset(1,1,7,8,9,10,99);
 
         ppList.add(ppTulos);
 

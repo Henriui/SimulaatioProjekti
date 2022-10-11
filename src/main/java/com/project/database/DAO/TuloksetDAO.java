@@ -203,13 +203,14 @@ public class TuloksetDAO implements ITuloksetDAO {
             for (PalvelupisteTulokset palvelupisteTulokset : ppTulos) {
             
                 statement = connection.prepareStatement("INSERT INTO " + tableName2
-                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika, palveluprosentti ) VALUES ( ?, ?, ?, ?, ?, ? )");
+                + " ( id, simulaatiokerta, tyyppi, palvellut_as, keskipalveluaika, keskijonotusaika, palveluprosentti ) VALUES ( ?, ?, ?, ?, ?, ?, ? )");
                 statement.setInt(1, palvelupisteTulokset.getId());                  // id
                 statement.setInt(2, palvelupisteTulokset.getSimulaatiokerta());     // Sim kerta
                 statement.setInt(3, palvelupisteTulokset.getTyyppi());              // tyyppi
                 statement.setInt(4, palvelupisteTulokset.getPalvellutAsiakkaat());  // palvellut_as
                 statement.setDouble(5, palvelupisteTulokset.getKeskiPalveluAika()); // keskipalveluaika
                 statement.setDouble(6, palvelupisteTulokset.getKeskiJonotusAika()); // keskijonotusaika
+                statement.setDouble(7, palvelupisteTulokset.getPalveluProsentti()); // keskijonotusaika
 
                 statement.executeUpdate();
             }
