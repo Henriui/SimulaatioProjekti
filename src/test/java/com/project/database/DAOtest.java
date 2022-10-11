@@ -22,7 +22,7 @@ public class DAOtest {
     
     @BeforeEach
     public void avaaYhteys() {
-        UserAsetukset up = new UserAsetukset("olso", "root", "root");
+        UserAsetukset up = new UserAsetukset("simulaattori", "root", "root");
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
 
@@ -93,5 +93,15 @@ public class DAOtest {
         dao.addTulos(tulos);
         dao.addTulos(tulos);
         assertEquals(3, dao.getRowCount(), "Rows not counted well.");
+    }
+    @Test
+    @DisplayName("getRowIndexTesti testi")
+    public void getRowIndexTesti() {
+        dao.dropTable();
+        dao.openConnection();
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        dao.addTulos(tulos);
+        assertEquals(3, dao.getRowIndex(), "Rows not counted well.");
     }
 }

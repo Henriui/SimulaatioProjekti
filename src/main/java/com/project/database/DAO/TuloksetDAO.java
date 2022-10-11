@@ -335,7 +335,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @return int
      * @Author Henri
      */
-    public int getRowCount(){
+    public int getRowIndex(){
         int result;
         try{
             statement = connection.prepareStatement("Select simulaatiokerta from " + tableName1);
@@ -348,7 +348,21 @@ public class TuloksetDAO implements ITuloksetDAO {
             return result;
 
         } catch (SQLException e) {
-            System.out.println("No rows or something went wrong.");
+            System.out.println("Row index error.");
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int getRowCount(){
+        int result;
+        try{
+            statement = connection.prepareStatement("SELECT COUNT( simulaatiokerta ) FROM "+ tableName1);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            result = rs.getInt(1);
+            return result;
+        } catch (SQLException e) {
+            System.out.println("Row count error.");
             e.printStackTrace();
         }
         return 0;
