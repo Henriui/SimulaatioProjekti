@@ -15,8 +15,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class TuloksetController {
 
@@ -43,11 +48,13 @@ public class TuloksetController {
     @FXML
     private TableColumn<Tulokset, String> keskiLapiMenoAikColumn;
 
-
     // Hakee asetukset ja kutsuu tietokannan
     private UserAsetukset asetukset; // TODO: VAATII ASETUKSET
     private Tulokset tulokset;
     private ITuloksetDAO db;
+    private double xOffset = 0;
+    private double yOffset = 0;
+    private static boolean open = false;
 
     @FXML
     private void initialize() {
@@ -57,8 +64,8 @@ public class TuloksetController {
     private void setTableView() {
         UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
         db = new TuloksetDAO(ua, true);
-        ArrayList<Tulokset>tuloksetArrayList = new ArrayList<Tulokset>();
-        for(int i = 1; i <= db.getRowCount(); i++){
+        ArrayList<Tulokset> tuloksetArrayList = new ArrayList<Tulokset>();
+        for (int i = 1; i <= db.getRowCount(); i++) {
             try {
                 tuloksetArrayList.add(db.queryTulos(i));
             } catch (SQLException e) {
@@ -73,17 +80,20 @@ public class TuloksetController {
         simulaatiokertaColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getSimulaatiokertaString()));
         kestoColumn.setCellValueFactory(
-                    cellData -> new SimpleStringProperty(cellData.getValue().getKestoString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKestoString()));
         palveluprosenttiColumn.setCellValueFactory(
-                    cellData -> new SimpleStringProperty(cellData.getValue().getPalveluProsenttiString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getPalveluProsenttiString()));
         asiakkaitaColumn.setCellValueFactory(
-                    cellData -> new SimpleStringProperty(cellData.getValue().getAsMaaraString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getAsMaaraString()));
         palveltuColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getPalvellutAsiakkaatString()));
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getPalvellutAsiakkaatString()));
         uudelleenOhjatutColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getUudelleenOhjatutAsiakkaatString()));
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getUudelleenOhjatutAsiakkaatString()));
         poistuneetColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getPoistuneetAsiakkaatString()));
+                cellData -> new SimpleStringProperty(
+                        cellData.getValue().getPoistuneetAsiakkaatString()));
         keskiJonotusAikColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
         keskiLapiMenoAikColumn.setCellValueFactory(
@@ -91,7 +101,52 @@ public class TuloksetController {
         keskiPalveluAikColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getKeskiLapiMenoAikaString()));
 
+        tw.getSelectionModel().selectedItemProperty().addListener(
+            (observable, oldValue, newValue) -> {
+                try {
+                    runTulokset(newValue);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            });
+
         System.out.println("Ajettu");
+    }
+
+    public void runTulokset(Tulokset tulokset) throws IOException {
+        if (!open) {
+            FXMLLoader loader = loadFXML("tuloksetDetailedPopUp");
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Simulaatiokerran tulos");
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            scene.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+
+            // Can move window when mouse down and drag.
+            scene.setOnMouseDragged(event -> {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            });
+
+            TuloksedDetailedController controller = loader.getController();
+            controller.setTulokset(tulokset);
+            stage.show();
+            controller.updateValues();
+            open = true;
+        }
+    }
+
+    // Finds fxml file from the resources folder.
+    private static FXMLLoader loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
+        return fxmlLoader;
     }
 
     @FXML

@@ -70,24 +70,50 @@ public class TuloksedDetailedController {
 
     private SimulaatioData sS;
     private Tulokset tulokset;
+    private UserAsetukset ua;
+    private boolean useSS = false;
 
     private ArrayList<PalvelupisteTulokset> palveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
     private ArrayList<PalvelupisteTulokset> yksPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
     private ArrayList<PalvelupisteTulokset> yriPalveluPisteTulokset = new ArrayList<PalvelupisteTulokset>();
+    
+    private void setUp(){
+        ua = new UserAsetukset("projekti", "olso", "olso");
+        db = new TuloksetDAO(ua, true);
+        if(!useSS){
+            removeButton.setText("Delete");
+            saveButton.setText("Back");
+        }
+    }
 
     public void updateValues() {
-        UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
-        db = new TuloksetDAO(ua, true);
-        for (int i = 1; i < 9; i++) {
-            palveluPisteTulokset
-                    .add( new PalvelupisteTulokset(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i), sS.getJonoAika(i),
-                            sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
+        setUp();
+        if (useSS) {
+            for (int i = 1; i < 9; i++) {
+                palveluPisteTulokset
+                        .add(new PalvelupisteTulokset(i, (db.getRowCount() + 1), i, sS.getPalveluMaara(i),
+                                sS.getJonoAika(i),
+                                sS.getPalveluAika(i), sS.getPalveluProsentti(i)));
+            }
+
+            tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
+                (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsReRouted(),
+                sS.getAsPoistunut(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTulokset);
+
+                for (int i = 0; i < 4; i++) {
+                    yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
+                }
+                for (int i = 4; i < 8; i++) {
+                    yriPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
+                }
         }
-        for (int i = 0; i < 4; i++) {
-            yksPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
-        }
-        for (int i = 4; i < 8; i++) {
-            yriPalveluPisteTulokset.add(palveluPisteTulokset.get(i));
+        else{
+            for (int i = 0; i < 4; i++) {
+                yksPalveluPisteTulokset.add(tulokset.getPalveluPisteTulokset().get(i));
+            }
+            for (int i = 4; i < 8; i++) {
+                yriPalveluPisteTulokset.add(tulokset.getPalveluPisteTulokset().get(i));
+            }
         }
 
         ObservableList<PalvelupisteTulokset> oListYriPalvelupisteTulokset = FXCollections
@@ -120,10 +146,6 @@ public class TuloksedDetailedController {
         yksPalveluprosenttiColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
-        tulokset = new Tulokset(sS.getSimulointiAika(), sS.getPalveluprosentti(),
-                (sS.getAsPalveltu() + sS.getAsPoistunut()), sS.getAsPalveltu(), sS.getAsReRouted(),
-                sS.getAsPoistunut(), sS.getJonotusATotal(), sS.getAvgAsAikaSim(), palveluPisteTulokset);
-
         kestoLabel.setText(tulokset.getKestoString());
         pProsenttiLabel.setText(tulokset.getPalveluProsenttiString());
         asMaaraLabel.setText(tulokset.getAsMaaraString());
@@ -137,30 +159,42 @@ public class TuloksedDetailedController {
     @FXML
     private void remove() {
         Stage stage = (Stage) removeButton.getScene().getWindow();
-        controller.popupOpen(false);
+        if(useSS){
+            controller.popupOpen(false);
+        }
+        else{
+            System.out.println(tulokset.getSimulaatiokerta());
+            db.removeTulos(tulokset.getSimulaatiokerta());
+        }
         stage.close();
     }
 
     @FXML
     private void save() {
-        saveToDatabase();
+        Stage stage = (Stage) removeButton.getScene().getWindow();
+        if(useSS){
+            saveToDatabase();
+            controller.popupOpen(false);
+        }
+        updateValues();
+        stage.close();
     }
 
     private void saveToDatabase() {
         db.addTulos(tulokset);
         db.closeConnection();
-        Stage stage = (Stage) removeButton.getScene().getWindow();
-        controller.popupOpen(false);
-        stage.close();
     }
 
     public void setSimulaationSuureet(SimulaatioData sS) {
         this.sS = sS;
-        System.out.println(sS.getAsPalveltu());
+        useSS = true;
+    }
+
+    public void setTulokset(Tulokset tulokset){
+        this.tulokset = tulokset;
     }
 
     public void setSimulationController(NewSimulationController nSc) {
         controller = nSc;
     }
-
 }
