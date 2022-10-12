@@ -707,7 +707,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      * @author Jonne Borgman
      */
     @Override
-    public void visualisoiAsiakas(int asType) {
+    public void visualisoiAsiakas(int asType, int oldAsType) {
         // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
         // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
         pallotNäytöllä = true;
