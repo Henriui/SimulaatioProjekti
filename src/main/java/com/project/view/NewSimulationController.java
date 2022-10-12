@@ -127,6 +127,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     public void initialize() {
         uP = new Parametrit();
+        open = false;
         new animatefx.animation.ZoomIn();
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
@@ -141,7 +142,53 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      */
     @FXML
     private void takaisinMainView() throws IOException {
+        if (simulationRunning) {
+            open = true;
+            m.setSimulointiAika(0);
+        }
         MainApp.setRoot("mainView");
+    }
+
+    /**
+     * Tarkistaa onko pop-up ikkuna auki.
+     * 
+     * @param isOpen
+     * @author Jonne Borgman
+     */
+    public void popupOpen(boolean isOpen) {
+        open = isOpen;
+    }
+
+    /**
+     * @return Parametrit from newsimulationcontroller for popup windows
+     * @author Rasmus Hyyppä
+     */
+    public Parametrit getParametri() {
+        return uP;
+    }
+
+    /**
+     * @param parametri Sets Parametrit from ParametriController to
+     *                  NewSimulationController
+     * @author Rasmus Hyyppä
+     */
+    public void setParametri(Parametrit parametri) {
+        uP = parametri;
+    }
+
+    /**
+     * Hakee kutsuessa oikean FXML tiedoston oikeasta paikasta.
+     * 
+     * @param fxml
+     * @return
+     * @throws IOException
+     * 
+     * @author Jonne Borgman
+     */
+    private static FXMLLoader loadFXML(String fxml) throws IOException {
+        // Finds fxml file from the resources folder.
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
+        return fxmlLoader;
     }
 
     /**
@@ -152,8 +199,15 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      */
     @FXML
     public void aloitaSimulaatio() throws InterruptedException {
+
+        if (simulationRunning) {
+            m.setSimulointiAika(0);
+            return;
+        }
+
         alustaAsiakkaat();
-        if (!simulationRunning && !pallotNäytöllä) {
+
+        if (!open) {
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this, uP);
             m.setViive(0);
@@ -171,8 +225,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      * @author Jonne Borgman
      */
     @FXML
-    public void setSuureet() throws IOException {
-        if (!open) {
+    public void setParametrit() throws IOException {
+        if (!open && !simulationRunning) {
             FXMLLoader loader = loadFXML("Parametrit");
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
@@ -256,175 +310,47 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * Tarkistaa onko pop-up ikkuna auki.
-     * 
-     * @param isOpen
-     * @author Jonne Borgman
-     */
-    public void popupOpen(boolean isOpen) {
-        open = isOpen;
-    }
-
-    /**
-     * TODO:
-     * 
-     * @return
-     */
-    public Parametrit getParametri() {
-        return uP;
-    }
-
-    /**
-     * TODO:
-     * 
-     * @param parametri
-     */
-    public void setParametri(Parametrit parametri) {
-        uP = parametri;
-    }
-
-    /**
-     * Hakee kutsuessa oikean FXML tiedoston oikeasta paikasta.
-     * 
-     * @param fxml
-     * @return
-     * @throws IOException
-     * 
-     * @author Jonne Borgman
-     */
-    private static FXMLLoader loadFXML(String fxml) throws IOException {
-        // Finds fxml file from the resources folder.
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("view/" + fxml + ".fxml"));
-        return fxmlLoader;
-    }
-
-    /**
-     * TODO:
+     * Grants view a hashmap from kontrolleri in model, that contains current status
+     * of each palvelupiste group
+     * when simulation is running.
+     * [i] = 0-7 = aspa, 8-10 = puhelinvalikko
+     * suureStatusMap.get("Palveltu")[i], kuinka monta palveltu
+     * suureStatusMap.get("Jonossa")[i], kuinka monta jonossa
+     * suureStatusMap.get("Quitter")[i], kuinka monta quitannut
+     * suureStatusMap.get("ReRouted")[i], kuinka monta reroutattu
+     * suureStatusMap.get("Tyovuorossa")[i], onko tullut töihin vielä
+     * suureStatusMap.get("Varattu")[i], Kuinka monta varattua palvelupistettä
+     * suureStatusMap.get("Palveluprosentti")[i], palvelupisteen vastausprosentti
+     * suureStatusMap.get("Totalit")[i], =
+     * "Totalit" [0] = asiakkaitten kokonaismäärä simulaatiossa
+     * "Totalit" [1] = asiakkaita palveltu simulaatiossa
+     * "Totalit" [2] = asiakkaitta quitannut jonosta simulaatiossa
+     * "Totalit" [3] = asiakkaita reroutattu simulaatiossa
+     * "Totalit" [4] = simulaationaika
+     * "Totalit" [5] = palveluprosentti
      * 
      * @param suureStatusMap
-     * 
      * @author Rasmus Hyyppä
      */
     @Override
     public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap) {
+        Label[] tyoVuoroLabelit = new Label[] { YmyyntiTv, YnettiTv, YliittymäTv, YlaskutusTv, CmyyntiTv,
+                CnettiTv, CliittymäTv, ClaskutusTv };
         Platform.runLater(new Runnable() {
             public void run() {
-                // [i] = 0-7 = aspa, 8-10 = puhelinvalikko
-                // suureStatusMap.get("Palveltu")[i]
-                // suureStatusMap.get("Jonossa")[i]
-                // suureStatusMap.get("Quitter")[i]
-                // suureStatusMap.get("ReRouted")[i]
-                // suureStatusMap.get("Tyovuorossa")[i]
-                // suureStatusMap.get("Varattu")[i] Palvelupisteistä kuinka monta on varattuna!
-                // suureStatusMap.get("Totalit")[i]
-                // suureStatusMap.get("Palveluprosentti")[i]
-
-                // Esim.
-                // int yksityisTv = 0;
-                // int yritysTv = 0;
                 for (int i = 0; i < suureStatusMap.get("Varattu").length; i++) {
-                    if (i < 4) {
-                        // yksityisTv += suureStatusMap.get("Tyovuorossa")[i];
-                        int myynti = suureStatusMap.get("Tyovuorossa")[0];
-                        int netti = suureStatusMap.get("Tyovuorossa")[1];
-                        int liittymä = suureStatusMap.get("Tyovuorossa")[2];
-                        int laskutus = suureStatusMap.get("Tyovuorossa")[3];
-                        switch (i) {
-                            case 0:
-                                System.out.println("Myynnin työvuorossa = " + myynti);
-                                YmyyntiTv.setText(String.valueOf(myynti));
-                                break;
-                            case 1:
-                                System.out.println("Netin työvuorossa = " + netti);
-                                YnettiTv.setText(String.valueOf(netti));
-                                break;
-                            case 2:
-                                System.out.println("Liittymä työvuorossa = " + liittymä);
-                                YliittymäTv.setText(String.valueOf(liittymä));
-                                break;
-                            case 3:
-                                System.out.println("Laskutus työvuorossa = " + laskutus);
-                                YlaskutusTv.setText(String.valueOf(laskutus));
-                                break;
-                        }
-                    } else if (i > 3 && i < 8) {
-                        // yritysTv += suureStatusMap.get("Tyovuorossa")[i];
-                        int Ymyynti = suureStatusMap.get("Tyovuorossa")[4];
-                        int Ynetti = suureStatusMap.get("Tyovuorossa")[5];
-                        int Yliittymä = suureStatusMap.get("Tyovuorossa")[6];
-                        int Ylaskutus = suureStatusMap.get("Tyovuorossa")[7];
-                        switch (i) {
-                            case 4:
-                                System.out.println("Myynnin työvuorossa = " + Ymyynti);
-                                CmyyntiTv.setText(String.valueOf(Ymyynti));
-                                break;
-                            case 5:
-                                System.out.println("Netin työvuorossa = " + Ynetti);
-                                CnettiTv.setText(String.valueOf(Ynetti));
-                                break;
-                            case 6:
-                                System.out.println("Liittymä työvuorossa = " + Yliittymä);
-                                CliittymäTv.setText(String.valueOf(Yliittymä));
-                                break;
-                            case 7:
-                                System.out.println("Laskutus työvuorossa = " + Ylaskutus);
-                                ClaskutusTv.setText(String.valueOf(Ylaskutus));
-                                break;
-                        }
-                    }
-
-                }
-                // yksityisPalvelupisteita.setText("Palvelupisteitä: " +
-                // String.valueOf(yksityisTv));
-                // yritysPalvelupisteita.setText("Palvelupisteitä: " +
-                // String.valueOf(yritysTv));
-                // int yksityisPalvelu = 0;
-                // int yritysPalvelu = 0;
-                for (int i = 0; i < suureStatusMap.get("Palveltu").length; i++) {
-                    if (i < 4) {
-                        // yksityisPalvelu += suureStatusMap.get("Palveltu")[i];
-                    } else if (i > 3 && i < 8) {
-                        // yritysPalvelu += suureStatusMap.get("Palveltu")[i];
+                    String strValue = String.valueOf(suureStatusMap.get("Tyovuorossa")[i]);
+                    if (i < 8) {
+                        System.out.println(tyoVuoroLabelit[i].toString() + " työvuorossa = " + strValue);
+                        tyoVuoroLabelit[i].setText(strValue);
                     }
                 }
-                // palvelupisteellaYksityis.setText("Palveltuja as " +
-                // String.valueOf(yksityisPalvelu));
-                // palvelupisteellaYritys.setText("Palveltuja as " +
-                // String.valueOf(yritysPalvelu));
 
-                // int jonoYksityis = 0;
-                // int jonoYritys = 0;
-                for (int i = 0; i < suureStatusMap.get("Jonossa").length; i++) {
-                    if (i < 4) {
-                        // jonoYksityis += suureStatusMap.get("Jonossa")[i];
-                    } else if (i > 3 && i < 8) {
-                        // jonoYritys += suureStatusMap.get("Jonossa")[i];
-                    }
-                }
-                // yksityisJonossa.setText(String.valueOf(jonoYksityis));
-                // YritysJonossa.setText(String.valueOf(jonoYritys));
-
-                // "Totalit" [0] = asiakkaitten kokonaismäärä simulaatiossa
-                // "Totalit" [1] = asiakkaita palveltu simulaatiossa
-                // "Totalit" [2] = asiakkaitta quitannut jonosta simulaatiossa
-                // "Totalit" [3] = asiakkaita reroutattu simulaatiossa
-                // "Totalit" [4] = simulaationaika
-                // "Totalit" [5] = palveluprosentti
-
-                // Esim.
-                // int kokonaisMaara = 0;
                 int ulkona = 0;
                 for (int i = 0; i < suureStatusMap.get("Totalit").length; i++) {
-                    if (i == 0) {
-                        // asiakkaitten kokonaismäärä simulaatiossa
-                        // kokonaisMaara = suureStatusMap.get("Totalit")[i];
-                    } else if (i > 0 && i < 3) {
+                    if (i > 0 && i < 3) {
                         // ulkona asiakkaita simulaatiosta (palveltu[1]+quitterit[2])
                         ulkona += suureStatusMap.get("Totalit")[i];
-                    } else if (i == 4) {
-                        // asiakkaita rerouttattu simulaatiossa
-                    } else if (i == 5) {
-                        // simulointiaika currently
                     }
                 }
                 kokonaismäärä.setText("Total: " + String.valueOf(ulkona));

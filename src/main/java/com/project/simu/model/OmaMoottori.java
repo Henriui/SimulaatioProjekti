@@ -94,6 +94,7 @@ public class OmaMoottori extends Moottori {
 			// Otetaan jonosta ja asetetaan poistumisaika
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
 			if (as.getReRouted() && !as.isJonotukseenKyllastynyt()) {
+				int vanhaAsType = as.getAsType();
 				sS.addAsReRouted();
 				palvelupisteet[haeAs(as.setReRouted())].addJonoon(as);
 				kontrolleri.visualisoiAsiakas(as.getAsType());
