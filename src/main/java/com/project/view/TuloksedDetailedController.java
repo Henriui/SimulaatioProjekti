@@ -208,24 +208,40 @@ public class TuloksedDetailedController {
         keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString() + "min");
 
         // ObservableListit simulaatiossa käytetyistä asetuksista
-        ObservableList<String> pisteetObservableList = FXCollections.observableArrayList("Yksityismyynti: ",
-                "Yksityisnetti: ",
-                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ",
-                "Yritysliittymä: ",
-                "Yrityslaskutus: ");
-        ObservableList<String> ajatObservableList = FXCollections.observableArrayList("Yksityismyynti: ",
-                "Yksityisnetti: ",
-                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ",
-                "Yritysliittymä: ",
-                "Yrityslaskutus: ");
-        ObservableList<String> jakaumaObservableList = FXCollections.observableArrayList("Yksityismyynti: ",
-                "Yksityisnetti: ",
-                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ",
-                "Yritysliittymä: ",
-                "Yrityslaskutus: ");
-        ObservableList<String> miscObservableList = FXCollections.observableArrayList("Simuloinninaika: ",
-                "Yksityis/yritys jakauma: ",
-                "Kärsimättömyys aika: ", "Väärävalinta prosentti: ", "Asiakasmäärä tunnissa: ");
+        ObservableList<String> pisteetObservableList = FXCollections.observableArrayList(
+                "Yksityismyynti: " + tulokset.getTallennettavatParametrit().getYksMyyntiPisteitaString() + "kpl",
+                "Yksityisnetti: " + tulokset.getTallennettavatParametrit().getYksNettiPisteitaString() + "kpl",
+                "Yksityisliittymä: " + tulokset.getTallennettavatParametrit().getYksLiittymaPisteitaString() + "kpl",
+                "Yksityislaskutus: " + tulokset.getTallennettavatParametrit().getYksLaskutusPisteitaString() + "kpl",
+                "Yritysmyynti: " + tulokset.getTallennettavatParametrit().getYriMyyntiPisteitaString() + "kpl",
+                "Yritysnetti: " + tulokset.getTallennettavatParametrit().getYriNettiPisteitaString() + "kpl",
+                "Yritysliittymä: " + tulokset.getTallennettavatParametrit().getYriLiittymaPisteitaString() + "kpl",
+                "Yrityslaskutus: " + tulokset.getTallennettavatParametrit().getYriLaskutusPisteitaString() + "kpl");
+        ObservableList<String> ajatObservableList = FXCollections.observableArrayList(
+                "Yksityismyynti: " + tulokset.getTallennettavatParametrit().getYksMyyntiAikaString() + "min",
+                "Yksityisnetti: " + tulokset.getTallennettavatParametrit().getYksNettiAikaString() + "min",
+                "Yksityisliittymä: " + tulokset.getTallennettavatParametrit().getYksLiittymaAikaString() + "min",
+                "Yksityislaskutus: " + tulokset.getTallennettavatParametrit().getYksLaskutusAikaString() + "min",
+                "Yritysmyynti: " + tulokset.getTallennettavatParametrit().getYriMyyntiAikaString() + "min",
+                "Yritysnetti: " + tulokset.getTallennettavatParametrit().getYriNettiAikaString() + "min",
+                "Yritysliittymä: " + tulokset.getTallennettavatParametrit().getYriLiittymaAikaString() + "min",
+                "Yrityslaskutus: " + tulokset.getTallennettavatParametrit().getYriLaskutusAikaString() + "min");
+        ObservableList<String> jakaumaObservableList = FXCollections.observableArrayList(
+                "Yksityismyynti: " + tulokset.getTallennettavatParametrit().getYksMyyntiJakaumaString() + "%",
+                "Yksityisnetti: " + tulokset.getTallennettavatParametrit().getYksNettiJakaumaString() + "%",
+                "Yksityisliittymä: " + tulokset.getTallennettavatParametrit().getYksLiittymaJakaumaString() + "%",
+                "Yksityislaskutus: " + tulokset.getTallennettavatParametrit().getYksLaskutusJakaumaString() + "%",
+                "Yritysmyynti: " + tulokset.getTallennettavatParametrit().getYriMyyntiJakaumaString() + "%",
+                "Yritysnetti: " + tulokset.getTallennettavatParametrit().getYriNettiJakaumaString() + "%",
+                "Yritysliittymä: " + tulokset.getTallennettavatParametrit().getYriLiittymaJakaumaString() + "%",
+                "Yrityslaskutus: " + tulokset.getTallennettavatParametrit().getYriLaskutusJakaumaString() + "%");
+        ObservableList<String> miscObservableList = FXCollections.observableArrayList(
+                "Simuloinninaika: " + tulokset.getTallennettavatParametrit().getSimuloinninAikaString() + "h",
+                "Yksityis/yritys jakauma: " + tulokset.getTallennettavatParametrit().getYksYriJakaumaString() + "/"
+                        + (int) (100 - tulokset.getTallennettavatParametrit().getYksYriJakauma()) + "%",
+                "Kärsimättömyys aika: " + tulokset.getTallennettavatParametrit().getKarsimaatomyysAikaString() + "min",
+                "Väärävalinta prosentti: " + tulokset.getTallennettavatParametrit().getVaaraValintaProsenttiString() + "%",
+                "Asiakasmäärä tunnissa: " + tulokset.getTallennettavatParametrit().getAsikasmaaraTuntiString() + "kpl/h");
 
         pisteetListView.setItems(pisteetObservableList);
         ajatListView.setItems(ajatObservableList);

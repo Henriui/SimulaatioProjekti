@@ -6,7 +6,7 @@ public class TallennettavatParametrit {
     private int yksMyyntiPisteita, yksNettiPisteita, yksLiittymaPisteita, yksLaskutusPisteita, yriMyyntiPisteita, yriNettiPisteita, yriLiittymaPisteita, yriLaskutusPisteita;
     private double yksMyyntiAika, yksNettiAika, yksLiittymaAika, yksLaskutusAika, yriMyyntiAika, yriNettiAika, yriLiittymaAika, yriLaskutusAika;
     private double yksMyyntiJakauma, yksNettiJakauma, yksLiittymaJakauma, yksLaskutusJakauma, yriMyyntiJakauma, yriNettiJakauma, yriLiittymaJakauma, yriLaskutusJakauma;
-    private double simuloinninAika, yksYriJakauma, karsimaatomyysAika, vaaraValintaProsentti, asikasmaaraTunti;
+    private double simuloinninAika, yksYriJakauma, karsimaatomyysAika, vaaraValintaProsentti, asiakasmaaraTunti;
     
     /**
      * 
@@ -40,7 +40,7 @@ public class TallennettavatParametrit {
      * @param yksYriJakauma Jakauma yksityisen ja yritys puolen välillä 0-100
      * @param karsimaatomyysAika Kärsimättömyyden aika
      * @param vaaraValintaProsentti Väärä valinta prosentti
-     * @param asikasmaaraTunti Asiakkaita tunnissa
+     * @param asiakasmaaraTunti Asiakkaita tunnissa
      * @author Lassi Bågman
      */
     public TallennettavatParametrit(int simulointiKerta, int yksMyyntiPisteita, int yksNettiPisteita,
@@ -50,7 +50,7 @@ public class TallennettavatParametrit {
             double yriLiittymaAika, double yriLaskutusAika, double yksMyyntiJakauma, double yksNettiJakauma,
             double yksLiittymaJakauma, double yksLaskutusJakauma, double yriMyyntiJakauma, double yriNettiJakauma,
             double yriLiittymaJakauma, double yriLaskutusJakauma, double simuloinninAika, double yksYriJakauma,
-            double karsimaatomyysAika, double vaaraValintaProsentti, double asikasmaaraTunti) {
+            double karsimaatomyysAika, double vaaraValintaProsentti, double asiakasmaaraTunti) {
         this.simulointiKerta = simulointiKerta;
         this.yksMyyntiPisteita = yksMyyntiPisteita;
         this.yksNettiPisteita = yksNettiPisteita;
@@ -80,7 +80,7 @@ public class TallennettavatParametrit {
         this.yksYriJakauma = yksYriJakauma;
         this.karsimaatomyysAika = karsimaatomyysAika;
         this.vaaraValintaProsentti = vaaraValintaProsentti;
-        this.asikasmaaraTunti = asikasmaaraTunti;
+        this.asiakasmaaraTunti = asiakasmaaraTunti;
     }
 
     public int getSimulointiKerta() {
@@ -200,7 +200,7 @@ public class TallennettavatParametrit {
     }
 
     public double getAsikasmaaraTunti() {
-        return asikasmaaraTunti;
+        return asiakasmaaraTunti;
     }
 
 
@@ -241,87 +241,87 @@ public class TallennettavatParametrit {
     }
 
     public String getYksMyyntiAikaString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", yksMyyntiAika / 60);
     }
 
     public String getYksNettiAikaString() {
-        return Double.toString(yksNettiAika);
+        return String.format("%.0f", yksNettiAika / 60);
     }
 
     public String getYksLiittymaAikaString() {
-        return Double.toString(yksLiittymaAika);
+        return String.format("%.0f", yksLiittymaAika / 60);
     }
 
     public String getYksLaskutusAikaString() {
-        return Double.toString(yksLaskutusAika);
+        return String.format("%.0f", yksLaskutusAika / 60);
     }
 
     public String getYriMyyntiAikaString() {
-        return Double.toString(yriMyyntiAika);
+        return String.format("%.0f", yriMyyntiAika / 60);
     }
 
     public String getYriNettiAikaString() {
-        return Double.toString(yriNettiAika);
+        return String.format("%.0f", yriNettiAika / 60);
     }
 
     public String getYriLiittymaAikaString() {
-        return Double.toString(yriLiittymaAika);
+        return String.format("%.0f", yriLiittymaAika / 60);
     }
 
     public String getYriLaskutusAikaString() {
-        return Double.toString(yriLaskutusAika);
+        return String.format("%.0f", yriLaskutusAika / 60);
     }
 
     public String getYksMyyntiJakaumaString() {
-        return Double.toString(yksMyyntiJakauma);
+        return String.format("%.0f", yksMyyntiJakauma);
     }
 
     public String getYksNettiJakaumaString() {
-        return Double.toString(yksNettiJakauma);
+        return String.format("%.0f", yksNettiJakauma);
     }
 
     public String getYksLiittymaJakaumaString() {
-        return Double.toString(yksLiittymaJakauma);
+        return String.format("%.0f", yksLiittymaJakauma);
     }
 
     public String getYksLaskutusJakaumaString() {
-        return Double.toString(yksLaskutusJakauma);
+        return String.format("%.0f", yksLaskutusJakauma);
     }
 
     public String getYriMyyntiJakaumaString() {
-        return Double.toString(yriMyyntiJakauma);
+        return String.format("%.0f", yriMyyntiJakauma);
     }
 
     public String getYriNettiJakaumaString() {
-        return Double.toString(yriNettiJakauma);
+        return String.format("%.0f", yriNettiJakauma);
     }
 
     public String getYriLiittymaJakaumaString() {
-        return Double.toString(yriLiittymaAika);
+        return String.format("%.0f", yriLiittymaJakauma);
     }
 
     public String getYriLaskutusJakaumaString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", yriLaskutusJakauma);
     }
 
     public String getSimuloinninAikaString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", simuloinninAika);
     }
 
     public String getYksYriJakaumaString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", yksYriJakauma);
     }
 
     public String getKarsimaatomyysAikaString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", karsimaatomyysAika / 60);
     }
 
     public String getVaaraValintaProsenttiString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", vaaraValintaProsentti);
     }
 
     public String getAsikasmaaraTuntiString() {
-        return Double.toString(yksMyyntiAika);
+        return String.format("%.0f", asiakasmaaraTunti);
     }
     
 }
