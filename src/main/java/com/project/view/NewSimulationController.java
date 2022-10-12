@@ -330,6 +330,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             TuloksedDetailedController controller = loader.getController();
             controller.setSimulationController(this);
             controller.setSimulaationData(sS);
+            controller.setParametrit(uP);
             stage.show();
             controller.updateValues();
             open = true;

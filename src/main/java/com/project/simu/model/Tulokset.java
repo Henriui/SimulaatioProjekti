@@ -14,8 +14,25 @@ public class Tulokset {
     private double keskiJonotusAika;
     private double keskiLapiMenoAika;
     private ArrayList<PalvelupisteTulos> palveluPisteTuloksets = new ArrayList<PalvelupisteTulos>();
+    private TallennettavatParametrit tallennettavatParametrit;
     
     
+
+    public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
+            int uudelleenOhjatutAsiakkaat, int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
+            ArrayList<PalvelupisteTulos> palveluPisteTuloksets, TallennettavatParametrit tallennettavatParametrit) {
+        this.simulaatiokerta = simulaatiokerta;
+        this.kesto = kesto;
+        this.palveluProsentti = palveluProsentti;
+        this.asMaara = asMaara;
+        this.palvellutAsiakkaat = palvellutAsiakkaat;
+        this.poistuneetAsiakkaat = poistuneetAsiakkaat;
+        this.uudelleenOhjatutAsiakkaat = uudelleenOhjatutAsiakkaat;
+        this.keskiJonotusAika = keskiJonotusAika;
+        this.keskiLapiMenoAika = keskiLapiMenoAika;
+        this.palveluPisteTuloksets = palveluPisteTuloksets;
+        this.tallennettavatParametrit = tallennettavatParametrit;
+    }
 
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
             int uudelleenOhjatutAsiakkaat, int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
@@ -44,6 +61,21 @@ public class Tulokset {
         this.keskiJonotusAika = keskiJonotusAika;
         this.keskiLapiMenoAika = keskiLapiMenoAika;
         this.palveluPisteTuloksets = palveluPisteTuloksets;
+    }
+
+    public Tulokset(double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat,
+            int uudelleenOhjatutAsiakkaat, int poistuneetAsiakkaat, double keskiJonotusAika, double keskiLapiMenoAika,
+            ArrayList<PalvelupisteTulos> palveluPisteTuloksets, TallennettavatParametrit tallennettavatParametrit) {
+        this.kesto = kesto;
+        this.palveluProsentti = palveluProsentti;
+        this.asMaara = asMaara;
+        this.palvellutAsiakkaat = palvellutAsiakkaat;
+        this.poistuneetAsiakkaat = poistuneetAsiakkaat;
+        this.uudelleenOhjatutAsiakkaat = uudelleenOhjatutAsiakkaat;
+        this.keskiJonotusAika = keskiJonotusAika;
+        this.keskiLapiMenoAika = keskiLapiMenoAika;
+        this.palveluPisteTuloksets = palveluPisteTuloksets;
+        this.tallennettavatParametrit = tallennettavatParametrit;
     }
 
     public Tulokset(int simulaatiokerta, double kesto, double palveluProsentti, int asMaara, int palvellutAsiakkaat, int uudelleenOhjatutAsiakkaat,
@@ -97,6 +129,10 @@ public class Tulokset {
 
     public ArrayList<PalvelupisteTulos> getPalveluPisteTulokset() {
         return palveluPisteTuloksets;
+    }
+
+    public TallennettavatParametrit getTallennettavatParametrit(){
+        return tallennettavatParametrit;
     }
 
     public String getSimulaatiokertaString() {

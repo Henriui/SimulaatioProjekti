@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import com.project.database.DAO.TuloksetDAO;
 import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.PalvelupisteTulos;
-
+import com.project.simu.model.Parametrit;
 import com.project.simu.model.SimulaatioData;
+import com.project.simu.model.TallennettavatParametrit;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.UserAsetuksetController;
@@ -82,6 +83,7 @@ public class TuloksedDetailedController {
     private ITuloksetDAO db;
     private SimulaatioData sd;
     private Tulokset tulokset;
+    private Parametrit parametrit;
     private boolean useSS = false; // Boolean jotta tiedetään kummalta sivulta ollaan tulossa
 
     /**
@@ -103,7 +105,8 @@ public class TuloksedDetailedController {
 
         // Jos tullaan NewSimulationGUI.fxml kautta
         if (useSS) {
-            int r = db.getRowCount() + 1; // Haetaan simulaatiokertojen määrä ja lisätään 1 mahdollista tulevaa
+            int r = db.getRowCount() + 1; // Haetaan simulaatiokertojen määrä ja lisätään 1 mahdollista
+                                          // tulevaa
                                           // tallennusta varten
 
             // Palvelupiste data simulaatio datasta
@@ -114,10 +117,27 @@ public class TuloksedDetailedController {
                                 sd.getPalveluAika(i), sd.getPalveluProsentti(i)));
             }
 
+            TallennettavatParametrit tallennettavatParametrit = new TallennettavatParametrit(r,
+                    parametrit.getPPMaara(1), parametrit.getPPMaara(2), parametrit.getPPMaara(3),
+                    parametrit.getPPMaara(4), parametrit.getPPMaara(5), parametrit.getPPMaara(6),
+                    parametrit.getPPMaara(7), parametrit.getPPMaara(8), parametrit.getPPAvgAika(1),
+                    parametrit.getPPAvgAika(2), parametrit.getPPAvgAika(3),
+                    parametrit.getPPAvgAika(4), parametrit.getPPAvgAika(5),
+                    parametrit.getPPAvgAika(6), parametrit.getPPAvgAika(7),
+                    parametrit.getPPAvgAika(8), parametrit.getAsTyyppiParametri(1),
+                    parametrit.getAsTyyppiParametri(2), parametrit.getAsTyyppiParametri(3),
+                    parametrit.getAsTyyppiParametri(4), parametrit.getAsTyyppiParametri(5),
+                    parametrit.getAsTyyppiParametri(6), parametrit.getAsTyyppiParametri(7),
+                    parametrit.getAsTyyppiParametri(8),
+                    parametrit.getSimulaationAika(), parametrit.getAsTyyppiJakauma(),
+                    parametrit.getMaxJononPituus(), parametrit.getReRouteChance(),
+                    parametrit.getAsMaara());
+
             // Tulokset simulaatio datasta
             tulokset = new Tulokset(sd.getSimulointiAika(), sd.getPalveluprosentti(),
-                    ((int)sd.getAsTotalMaara()), sd.getAsPalveltu(), sd.getAsReRouted(),
-                    sd.getAsPoistunut(), sd.getJonotusATotal(), sd.getAvgAsAikaSim(), palveluPisteTulokset);
+                    ((int) sd.getAsTotalMaara()), sd.getAsPalveltu(), sd.getAsReRouted(),
+                    sd.getAsPoistunut(), sd.getJonotusATotal(), sd.getAvgAsAikaSim(),
+                    palveluPisteTulokset, tallennettavatParametrit);
 
             // Yksityis palvelupisteet erotettuna yritys palvelupisteistä
             for (int i = 0; i < 4; i++) {
@@ -187,17 +207,24 @@ public class TuloksedDetailedController {
         keskiJonotusAikLabel.setText(tulokset.getKeskiJonotusAikaString() + "min");
         keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString() + "min");
 
-        //  ObservableListit simulaatiossa käytetyistä asetuksista
-        ObservableList<String> pisteetObservableList = FXCollections.observableArrayList("Yksityismyynti: ", "Yksityisnetti: ",
-                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ", "Yritysliittymä: ",
+        // ObservableListit simulaatiossa käytetyistä asetuksista
+        ObservableList<String> pisteetObservableList = FXCollections.observableArrayList("Yksityismyynti: ",
+                "Yksityisnetti: ",
+                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ",
+                "Yritysliittymä: ",
                 "Yrityslaskutus: ");
-        ObservableList<String> ajatObservableList = FXCollections.observableArrayList("Yksityismyynti: ", "Yksityisnetti: ",
-                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ", "Yritysliittymä: ",
+        ObservableList<String> ajatObservableList = FXCollections.observableArrayList("Yksityismyynti: ",
+                "Yksityisnetti: ",
+                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ",
+                "Yritysliittymä: ",
                 "Yrityslaskutus: ");
-        ObservableList<String> jakaumaObservableList = FXCollections.observableArrayList("Yksityismyynti: ", "Yksityisnetti: ",
-                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ", "Yritysliittymä: ",
+        ObservableList<String> jakaumaObservableList = FXCollections.observableArrayList("Yksityismyynti: ",
+                "Yksityisnetti: ",
+                "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ",
+                "Yritysliittymä: ",
                 "Yrityslaskutus: ");
-        ObservableList<String> miscObservableList = FXCollections.observableArrayList("Simuloinninaika: ", "Yksityis/yritys jakauma: ",
+        ObservableList<String> miscObservableList = FXCollections.observableArrayList("Simuloinninaika: ",
+                "Yksityis/yritys jakauma: ",
                 "Kärsimättömyys aika: ", "Väärävalinta prosentti: ", "Asiakasmäärä tunnissa: ");
 
         pisteetListView.setItems(pisteetObservableList);
@@ -287,5 +314,9 @@ public class TuloksedDetailedController {
      */
     public void setSimulationController(NewSimulationController nSc) {
         controller = nSc;
+    }
+
+    public void setParametrit(Parametrit parametrit) {
+        this.parametrit = parametrit;
     }
 }
