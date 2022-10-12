@@ -92,7 +92,7 @@ public class Asiakaspalvelija extends Palvelupiste {
         if (this.asLisattyJonoon == 0) {
             return 100;
         }
-        return (((double) this.asPalveltuJonosta + (double) this.asReRoutedJonosta) / (double) this.asLisattyJonoon)
+        return ((double) this.asPalveltuJonosta / (double) this.asLisattyJonoon)
                 * 100;
     }
 
