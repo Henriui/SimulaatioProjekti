@@ -154,7 +154,7 @@ public class TuloksedDetailedController {
         // Jos tullaan tulokset.fxml kautta
         else {
             // Napit vastaamaan paremmin tilannetta
-            saveButton.setText("Takaisin");
+            removeButton.setText("Takaisin");
             saveButton.setDisable(true);
             saveButton.setVisible(false);
 
