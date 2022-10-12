@@ -326,7 +326,7 @@ public class TuloksedDetailedController {
             ohje += "\n\n";
         }
         if (vahemman) {
-            ohje += "Voit vähentää";
+            ohje += "Voit vähentää ";
             ArrayList<String> vahYksPisteet = new ArrayList<String>();
             ArrayList<String> vahYriPisteet = new ArrayList<String>();
             for (int i = 0; i < 4; i++) {
