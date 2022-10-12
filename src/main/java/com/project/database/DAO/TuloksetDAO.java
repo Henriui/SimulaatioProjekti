@@ -12,6 +12,7 @@ import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.PalvelupisteTulos;
+import com.project.simu.model.TallennettavatParametrit;
 
 public class TuloksetDAO implements ITuloksetDAO {
     private Connection connection;
@@ -19,6 +20,7 @@ public class TuloksetDAO implements ITuloksetDAO {
     private String dbName;
     private String tableName1;
     private String tableName2;
+    private String tableName3;
     private String user;
     private String password;
 
@@ -30,10 +32,12 @@ public class TuloksetDAO implements ITuloksetDAO {
         if (simulaatio){
             tableName1 = "asiakkaat";
             tableName2 = "palvelupisteet";
+            tableName3 = "asetukset";
         }
         else{
             tableName1 = "testiasiakkaat";
             tableName2 = "testipalvelupisteet";
+            tableName3 = "testiasetukset";
         }
 
         openConnection();
@@ -62,23 +66,34 @@ public class TuloksetDAO implements ITuloksetDAO {
             // See if we have a table 1 in the given database.
 
             DatabaseMetaData dbm = connection.getMetaData();
-            ResultSet result = dbm.getTables(null, null, tableName1, null);
-
+            
             // Create table 1 if not found.
 
+            ResultSet result = dbm.getTables(null, null, tableName1, null);
+            
             if (!result.next()) {
                 System.out.println("Table one" + tableName1 + " not found. Creating table...");
                 createTables(1);
                 System.out.println("Table created.");
             }
 
+            // Create table 2 if not found.
+            
             result = dbm.getTables(null, null, tableName2, null);
-
-            // Create table 1 if not found.
-
+            
             if (!result.next()) {
                 System.out.println("Table two " + tableName2 + " not found. Creating table...");
                 createTables(2);
+                System.out.println("Table created.");
+            }
+            
+            // Create table 3 if not found.
+
+            result = dbm.getTables(null, null, tableName3, null);
+            
+            if (!result.next()) {
+                System.out.println("Table two " + tableName3 + " not found. Creating table...");
+                createTables(3);
                 System.out.println("Table created.");
             }
             return true;
@@ -109,7 +124,7 @@ public class TuloksetDAO implements ITuloksetDAO {
                     + " as_keskijonoaika     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen jonotusaika.' ,"
                     + " as_keskilapimeno     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen läpimenoaika.' "
                     + " ) engine=InnoDB; ");
-            if (statement.execute() != true) {
+            if ( statement.execute() ) {
                 return false;
             }
         }
@@ -124,7 +139,45 @@ public class TuloksetDAO implements ITuloksetDAO {
                     + "palveluprosentti     DOUBLE UNSIGNED NOT NULL                            COMMENT 'Palveluprosentti palvelupisteelle.' ,"
                     + "FOREIGN KEY (simulaatiokerta) REFERENCES "+ tableName1 +" (simulaatiokerta) ON DELETE CASCADE ON UPDATE RESTRICT"
                     + " ) engine=InnoDB;");
-            if (statement.execute() != true) {
+            if ( !statement.execute() ) {
+                return false;
+            }
+        }
+        else if (table == 3){
+            statement = connection.prepareStatement("CREATE TABLE "+ tableName3 +" ( "
+                + "simulaatiokerta      INT         ,"
+                + "yksmyyntipisteita    INT         ,"
+                + "yksnettipisteita     INT         ,"
+                + "yksliittymapisteita  INT         ,"
+                + "ykslaskutuspisteita  INT         ,"
+                + "yrimyyntipisteita    INT         ,"
+                + "yrinettipisteita     INT         ,"
+                + "yriliittymapisteita  INT         ,"
+                + "yrilaskutuspisteita  INT         ,"
+                + "yksmyyntiaika        DOUBLE      ,"
+                + "yksnettiaika         DOUBLE      ,"
+                + "yksliittymaaika      DOUBLE      ,"
+                + "ykslaskutusaika      DOUBLE      ,"
+                + "yrimyyntiaika        DOUBLE      ,"
+                + "yrinettiaika         DOUBLE      ,"
+                + "yriliittymaaika      DOUBLE      ,"
+                + "yrilaskutusaika      DOUBLE      ,"
+                + "yksmyyntijakauma     DOUBLE      ,"
+                + "yksnettijakauma      DOUBLE      ,"
+                + "yksliittymajakauma   DOUBLE      ,"
+                + "ykslaskutusjakauma   DOUBLE      ,"
+                + "yrimyyntijakauma     DOUBLE      ,"
+                + "yrinettijakauma      DOUBLE      ,"
+                + "yriliittymajakauma   DOUBLE      ,"
+                + "yrilaskutusjakauma   DOUBLE      ,"
+                + "simuloinninaika      DOUBLE      ,"
+                + "yksyrijakauma        DOUBLE      ,"
+                + "karsimaatomyysaika   DOUBLE      ,"
+                + "vaaravalintaprosentti DOUBLE     ,"
+                + "asikasmaaratunti     DOUBLE      "
+                + "FOREIGN KEY (simulaatiokerta) REFERENCES "+ tableName1 +" (simulaatiokerta) ON DELETE CASCADE ON UPDATE RESTRICT"
+                + ") engine=InnoDB;");
+            if ( !statement.execute() ) {
                 return false;
             }
         }
@@ -182,8 +235,10 @@ public class TuloksetDAO implements ITuloksetDAO {
             statement.setDouble(8, data.getKeskiLapiMenoAika());        // as_keskiläpimeno
             statement.executeUpdate();
 
-            return addPalvelupisteTulos(data.getPalveluPisteTulokset());
+            if (!addPalvelupisteTulos(data.getPalveluPisteTulokset()))
+                return false;
        
+            return addAsetusTulos(null); //TODO: LAITA TÄHÄN MISTÄ NÄÄ SAA
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -214,6 +269,48 @@ public class TuloksetDAO implements ITuloksetDAO {
 
                 statement.executeUpdate();
             }
+            return true;
+    }
+    private boolean addAsetusTulos(TallennettavatParametrit parametrit) throws SQLException{
+
+                statement = connection.prepareStatement("INSERT INTO " + tableName3
+                + " ( simulaatiokerta, yksmyyntipisteita, yksnettipisteita, yksliittymapisteita, ykslaskutuspisteita, yrimyyntipisteita, yrinettipisteita, yriliittymapisteita, yrilaskutuspisteita"
+                + ", yksmyyntiaika, yksnettiaika, yksliittymaaika, ykslaskutusaika, yrimyyntiaika, yrinettiaika, yriliittymaaika, yrilaskutusaika, yksmyyntijakauma, yksnettijakauma, yksliittymajakauma"
+                + ", ykslaskutusjakauma, yrimyyntijakauma, yrinettijakauma, yriliittymajakauma, yrilaskutusjakauma, simuloinninaika, yksyrijakauma, karsimaatomyysaika, vaaravalintaprosentti"
+                + ", asikasmaaratunti) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );");
+                statement.setInt(1, parametrit.getSimulointiKerta());
+                statement.setInt(2, parametrit.getYksMyyntiPisteita());
+                statement.setInt(3, parametrit.getYksNettiPisteita());
+                statement.setInt(4, parametrit.getYksLiittymaPisteita());
+                statement.setInt(5, parametrit.getYksLaskutusPisteita());
+                statement.setInt(6, parametrit.getYriMyyntiPisteita());
+                statement.setInt(7, parametrit.getYriNettiPisteita());
+                statement.setInt(8, parametrit.getYriLiittymaPisteita());
+                statement.setInt(9, parametrit.getYriLaskutusPisteita());
+                statement.setDouble(10, parametrit.getYksMyyntiAika());
+                statement.setDouble(11, parametrit.getYksNettiAika());
+                statement.setDouble(12, parametrit.getYksLiittymaAika());
+                statement.setDouble(13, parametrit.getYksLaskutusAika());
+                statement.setDouble(14, parametrit.getYriMyyntiAika());
+                statement.setDouble(15, parametrit.getYriNettiAika());
+                statement.setDouble(16, parametrit.getYriLiittymaAika());
+                statement.setDouble(17, parametrit.getYriLaskutusAika());
+                statement.setDouble(18, parametrit.getYksMyyntiJakauma());
+                statement.setDouble(19, parametrit.getYksNettiJakauma());
+                statement.setDouble(20, parametrit.getYksLiittymaJakauma());
+                statement.setDouble(21, parametrit.getYksLaskutusJakauma());
+                statement.setDouble(22, parametrit.getYriMyyntiJakauma());
+                statement.setDouble(23, parametrit.getYriNettiJakauma());
+                statement.setDouble(24, parametrit.getYriLiittymaJakauma());
+                statement.setDouble(25, parametrit.getYriLaskutusJakauma());
+                statement.setDouble(26, parametrit.getSimuloinninAika());
+                statement.setDouble(27, parametrit.getYksYriJakauma());
+                statement.setDouble(28, parametrit.getKarsimaatomyysAika());
+                statement.setDouble(29, parametrit.getVaaraValintaProsentti());
+                statement.setDouble(30, parametrit.getAsikasmaaraTunti());
+                
+                statement.executeUpdate();
+        
             return true;
     }
 
@@ -282,6 +379,44 @@ public class TuloksetDAO implements ITuloksetDAO {
                 pptulosList.add(ppTulos);
             }
             
+
+            // Prepare statement to get simulaatio asetukset from db.
+
+            statement = connection.prepareStatement("SELECT * FROM " + tableName3 + " WHERE simulaatiokerta = ( ? )");
+            statement.setInt(1, id);
+            results = statement.executeQuery();
+            TallennettavatParametrit asetukset = new TallennettavatParametrit(
+                results.getInt(1),
+                results.getInt(2),
+                results.getInt(3),
+                results.getInt(4),
+                results.getInt(5),
+                results.getInt(6),
+                results.getInt(7),
+                results.getInt(8),
+                results.getInt(9),
+                results.getDouble(10),
+                results.getDouble(11),
+                results.getDouble(12),
+                results.getDouble(13),
+                results.getDouble(14),
+                results.getDouble(15),
+                results.getDouble(16),
+                results.getDouble(17),
+                results.getDouble(18),
+                results.getDouble(19),
+                results.getDouble(20),
+                results.getDouble(21),
+                results.getDouble(22),
+                results.getDouble(23),
+                results.getDouble(24),
+                results.getDouble(25),
+                results.getDouble(26),
+                results.getDouble(27),
+                results.getDouble(28),
+                results.getDouble(29),
+                results.getDouble(30)
+            );
             // Prepare statement to get asiakastiedot from db.
             
             
@@ -341,7 +476,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      */
     public boolean dropTable() {
         try {
-            statement = connection.prepareStatement("DROP TABLE IF EXISTS " + tableName2 +", " + tableName1 );
+            statement = connection.prepareStatement("DROP TABLE IF EXISTS " + tableName3 + ", " + tableName2 +", " + tableName1 );
             statement.execute();
             System.out.println("Table(s) dropped.");
             return true;
