@@ -72,7 +72,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             ResultSet result = dbm.getTables(null, null, tableName1, null);
             
             if (!result.next()) {
-                System.out.println("Table one" + tableName1 + " not found. Creating table...");
+                System.out.println("Table one " + tableName1 + " not found. Creating table...");
                 createTables(1);
                 System.out.println("Table created.");
             }
@@ -92,7 +92,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             result = dbm.getTables(null, null, tableName3, null);
             
             if (!result.next()) {
-                System.out.println("Table two " + tableName3 + " not found. Creating table...");
+                System.out.println("Table three " + tableName3 + " not found. Creating table...");
                 createTables(3);
                 System.out.println("Table created.");
             }
@@ -174,7 +174,7 @@ public class TuloksetDAO implements ITuloksetDAO {
                 + "yksyrijakauma        DOUBLE      ,"
                 + "karsimaatomyysaika   DOUBLE      ,"
                 + "vaaravalintaprosentti DOUBLE     ,"
-                + "asikasmaaratunti     DOUBLE      "
+                + "asikasmaaratunti     DOUBLE      ,"
                 + "FOREIGN KEY (simulaatiokerta) REFERENCES "+ tableName1 +" (simulaatiokerta) ON DELETE CASCADE ON UPDATE RESTRICT"
                 + ") engine=InnoDB;");
             if ( !statement.execute() ) {
@@ -355,6 +355,7 @@ public class TuloksetDAO implements ITuloksetDAO {
     public Tulokset queryTulos(int id) throws SQLException {
 
         Tulokset tulos = null;
+        TallennettavatParametrit asetukset = null;
         ArrayList<PalvelupisteTulos> pptulosList = new ArrayList<>();
 
         // Prepare statement to select pptulokset.
@@ -362,7 +363,6 @@ public class TuloksetDAO implements ITuloksetDAO {
         statement = connection.prepareStatement("SELECT * FROM " + tableName2 + " WHERE simulaatiokerta = ( ? )");
         statement.setInt(1, id);
         ResultSet results = statement.executeQuery();
-        TallennettavatParametrit asetukset;
         // Pack pptulokset into array from db.
 
         while( results.next() ){
