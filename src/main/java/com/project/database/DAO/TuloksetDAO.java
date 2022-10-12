@@ -238,7 +238,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             if (!addPalvelupisteTulos(data.getPalveluPisteTulokset()))
                 return false;
        
-            return addAsetusTulos(data.getTallennettavatParametrit()); //TODO: LAITA TÄHÄN MISTÄ NÄÄ SAA
+            return addAsetusTulos(data.getTallennettavatParametrit());
         } catch (SQLException e) {
             e.printStackTrace();
         }
