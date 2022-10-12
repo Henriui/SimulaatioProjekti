@@ -82,7 +82,7 @@ public class Parametrit {
      * @param ppType tätä tyyppi valueta vastaan (1-8)
      * @author Rasmus Hyyppä
      */
-    public void setPPMaara(int[] ppMaaraArray) {
+    public void setPPMaaraArr(int[] ppMaaraArray) {
         this.ppMaaraArray = ppMaaraArray;
     }
 
@@ -105,7 +105,7 @@ public class Parametrit {
         ppAikaArray[ppType - 1] = aika * 60;
     }
 
-    public void setPPAvgAika(double[] ppAikaArray) {
+    public void setPPAvgAikaArr(double[] ppAikaArray) {
         this.ppAikaArray = ppAikaArray;
     }
 
@@ -124,13 +124,7 @@ public class Parametrit {
      */
     public Normal getPAJakauma(int ppType) {
         double aika = getPPAvgAika(ppType);
-        if (aika > 0) {
-            return new Normal(aika, aika);
-        } else {
-            aika = 10 * 60;
-            return new Normal(aika, aika);
-        }
-
+        return new Normal(aika, aika);
     }
 
     public int getAllPPMaara() {
