@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
@@ -107,7 +108,10 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane fx:id="Stripe" layoutX="-147.0" layoutY="-136.0" prefHeight="200.0" prefWidth="600.0" rotate="31.5" style="-fx-background-color: #5F008F; -fx-background-radius: 90;" />
+                  <Pane fx:id="Stripe" layoutX="-147.0" layoutY="-136.0" prefHeight="200.0" prefWidth="600.0" rotate="31.5" style="-fx-background-color: #5F008F; -fx-background-radius: 90;">
+                     <effect>
+                        <DropShadow />
+                     </effect></Pane>
                   <Pane fx:id="ExitP" layoutX="549.0" layoutY="430.0" prefHeight="220.0" prefWidth="234.0" style="-fx-background-color: linear-gradient(to top right,  #41295a, #2F0743); -fx-background-radius: 30;" AnchorPane.bottomAnchor="49.999986335413155" AnchorPane.rightAnchor="167.41789005285557">
                      <children>
                         <Label layoutX="88.0" layoutY="168.0" text="Poistu" textFill="WHITE">
@@ -144,6 +148,9 @@
                      <padding>
                         <Insets right="100.0" />
                      </padding>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </Pane>
                   <Pane fx:id="TuloksetP" layoutX="549.0" layoutY="50.0" prefHeight="220.0" prefWidth="234.0" style="-fx-background-color: linear-gradient(to top right,  #41295a, #2F0743); -fx-background-radius: 30;" AnchorPane.rightAnchor="167.41789005285557" AnchorPane.topAnchor="50.0">
                      <children>
@@ -178,6 +185,9 @@
                            </graphic>
                         </Button>
                      </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </Pane>
                   <Pane fx:id="SimulationP" layoutX="167.0" layoutY="50.0" prefHeight="220.0" prefWidth="234.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743); -fx-background-radius: 30;" AnchorPane.leftAnchor="167.0" AnchorPane.topAnchor="50.0">
                      <children>
@@ -212,6 +222,9 @@
                            </graphic>
                         </Button>
                      </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </Pane>
                   <Pane fx:id="AsetuksetP" layoutX="167.0" layoutY="430.0" prefHeight="220.0" prefWidth="234.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743); -fx-background-radius: 30;" AnchorPane.bottomAnchor="49.999986335413155" AnchorPane.leftAnchor="167.0">
                      <children>
@@ -246,6 +259,9 @@
                            </graphic>
                         </Button>
                      </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </Pane>
                </children>
             </AnchorPane>
