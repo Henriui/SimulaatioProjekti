@@ -97,6 +97,28 @@ public class PalvelupisteTulos {
         return Integer.toString(tyyppi);
     }
 
+    public String getTyyppiStringPieni() {
+        switch (tyyppi) {
+            case 1:
+                return "myynti";
+            case 2:
+                return "netti";
+            case 3:
+                return "liittymä";
+            case 4:
+                return "laskutus";
+            case 5:
+                return "myynti";
+            case 6:
+                return "netti";
+            case 7:
+                return "liittymä";
+            case 8:
+                return "laskutus";
+        }
+        return Integer.toString(tyyppi);
+    }
+
     public String getPalvellutAsiakkaatString() {
         return Integer.toString(palvellutAsiakkaat);
     }

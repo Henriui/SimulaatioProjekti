@@ -139,7 +139,7 @@
                               <Font size="23.0" />
                            </font>
                            <effect>
-                              <DropShadow height="112.97" offsetX="10.0" radius="57.03" width="117.15" />
+                              <DropShadow />
                            </effect>
                         </Button>
                      </children>
