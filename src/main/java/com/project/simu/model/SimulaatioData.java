@@ -109,7 +109,7 @@ public class SimulaatioData {
     }
 
     public double getPalveluprosentti() {
-        palveluprosentti = asPalveltu / (double) asTotalMaara;
+        palveluprosentti = (double) asPalveltu / (double) asTotalMaara;
         return (palveluprosentti * 100);
     }
 
