@@ -285,7 +285,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("Suureiden asetukset");
+            stage.setTitle("Simulaatiokerran tulos");
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -302,7 +302,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
             TuloksedDetailedController controller = loader.getController();
             controller.setSimulationController(this);
-            controller.setSimulaationSuureet(sS);
+            controller.setSimulaationData(sS);
             stage.show();
             controller.updateValues();
             open = true;

@@ -3,7 +3,8 @@ package com.project.view;
 import java.io.IOException;
 
 import com.project.MainApp;
-import com.project.simu.model.Parametrit;
+import com.project.simu.model.UserAsetukset;
+import com.project.simu.model.UserAsetuksetController;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,17 +16,14 @@ public class AsetuksetController {
 
     @FXML
     private TextField dbName;
-
     @FXML
     private TextField username;
-
     @FXML
     private TextField password;
-
     @FXML
     private Button saveButton;
 
-    private Parametrit uP;
+    private UserAsetuksetController uac;
 
     /**
      * Ladattaessa täyttää mahdollisesti aiemmin tallennetut valinnat tekstikenttiin
@@ -34,17 +32,17 @@ public class AsetuksetController {
      */
     @FXML
     private void initialize() {
-        uP = new Parametrit(); 
-        uP.lueTiedostostaDbParametrit();
-        if (uP.getDbName() != null) {
-            dbName.setText(uP.getDbName());
+        uac = new UserAsetuksetController();
+        UserAsetukset ua = uac.lueTiedostostaDbParametrit();
+        if (ua.getDbName() != null) {
+            dbName.setText(ua.getDbName());
         }
-        if (uP.getUsername() != null) {
-            username.setText(uP.getUsername());
+        if (ua.getUsername() != null) {
+            username.setText(ua.getUsername());
         }
-        if (uP.getPassword() != null) {
+        if (ua.getPassword() != null) {
             String pw = "";
-            for (int i = 0; i < uP.getPassword().length(); i++) {
+            for (int i = 0; i < ua.getPassword().length(); i++) {
                 pw += "*";
             }
             password.setText(pw);
@@ -71,8 +69,7 @@ public class AsetuksetController {
     @FXML
     private void tallennaAsetukset() {
         if (dbName.getText().length() > 0 && username.getText().length() > 0 && password.getText().length() > 0) {
-            uP.setDbParameters(dbName.getText(), username.getText(), password.getText());
-            uP.kirjoitaTiedostoonDbParametrit();
+            uac.kirjoitaTiedostoonDbParametrit(new UserAsetukset(dbName.getText(), username.getText(), password.getText()));
             takaisinMainView();
         } else {
             Alert varoitus = new Alert(AlertType.ERROR);
