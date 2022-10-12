@@ -124,7 +124,7 @@ public class TuloksetDAO implements ITuloksetDAO {
                     + " as_keskijonoaika     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen jonotusaika.' ,"
                     + " as_keskilapimeno     DOUBLE UNSIGNED NOT NULL                     COMMENT 'Asiakkaan keskimääräinen läpimenoaika.' "
                     + " ) engine=InnoDB; ");
-            if ( statement.execute() ) {
+            if ( !statement.execute() ) {
                 return false;
             }
         }
@@ -238,7 +238,7 @@ public class TuloksetDAO implements ITuloksetDAO {
             if (!addPalvelupisteTulos(data.getPalveluPisteTulokset()))
                 return false;
        
-            return addAsetusTulos(null); //TODO: LAITA TÄHÄN MISTÄ NÄÄ SAA
+            return addAsetusTulos(data.getTallennettavatParametrit()); //TODO: LAITA TÄHÄN MISTÄ NÄÄ SAA
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -362,7 +362,7 @@ public class TuloksetDAO implements ITuloksetDAO {
         statement = connection.prepareStatement("SELECT * FROM " + tableName2 + " WHERE simulaatiokerta = ( ? )");
         statement.setInt(1, id);
         ResultSet results = statement.executeQuery();
-
+        TallennettavatParametrit asetukset;
         // Pack pptulokset into array from db.
 
         while( results.next() ){
@@ -385,7 +385,8 @@ public class TuloksetDAO implements ITuloksetDAO {
             statement = connection.prepareStatement("SELECT * FROM " + tableName3 + " WHERE simulaatiokerta = ( ? )");
             statement.setInt(1, id);
             results = statement.executeQuery();
-            TallennettavatParametrit asetukset = new TallennettavatParametrit(
+            if (results.next()) {
+            asetukset = new TallennettavatParametrit(
                 results.getInt(1),
                 results.getInt(2),
                 results.getInt(3),
@@ -416,7 +417,7 @@ public class TuloksetDAO implements ITuloksetDAO {
                 results.getDouble(28),
                 results.getDouble(29),
                 results.getDouble(30)
-            );
+            );}
             // Prepare statement to get asiakastiedot from db.
             
             
@@ -437,7 +438,8 @@ public class TuloksetDAO implements ITuloksetDAO {
             results.getInt(7),
             results.getDouble(8),
             results.getDouble(9), 
-            pptulosList);
+            pptulosList,
+            asetukset);
         }
         
         return tulos;
