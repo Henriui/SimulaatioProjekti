@@ -220,17 +220,17 @@ public class TuloksetDAO implements ITuloksetDAO {
     /**
      * Returns true if row with given id is deleted successfully. Otherwise returns false.
      * 
-     * @param id
+     * @param simulaatiokerta
      * @return boolean
      * @Author Henri
      */
     @Override
-    public boolean removeTulos(int id) {
+    public boolean removeTulos(int simulaatiokerta) {
         // Delete given id.
 
         try {
             statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE simulaatiokerta = ( ? )");
-            statement.setInt(1, id);
+            statement.setInt(1, simulaatiokerta);
             
             // Return true if DELETE successful;
 
@@ -380,9 +380,10 @@ public class TuloksetDAO implements ITuloksetDAO {
     public int getRowCount(){
         int result;
         try{
-            statement = connection.prepareStatement("SELECT COUNT( simulaatiokerta ) FROM "+ tableName1);
+            statement = connection.prepareStatement("SELECT COUNT(*) FROM "+ tableName1);
             ResultSet rs = statement.executeQuery();
-            rs.next();
+            if (!rs.next())
+                return 0;
             result = rs.getInt(1);
             return result;
         } catch (SQLException e) {
