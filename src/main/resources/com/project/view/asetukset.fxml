@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -46,75 +47,105 @@
                      </children>
                   </VBox>
                </children>
+               <effect>
+                  <DropShadow height="224.79" offsetX="10.0" radius="108.4975" width="211.2" />
+               </effect>
             </AnchorPane>
          </left>
          <center>
             <AnchorPane prefHeight="700.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutX="203.0" layoutY="-268.0" prefHeight="310.0" prefWidth="517.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 70;" />
-                  <Pane layoutX="212.0" layoutY="200.0" prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;">
+                  <Pane layoutX="203.0" layoutY="-268.0" prefHeight="310.0" prefWidth="517.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 70;">
+                     <effect>
+                        <DropShadow height="255.0" offsetY="10.0" radius="120.755" width="230.02" />
+                     </effect></Pane>
+                  <Pane layoutX="212.0" layoutY="200.0" prefHeight="300.0" prefWidth="565.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <VBox prefHeight="250.0" prefWidth="500.0">
+                        <VBox prefHeight="237.0" prefWidth="570.0">
                            <children>
                               <HBox prefHeight="75.0" prefWidth="200.0">
                                  <children>
-                                    <Label text="Database name:">
+                                    <Label text="Database name:" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="25.0" right="25.0" top="25.0" />
                                        </HBox.margin>
                                        <font>
                                           <Font size="24.0" />
                                        </font>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
                                     </Label>
                                     <TextField fx:id="dbName" prefHeight="30.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
-                                          <Insets right="25.0" top="25.0" />
+                                          <Insets left="1.0" right="25.0" top="25.0" />
                                        </HBox.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
                                     </TextField>
                                  </children>
                               </HBox>
                               <HBox prefHeight="75.0" prefWidth="200.0">
                                  <children>
-                                    <Label text="Username:">
+                                    <Label text="Username:" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="25.0" right="25.0" top="25.0" />
                                        </HBox.margin>
                                        <font>
                                           <Font size="24.0" />
                                        </font>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
                                     </Label>
                                     <TextField fx:id="username" prefHeight="30.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
-                                          <Insets right="25.0" top="25.0" />
+                                          <Insets left="58.0" right="25.0" top="25.0" />
                                        </HBox.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
                                     </TextField>
                                  </children>
                               </HBox>
                               <HBox prefHeight="75.0" prefWidth="200.0">
                                  <children>
-                                    <Label text="Password:">
+                                    <Label text="Password:" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="25.0" right="25.0" top="25.0" />
                                        </HBox.margin>
                                        <font>
                                           <Font size="24.0" />
                                        </font>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
                                     </Label>
                                     <TextField fx:id="password" prefHeight="30.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
-                                          <Insets right="25.0" top="25.0" />
+                                          <Insets left="65.0" right="25.0" top="25.0" />
                                        </HBox.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
                                     </TextField>
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-                        <Button fx:id="saveButton" layoutX="193.0" layoutY="236.0" mnemonicParsing="false" onAction="#tallennaAsetukset" style="-fx-background-radius: 50;" styleClass="button4" stylesheets="@../css/main.css" text="Tallenna">
+                        <Button fx:id="saveButton" layoutX="225.0" layoutY="236.0" mnemonicParsing="false" onAction="#tallennaAsetukset" style="-fx-background-radius: 50;" styleClass="button4" stylesheets="@../css/main.css" text="Tallenna">
                            <font>
                               <Font size="23.0" />
                            </font>
+                           <effect>
+                              <DropShadow height="112.97" offsetX="10.0" radius="57.03" width="117.15" />
+                           </effect>
                         </Button>
                      </children>
+                     <effect>
+                        <DropShadow height="184.03" offsetX="10.0" radius="91.515" width="184.03" />
+                     </effect>
                   </Pane>
                </children>
             </AnchorPane>

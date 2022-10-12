@@ -418,6 +418,7 @@ public class ParametriController {
                     case 2:
                         l.setText(70 + " / " + 30);
                         jakauma = 30.0;
+                        break;
                     case 3:
                         l.setText(50 + " / " + 50);
                         jakauma = 50.0;

@@ -88,6 +88,16 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
 
     private Visualisointi visualisointi = new Visualisointi();
 
+    // Reroutatut asiakkaat
+    private int reroutMyynti = 1;
+    private int reroutNetti = 1;
+    private int reroutLiittymä = 1;
+    private int reroutLaskutus = 1;
+    private int reroutYritysMyynti = 1;
+    private int reroutYritysNetti = 1;
+    private int reroutYritysLiittymä = 1;
+    private int reroutYritysLaskutus = 1;
+
     // Yksityisasiakkaat lista.
     LinkedList<Circle> myyntiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> nettiAsiakkaat = new LinkedList<Circle>();
@@ -98,6 +108,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<Circle> PoistunettiAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> PoistuliittymäAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> PoistulaskutusAsiakkaat = new LinkedList<Circle>();
+    // Yksityisasiakkaat Reroute lista.
+    LinkedList<ImageView> rerouteMyyntiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> rerouteNettiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> rerouteLiittymäAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> rerouteLaskutusAsiakkaat = new LinkedList<ImageView>();
     // Yksityisasiakkaat suuttuneet lista.
     LinkedList<ImageView> quitterMyyntiAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> quitterNettiAsiakkaat = new LinkedList<ImageView>();
@@ -118,6 +133,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<ImageView> quitterCnettiAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> quitterCliittymäAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> quitterClaskutusAsiakkaat = new LinkedList<ImageView>();
+    // Yritysasiakkaat Reroute lista.
+    LinkedList<ImageView> rerouteCmyyntiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> rerouteCnettiAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> rerouteCliittymäAsiakkaat = new LinkedList<ImageView>();
+    LinkedList<ImageView> rerouteClaskutusAsiakkaat = new LinkedList<ImageView>();
 
     HashMap<Integer, LinkedList<Circle>> circleKartta = new HashMap<>();
     HashMap<Integer, LinkedList<ImageView>> iVKartta = new HashMap<>();
@@ -159,6 +179,14 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         iVKartta.put(6, quitterCnettiAsiakkaat);
         iVKartta.put(7, quitterCliittymäAsiakkaat);
         iVKartta.put(8, quitterClaskutusAsiakkaat);
+        iVKartta.put(9, rerouteMyyntiAsiakkaat);
+        iVKartta.put(10, rerouteNettiAsiakkaat);
+        iVKartta.put(11, rerouteLiittymäAsiakkaat);
+        iVKartta.put(12, rerouteLaskutusAsiakkaat);
+        iVKartta.put(13, rerouteCmyyntiAsiakkaat);
+        iVKartta.put(14, rerouteCnettiAsiakkaat);
+        iVKartta.put(15, rerouteCliittymäAsiakkaat);
+        iVKartta.put(16, rerouteClaskutusAsiakkaat);
     }
 
     /**
@@ -383,6 +411,61 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     }
                 }
                 kokonaismäärä.setText("Total: " + String.valueOf(ulkona));
+              
+                for (int i = 0; i < suureStatusMap.get("ReRouted").length; i++) {
+                    if(i >= 0 && i < 8){
+                        switch (i){
+                            case 0:
+                                if(reroutMyynti == suureStatusMap.get("ReRouted")[0]){
+                                    visualisoiReroute(0);
+                                    reroutMyynti++;
+                               }
+                                break;
+                            case 1:
+                                if(reroutNetti == suureStatusMap.get("ReRouted")[1]){
+                                    visualisoiReroute(1);
+                                    reroutNetti++;
+                                }
+                                break;
+                            case 2:
+                                if(reroutLiittymä == suureStatusMap.get("ReRouted")[2]){
+                                    visualisoiReroute(2);
+                                    reroutLiittymä++;
+                                }
+                                break;
+                            case 3:
+                                if(reroutLaskutus == suureStatusMap.get("ReRouted")[3]){
+                                    visualisoiReroute(3);
+                                    reroutLaskutus++;
+                                }
+                                break;
+                            case 4:
+                                if(reroutYritysMyynti == suureStatusMap.get("ReRouted")[4]){
+                                    visualisoiReroute(4);
+                                    reroutYritysMyynti++;
+                                }
+                                break;
+                            case 5:
+                                if(reroutYritysNetti == suureStatusMap.get("ReRouted")[5]){
+                                    visualisoiReroute(5);
+                                    reroutYritysNetti++;
+                                }
+                                break;
+                            case 6:
+                                if(reroutYritysLiittymä == suureStatusMap.get("ReRouted")[6]){
+                                    visualisoiReroute(6);
+                                    reroutYritysLiittymä++;
+                                }
+                                break;
+                            case 7:
+                                if(reroutYritysLaskutus == suureStatusMap.get("ReRouted")[7]){
+                                    visualisoiReroute(7);
+                                    reroutYritysLaskutus++;
+                                }
+                                break;
+                        } 
+                    }
+                }
             }
         });
     }
@@ -703,6 +786,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      * 
      * @param asType
      * @param poistumusType
+     * @author Jonne Borgman
      */
     @Override
     public void visualisoiPoistuminen(int asType, String poistumisType) {
@@ -888,6 +972,98 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                             CpoistaLaskutusJono();
                         }
                         visualisointi.asiakasPoistuu(circle8, "Ylaskutus", poistumisType);
+                        break;
+                }
+            }
+        });
+    }
+
+    public void visualisoiReroute(int asType) {
+        // Private: myynti = 0, netti = 1, liittymä = 2, laskutus= 3
+        // Corporate: myynti = 4, netti = 5, liittymä = 6, laskutus = 7
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                switch (asType) {
+                    case 0:
+                        File diverFile0;
+                        ImageView ivDiver0 = new ImageView();
+                        diverFile0 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage0 = new Image(diverFile0.toURI().toString());
+                        ivDiver0.setImage(diverImage0);
+                        visuaalinenTausta.getChildren().addAll(ivDiver0);
+                        rerouteMyyntiAsiakkaat.addLast(ivDiver0);
+                        visualisointi.asiakasReroute(ivDiver0, 0);
+                        break;
+                    case 1:
+                        File diverFile1;
+                        ImageView ivDiver1 = new ImageView();
+                        diverFile1 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage1 = new Image(diverFile1.toURI().toString());
+                        ivDiver1.setImage(diverImage1);
+                        visuaalinenTausta.getChildren().addAll(ivDiver1);
+                        rerouteNettiAsiakkaat.addLast(ivDiver1);
+                        visualisointi.asiakasReroute(ivDiver1, 1);
+                        break;
+                    case 2:
+                        File diverFile2;
+                        ImageView ivDiver2 = new ImageView();
+                        diverFile2 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage2 = new Image(diverFile2.toURI().toString());
+                        ivDiver2.setImage(diverImage2);
+                        visuaalinenTausta.getChildren().addAll(ivDiver2);
+                        rerouteLiittymäAsiakkaat.addLast(ivDiver2);
+                        visualisointi.asiakasReroute(ivDiver2, 2);
+                        break;
+                    case 3:
+                        File diverFile3;
+                        ImageView ivDiver3 = new ImageView();
+                        diverFile3 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage3 = new Image(diverFile3.toURI().toString());
+                        ivDiver3.setImage(diverImage3);
+                        visuaalinenTausta.getChildren().addAll(ivDiver3);
+                        rerouteLaskutusAsiakkaat.addLast(ivDiver3);
+                        visualisointi.asiakasReroute(ivDiver3, 3);
+                        break;
+                    case 4:
+                        File diverFile4;
+                        ImageView ivDiver4 = new ImageView();
+                        diverFile4 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage4 = new Image(diverFile4.toURI().toString());
+                        ivDiver4.setImage(diverImage4);
+                        visuaalinenTausta.getChildren().addAll(ivDiver4);
+                        rerouteCmyyntiAsiakkaat.addLast(ivDiver4);
+                        visualisointi.asiakasReroute(ivDiver4, 4);
+                        break;
+                    case 5:
+                        File diverFile5;
+                        ImageView ivDiver5 = new ImageView();
+                        diverFile5 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage5 = new Image(diverFile5.toURI().toString());
+                        ivDiver5.setImage(diverImage5);
+                        visuaalinenTausta.getChildren().addAll(ivDiver5);
+                        rerouteCnettiAsiakkaat.addLast(ivDiver5);
+                        visualisointi.asiakasReroute(ivDiver5, 5);
+                        break;
+                    case 6:
+                        File diverFile6;
+                        ImageView ivDiver6 = new ImageView();
+                        diverFile6 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage6 = new Image(diverFile6.toURI().toString());
+                        ivDiver6.setImage(diverImage6);
+                        visuaalinenTausta.getChildren().addAll(ivDiver6);
+                        rerouteCliittymäAsiakkaat.addLast(ivDiver6);
+                        visualisointi.asiakasReroute(ivDiver6, 6);
+                        break;
+                    case 7:
+                        File diverFile7;
+                        ImageView ivDiver7 = new ImageView();
+                        diverFile7 = new File("src/main/resources/com/project/icons/mistake.png");
+                        Image diverImage7 = new Image(diverFile7.toURI().toString());
+                        ivDiver7.setImage(diverImage7);
+                        visuaalinenTausta.getChildren().addAll(ivDiver7);
+                        rerouteClaskutusAsiakkaat.addLast(ivDiver7);
+                        visualisointi.asiakasReroute(ivDiver7, 7);
                         break;
                 }
             }

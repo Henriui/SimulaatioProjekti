@@ -164,6 +164,14 @@
                                     <Image url="@../icons/palvelupiste.png" />
                                  </image>
                               </ImageView>
+                              <Label layoutX="21.0" layoutY="28.0" prefHeight="18.0" prefWidth="80.0" text="Liittymä" textFill="#e3b9b9">
+                                 <font>
+                                    <Font name="Bauhaus 93" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="12.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <effect>
                               <DropShadow />
@@ -184,6 +192,14 @@
                                     <Image url="@../icons/palvelupiste.png" />
                                  </image>
                               </ImageView>
+                              <Label layoutX="21.0" layoutY="26.0" prefHeight="18.0" prefWidth="80.0" text="Laskutus" textFill="#e3b9b9">
+                                 <font>
+                                    <Font name="Bauhaus 93" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="15.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <effect>
                               <DropShadow />
@@ -204,6 +220,14 @@
                                     <Image url="@../icons/palvelupiste.png" />
                                  </image>
                               </ImageView>
+                              <Label layoutX="25.0" layoutY="25.0" prefHeight="0.0" prefWidth="53.0" text="Netti" textFill="#e3b9b9">
+                                 <font>
+                                    <Font name="Bauhaus 93" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <effect>
                               <DropShadow />
@@ -224,6 +248,14 @@
                                     <Image url="@../icons/palvelupiste.png" />
                                  </image>
                               </ImageView>
+                              <Label layoutX="25.0" layoutY="23.0" text="Myynti" textFill="#e3b9b9">
+                                 <font>
+                                    <Font name="Bauhaus 93" size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <effect>
                               <DropShadow />

@@ -297,6 +297,129 @@ public class Visualisointi {
                 break;
         }
     }
+
+    public void asiakasReroute(ImageView image, int tyyppi){
+       
+        switch(tyyppi){
+            case 0:
+                // Quitteri
+                Path path = new Path();
+                path.getElements().add(new MoveTo(63,401)); // Aloituspiste
+                path.getElements().add(new LineTo(63,504)); // Alaspäin
+                path.getElements().add(new LineTo(524,504)); // Vasemmalle
+                path.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition = new PathTransition();
+                transition.setNode(image);
+                transition.setDuration(Duration.millis(nopeus + 1000));
+                transition.setPath(path);
+                transition.setCycleCount(1);
+                transition.play();
+                break;
+
+            case 1:
+                Path path2 = new Path();
+                path2.getElements().add(new MoveTo(183,401)); // Aloituspiste
+                path2.getElements().add(new LineTo(183,504)); // Alaspäin
+                path2.getElements().add(new LineTo(524,504)); // Vasemmalle
+                path2.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition2 = new PathTransition();
+                transition2.setNode(image);
+                transition2.setDuration(Duration.millis(nopeus + 1000));
+                transition2.setPath(path2);
+                transition2.setCycleCount(1);
+                transition2.play();
+                break;
+            case 2:
+                Path path3 = new Path();
+                path3.getElements().add(new MoveTo(300,401)); // Aloituspiste
+                path3.getElements().add(new LineTo(300,504)); // Alaspäin
+                path3.getElements().add(new LineTo(524,504)); // Vasemmalle
+                path3.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition3 = new PathTransition();
+                transition3.setNode(image);
+                transition3.setDuration(Duration.millis(nopeus + 1000));
+                transition3.setPath(path3);
+                transition3.setCycleCount(1);
+                transition3.play();
+                break;
+            case 3:
+                Path path4 = new Path();
+                path4.getElements().add(new MoveTo(418,401)); // Aloituspiste
+                path4.getElements().add(new LineTo(418,504)); // Alaspäin
+                path4.getElements().add(new LineTo(524,504)); // Vasemmalle
+                path4.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition4 = new PathTransition();
+                transition4.setNode(image);
+                transition4.setDuration(Duration.millis(nopeus + 1000));
+                transition4.setPath(path4);
+                transition4.setCycleCount(1);
+                transition4.play();
+                break;
+            case 4:
+                Path path5 = new Path();
+                path5.getElements().add(new MoveTo(977,401)); // Aloituspiste
+                path5.getElements().add(new LineTo(977,504)); // Alaspäin
+                path5.getElements().add(new LineTo(524,504)); // Oikealle
+                path5.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition5 = new PathTransition();
+                transition5.setNode(image);
+                transition5.setDuration(Duration.millis(nopeus + 1000));
+                transition5.setPath(path5);
+                transition5.setCycleCount(1);
+                transition5.play();
+                break;
+
+            case 5:
+                Path path6 = new Path();
+                path6.getElements().add(new MoveTo(857,401)); // Aloituspiste
+                path6.getElements().add(new LineTo(857,504)); // Alaspäin
+                path6.getElements().add(new LineTo(524,504)); // Oikealle
+                path6.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition6 = new PathTransition();
+                transition6.setNode(image);
+                transition6.setDuration(Duration.millis(nopeus + 1000));
+                transition6.setPath(path6);
+                transition6.setCycleCount(1);
+                transition6.play();
+                break;
+
+            case 6:
+                Path path7 = new Path();
+                path7.getElements().add(new MoveTo(740,401)); // Aloituspiste
+                path7.getElements().add(new LineTo(740,504)); // Alaspäin
+                path7.getElements().add(new LineTo(524,504)); // Oikealle
+                path7.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition7 = new PathTransition();
+                transition7.setNode(image);
+                transition7.setDuration(Duration.millis(nopeus + 1000));
+                transition7.setPath(path7);
+                transition7.setCycleCount(1);
+                transition7.play();
+                break;
+
+            case 7:
+                Path path8 = new Path();
+                path8.getElements().add(new MoveTo(622,401)); // Aloituspiste
+                path8.getElements().add(new LineTo(622,504)); // Alaspäin
+                path8.getElements().add(new LineTo(524,504)); // Oikealle
+                path8.getElements().add(new LineTo(524,40)); // Ylös
+
+                PathTransition transition8 = new PathTransition();
+                transition8.setNode(image);
+                transition8.setDuration(Duration.millis(nopeus + 1000));
+                transition8.setPath(path8);
+                transition8.setCycleCount(1);
+                transition8.play();
+                break;
+        }
+    }
     /**
      * Asiakkaan poistumis polun määrittäminen.
      * @param asiakas
