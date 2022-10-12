@@ -55,7 +55,7 @@ public class TuloksetController {
     }
 
     private void setTableView() {
-        UserAsetukset ua = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
+        UserAsetukset ua = new UserAsetukset("projekti", "olso", "olso");
         db = new TuloksetDAO(ua, true);
         ArrayList<Tulokset>tuloksetArrayList = new ArrayList<Tulokset>();
         for(int i = 1; i <= db.getRowCount(); i++){
