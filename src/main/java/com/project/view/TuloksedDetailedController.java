@@ -187,6 +187,7 @@ public class TuloksedDetailedController {
         keskiJonotusAikLabel.setText(tulokset.getKeskiJonotusAikaString() + "min");
         keskiLapiMenoAikLabel.setText(tulokset.getKeskiLapiMenoAikaString() + "min");
 
+        //  ObservableListit simulaatiossa käytetyistä asetuksista
         ObservableList<String> pisteetObservableList = FXCollections.observableArrayList("Yksityismyynti: ", "Yksityisnetti: ",
                 "Yksityisliittymä: ", "Yksityislaskutus: ", "Yritysmyynti: ", "Yritysnetti: ", "Yritysliittymä: ",
                 "Yrityslaskutus: ");

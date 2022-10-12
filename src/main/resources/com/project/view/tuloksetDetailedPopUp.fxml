@@ -183,9 +183,9 @@
                                     <ListView fx:id="miscListView" prefHeight="190.0" prefWidth="208.0" />
                                  </children>
                               </HBox>
-                              <Label layoutX="332.0" layoutY="14.0" text="Käytetyt asetukset:">
+                              <Label layoutX="309.0" layoutY="14.0" text="Käytetyt asetukset:">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font size="30.0" />
                                  </font>
                               </Label>
                               <Label layoutX="432.0" layoutY="67.0" text="Asetettu jakauma:">
@@ -199,6 +199,15 @@
                                  </font>
                               </Label>
                               <Label layoutX="640.0" layoutY="67.0" text="Yleiset:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="324.0" prefHeight="310.0" prefWidth="862.0" style="-fx-background-color: #2196f3; -fx-background-radius: 20;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="324.0">
+                           <children>
+                              <Label layoutX="270.0" layoutY="14.0" text="Ohjeita palvelun parantamiseen:">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
