@@ -8,6 +8,7 @@ import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.PalvelupisteTulos;
+import com.project.simu.model.TallennettavatParametrit;
 
 //Tämä muutetaan test filuks jossain vaiheessa 
 public class Simulaattori { // Tekstipohjainen
@@ -22,10 +23,10 @@ public class Simulaattori { // Tekstipohjainen
 		db.openConnection();
 		
 		for(int i=1; i< 5; i++){
-
+			TallennettavatParametrit para = new TallennettavatParametrit(i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
 			ArrayList<PalvelupisteTulos> ppList = new ArrayList<>();
-
-			Tulokset tulos = new Tulokset( 2, 3, 4, 5, 6, 7, 8, 9, ppList);
+			ppList.add(new PalvelupisteTulos(i, i, i, i, i, i, i));
+			Tulokset tulos = new Tulokset( 2, 3, 4, 5, 6, 7, 8, 9, ppList, para);
 			db.addTulos(tulos);
 		}
 		ArrayList<Tulokset> tulosList = null;
