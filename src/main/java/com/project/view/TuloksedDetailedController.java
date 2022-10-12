@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class TuloksedDetailedController {
@@ -74,6 +75,8 @@ public class TuloksedDetailedController {
     private ListView<String> jakaumaListView;
     @FXML
     private ListView<String> miscListView;
+    @FXML
+    private TextArea ohjTextArea;
     @FXML
     private Button removeButton;
     @FXML
@@ -152,7 +155,8 @@ public class TuloksedDetailedController {
         else {
             // Napit vastaamaan paremmin tilannetta
             saveButton.setText("Takaisin");
-            removeButton.setText("Takaisin");
+            saveButton.setDisable(true);
+            saveButton.setVisible(false);
 
             // Yksityis palvelupisteet erotettuna yritys palvelupisteistä
             for (int i = 0; i < 4; i++) {
@@ -240,14 +244,144 @@ public class TuloksedDetailedController {
                 "Yksityis/yritys jakauma: " + tulokset.getTallennettavatParametrit().getYksYriJakaumaString() + "/"
                         + (int) (100 - tulokset.getTallennettavatParametrit().getYksYriJakauma()) + "%",
                 "Kärsimättömyys aika: " + tulokset.getTallennettavatParametrit().getKarsimaatomyysAikaString() + "min",
-                "Väärävalinta prosentti: " + tulokset.getTallennettavatParametrit().getVaaraValintaProsenttiString() + "%",
-                "Asiakasmäärä tunnissa: " + tulokset.getTallennettavatParametrit().getAsikasmaaraTuntiString() + "kpl/h");
+                "Väärävalinta prosentti: " + tulokset.getTallennettavatParametrit().getVaaraValintaProsenttiString()
+                        + "%",
+                "Asiakasmäärä tunnissa: " + tulokset.getTallennettavatParametrit().getAsikasmaaraTuntiString()
+                        + "kpl/h");
 
         pisteetListView.setItems(pisteetObservableList);
         ajatListView.setItems(ajatObservableList);
         jakaumaListView.setItems(jakaumaObservableList);
         miscListView.setItems(miscObservableList);
 
+        String ohje = "";
+        boolean lisaa = false;
+        boolean vahemman = false;
+        for (int i = 0; i < 8; i++) {
+            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                lisaa = true;
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                vahemman = true;
+            }
+        }
+        if (lisaa) {
+            ohje += "Tarvitset lisää ";
+            ArrayList<String> tarvYksPisteet = new ArrayList<String>();
+            ArrayList<String> tarvYriPisteet = new ArrayList<String>();
+            for (int i = 0; i < 4; i++) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                    tarvYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
+                }
+            }
+            for (int i = 4; i < 8; i++) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                    tarvYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
+                }
+            }
+            if (tarvYksPisteet.size() > 0) {
+                ohje += "yksityis ";
+                if (tarvYksPisteet.size() == 1) {
+                    ohje += tarvYksPisteet.get(0) + " pisteitä";
+                } else if (tarvYksPisteet.size() == 2) {
+                    int u;
+                    for (u = 0; u < tarvYksPisteet.size() - 1; u++) {
+                        ohje += tarvYksPisteet.get(u) + " ja ";
+                    }
+                    ohje += tarvYksPisteet.get(u) + " pisteitä";
+                } else if (tarvYksPisteet.size() > 2) {
+                    int u;
+                    for (u = 0; u < tarvYksPisteet.size() - 2; u++) {
+                        ohje += tarvYksPisteet.get(u) + ", ";
+                    }
+                    ohje += tarvYksPisteet.get(u) + " ja " + tarvYksPisteet.get(u + 1) + " pisteitä";
+                }
+            }
+            if (tarvYksPisteet.size() > 0 && tarvYriPisteet.size() > 0) {
+                ohje += " sekä ";
+            }
+            if (tarvYriPisteet.size() > 0) {
+                ohje += "yritys ";
+                if (tarvYriPisteet.size() == 1) {
+                    ohje += tarvYriPisteet.get(0) + " pisteitä";
+                } else if (tarvYriPisteet.size() > 1) {
+                    int u;
+                    for (u = 0; u < tarvYriPisteet.size() - 1; u++) {
+                        ohje += tarvYriPisteet.get(u) + " ja ";
+                    }
+                    ohje += tarvYriPisteet.get(u) + " pisteitä";
+                } else if (tarvYriPisteet.size() > 2) {
+                    int u;
+                    for (u = 0; u < tarvYriPisteet.size() - 2; u++) {
+                        ohje += tarvYriPisteet.get(u) + ", ";
+                    }
+                    ohje += tarvYriPisteet.get(u) + " ja " + tarvYriPisteet.get(u + 1) + " pisteitä";
+                }
+            }
+            ohje += ".";
+        }
+        if (lisaa && vahemman) {
+            ohje += "\n\n";
+        }
+        if (vahemman) {
+            ohje += "Voit vähentää";
+            ArrayList<String> vahYksPisteet = new ArrayList<String>();
+            ArrayList<String> vahYriPisteet = new ArrayList<String>();
+            for (int i = 0; i < 4; i++) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                    vahYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
+                }
+            }
+            for (int i = 4; i < 8; i++) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                    vahYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
+                }
+            }
+            if (vahYksPisteet.size() > 0) {
+                ohje += "yksityis ";
+                if (vahYksPisteet.size() == 1) {
+                    ohje += vahYksPisteet.get(0) + " pisteitä";
+                } else if (vahYksPisteet.size() == 2) {
+                    int u;
+                    for (u = 0; u < vahYksPisteet.size() - 1; u++) {
+                        ohje += vahYksPisteet.get(u) + " ja ";
+                    }
+                    ohje += vahYksPisteet.get(u) + " pisteitä";
+                } else if (vahYksPisteet.size() > 2) {
+                    int u;
+                    for (u = 0; u < vahYksPisteet.size() - 2; u++) {
+                        ohje += vahYksPisteet.get(u) + ", ";
+                    }
+                    ohje += vahYksPisteet.get(u) + " ja " + vahYksPisteet.get(u + 1) + " pisteitä";
+                }
+            }
+            if (vahYksPisteet.size() > 0 && vahYriPisteet.size() > 0) {
+                ohje += " sekä ";
+            }
+            if (vahYriPisteet.size() > 0) {
+                ohje += "yritys ";
+                if (vahYriPisteet.size() == 1) {
+                    ohje += vahYriPisteet.get(0) + " pisteitä";
+                } else if (vahYriPisteet.size() > 1) {
+                    int u;
+                    for (u = 0; u < vahYriPisteet.size() - 1; u++) {
+                        ohje += vahYriPisteet.get(u) + " ja ";
+                    }
+                    ohje += vahYriPisteet.get(u) + " pisteitä";
+                } else if (vahYriPisteet.size() > 2) {
+                    int u;
+                    for (u = 0; u < vahYriPisteet.size() - 2; u++) {
+                        ohje += vahYriPisteet.get(u) + ", ";
+                    }
+                    ohje += vahYriPisteet.get(u) + " ja " + vahYriPisteet.get(u + 1) + " pisteitä";
+                }
+            }
+            ohje += ".";
+        }
+
+        ohjTextArea.setText(ohje);
         db.closeConnection(); // Putket kiinni ettei data karkaa
     }
 
