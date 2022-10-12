@@ -85,8 +85,10 @@ public class OmaMoottori extends Moottori {
 		// Henkilö- ja yritysasiakas valikon poistumiset
 		else if (tapahtuma == Tyyppi.CO_VALIKKO_DEPART || tapahtuma == Tyyppi.PRI_VALIKKO_DEPART) {
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
+			int vanhaAsType = as.getAsType();
 			palvelupisteet[haeAs(as.setAsType())].addJonoon(as);
-			kontrolleri.visualisoiAsiakas(as.getAsType());
+			// kontrolleri.visualisoiAsiakas(as.getAsType());
+			kontrolleri.visualisoiAsiakas(as.getAsType(), vanhaAsType);
 		}
 
 		// Asiakaspalvelija pisteiden poistumiset
@@ -94,9 +96,11 @@ public class OmaMoottori extends Moottori {
 			// Otetaan jonosta ja asetetaan poistumisaika
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
 			if (as.getReRouted() && !as.isJonotukseenKyllastynyt()) {
+				int vanhaAsType = as.getAsType();
 				sS.addAsReRouted();
 				palvelupisteet[haeAs(as.setReRouted())].addJonoon(as);
-				kontrolleri.visualisoiAsiakas(as.getAsType());
+				// kontrolleri.visualisoiAsiakas(as.getAsType());
+				kontrolleri.visualisoiAsiakas(as.getAsType(), vanhaAsType);
 				return;
 			}
 
@@ -189,6 +193,8 @@ public class OmaMoottori extends Moottori {
 		tyoVuoroArr[aP.getTvIndex()]++;
 		return aP;
 	}
+
+
 
 	// tulokset
 	@Override
