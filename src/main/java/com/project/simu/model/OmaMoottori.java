@@ -87,7 +87,7 @@ public class OmaMoottori extends Moottori {
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
 			int vanhaAsType = as.getAsType();
 			palvelupisteet[haeAs(as.setAsType())].addJonoon(as);
-			//kontrolleri.visualisoiAsiakas(as.getAsType());
+			// kontrolleri.visualisoiAsiakas(as.getAsType());
 			kontrolleri.visualisoiAsiakas(as.getAsType(), vanhaAsType);
 		}
 
@@ -99,7 +99,7 @@ public class OmaMoottori extends Moottori {
 				int vanhaAsType = as.getAsType();
 				sS.addAsReRouted();
 				palvelupisteet[haeAs(as.setReRouted())].addJonoon(as);
-				//kontrolleri.visualisoiAsiakas(as.getAsType());
+				// kontrolleri.visualisoiAsiakas(as.getAsType());
 				kontrolleri.visualisoiAsiakas(as.getAsType(), vanhaAsType);
 				return;
 			}
@@ -193,6 +193,8 @@ public class OmaMoottori extends Moottori {
 		tyoVuoroArr[aP.getTvIndex()]++;
 		return aP;
 	}
+
+
 
 	// tulokset
 	@Override

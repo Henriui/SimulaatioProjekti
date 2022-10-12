@@ -119,6 +119,9 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<ImageView> quitterCliittymäAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> quitterClaskutusAsiakkaat = new LinkedList<ImageView>();
 
+    HashMap<Integer, LinkedList<Circle>> circleKartta = new HashMap<>();
+    HashMap<Integer, LinkedList<ImageView>> iVKartta = new HashMap<>();
+
     /**
      * Alustaa parametrit sekä toistaa animaation kun näkymä avataan.
      * 
@@ -132,6 +135,30 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         ZoomIn trans1 = new ZoomIn(backGround);
         new animatefx.util.ParallelAnimationFX(trans1).play();
         System.out.println("Start");
+        circleKartta.put(1, myyntiAsiakkaat);
+        circleKartta.put(2, nettiAsiakkaat);
+        circleKartta.put(3, liittymäAsiakkaat);
+        circleKartta.put(4, laskutusAsiakkaat);
+        circleKartta.put(5, CmyyntiAsiakkaat);
+        circleKartta.put(6, CnettiAsiakkaat);
+        circleKartta.put(7, CliittymäAsiakkaat);
+        circleKartta.put(8, ClaskutusAsiakkaat);
+        circleKartta.put(9, PoistumyyntiAsiakkaat);
+        circleKartta.put(10, PoistunettiAsiakkaat);
+        circleKartta.put(11, PoistuliittymäAsiakkaat);
+        circleKartta.put(12, PoistulaskutusAsiakkaat);
+        circleKartta.put(13, PoistuCmyyntiAsiakkaat);
+        circleKartta.put(14, PoistuCnettiAsiakkaat);
+        circleKartta.put(15, PoistuCliittymäAsiakkaat);
+        circleKartta.put(16, PoistuClaskutusAsiakkaat);
+        iVKartta.put(1, quitterMyyntiAsiakkaat);
+        iVKartta.put(2, quitterNettiAsiakkaat);
+        iVKartta.put(3, quitterLiittymäAsiakkaat);
+        iVKartta.put(4, quitterLaskutusAsiakkaat);
+        iVKartta.put(5, quitterCmyyntiAsiakkaat);
+        iVKartta.put(6, quitterCnettiAsiakkaat);
+        iVKartta.put(7, quitterCliittymäAsiakkaat);
+        iVKartta.put(8, quitterClaskutusAsiakkaat);
     }
 
     /**
@@ -341,7 +368,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 for (int i = 0; i < suureStatusMap.get("Varattu").length; i++) {
                     String strValue = String.valueOf(suureStatusMap.get("Tyovuorossa")[i]);
                     if (i < 8) {
-                        System.out.println(tyoVuoroLabelit[i].toString() + " työvuorossa = " + strValue);
+                        // System.out.println(tyoVuoroLabelit[i].toString() + " työvuorossa = " +
+                        // strValue);
                         tyoVuoroLabelit[i].setText(strValue);
                     }
                 }
@@ -392,130 +420,20 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         // Alustaa jonojen Y valuet.
         visualisointi.alustaJonot();
 
-        // Yksityisasiakkaat.
-        while (myyntiAsiakkaat.iterator().hasNext()) {
-            Circle m = myyntiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(m);
-            myyntiAsiakkaat.removeFirst();
-        }
-        while (nettiAsiakkaat.iterator().hasNext()) {
-            Circle mn = nettiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mn);
-            nettiAsiakkaat.removeFirst();
-        }
-        while (liittymäAsiakkaat.iterator().hasNext()) {
-            Circle mli = liittymäAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mli);
-            liittymäAsiakkaat.removeFirst();
-        }
-        while (laskutusAsiakkaat.iterator().hasNext()) {
-            Circle mla = laskutusAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mla);
-            laskutusAsiakkaat.removeFirst();
-        }
-        while (CmyyntiAsiakkaat.iterator().hasNext()) {
-            Circle mcm = CmyyntiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcm);
-            CmyyntiAsiakkaat.removeFirst();
-        }
-        while (CnettiAsiakkaat.iterator().hasNext()) {
-            Circle mcn = CnettiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcn);
-            CnettiAsiakkaat.removeFirst();
-        }
-        while (CliittymäAsiakkaat.iterator().hasNext()) {
-            Circle mcli = CliittymäAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcli);
-            CliittymäAsiakkaat.removeFirst();
-        }
-        while (ClaskutusAsiakkaat.iterator().hasNext()) {
-            Circle mcla = ClaskutusAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcla);
-            ClaskutusAsiakkaat.removeFirst();
-        }
-        // Yritys asiakkaat.
-        while (PoistumyyntiAsiakkaat.iterator().hasNext()) {
-            Circle Pm = PoistumyyntiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pm);
-            PoistumyyntiAsiakkaat.removeFirst();
-        }
-        while (PoistunettiAsiakkaat.iterator().hasNext()) {
-            Circle Pmn = PoistunettiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmn);
-            PoistunettiAsiakkaat.removeFirst();
-        }
-        while (PoistuliittymäAsiakkaat.iterator().hasNext()) {
-            Circle Pmli = PoistuliittymäAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmli);
-            PoistuliittymäAsiakkaat.removeFirst();
-        }
-        while (PoistulaskutusAsiakkaat.iterator().hasNext()) {
-            Circle Pmla = PoistulaskutusAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmla);
-            PoistulaskutusAsiakkaat.removeFirst();
-        }
-        while (PoistuCmyyntiAsiakkaat.iterator().hasNext()) {
-            Circle Pmcm = PoistuCmyyntiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmcm);
-            PoistuCmyyntiAsiakkaat.removeFirst();
-        }
-        while (PoistuCnettiAsiakkaat.iterator().hasNext()) {
-            Circle Pmcn = PoistuCnettiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmcn);
-            PoistuCnettiAsiakkaat.removeFirst();
-        }
-        while (PoistuCliittymäAsiakkaat.iterator().hasNext()) {
-            Circle Pmcli = PoistuCliittymäAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmcli);
-            PoistuCliittymäAsiakkaat.removeFirst();
-        }
-        while (PoistuClaskutusAsiakkaat.iterator().hasNext()) {
-            Circle Pmcla = PoistuClaskutusAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(Pmcla);
-            PoistuClaskutusAsiakkaat.removeFirst();
+        for (int i = 1; i < circleKartta.size(); i++) {
+            while (circleKartta.get(i).iterator().hasNext()) {
+                Circle m = circleKartta.get(i).getFirst();
+                visuaalinenTausta.getChildren().remove(m);
+                circleKartta.get(i).removeFirst();
+            }
         }
 
-        // Yksityisasiakkaat Quitterit.
-        while (quitterMyyntiAsiakkaat.iterator().hasNext()) {
-            ImageView m = quitterMyyntiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(m);
-            quitterMyyntiAsiakkaat.removeFirst();
-        }
-        while (quitterNettiAsiakkaat.iterator().hasNext()) {
-            ImageView mn = quitterNettiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mn);
-            quitterNettiAsiakkaat.removeFirst();
-        }
-        while (quitterLiittymäAsiakkaat.iterator().hasNext()) {
-            ImageView mli = quitterLiittymäAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mli);
-            quitterLiittymäAsiakkaat.removeFirst();
-        }
-        while (quitterLaskutusAsiakkaat.iterator().hasNext()) {
-            ImageView mla = quitterLaskutusAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mla);
-            quitterLaskutusAsiakkaat.removeFirst();
-        }
-        // Yritysasiakkaat Quitterit.
-        while (quitterCmyyntiAsiakkaat.iterator().hasNext()) {
-            ImageView mcm = quitterCmyyntiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcm);
-            quitterCmyyntiAsiakkaat.removeFirst();
-        }
-        while (quitterCnettiAsiakkaat.iterator().hasNext()) {
-            ImageView mcn = quitterCnettiAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcn);
-            quitterCnettiAsiakkaat.removeFirst();
-        }
-        while (quitterCliittymäAsiakkaat.iterator().hasNext()) {
-            ImageView mcli = quitterCliittymäAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcli);
-            quitterCliittymäAsiakkaat.removeFirst();
-        }
-        while (quitterClaskutusAsiakkaat.iterator().hasNext()) {
-            ImageView mcla = quitterClaskutusAsiakkaat.getFirst();
-            visuaalinenTausta.getChildren().remove(mcla);
-            quitterClaskutusAsiakkaat.removeFirst();
+        for (int i = 1; i < iVKartta.size(); i++) {
+            while (iVKartta.get(i).iterator().hasNext()) {
+                ImageView iV = iVKartta.get(i).getFirst();
+                visuaalinenTausta.getChildren().remove(iV);
+                iVKartta.get(i).removeFirst();
+            }
         }
         pallotNäytöllä = false;
     }
