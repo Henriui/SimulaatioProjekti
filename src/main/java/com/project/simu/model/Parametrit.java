@@ -1,9 +1,5 @@
 package com.project.simu.model;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
@@ -40,11 +36,6 @@ public class Parametrit {
 
     // Puhelinvalikkojen keskimääräinen palveluaika
     private double pValikkoAika;
-
-    // Tietokannan käyttäjäparametrit
-    private String dbName;
-    private String username;
-    private String password;
 
     public Parametrit() {
         setDefaultArvot();
@@ -91,7 +82,7 @@ public class Parametrit {
      * @param ppType tätä tyyppi valueta vastaan (1-8)
      * @author Rasmus Hyyppä
      */
-    public void setPPMaara(int[] ppMaaraArray) {
+    public void setPPMaaraArr(int[] ppMaaraArray) {
         this.ppMaaraArray = ppMaaraArray;
     }
 
@@ -114,7 +105,7 @@ public class Parametrit {
         ppAikaArray[ppType - 1] = aika * 60;
     }
 
-    public void setPPAvgAika(double[] ppAikaArray) {
+    public void setPPAvgAikaArr(double[] ppAikaArray) {
         this.ppAikaArray = ppAikaArray;
     }
 
@@ -133,13 +124,7 @@ public class Parametrit {
      */
     public Normal getPAJakauma(int ppType) {
         double aika = getPPAvgAika(ppType);
-        if (aika > 0) {
-            return new Normal(aika, aika);
-        } else {
-            aika = 10 * 60;
-            return new Normal(aika, aika);
-        }
-
+        return new Normal(aika, aika);
     }
 
     public int getAllPPMaara() {
@@ -228,78 +213,5 @@ public class Parametrit {
 
         System.out.println("asTyyppiArr: " + Arrays.toString(asTyyppiArr));
         this.asTyyppiArr = asTyyppiArr;
-    }
-    // dbName, tableName ,username, password get/set
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setDbParameters(String dbName, String username, String password) {
-        this.dbName = dbName;
-        this.username = username;
-        this.password = password;
-    }
-
-    /**
-     * Tallentaa database parametrit singletonista UserAsetukset.java olion avulla
-     * tiedostoon
-     * 
-     * @return true jos onnistui, false jos ei
-     * @author Lassi Bågman
-     */
-    public boolean kirjoitaTiedostoonDbParametrit() {
-        try (FileOutputStream virta = new FileOutputStream("data\\dbAsetukset.data");
-                ObjectOutputStream tuloste = new ObjectOutputStream(virta);) {
-            tuloste.writeObject(new UserAsetukset(dbName, username, password));
-            tuloste.close();
-            return true;
-        } catch (Exception e) {
-            System.out.println("Tiedostoon tallentaminen ei onnistunut");
-            System.err.println(e);
-            return false;
-        }
-    }
-
-    /**
-     * Lukee tiedoston jos se on olemassa ja palauttaa tiedostosta löytyvän
-     * UserAsetukset.java olion
-     * jonka avulla päivittää singletonin parametrit
-     * 
-     * @return true jos onnistui, false jos ei
-     * @author Lassi Bågman
-     */
-    public boolean lueTiedostostaDbParametrit() {
-        try (FileInputStream virta = new FileInputStream("data\\dbAsetukset.data");
-                ObjectInputStream syote = new ObjectInputStream(virta);) {
-            UserAsetukset ua = (UserAsetukset) syote.readObject();
-            dbName = ua.getDbName();
-            username = ua.getUsername();
-            password = ua.getPassword();
-            return true;
-        } catch (Exception e) {
-            System.out.println("Tiedoston lukeminen ei onnistunut");
-            System.err.println(e);
-            return false;
-        }
     }
 }

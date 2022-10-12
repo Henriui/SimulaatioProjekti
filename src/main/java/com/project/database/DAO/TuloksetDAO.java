@@ -220,17 +220,17 @@ public class TuloksetDAO implements ITuloksetDAO {
     /**
      * Returns true if row with given id is deleted successfully. Otherwise returns false.
      * 
-     * @param id
+     * @param simulaatiokerta
      * @return boolean
      * @Author Henri
      */
     @Override
-    public boolean removeTulos(int id) {
+    public boolean removeTulos(int simulaatiokerta) {
         // Delete given id.
 
         try {
             statement = connection.prepareStatement("DELETE FROM " + tableName1 + " WHERE simulaatiokerta = ( ? )");
-            statement.setInt(1, id);
+            statement.setInt(1, simulaatiokerta);
             
             // Return true if DELETE successful;
 
@@ -308,6 +308,30 @@ public class TuloksetDAO implements ITuloksetDAO {
         return tulos;
     }
 
+    public ArrayList<Tulokset> queryTulokset() throws SQLException{
+
+        ArrayList<Tulokset> tulosList = new ArrayList<>();
+        statement = connection.prepareStatement("SELECT * FROM " + tableName1);
+        ResultSet results = statement.executeQuery();
+
+        while (results.next()) {
+            Tulokset tulos = new Tulokset(
+            results.getInt(1),
+            results.getDouble(2),
+            results.getDouble(3),
+            results.getInt(4),
+            results.getInt(5),
+            results.getInt(6),
+            results.getInt(7),
+            results.getDouble(8),
+            results.getDouble(9)
+            );
+            tulosList.add(tulos);
+        }
+        return tulosList;
+    }
+
+
     /**
      * Drops table from the database.
      * Returns true if successful. Otherwise returns false.
@@ -335,7 +359,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @return int
      * @Author Henri
      */
-    public int getRowCount(){
+    public int getRowIndex(){
         int result;
         try{
             statement = connection.prepareStatement("Select simulaatiokerta from " + tableName1);
@@ -348,7 +372,22 @@ public class TuloksetDAO implements ITuloksetDAO {
             return result;
 
         } catch (SQLException e) {
-            System.out.println("No rows or something went wrong.");
+            System.out.println("Row index error.");
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int getRowCount(){
+        int result;
+        try{
+            statement = connection.prepareStatement("SELECT COUNT(*) FROM "+ tableName1);
+            ResultSet rs = statement.executeQuery();
+            if (!rs.next())
+                return 0;
+            result = rs.getInt(1);
+            return result;
+        } catch (SQLException e) {
+            System.out.println("Row count error.");
             e.printStackTrace();
         }
         return 0;

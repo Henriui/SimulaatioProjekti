@@ -10,7 +10,6 @@ import com.project.simu.framework.Tapahtumalista;
 import com.project.simu.framework.Trace;
 
 // Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
-
 public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 
 	protected static int ppUId = 0;
@@ -74,10 +73,8 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 	public void aloitaPalvelu() {
 		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
 		Asiakas as = this.jono.peek();
-		// Lisätään jonotusaika & palveluaika suureet muuttujiin
 		double jAika = Kello.getInstance().getAika() - as.getAsSaapumisaikaPP();
 		double pAika = generator.sample();
-
 		this.varattu = true;
 		if (kyllastyiJonoon(as, jAika)) {
 			return;
@@ -172,22 +169,22 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		if (palveluAika == 0) {
 			return 0;
 		}
-		return this.palveluAika / this.asPalveltuJonosta;
+		return this.palveluAika / (double) this.asPalveltuJonosta;
 	}
 
 	public double getPProsentti() {
 		if (this.asLisattyJonoon == 0) {
 			return 100;
 		}
-		return (this.asPalveltuJonosta / this.asLisattyJonoon) * 100;
+		return ((double) this.asPalveltuJonosta / (double) this.asLisattyJonoon) * 100;
 	}
 
 	public double getAvgViipyminenPP() {
-		return this.asViipyminenPP / this.asLisattyJonoon;
+		return this.asViipyminenPP / (double) this.asLisattyJonoon;
 	}
 
 	public double getAvgJonotusAika() {
-		return this.jonoAika / this.asLisattyJonoon;
+		return this.jonoAika / (double) this.asLisattyJonoon;
 	}
 
 	public void raportti() {

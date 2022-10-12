@@ -19,7 +19,6 @@ public class Asiakaspalvelija extends Palvelupiste {
             double maxJononPituus, Tyovuoro tv) {
         super(generator, tapahtumalista, tyyppi, maxJononPituus);
         this.tv = tv;
-
         this.reRouteAika = 30; // 30 sekunttia reroute keskustelu
         this.asReRoutedJonosta = 0;
         tyoVuoronAjat();
@@ -27,16 +26,7 @@ public class Asiakaspalvelija extends Palvelupiste {
 
     @Override
     public void addJonoon(Asiakas as) {
-        if (this.getOnPaikalla()) {
-            super.addJonoon(as);
-        }
-        // Mikäli kaikki asiakaspalvelijat ovat lähteneet töistä
-        // Asiakas kuulee 15 sekunnin nauhotteen asiasta ja saa luurin korvaan
-        else {
-            Trace.out(Trace.Level.INFO, "Asiakas ei saanut palvelua enään: " + as.getId());
-            maxJononPituus = 15;
-            super.addJonoon(as);
-        }
+        super.addJonoon(as);
     }
 
     private void tyoVuoronAjat() {
@@ -51,22 +41,22 @@ public class Asiakaspalvelija extends Palvelupiste {
 
     @Override
     public void aloitaPalvelu() {
-        Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
         Asiakas as = jono.peek();
-        // Lisätään jonotusaika & palveluaika suureet muuttujiin
         double jAika = Kello.getInstance().getAika() - as.getAsSaapumisaikaPP();
         double pAika = generator.sample();
-
         this.varattu = true;
 
-        if (!getOnPaikalla()) {
-            jAika = 16;
+        if (!this.getOnPaikalla()) {
+            Trace.out(Trace.Level.INFO, "Asiakas ei saanut palvelua enään: " + as.getId());
+            maxJononPituus = 14;
+            jAika = 15;
         }
         // Mikäli jonotusaika ylitti niin asiakas poistui ennen palvelua.
         if (kyllastyiJonoon(as, jAika)) {
             return;
         }
 
+        Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
         if (as.getReRouted()) {
             Trace.out(Trace.Level.INFO, "Asiakas siirretään oikeaan jonoon: " + as.getId());
             pAika = this.reRouteAika; // 30 sekunttia reroute keskustelu
@@ -102,7 +92,8 @@ public class Asiakaspalvelija extends Palvelupiste {
         if (this.asLisattyJonoon == 0) {
             return 100;
         }
-        return ((this.asPalveltuJonosta + this.asReRoutedJonosta) / this.asLisattyJonoon) * 100;
+        return (((double) this.asPalveltuJonosta + (double) this.asReRoutedJonosta) / (double) this.asLisattyJonoon)
+                * 100;
     }
 
     @Override
