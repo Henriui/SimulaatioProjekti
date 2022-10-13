@@ -468,18 +468,20 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void poistaJono(int asType) {
         // Poista pallo jonosta.
         if (circleKartta.get(asType).size() > 0) {
+            // Siirtää kaikki pallot listasta 20 pikseliä alemmas
             Circle m = circleKartta.get(asType).getFirst();
             visuaalinenTausta.getChildren().remove(m);
             circleKartta.get(asType).removeFirst();
-            // Siirtää kaikki pallot listasta 20 pikseliä alemmas.
-            for (int i = 0; i < circleKartta.get(asType).size(); i++) {
-                int y = 20;
-                Circle cm = circleKartta.get(asType).get(i);
-                Translate translate = new Translate();
-                translate.setY(y);
-                cm.getTransforms().add(translate);
-            }
         }
+
+        for (int i = 0; i < circleKartta.get(asType).size(); i++) {
+            int y = 20;
+            Circle cm = circleKartta.get(asType).get(i);
+            Translate translate = new Translate();
+            translate.setY(y);
+            cm.getTransforms().add(translate);
+        }
+
     }
 
     /**
@@ -504,6 +506,11 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     visuaalinenTausta.getChildren().addAll(ivDiver0);
                     iVKartta.get(oldAsType + 8).addLast(ivDiver0);
                     visualisointi.asiakasReroute(ivDiver0, oldAsType);
+                    Circle circle1 = new Circle(10); // initialize circles with radius of 10
+                    circle1.setFill(colorArr[asType - 1]);
+                    circleKartta.get(asType).addLast(circle1);
+                    visuaalinenTausta.getChildren().addAll(circle1);
+                    visualisointi.asiakasLiikkuu(circle1, aL[asType - 1]);
                 } else {
                     Circle circle1 = new Circle(10); // initialize circles with radius of 10
                     circle1.setFill(colorArr[asType - 1]);
@@ -530,7 +537,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     public void visualisoiPoistuminen(int asType, String poistumisType) {
         // Private: myynti = 1, netti = 2, liittymä = 3, laskutus= 4
         // Corporate: myynti = 5, netti = 6, liittymä = 7, laskutus = 8
-        // Poistumistype: "Quitter" / "Palveltu"
+        // Poistumistype: "Quitter" / "Palveltu" / "Rerouted"
         Platform.runLater(new Runnable() {
             public void run() {
 
@@ -543,6 +550,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                     visuaalinenTausta.getChildren().addAll(ivDiver);
                     iVKartta.get(asType).addLast(ivDiver);
                     visualisointi.asiakasSuuttuu(ivDiver, aL[asType - 1], poistumisType);
+                    poistaJono(asType);
+                } else if (poistumisType.equals("Rerouted")) {
                     poistaJono(asType);
                 } else {
                     Circle circle1 = new Circle(10); // initialize circles with radius of 10

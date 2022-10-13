@@ -47,23 +47,23 @@ public class Parametrit {
 
     public void setDefaultArvot() {
         this.pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
-        this.asMaara = 45; // Asiakasmäärä, 45 asiakasta tuntiin
+        this.asMaara = 100; // Asiakasmäärä, 45 asiakasta tuntiin
         this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
         this.reRouteChance = 5; // 5 % asiakkaista valitsee väärin
-        this.simulaationAika = 8; // Sekunttia 3600 * 8 = 8h työpäivä
+        this.simulaationAika = 12; // Sekunttia 3600 * 8 = 8h työpäivä
 
         // 50% pri/co asiakkaita
         this.asTyyppiJakauma = 50;
 
         // Asiakaspisteitten jakauma käyttäjän asettamana
-        this.asTyyppiArr = new double[] { 25, 50, 75, 100, 25, 50, 75, 100 };
-        this.asTyyppiParametri = new double[] { 25, 25, 25, 25, 25, 25, 25, 25 };
+        this.asTyyppiArr = new double[] { 25, 55, 85, 100, 35, 65, 85, 100 };
+        this.asTyyppiParametri = new double[] { 25, 30, 30, 15, 35, 30, 20, 15 };
         this.ppMaaraArray = new int[Tyyppi.maxSize]; // Palvelupisteiden kokonaismäärä arraylistissä
         for (int i = 0; i < ppMaaraArray.length; i++) {
             if (i > 7) {
                 ppMaaraArray[i] = 1;
             } else {
-                ppMaaraArray[i] = 7;
+                ppMaaraArray[i] = 2;
             }
         }
 
@@ -72,7 +72,7 @@ public class Parametrit {
             if (i > 7) {
                 ppAikaArray[i] = pValikkoAika;
             } else {
-                ppAikaArray[i] = 10 * 60; // 10 minuuttia asiakaspalvelijat
+                ppAikaArray[i] = 22 * 60; // 10 minuuttia asiakaspalvelijat
             }
         }
     }
