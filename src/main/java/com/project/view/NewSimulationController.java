@@ -261,7 +261,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         if (!open) {
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this, uP);
-            m.setViive(0);
+            m.setViive(50);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
             visualisointi.visuaalinenNopeus(m.getViive());
             ((Thread) m).start();
