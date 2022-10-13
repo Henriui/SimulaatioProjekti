@@ -310,6 +310,7 @@ public class Visualisointi {
         switch (tyyppi) {
             case 1:
                 // Quitteri
+                myyntijono += 20;
                 Path path = new Path();
                 path.getElements().add(new MoveTo(63, 401)); // Aloituspiste
                 path.getElements().add(new LineTo(63, 504)); // Alaspäin
@@ -325,6 +326,7 @@ public class Visualisointi {
                 break;
 
             case 2:
+            nettijono += 20;
                 Path path2 = new Path();
                 path2.getElements().add(new MoveTo(183, 401)); // Aloituspiste
                 path2.getElements().add(new LineTo(183, 504)); // Alaspäin
@@ -339,6 +341,7 @@ public class Visualisointi {
                 transition2.play();
                 break;
             case 3:
+            liittymäjono += 20;
                 Path path3 = new Path();
                 path3.getElements().add(new MoveTo(300, 401)); // Aloituspiste
                 path3.getElements().add(new LineTo(300, 504)); // Alaspäin
@@ -353,6 +356,7 @@ public class Visualisointi {
                 transition3.play();
                 break;
             case 4:
+            laskutusjono += 20;
                 Path path4 = new Path();
                 path4.getElements().add(new MoveTo(418, 401)); // Aloituspiste
                 path4.getElements().add(new LineTo(418, 504)); // Alaspäin
@@ -367,6 +371,7 @@ public class Visualisointi {
                 transition4.play();
                 break;
             case 5:
+            Cmyyntijono += 20;
                 Path path5 = new Path();
                 path5.getElements().add(new MoveTo(977, 401)); // Aloituspiste
                 path5.getElements().add(new LineTo(977, 504)); // Alaspäin
@@ -382,6 +387,7 @@ public class Visualisointi {
                 break;
 
             case 6:
+            Cnettijono += 20;
                 Path path6 = new Path();
                 path6.getElements().add(new MoveTo(857, 401)); // Aloituspiste
                 path6.getElements().add(new LineTo(857, 504)); // Alaspäin
@@ -397,6 +403,7 @@ public class Visualisointi {
                 break;
 
             case 7:
+            Cliittymäjono += 20;
                 Path path7 = new Path();
                 path7.getElements().add(new MoveTo(740, 401)); // Aloituspiste
                 path7.getElements().add(new LineTo(740, 504)); // Alaspäin
@@ -412,6 +419,7 @@ public class Visualisointi {
                 break;
 
             case 8:
+            Claskutusjono += 20;
                 Path path8 = new Path();
                 path8.getElements().add(new MoveTo(622, 401)); // Aloituspiste
                 path8.getElements().add(new LineTo(622, 504)); // Alaspäin
