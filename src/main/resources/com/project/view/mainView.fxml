@@ -45,11 +45,11 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="AsetuksetB" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#asetukset" prefHeight="47.0" prefWidth="250.0" text="Asetukset???" textFill="WHITE">
+                        <Button fx:id="AsetuksetB" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#asetukset" prefHeight="47.0" prefWidth="250.0" text="Tunnukset" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="33.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../icons/options.png" />
+                                    <Image url="@../icons/lock2.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -228,7 +228,7 @@
                   </Pane>
                   <Pane fx:id="AsetuksetP" layoutX="167.0" layoutY="430.0" prefHeight="220.0" prefWidth="234.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743); -fx-background-radius: 30;" AnchorPane.bottomAnchor="49.999986335413155" AnchorPane.leftAnchor="167.0">
                      <children>
-                        <Label layoutX="71.0" layoutY="168.0" text="Asetukset" textFill="WHITE">
+                        <Label layoutX="71.0" layoutY="168.0" text="Tunnukset" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="20.0" />
                            </font>
@@ -253,7 +253,7 @@
                            <graphic>
                               <ImageView fitHeight="72.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../icons/options.png" />
+                                    <Image url="@../icons/lock2.png" />
                                  </image>
                               </ImageView>
                            </graphic>
