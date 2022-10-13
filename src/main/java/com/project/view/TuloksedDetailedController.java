@@ -282,7 +282,7 @@ public class TuloksedDetailedController {
                 }
             }
             if (tarvYksPisteet.size() > 0) {
-                ohje += "yksityis ";
+                ohje += "yksityis: ";
                 if (tarvYksPisteet.size() == 1) {
                     ohje += tarvYksPisteet.get(0) + " pisteitä";
                 } else if (tarvYksPisteet.size() == 2) {
@@ -303,7 +303,7 @@ public class TuloksedDetailedController {
                 ohje += " sekä ";
             }
             if (tarvYriPisteet.size() > 0) {
-                ohje += "yritys ";
+                ohje += "yritys: ";
                 if (tarvYriPisteet.size() == 1) {
                     ohje += tarvYriPisteet.get(0) + " pisteitä";
                 } else if (tarvYriPisteet.size() > 1) {
@@ -340,7 +340,7 @@ public class TuloksedDetailedController {
                 }
             }
             if (vahYksPisteet.size() > 0) {
-                ohje += "yksityis ";
+                ohje += "yksityis: ";
                 if (vahYksPisteet.size() == 1) {
                     ohje += vahYksPisteet.get(0) + " pisteitä";
                 } else if (vahYksPisteet.size() == 2) {
@@ -361,7 +361,7 @@ public class TuloksedDetailedController {
                 ohje += " sekä ";
             }
             if (vahYriPisteet.size() > 0) {
-                ohje += "yritys ";
+                ohje += "yritys: ";
                 if (vahYriPisteet.size() == 1) {
                     ohje += vahYriPisteet.get(0) + " pisteitä";
                 } else if (vahYriPisteet.size() > 1) {
@@ -379,6 +379,16 @@ public class TuloksedDetailedController {
                 }
             }
             ohje += ".";
+
+            int asiakkaitaJonossa = ((int) sd.getAsTotalMaara() - (sd.getAsPalveltu() + sd.getAsPoistunut()));
+            if(asiakkaitaJonossa > 0){
+                if(asiakkaitaJonossa == 1){
+                    ohje += "\n\nJonoihin jäi yksi asiakas.";
+                }
+                else{
+                    ohje += "\n\nJonoihin jäi " + asiakkaitaJonossa + " asiakasta.";
+                }
+            }
         }
 
         ohjTextArea.setText(ohje);
