@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -51,7 +52,10 @@
          <center>
             <AnchorPane prefHeight="700.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutX="203.0" layoutY="-268.0" prefHeight="310.0" prefWidth="517.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 70;" />
+                  <Pane layoutX="203.0" layoutY="-268.0" prefHeight="310.0" prefWidth="517.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 70;">
+                     <effect>
+                        <DropShadow />
+                     </effect></Pane>
                   <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                     <columns>
                       <TableColumn fx:id="simulaatiokertaColumn" prefWidth="93.0" text="Simulaatiokerta" />
@@ -65,10 +69,16 @@
                         <TableColumn fx:id="keskiPalveluAikColumn" prefWidth="93.0" text="Aika pisteellä" />
                         <TableColumn fx:id="keskiLapiMenoAikColumn" prefWidth="93.0" text="Koko aika" />
                     </columns>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </TableView>
                </children>
             </AnchorPane>
          </center>
+         <effect>
+            <DropShadow />
+         </effect>
       </BorderPane>
    </children>
    <stylesheets>
