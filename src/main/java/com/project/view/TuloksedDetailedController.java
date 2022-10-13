@@ -302,13 +302,13 @@ public class TuloksedDetailedController {
                 }
             }
             if (tarvYksPisteet.size() > 0 && tarvYriPisteet.size() > 0) {
-                ohje += " sekä ";
+                ohje += ", sekä ";
             }
             if (tarvYriPisteet.size() > 0) {
                 ohje += "yritys: ";
                 if (tarvYriPisteet.size() == 1) {
                     ohje += tarvYriPisteet.get(0) + " pisteitä";
-                } else if (tarvYriPisteet.size() > 1) {
+                } else if (tarvYriPisteet.size() == 2) {
                     int u;
                     for (u = 0; u < tarvYriPisteet.size() - 1; u++) {
                         ohje += tarvYriPisteet.get(u) + " ja ";
@@ -366,7 +366,7 @@ public class TuloksedDetailedController {
                 ohje += "yritys: ";
                 if (vahYriPisteet.size() == 1) {
                     ohje += vahYriPisteet.get(0) + " pisteitä";
-                } else if (vahYriPisteet.size() > 1) {
+                } else if (vahYriPisteet.size() == 2) {
                     int u;
                     for (u = 0; u < vahYriPisteet.size() - 1; u++) {
                         ohje += vahYriPisteet.get(u) + " ja ";
@@ -381,15 +381,15 @@ public class TuloksedDetailedController {
                 }
             }
             ohje += ".";
+        }
 
-            int asiakkaitaJonossa = ((int) sd.getAsTotalMaara() - (sd.getAsPalveltu() + sd.getAsPoistunut()));
-            if(asiakkaitaJonossa > 0){
-                if(asiakkaitaJonossa == 1){
-                    ohje += "\n\nJonoihin jäi yksi asiakas.";
-                }
-                else{
-                    ohje += "\n\nJonoihin jäi " + asiakkaitaJonossa + " asiakasta.";
-                }
+        int asiakkaitaJonossa = (tulokset.getAsMaara()
+                - (tulokset.getPalvellutAsiakkaat() + tulokset.getPoistuneetAsiakkaat()));
+        if (asiakkaitaJonossa > 0) {
+            if (asiakkaitaJonossa == 1) {
+                ohje += "\n\nJonoihin jäi yksi asiakas.";
+            } else {
+                ohje += "\n\nJonoihin jäi " + asiakkaitaJonossa + " asiakasta.";
             }
         }
 
