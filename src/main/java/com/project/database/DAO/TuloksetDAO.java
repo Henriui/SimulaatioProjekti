@@ -371,8 +371,8 @@ public class TuloksetDAO implements ITuloksetDAO {
                 results.getInt(2),
                 results.getInt(3),
                 results.getInt(4),
-                results.getDouble(5),
-                results.getDouble(6), 
+                results.getDouble(6), //TODO: FIX!
+                results.getDouble(5), 
                 results.getDouble(7) 
                 );
                 

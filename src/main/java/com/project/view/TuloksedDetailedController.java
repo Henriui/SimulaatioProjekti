@@ -257,13 +257,15 @@ public class TuloksedDetailedController {
         String ohje = "";
         boolean lisaa = false;
         boolean vahemman = false;
+        int tavoiteAlin = 85;
+        int tavoiteYlin = 90;
         for (int i = 0; i < 8; i++) {
-            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                 lisaa = true;
             }
         }
         for (int i = 0; i < 8; i++) {
-            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                 vahemman = true;
             }
         }
@@ -272,17 +274,17 @@ public class TuloksedDetailedController {
             ArrayList<String> tarvYksPisteet = new ArrayList<String>();
             ArrayList<String> tarvYriPisteet = new ArrayList<String>();
             for (int i = 0; i < 4; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                     tarvYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
             for (int i = 4; i < 8; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                     tarvYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
             if (tarvYksPisteet.size() > 0) {
-                ohje += "yksityis ";
+                ohje += "yksityis: ";
                 if (tarvYksPisteet.size() == 1) {
                     ohje += tarvYksPisteet.get(0) + " pisteitä";
                 } else if (tarvYksPisteet.size() == 2) {
@@ -300,13 +302,13 @@ public class TuloksedDetailedController {
                 }
             }
             if (tarvYksPisteet.size() > 0 && tarvYriPisteet.size() > 0) {
-                ohje += " sekä ";
+                ohje += ", sekä ";
             }
             if (tarvYriPisteet.size() > 0) {
-                ohje += "yritys ";
+                ohje += "yritys: ";
                 if (tarvYriPisteet.size() == 1) {
                     ohje += tarvYriPisteet.get(0) + " pisteitä";
-                } else if (tarvYriPisteet.size() > 1) {
+                } else if (tarvYriPisteet.size() == 2) {
                     int u;
                     for (u = 0; u < tarvYriPisteet.size() - 1; u++) {
                         ohje += tarvYriPisteet.get(u) + " ja ";
@@ -330,17 +332,17 @@ public class TuloksedDetailedController {
             ArrayList<String> vahYksPisteet = new ArrayList<String>();
             ArrayList<String> vahYriPisteet = new ArrayList<String>();
             for (int i = 0; i < 4; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                     vahYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
             for (int i = 4; i < 8; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                     vahYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
             if (vahYksPisteet.size() > 0) {
-                ohje += "yksityis ";
+                ohje += "yksityis: ";
                 if (vahYksPisteet.size() == 1) {
                     ohje += vahYksPisteet.get(0) + " pisteitä";
                 } else if (vahYksPisteet.size() == 2) {
@@ -361,10 +363,10 @@ public class TuloksedDetailedController {
                 ohje += " sekä ";
             }
             if (vahYriPisteet.size() > 0) {
-                ohje += "yritys ";
+                ohje += "yritys: ";
                 if (vahYriPisteet.size() == 1) {
                     ohje += vahYriPisteet.get(0) + " pisteitä";
-                } else if (vahYriPisteet.size() > 1) {
+                } else if (vahYriPisteet.size() == 2) {
                     int u;
                     for (u = 0; u < vahYriPisteet.size() - 1; u++) {
                         ohje += vahYriPisteet.get(u) + " ja ";
@@ -379,6 +381,16 @@ public class TuloksedDetailedController {
                 }
             }
             ohje += ".";
+        }
+
+        int asiakkaitaJonossa = (tulokset.getAsMaara()
+                - (tulokset.getPalvellutAsiakkaat() + tulokset.getPoistuneetAsiakkaat()));
+        if (asiakkaitaJonossa > 0) {
+            if (asiakkaitaJonossa == 1) {
+                ohje += "\n\nJonoihin jäi yksi asiakas.";
+            } else {
+                ohje += "\n\nJonoihin jäi " + asiakkaitaJonossa + " asiakasta.";
+            }
         }
 
         ohjTextArea.setText(ohje);
