@@ -257,13 +257,15 @@ public class TuloksedDetailedController {
         String ohje = "";
         boolean lisaa = false;
         boolean vahemman = false;
+        int tavoiteAlin = 85;
+        int tavoiteYlin = 90;
         for (int i = 0; i < 8; i++) {
-            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                 lisaa = true;
             }
         }
         for (int i = 0; i < 8; i++) {
-            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+            if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                 vahemman = true;
             }
         }
@@ -272,12 +274,12 @@ public class TuloksedDetailedController {
             ArrayList<String> tarvYksPisteet = new ArrayList<String>();
             ArrayList<String> tarvYriPisteet = new ArrayList<String>();
             for (int i = 0; i < 4; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                     tarvYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
             for (int i = 4; i < 8; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < 90) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                     tarvYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
@@ -330,12 +332,12 @@ public class TuloksedDetailedController {
             ArrayList<String> vahYksPisteet = new ArrayList<String>();
             ArrayList<String> vahYriPisteet = new ArrayList<String>();
             for (int i = 0; i < 4; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                     vahYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
             for (int i = 4; i < 8; i++) {
-                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > 95) {
+                if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                     vahYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
