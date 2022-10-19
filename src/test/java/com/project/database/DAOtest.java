@@ -13,6 +13,7 @@ import com.project.database.interfaces.ITuloksetDAO;
 import com.project.simu.model.Tulokset;
 import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.PalvelupisteTulos;
+import com.project.simu.model.TallennettavatParametrit;
 
 public class DAOtest {
     private static ITuloksetDAO dao;
@@ -25,13 +26,15 @@ public class DAOtest {
         UserAsetukset up = new UserAsetukset("simulaattori", "jonne", "jonnensalasana");
         dao = new TuloksetDAO(up, false);
         assertTrue(dao.openConnection(), "Avaus ei oonistu.");
+        int i=1;
+        TallennettavatParametrit para = new TallennettavatParametrit(i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
 
         ppTulos = new PalvelupisteTulos(5,1,7,8,9,10,70);
 
         ppList.add(ppTulos);
 
         tulos = new Tulokset(1, 2, 3, 4, 5, 
-                         6, 7, 8, 9, ppList);
+                         6, 7, 8, 9, ppList, para);
     }
 
     @Test
