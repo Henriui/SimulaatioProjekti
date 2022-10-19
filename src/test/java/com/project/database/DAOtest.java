@@ -63,8 +63,8 @@ public class DAOtest {
             e.printStackTrace();
         }
         System.out.println(tulos1.getSimulaatiokerta());
-        assertEquals(1, tulos1.getSimulaatiokerta(), "gay");
-        assertEquals(5, tulos1.getPalvellutAsiakkaat());
+        assertEquals(1, tulos1.getSimulaatiokerta(), "Simulaatiokerta ei täsmää.");
+        assertEquals(5, tulos1.getPalvellutAsiakkaat(), "Palvellut asiakkaat ei täsmää");
 
 
     }
