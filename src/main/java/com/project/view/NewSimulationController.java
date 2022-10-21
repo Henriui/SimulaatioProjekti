@@ -48,13 +48,13 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     private Label yksityisJonossa;
     @FXML
-    private Label YmyyntiTv;
+    private Label ymyyntiTv;
     @FXML
-    private Label YnettiTv;
+    private Label ynettiTv;
     @FXML
-    private Label YliittymäTv;
+    private Label yliittymäTv;
     @FXML
-    private Label YlaskutusTv;
+    private Label ylaskutusTv;
     @FXML
     private Label palvelupisteellaYksityis;
 
@@ -63,13 +63,13 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     @FXML
     private Label YritysJonossa;
     @FXML
-    private Label CmyyntiTv;
+    private Label cmyyntiTv;
     @FXML
-    private Label CnettiTv;
+    private Label cnettiTv;
     @FXML
-    private Label CliittymäTv;
+    private Label cliittymäTv;
     @FXML
-    private Label ClaskutusTv;
+    private Label claskutusTv;
     @FXML
     private Label yritysPalvelupisteita;
     @FXML
@@ -103,10 +103,10 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<Circle> liittymäAsiakkaat = new LinkedList<Circle>();
     LinkedList<Circle> laskutusAsiakkaat = new LinkedList<Circle>();
     // Yksityisasiakkaat poistuminen lista.
-    LinkedList<Circle> PoistumyyntiAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> PoistunettiAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> PoistuliittymäAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> PoistulaskutusAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuMyyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuNettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuLiittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuLaskutusAsiakkaat = new LinkedList<Circle>();
     // Yksityisasiakkaat Reroute lista.
     LinkedList<ImageView> rerouteMyyntiAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> rerouteNettiAsiakkaat = new LinkedList<ImageView>();
@@ -118,15 +118,15 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     LinkedList<ImageView> quitterLiittymäAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> quitterLaskutusAsiakkaat = new LinkedList<ImageView>();
     // Yritysasiakkaat lista.
-    LinkedList<Circle> CmyyntiAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> CnettiAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> CliittymäAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> ClaskutusAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> cMyyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> cNettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> cLiittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> cLaskutusAsiakkaat = new LinkedList<Circle>();
     // Yritysasiakkaat poistuminen lista.
-    LinkedList<Circle> PoistuCmyyntiAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> PoistuCnettiAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> PoistuCliittymäAsiakkaat = new LinkedList<Circle>();
-    LinkedList<Circle> PoistuClaskutusAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuCmyyntiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuCnettiAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuCliittymäAsiakkaat = new LinkedList<Circle>();
+    LinkedList<Circle> poistuClaskutusAsiakkaat = new LinkedList<Circle>();
     // Yritysasiakkaat suuttuneet lista.
     LinkedList<ImageView> quitterCmyyntiAsiakkaat = new LinkedList<ImageView>();
     LinkedList<ImageView> quitterCnettiAsiakkaat = new LinkedList<ImageView>();
@@ -155,18 +155,18 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         circleKartta.put(2, nettiAsiakkaat);
         circleKartta.put(3, liittymäAsiakkaat);
         circleKartta.put(4, laskutusAsiakkaat);
-        circleKartta.put(5, CmyyntiAsiakkaat);
-        circleKartta.put(6, CnettiAsiakkaat);
-        circleKartta.put(7, CliittymäAsiakkaat);
-        circleKartta.put(8, ClaskutusAsiakkaat);
-        circleKartta.put(9, PoistumyyntiAsiakkaat);
-        circleKartta.put(10, PoistunettiAsiakkaat);
-        circleKartta.put(11, PoistuliittymäAsiakkaat);
-        circleKartta.put(12, PoistulaskutusAsiakkaat);
-        circleKartta.put(13, PoistuCmyyntiAsiakkaat);
-        circleKartta.put(14, PoistuCnettiAsiakkaat);
-        circleKartta.put(15, PoistuCliittymäAsiakkaat);
-        circleKartta.put(16, PoistuClaskutusAsiakkaat);
+        circleKartta.put(5, cMyyntiAsiakkaat);
+        circleKartta.put(6, cNettiAsiakkaat);
+        circleKartta.put(7, cLiittymäAsiakkaat);
+        circleKartta.put(8, cLaskutusAsiakkaat);
+        circleKartta.put(9, poistuMyyntiAsiakkaat);
+        circleKartta.put(10, poistuNettiAsiakkaat);
+        circleKartta.put(11, poistuLiittymäAsiakkaat);
+        circleKartta.put(12, poistuLaskutusAsiakkaat);
+        circleKartta.put(13, poistuCmyyntiAsiakkaat);
+        circleKartta.put(14, poistuCnettiAsiakkaat);
+        circleKartta.put(15, poistuCliittymäAsiakkaat);
+        circleKartta.put(16, poistuClaskutusAsiakkaat);
         iVKartta.put(1, quitterMyyntiAsiakkaat);
         iVKartta.put(2, quitterNettiAsiakkaat);
         iVKartta.put(3, quitterLiittymäAsiakkaat);
@@ -261,7 +261,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
         if (!open) {
             Trace.setTraceLevel(Level.INFO);
             m = new OmaMoottori(this, uP);
-            m.setViive(50);
+            m.setViive(250);
             m.setSimulointiAika(uP.getSimulaationAika() * 3600);
             visualisointi.visuaalinenNopeus(m.getViive());
             ((Thread) m).start();
@@ -386,8 +386,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      */
     @Override
     public void paivitaPalveluPisteet(HashMap<String, int[]> suureStatusMap) {
-        Label[] tyoVuoroLabelit = new Label[] { YmyyntiTv, YnettiTv, YliittymäTv, YlaskutusTv, CmyyntiTv,
-                CnettiTv, CliittymäTv, ClaskutusTv };
+        Label[] tyoVuoroLabelit = new Label[] { ymyyntiTv, ynettiTv, yliittymäTv, ylaskutusTv, cmyyntiTv,
+                cnettiTv, cliittymäTv, claskutusTv };
         Platform.runLater(new Runnable() {
             public void run() {
                 for (int i = 0; i < suureStatusMap.get("Tyovuorossa").length; i++) {

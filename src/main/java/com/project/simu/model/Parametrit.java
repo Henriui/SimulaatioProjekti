@@ -47,8 +47,8 @@ public class Parametrit {
 
     public void setDefaultArvot() {
         this.pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
-        this.asMaara = 100; // Asiakasmäärä, 45 asiakasta tuntiin
-        this.maxJononPituus = 8 * 60; // 8 minuuttia jaksaa jonottaa
+        this.asMaara = 23; // Asiakasmäärä, 45 asiakasta tuntiin
+        this.maxJononPituus = 10 * 60; // 8 minuuttia jaksaa jonottaa
         this.reRouteChance = 5; // 5 % asiakkaista valitsee väärin
         this.simulaationAika = 12; // Sekunttia 3600 * 8 = 8h työpäivä
 
@@ -63,7 +63,7 @@ public class Parametrit {
             if (i > 7) {
                 ppMaaraArray[i] = 1;
             } else {
-                ppMaaraArray[i] = 2;
+                ppMaaraArray[i] = 9;
             }
         }
 
