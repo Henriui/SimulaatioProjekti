@@ -84,7 +84,7 @@ public class ParametriController {
     @FXML
     private TextField laskutusPpJakauma;
     @FXML
-    private Label YksityisJakaumaProsentti;
+    private Label yksityisJakaumaProsentti;
     @FXML
     private TextField myyntiAikaField;
     @FXML
@@ -102,7 +102,7 @@ public class ParametriController {
     @FXML
     private TextField laskutusYritysPpJakauma;
     @FXML
-    private Label YritysJakaumaProsentti;
+    private Label yritysJakaumaProsentti;
 
     // Yrityspuolen asetukset.
 
@@ -185,10 +185,10 @@ public class ParametriController {
         canSave = false;
         int priyhteensä = getTextFieldInt(myyntiPpJakauma, 0) + getTextFieldInt(nettiPpJakauma, 0)
                 + getTextFieldInt(liittymäPpJakauma, 0) + getTextFieldInt(laskutusPpJakauma, 0);
-        YksityisJakaumaProsentti.setText(String.valueOf(priyhteensä));
+        yksityisJakaumaProsentti.setText(String.valueOf(priyhteensä));
         int coyhteensä = getTextFieldInt(myyntiYritysPpJakauma, 0) + getTextFieldInt(nettiYritysPpJakauma, 0)
                 + getTextFieldInt(liittymäYritysPpJakauma, 0) + getTextFieldInt(laskutusYritysPpJakauma, 0);
-        YritysJakaumaProsentti.setText(String.valueOf(coyhteensä));
+        yritysJakaumaProsentti.setText(String.valueOf(coyhteensä));
 
         if (getTextFieldInt(simuloinninAikaField, 1) > 12) {
             return "Simulointiaika:" + Integer.parseInt(simuloinninAikaField.getText())
@@ -201,14 +201,14 @@ public class ParametriController {
         }
 
         if (coyhteensä > 100) {
-            // YritysJakaumaProsentti.setText("100");
+            // yritysJakaumaProsentti.setText("100");
             return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
         } else if (coyhteensä < 100) {
             return "Yrityspalvelupisteiden jakauma on: " + coyhteensä + ", aseta arvo 100%";
         }
 
         if (priyhteensä > 100) {
-            // YksityisJakaumaProsentti.setText("100");
+            // yksityisJakaumaProsentti.setText("100");
             return "Henkilöpalveluspisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
         } else if (priyhteensä < 100) {
             return "Henkilöpalvelupisteiden jakauma on: " + priyhteensä + ", aseta arvo 100%";
