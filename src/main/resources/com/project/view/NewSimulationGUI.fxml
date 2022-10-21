@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="backGround" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.NewSimulationController">
+<AnchorPane fx:id="backGround" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.NewSimulationController">
    <children>
       <BorderPane prefHeight="700.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -112,7 +112,7 @@
                         </Pane>
                         <Pane layoutX="664.0" layoutY="-84.0" prefHeight="143.0" prefWidth="275.0" style="-fx-background-color: linear-gradient(to top right,  #302b63, #24243e); -fx-background-radius: 20;">
                            <children>
-                              <Label fx:id="YritysJonossa" layoutX="14.0" layoutY="14.0" text="Yritys Asiakkaita Jonossa : " textFill="#e1e1e1">
+                              <Label fx:id="yritysJonossa" layoutX="14.0" layoutY="14.0" text="Yritys Asiakkaita Jonossa : " textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -151,7 +151,7 @@
                         </ImageView>
                         <Pane layoutX="692.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
-                              <Label fx:id="CliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                              <Label fx:id="cliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -179,7 +179,7 @@
                         </Pane>
                         <Pane layoutX="576.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
-                              <Label fx:id="ClaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                              <Label fx:id="claskutusTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -207,7 +207,7 @@
                         </Pane>
                         <Pane layoutX="809.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
-                              <Label fx:id="CnettiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                              <Label fx:id="cnettiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -235,7 +235,7 @@
                         </Pane>
                         <Pane layoutX="927.0" layoutY="275.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top right,  #a17fe0, #5D26C1); -fx-background-radius: 20;" AnchorPane.topAnchor="275.0">
                            <children>
-                              <Label fx:id="CmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
+                              <Label fx:id="cmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textFill="#e1e1e1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -286,7 +286,7 @@
                   </AnchorPane>
                   <Pane layoutX="130.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YnettiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
+                        <Label fx:id="ynettiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -314,7 +314,7 @@
                   </Pane>
                   <Pane layoutX="14.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YmyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
+                        <Label fx:id="ymyyntiTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -342,7 +342,7 @@
                   </Pane>
                   <Pane layoutX="247.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
+                        <Label fx:id="yliittymäTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -370,7 +370,7 @@
                   </Pane>
                   <Pane layoutX="365.0" layoutY="277.0" prefHeight="116.0" prefWidth="101.0" style="-fx-background-color: linear-gradient(to top left,  #a17fe0, #5D26C1); -fx-background-radius: 20;">
                      <children>
-                        <Label fx:id="YlaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
+                        <Label fx:id="ylaskutusTv" layoutX="39.0" layoutY="78.0" text="X" textAlignment="CENTER" textFill="#e3b9b9">
                            <font>
                               <Font size="20.0" />
                            </font>

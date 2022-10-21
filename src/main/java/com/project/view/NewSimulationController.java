@@ -61,7 +61,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     // Yrityspuolen labelit.
 
     @FXML
-    private Label YritysJonossa;
+    private Label yritysJonossa;
     @FXML
     private Label cmyyntiTv;
     @FXML

@@ -107,29 +107,29 @@ public class ParametriController {
     // Yrityspuolen asetukset.
 
     @FXML
-    private Slider YritysmyyntiPp;
+    private Slider yritysMyyntiPp;
     @FXML
-    private Slider YritysnettiPp;
+    private Slider yritysNettiPp;
     @FXML
-    private Slider YritysliittymäPp;
+    private Slider yritysLiittymäPp;
     @FXML
-    private Slider YrityslaskutusPp;
+    private Slider yritysLaskutusPp;
     @FXML
-    private Label YritysmyyntiPpKpl;
+    private Label yritysMyyntiPpKpl;
     @FXML
-    private Label YritysnettiPpKpl;
+    private Label yritysNettiPpKpl;
     @FXML
-    private Label YritysliittymäPpKpl;
+    private Label yritysLiittymäPpKpl;
     @FXML
-    private Label YrityslaskutusPpKpl;
+    private Label yritysLaskutusPpKpl;
     @FXML
-    private TextField YritysmyyntiAikaField;
+    private TextField yritysMyyntiAikaField;
     @FXML
-    private TextField YritysnettiAikaField;
+    private TextField yritysNettiAikaField;
     @FXML
-    private TextField YritysliittymäAikaField;
+    private TextField yritysLiittymäAikaField;
     @FXML
-    private TextField YrityslaskutusAikaField;
+    private TextField yritysLaskutusAikaField;
 
     @FXML
     private void initialize() {
@@ -218,18 +218,18 @@ public class ParametriController {
                 || getTextFieldInt(nettiAikaField, 1) <= 0
                 || getTextFieldInt(liittymäAikaField, 1) <= 0
                 || getTextFieldInt(laskutusAikaField, 1) <= 0
-                || getTextFieldInt(YritysmyyntiAikaField, 1) <= 0
-                || getTextFieldInt(YritysnettiAikaField, 1) <= 0
-                || getTextFieldInt(YritysliittymäAikaField, 1) <= 0
-                || getTextFieldInt(YrityslaskutusAikaField, 1) <= 0
+                || getTextFieldInt(yritysMyyntiAikaField, 1) <= 0
+                || getTextFieldInt(yritysNettiAikaField, 1) <= 0
+                || getTextFieldInt(yritysLiittymäAikaField, 1) <= 0
+                || getTextFieldInt(yritysLaskutusAikaField, 1) <= 0
                 || getTextFieldInt(myyntiAikaField, 1) >= 10000
                 || getTextFieldInt(nettiAikaField, 1) >= 10000
                 || getTextFieldInt(liittymäAikaField, 1) >= 10000
                 || getTextFieldInt(laskutusAikaField, 1) >= 10000
-                || getTextFieldInt(YritysmyyntiAikaField, 1) >= 10000
-                || getTextFieldInt(YritysnettiAikaField, 1) >= 10000
-                || getTextFieldInt(YritysliittymäAikaField, 1) >= 10000
-                || getTextFieldInt(YrityslaskutusAikaField, 1) >= 10000) {
+                || getTextFieldInt(yritysMyyntiAikaField, 1) >= 10000
+                || getTextFieldInt(yritysNettiAikaField, 1) >= 10000
+                || getTextFieldInt(yritysLiittymäAikaField, 1) >= 10000
+                || getTextFieldInt(yritysLaskutusAikaField, 1) >= 10000) {
             return "Palveluajoissa virhe.";
         }
 
@@ -292,11 +292,11 @@ public class ParametriController {
         setPalvelupisteArvot(liittymäPalvelupisteet, liittymäPpKpl, liittymäAikaField, 3, liittymäPpJakauma);
         setPalvelupisteArvot(laskutusPalvelupisteet, laskutusPpKpl, laskutusAikaField, 4, laskutusPpJakauma);
         // Yrityspuolen asetukset.
-        setPalvelupisteArvot(YritysmyyntiPp, YritysmyyntiPpKpl, YritysmyyntiAikaField, 5, myyntiYritysPpJakauma);
-        setPalvelupisteArvot(YritysnettiPp, YritysnettiPpKpl, YritysnettiAikaField, 6, nettiYritysPpJakauma);
-        setPalvelupisteArvot(YritysliittymäPp, YritysliittymäPpKpl, YritysliittymäAikaField, 7,
+        setPalvelupisteArvot(yritysMyyntiPp, yritysMyyntiPpKpl, yritysMyyntiAikaField, 5, myyntiYritysPpJakauma);
+        setPalvelupisteArvot(yritysNettiPp, yritysNettiPpKpl, yritysNettiAikaField, 6, nettiYritysPpJakauma);
+        setPalvelupisteArvot(yritysLiittymäPp, yritysLiittymäPpKpl, yritysLiittymäAikaField, 7,
                 liittymäYritysPpJakauma);
-        setPalvelupisteArvot(YrityslaskutusPp, YrityslaskutusPpKpl, YrityslaskutusAikaField, 8,
+        setPalvelupisteArvot(yritysLaskutusPp, yritysLaskutusPpKpl, yritysLaskutusAikaField, 8,
                 laskutusYritysPpJakauma);
 
         setTextFields();
@@ -308,10 +308,10 @@ public class ParametriController {
         setSliderListener(liittymäPalvelupisteet, liittymäPpKpl);
         setSliderListener(laskutusPalvelupisteet, laskutusPpKpl);
         // Yrityspuolen palvelupiste määrät
-        setSliderListener(YritysmyyntiPp, YritysmyyntiPpKpl);
-        setSliderListener(YritysnettiPp, YritysnettiPpKpl);
-        setSliderListener(YritysliittymäPp, YritysliittymäPpKpl);
-        setSliderListener(YrityslaskutusPp, YrityslaskutusPpKpl);
+        setSliderListener(yritysMyyntiPp, yritysMyyntiPpKpl);
+        setSliderListener(yritysNettiPp, yritysNettiPpKpl);
+        setSliderListener(yritysLiittymäPp, yritysLiittymäPpKpl);
+        setSliderListener(yritysLaskutusPp, yritysLaskutusPpKpl);
 
         // Simulaation asetukset.
         simuloinninAikaField.setText(dF.format(userParametrit.getSimulaationAika()));
@@ -362,18 +362,18 @@ public class ParametriController {
                 (int) nettiPalvelupisteet.getValue(),
                 (int) liittymäPalvelupisteet.getValue(),
                 (int) laskutusPalvelupisteet.getValue(),
-                (int) YritysmyyntiPp.getValue(),
-                (int) YritysnettiPp.getValue(),
-                (int) YritysliittymäPp.getValue(),
-                (int) YrityslaskutusPp.getValue(), 1, 1, 1 });
+                (int) yritysMyyntiPp.getValue(),
+                (int) yritysNettiPp.getValue(),
+                (int) yritysLiittymäPp.getValue(),
+                (int) yritysLaskutusPp.getValue(), 1, 1, 1 });
         userParametrit.setPPAvgAikaArr(new double[] { Double.parseDouble(myyntiAikaField.getText()) * 60,
                 Double.parseDouble(nettiAikaField.getText()) * 60,
                 Double.parseDouble(liittymäAikaField.getText()) * 60,
                 Double.parseDouble(laskutusAikaField.getText()) * 60,
-                Double.parseDouble(YritysmyyntiAikaField.getText()) * 60,
-                Double.parseDouble(YritysnettiAikaField.getText()) * 60,
-                Double.parseDouble(YritysliittymäAikaField.getText()) * 60,
-                Double.parseDouble(YrityslaskutusAikaField.getText()) * 60, userParametrit.getPValikkoAika(),
+                Double.parseDouble(yritysMyyntiAikaField.getText()) * 60,
+                Double.parseDouble(yritysNettiAikaField.getText()) * 60,
+                Double.parseDouble(yritysLiittymäAikaField.getText()) * 60,
+                Double.parseDouble(yritysLaskutusAikaField.getText()) * 60, userParametrit.getPValikkoAika(),
                 userParametrit.getPValikkoAika(),
                 userParametrit.getPValikkoAika() });
         userParametrit.setAsTyyppiParametri(new double[] { Double.parseDouble(myyntiPpJakauma.getText()),
@@ -487,10 +487,10 @@ public class ParametriController {
         setTextFieldListener(liittymäAikaField, 1);
         setTextFieldListener(laskutusAikaField, 1);
         // Yritys
-        setTextFieldListener(YritysmyyntiAikaField, 1);
-        setTextFieldListener(YritysnettiAikaField, 1);
-        setTextFieldListener(YritysliittymäAikaField, 1);
-        setTextFieldListener(YrityslaskutusAikaField, 1);
+        setTextFieldListener(yritysMyyntiAikaField, 1);
+        setTextFieldListener(yritysNettiAikaField, 1);
+        setTextFieldListener(yritysLiittymäAikaField, 1);
+        setTextFieldListener(yritysLaskutusAikaField, 1);
         // Simulaattorin asetukset
         setTextFieldListener(simuloinninAikaField, 1);
         setTextFieldListener(kärsimättömyysAikaField, 1);
