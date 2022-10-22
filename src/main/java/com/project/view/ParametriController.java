@@ -246,7 +246,6 @@ public class ParametriController {
      *
      * @author Jonne Borgman
      */
-
     @FXML
     private void tallenna() {
         // Check that all values are ok.
@@ -437,7 +436,7 @@ public class ParametriController {
     }
 
     /**
-     * Methodi arvojen hakuun UserPreferences Singletonista
+     * Methodi arvojen hakuun UserPreferences Singletonist
      * 
      * @author Rasmus Hyyppä
      */
@@ -448,6 +447,12 @@ public class ParametriController {
         ppJakaumaField.setText(dF.format(userParametrit.getAsTyyppiParametri(ppType)));
     }
 
+    /**
+     * 
+     * @param tF     textfield mihin asetetaan textformatter ja kuuntelija
+     * @param minVal minimivalue texti kentassa
+     * @author Rasmus Hyyppä
+     */
     private void setTextFieldListener(TextField tF, int minVal) {
         TextFormatter<Integer> textFormat = new TextFormatter<Integer>(intConverter,
                 (int) Double.parseDouble(tF.getText()),
@@ -480,6 +485,11 @@ public class ParametriController {
         });
     }
 
+    /**
+     * Methodi aika textfieldien asettamiseksi
+     * 
+     * @author Rasmus Hyyppä
+     */
     private void setTextFields() {
         // Yksityis
         setTextFieldListener(myyntiAikaField, 1);

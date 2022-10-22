@@ -2,11 +2,8 @@ package com.project.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-
 import com.project.MainApp;
 import com.project.simu.framework.IMoottori;
 import com.project.simu.framework.Trace;

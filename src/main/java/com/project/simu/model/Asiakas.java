@@ -1,20 +1,17 @@
 package com.project.simu.model;
-
 import com.project.eduni.distributions.ContinuousGenerator;
 import com.project.eduni.distributions.Uniform;
 import com.project.simu.constants.AsiakasTyyppi;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
-// Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
-
+/**
+ * Simulaattorissa oleva asiakas toimintoineen ja tyyppeineen
+ * @author Rasmus Hyyppä
+ */
 public class Asiakas {
-
-	// Staattiset muuttujat.
 
 	private static int i = 1;
 	private static long sum = 0;
-
-	// Luokkamuuttujat.
 
 	private int id;
 	private double asSaapumisaika; // Simulaatioon tuleminen
@@ -28,7 +25,6 @@ public class Asiakas {
 	private ContinuousGenerator asTypeJakauma;
 	private double[] asTyyppiArr;
 
-	// Asiakas
 	public Asiakas(double reRouteChance, double asTyyppiJakauma, double[] asTyyppiArr) {
 
 		this.id = i++;
@@ -42,6 +38,7 @@ public class Asiakas {
 
 	/**
 	 * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
+	 * reroutattavaksi.
 	 * 
 	 * @return True mikäli on, false mikäli ei
 	 * @author Rasmus Hyyppä
@@ -133,7 +130,6 @@ public class Asiakas {
 		return reRouted;
 	}
 
-	// getId
 	public int getId() {
 		return id;
 	}
@@ -154,22 +150,18 @@ public class Asiakas {
 		return Asiakas.i;
 	}
 
-	// getPoistumisaika
 	public double getAsPoistumisaika() {
 		return asPoistumisaika;
 	}
 
-	// setPoistumisaika
 	public void setAsPoistumisaika(double poistumisaika) {
 		this.asPoistumisaika = poistumisaika;
 	}
 
-	// getSaapumisaika
 	public double getAsSaapumisaika() {
 		return asSaapumisaika;
 	}
 
-	// setSaapumisaika
 	public void setAsSaapumisaika(double saapumisaika) {
 		this.asSaapumisaika = saapumisaika;
 	}
@@ -194,6 +186,10 @@ public class Asiakas {
 		this.asPoistumisaikaPP = poistumisaikaPP;
 	}
 
+	/**
+	 * @return boolean true jos on kyllastynyt
+	 * @author Rasmus Hyyppä
+	 */
 	public boolean isJonotukseenKyllastynyt() {
 		return jonotukseenKyllastynyt;
 	}
@@ -202,7 +198,6 @@ public class Asiakas {
 		this.jonotukseenKyllastynyt = true;
 	}
 
-	// raportti
 	public void raportti() {
 		Trace.out(Trace.Level.INFO, "\nAsiakas " + id + ",  tyyppi: " + asType + " on valmis! ");
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + asSaapumisaika);
