@@ -139,7 +139,7 @@ public class TuloksedDetailedController {
             // Tulokset simulaatio datasta
             tulokset = new Tulokset(sd.getSimulointiAika(), sd.getPalveluprosentti(),
                     ((int) sd.getAsTotalMaara()), sd.getAsPalveltu(), sd.getAsReRouted(),
-                    sd.getAsPoistunut(), sd.getJonotusATotal(), sd.getAvgAsAikaSim(),
+                    sd.getAsPoistunut(), sd.getJonotusAika(), sd.getAvgAsAikaSim(),
                     palveluPisteTulokset, tallennettavatParametrit);
 
             // Yksityis palvelupisteet erotettuna yritys palvelupisteistä

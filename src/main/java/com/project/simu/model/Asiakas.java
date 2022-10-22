@@ -133,6 +133,10 @@ public class Asiakas {
 		return reRouted;
 	}
 
+	
+	/** 
+	 * @return int
+	 */
 	// getId
 	public int getId() {
 		return id;
@@ -146,54 +150,101 @@ public class Asiakas {
 		Asiakas.sum = 0;
 	}
 
+	
+	/** 
+	 * @return long
+	 */
 	public static long getAsiakasSum() {
 		return Asiakas.sum;
 	}
 
+	
+	/** 
+	 * @return int
+	 */
 	public static int getAsiakasUID() {
 		return Asiakas.i;
 	}
 
+	
+	/** 
+	 * @return double
+	 */
 	// getPoistumisaika
 	public double getAsPoistumisaika() {
 		return asPoistumisaika;
 	}
 
+	
+	/** 
+	 * @param poistumisaika
+	 */
 	// setPoistumisaika
 	public void setAsPoistumisaika(double poistumisaika) {
 		this.asPoistumisaika = poistumisaika;
 	}
 
+	
+	/** 
+	 * @return double
+	 */
 	// getSaapumisaika
 	public double getAsSaapumisaika() {
 		return asSaapumisaika;
 	}
 
+	
+	/** 
+	 * @param saapumisaika
+	 */
 	// setSaapumisaika
 	public void setAsSaapumisaika(double saapumisaika) {
 		this.asSaapumisaika = saapumisaika;
 	}
 
+	
+	/** 
+	 * @return int
+	 */
 	public int getAsType() {
 		return asType.getAsiakasTypeNumero();
 	}
 
+	
+	/** 
+	 * @return double
+	 */
 	public double getAsSaapumisaikaPP() {
 		return asSaapumisaikaPP;
 	}
 
+	
+	/** 
+	 * @param saapumisaikaPP
+	 */
 	public void setAsSaapumisaikaPP(double saapumisaikaPP) {
 		this.asSaapumisaikaPP = saapumisaikaPP;
 	}
-
+	
+	/** 
+	 * @return double
+	 */
 	public double getAsPoistumisaikaPP() {
 		return asPoistumisaikaPP;
 	}
 
+	
+	/** 
+	 * @param poistumisaikaPP
+	 */
 	public void setAsPoistumisaikaPP(double poistumisaikaPP) {
 		this.asPoistumisaikaPP = poistumisaikaPP;
 	}
 
+	
+	/** 
+	 * @return boolean
+	 */
 	public boolean isJonotukseenKyllastynyt() {
 		return jonotukseenKyllastynyt;
 	}

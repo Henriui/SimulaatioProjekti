@@ -13,37 +13,11 @@ public enum Tyyppi {
 	CO_NETWORK_DEPART(6),
 	CO_SUBSCRIBER_DEPART(7),
 	CO_INVOICE_DEPART(8),
-
 	// Puhelinvalikkojen tapahtumatyypit
 	PRI_VALIKKO_DEPART(9),
 	CO_VALIKKO_DEPART(10),
 	BLENDER_VALIKKO_DEPART(11),
-
-	// Saapuminen simulaatioon
-	ARRIVAL(12);
-
-	// Saapumiset valikoihin animointia varten
-	/*
-	 * BLENDER_VALIKKO_ARR,
-	 * PRI_VALIKKO_ARR,
-	 * CO_VALIKKO_ARR,
-	 */
-
-	// Saapumiset asiakaspalveluihin
-	/*
-	 * PRI_SALES_ARR,
-	 * PRI_INVOICE_ARR,
-	 * PRI_SUBSCRIBER_ARR,
-	 * PRI_NETWORK_ARR,
-	 * 
-	 * CO_SALES_ARR,
-	 * CO_INVOICE_ARR,
-	 * CO_SUBSCRIBER_ARR,
-	 * CO_NETWORK_ARR,
-	 * 
-	 * // Asiakaspoistuu järjestelmästä
-	 * DEPART
-	 */
+	ARRIVAL(12);// Saapuminen simulaatioon
 
 	private int tapahtumanTypeNumero;
 
@@ -55,9 +29,8 @@ public enum Tyyppi {
 		return this.tapahtumanTypeNumero;
 	}
 
-	// Kokonais tyyppi koko - arrival
 	public static final int maxSize;
 	static {
-		maxSize = values().length - 1;
+		maxSize = values().length - 1; //-1 from arrival
 	}
 }

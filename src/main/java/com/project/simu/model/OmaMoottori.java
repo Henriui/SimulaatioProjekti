@@ -12,7 +12,6 @@ import com.project.simu.framework.Kello;
 import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Saapumisprosessi;
 import com.project.simu.framework.Tapahtuma;
-import com.project.simu.utilities.ArrayUtilities;
 
 public class OmaMoottori extends Moottori {
 
@@ -20,13 +19,11 @@ public class OmaMoottori extends Moottori {
 	private Parametrit uP;
 	private SimulaatioData sS;
 
-	// OmaMoottori
 	public OmaMoottori(INewSimulationControllerMtoV kontrolleri, Parametrit parametrit) {
 		super(kontrolleri);
-
 		uP = parametrit;
 		sS = new SimulaatioData(uP);
-
+		// Alustetaan puhelinvalikot
 		palvelupisteet = new Palvelupiste[uP.getAllPPMaara()];
 		palvelupisteet[0] = new Puhelinvalikko(uP.getPAJakauma(11), tapahtumalista,
 				Tyyppi.BLENDER_VALIKKO_DEPART, uP.getMaxJononPituus());
@@ -35,7 +32,7 @@ public class OmaMoottori extends Moottori {
 		palvelupisteet[2] = new Puhelinvalikko(uP.getPAJakauma(10), tapahtumalista,
 				Tyyppi.CO_VALIKKO_DEPART, uP.getMaxJononPituus());
 
-		// Muuttujat asiakaspalvelijoiden asettamiseksi
+		// Alustetaan asiakaspalvelijat
 		int[] tyoVuoroArr = new int[Tyovuoro.size];
 		int ppIndex = Parametrit.getMinPPMaara();
 		for (int j = 0; j < 8; j++) {
@@ -46,20 +43,32 @@ public class OmaMoottori extends Moottori {
 			}
 		}
 
-		// Poisson(tunti/asiakasmäärä tunnissa) -> käytetään real life examplena
+		// Poisson(tunti/asiakasmäärä tunnissa) -> käytetään real life examplena puhelin
+		// asiakaspalveluissa.
 		saapumisprosessi = new Saapumisprosessi(new Poisson(3600 / uP.getAsMaara()), tapahtumalista,
 				Tyyppi.ARRIVAL);
 	}
 
-	// Alustukset
+	/**
+	 * Starts simulation by generating first customer
+	 * Resets simulation clock time
+	 * 
+	 * @author Rasmus Hyyppä
+	 */
 	@Override
 	protected void alustukset() {
-		Kello.getInstance().setAika(0);
-		// Ensimmäinen saapuminen järjestelmään.
-		saapumisprosessi.generoiSeuraava();
+		Kello.getInstance().setAika(0); // Kellon resetointi
+		saapumisprosessi.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään.
 	}
 
-	// suoritaTapahtuma (B-vaiheen tapahtumat)
+	/**
+	 * All the B Tapahtuma's will be handles in this method, it checks the type of
+	 * Tapahtuma
+	 * and checks what terms it fulfills.
+	 * 
+	 * @param t Tapahtuma from the time list
+	 * @author Rasmus Hyyppä
+	 */
 	@Override
 	protected void suoritaTapahtuma(Tapahtuma t) {
 
@@ -87,19 +96,16 @@ public class OmaMoottori extends Moottori {
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
 			int vanhaAsType = as.getAsType();
 			palvelupisteet[haeAs(as.setAsType())].addJonoon(as);
-			// kontrolleri.visualisoiAsiakas(as.getAsType());
 			kontrolleri.visualisoiAsiakas(as.getAsType(), vanhaAsType);
 		}
 
 		// Asiakaspalvelija pisteiden poistumiset
 		else {
-			// Otetaan jonosta ja asetetaan poistumisaika
 			as = palvelupisteet[otaPalveltuAs(tapahtuma)].otaJonosta();
 			int vanhaAsType = as.getAsType();
 			if (as.getReRouted() && !as.isJonotukseenKyllastynyt()) {
 				sS.addAsReRouted();
 				palvelupisteet[haeAs(as.setReRouted())].addJonoon(as);
-				// kontrolleri.visualisoiAsiakas(as.getAsType());
 				kontrolleri.visualisoiAsiakas(as.getAsType(), vanhaAsType);
 				kontrolleri.visualisoiPoistuminen(vanhaAsType, "Rerouted");
 				return;
@@ -114,8 +120,7 @@ public class OmaMoottori extends Moottori {
 				kontrolleri.visualisoiPoistuminen(as.getAsType(), "Palveltu");
 			}
 
-			// Asiakas ulkona -> Raportoidaan
-			as.raportti();
+			as.raportti(); // Asiakas ulkona -> Raportoidaan
 			sS.setAvgAsAikaSim((double) (Asiakas.getAsiakasSum() / as.getId()));
 		}
 	}
@@ -166,7 +171,12 @@ public class OmaMoottori extends Moottori {
 		return -1; // Error
 	}
 
-	// Method luo asiakaspalvelijan ja antaa työvuoron simulaatioajasta
+	/**
+	 * @param ppType
+	 * @param j
+	 * @param tyoVuoroArr
+	 * @return Asiakaspalvelija
+	 */
 	private Asiakaspalvelija luoAsiakaspalvelija(int ppType, int j, int[] tyoVuoroArr) {
 		int simAikaTvIndex = (int) uP.getSimulaationAika() - 8; // 8 h
 		// Asetetaan ensimmäiseen työvuoroon joka päättyy 8h päästä
@@ -186,21 +196,37 @@ public class OmaMoottori extends Moottori {
 				}
 				// Mikäli työvuorot kattavat koko simuloinnin ajan
 				else if (aP.getTv() == Tyovuoro.values()[simAikaTvIndex]) {
-					aP.setTv(ArrayUtilities.getMinValue(tyoVuoroArr));
+					aP.setTv(getMinValue(tyoVuoroArr));
 				}
 			}
 		}
-		// Lopuksi
+		// Lopuksi palauttaa asiakaspalvelijan ja antaa työvuoron simulaatioajasta
 		tyoVuoroArr[aP.getTvIndex()]++;
 		return aP;
 	}
 
+	/**
+	 * @param intArray
+	 * @return int
+	 */
+	private int getMinValue(int[] intArray) {
+		int minValue = intArray[0];
+		int minIndex = 0;
+		for (int i = 0; i < intArray.length; i++) {
+			if (intArray[i] < minValue) {
+				minValue = intArray[i];
+				minIndex = i;
+			}
+		}
+		return minIndex;
+	}
 
-
-	// tulokset
+	/**
+	 * 
+	 * @author Rasmus Hyyppä
+	 */
 	@Override
 	protected void tulokset() {
-		// sS.getPPStatus(palvelupisteet);
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 			sS.getSuureetPP(p);

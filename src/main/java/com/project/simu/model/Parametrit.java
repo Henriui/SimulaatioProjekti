@@ -4,43 +4,32 @@ import java.util.Arrays;
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
+/**
+ * Object for all the parameters what is asked from user to run the simulation.
+ * This object gathers all the data in one place.
+ * 
+ * @author Rasmus Hyyppä
+ */
 public class Parametrit {
-    // Puhelinvalikot vievät vähintään 3 spottia
-    private static int MIN_PALVELUPISTE_MAARA = 3;
-
-    // Asiakasmäärä tuntia kohden
-    private double asMaara;
-
-    // Henkilöasiakkaat / Yritysasiakkaat jakaumaluku
-    private double asTyyppiJakauma;
-
-    // Kuinka kauan asiakas jaksaa jonottaa
-    private double maxJononPituus;
-
-    // Mikä mahdollisuus % on asiakkaalla valita väärä linja puhelinvalikosta
-    private double reRouteChance;
-
-    // Kokonaisaika simulaatiolla (T)
-    private double simulaationAika;
-
-    // Array asiakaspalvelioiden määrälle
-    private int[] ppMaaraArray;
-
-    // Array asiakaspalvelioitten ajoille
-    private double[] ppAikaArray;
-
-    // Array asiakastyyppi prosenteille
-    private double[] asTyyppiArr;
-
+    private static int MIN_PALVELUPISTE_MAARA = 3;// Puhelinvalikot vievät vähintään 3 spottia
+    private double simulaationAika;// Kokonaisaika simulaatiolla (T)
+    private double asMaara;// Asiakasmäärä tuntia kohden
+    private double pValikkoAika;// Puhelinvalikkojen keskimääräinen palveluaika
+    private double maxJononPituus;// Kuinka kauan asiakas jaksaa jonottaa
+    private double asTyyppiJakauma; // Henkilöasiakkaat / Yritysasiakkaat jakaumaluku
+    private double reRouteChance; // Mikä mahdollisuus % on asiakkaalla valita väärä linja puhelinvalikosta
+    private int[] ppMaaraArray; // Array asiakaspalvelioiden määrälle
+    private double[] ppAikaArray; // Array asiakaspalvelioitten ajoille
+    private double[] asTyyppiArr; // Array asiakastyyppi prosenteille
     private double[] asTyyppiParametri;
-
-    // Puhelinvalikkojen keskimääräinen palveluaika
-    private double pValikkoAika;
 
     public Parametrit() {
         setDefaultArvot();
     }
 
+    /**
+     * @return int
+     */
     public static int getMinPPMaara() {
         return Parametrit.MIN_PALVELUPISTE_MAARA;
     }
@@ -105,6 +94,9 @@ public class Parametrit {
         ppAikaArray[ppType - 1] = aika * 60;
     }
 
+    /**
+     * @param ppAikaArray
+     */
     public void setPPAvgAikaArr(double[] ppAikaArray) {
         this.ppAikaArray = ppAikaArray;
     }
@@ -118,7 +110,7 @@ public class Parametrit {
     }
 
     /**
-     * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
+     * @param ppType ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
      * @return Palauttaa Normal jaukaman keskimääräiselle palveluajalle
      * @author Rasmus Hyyppä
      */
@@ -127,6 +119,9 @@ public class Parametrit {
         return new Normal(aika, aika);
     }
 
+    /**
+     * @return int
+     */
     public int getAllPPMaara() {
         int kokonaisMaara = 0;
         for (int i = 0; i < ppMaaraArray.length; i++) {
@@ -135,71 +130,119 @@ public class Parametrit {
         return kokonaisMaara;
     }
 
+    /**
+     * @return double
+     */
     public double getSimulaationAika() {
         return simulaationAika;
     }
 
+    /**
+     * @param simulaationAika
+     */
     public void setSimulaationAika(double simulaationAika) {
         this.simulaationAika = simulaationAika;
     }
 
+    /**
+     * @return double
+     */
     public double getPValikkoAika() {
         return pValikkoAika;
     }
 
+    /**
+     * @param pValikkoAika
+     */
     public void setPValikkoAika(double pValikkoAika) {
         this.pValikkoAika = pValikkoAika;
     }
 
+    /**
+     * @return double
+     */
     public double getAsMaara() {
         return this.asMaara;
     }
 
+    /**
+     * @param asiakasMaara
+     */
     public void setAsMaara(double asiakasMaara) {
         this.asMaara = asiakasMaara;
     }
 
+    /**
+     * @return double
+     */
     public double getAsTyyppiJakauma() {
         return asTyyppiJakauma;
     }
 
+    /**
+     * @param luku
+     */
     public void setAsTyyppiJakauma(double luku) {
         this.asTyyppiJakauma = luku;
     }
 
+    /**
+     * @return double
+     */
     public double getMaxJononPituus() {
         return maxJononPituus;
     }
 
+    /**
+     * @param maxJononPituus
+     */
     public void setMaxJononPituus(double maxJononPituus) {
         this.maxJononPituus = maxJononPituus;
     }
 
+    /**
+     * @return double
+     */
     public double getReRouteChance() {
         return reRouteChance;
     }
 
+    /**
+     * @param reRouteChance
+     */
     public void setReRouteChance(double reRouteChance) {
         this.reRouteChance = reRouteChance;
     }
 
+    /**
+     * @return double[]
+     */
     public double[] getAsTyyppiArr() {
         return asTyyppiArr;
     }
 
+    /**
+     * @param ppType
+     * @return double
+     */
     public double getAsTyyppiParametri(int ppType) {
         return this.asTyyppiParametri[ppType - 1];
     }
 
+    /**
+     * @param asTyyppiParametri
+     */
     public void setAsTyyppiParametri(double[] asTyyppiParametri) {
         this.asTyyppiParametri = new double[asTyyppiArr.length];
         for (int i = 0; i < asTyyppiArr.length; i++) {
             this.asTyyppiParametri[i] += asTyyppiParametri[i];
         }
-        System.out.println("asTyyppiParametri" + Arrays.toString(asTyyppiParametri));
         setAsTyyppiArr(asTyyppiParametri);
     }
 
+    /**
+     * @param asTyyppiArr
+     */
     private void setAsTyyppiArr(double[] asTyyppiArr) {
         for (int i = 0; i < asTyyppiArr.length; i++) {
             if (i > 0 && i < 4) {
@@ -210,8 +253,6 @@ public class Parametrit {
                 asTyyppiArr[i] += asTyyppiArr[i - 1];
             }
         }
-
-        System.out.println("asTyyppiArr: " + Arrays.toString(asTyyppiArr));
         this.asTyyppiArr = asTyyppiArr;
     }
 }

@@ -29,6 +29,10 @@ public class Asiakaspalvelija extends Palvelupiste {
         super.addJonoon(as);
     }
 
+    /**
+     * Asettaa asiakaspalvelian saapumis ja poistumisajat
+     * @author Rasmus Hyyppä
+     */
     private void tyoVuoronAjat() {
         if (tv.getTyoAlkaa() > 0) {
             this.ppSaapumisAika = tv.getTyoAlkaa();
@@ -39,6 +43,11 @@ public class Asiakaspalvelija extends Palvelupiste {
         this.ppPoistumisAika = tv.getTyoAlkaa() + 28800;
     }
 
+    /**
+     * Asiakaspalveliat tarkistavat ovatko he paikalla,
+     * tai onko asiakas soittanut vaaralle linjalle.
+     * @author Rasmus Hyyppä
+     */
     @Override
     public void aloitaPalvelu() {
         Asiakas as = jono.peek();
@@ -70,19 +79,40 @@ public class Asiakaspalvelija extends Palvelupiste {
         this.tapahtumalista.lisaa(new Tapahtuma(this.ppTyyppi, Kello.getInstance().getAika() + pAika));
     }
 
+    /** 
+     * Getter asiakaspalvelian tyovuorolle
+     * @return Tyovuoro
+     * @author Rasmus Hyyppä
+     */
     public Tyovuoro getTv() {
         return this.tv;
     }
 
+    /** 
+     * Getter Tyovuoro luokan enum indexille 
+     * @return int
+     * @author Rasmus Hyyppä
+     */
     public int getTvIndex() {
         return tv.getTyoVuoro(tv);
     }
 
+    /**
+     * Setter asiakaspalvelian tyovuorolle kayttaen tyovuoro luokan indexia parametrina
+     * @param tvType
+     * @author Rasmus Hyyppä
+     */
     public void setTv(int tvType) {
         this.tv = Tyovuoro.values()[tvType];
         tyoVuoronAjat();
     }
 
+    
+    /** 
+     * Getter reroute asiakkaiden maaralle
+     * @return int
+     * @author Rasmus Hyyppä
+     */
     public int getAsReRoutedJonosta() {
         return this.asReRoutedJonosta;
     }
@@ -96,6 +126,20 @@ public class Asiakaspalvelija extends Palvelupiste {
                 * 100;
     }
 
+    /**
+     * Getter kokonais reroute ajalle
+     * @return double return the reRouteAika
+     * @author Rasmus Hyyppä
+     */
+    public double getReRouteAika() {
+        return reRouteAika;
+    }
+
+
+    /**
+     * Asiakaspalvelian raporttiin lisatyt muuttujat: Reroutatut asiakkaat, asiakaspalvelian saapumisajat toihin ja tyovuorot
+     * @author Rasmus Hyyppä
+     */
     @Override
     public void raportti() {
         super.raportti();
@@ -104,26 +148,4 @@ public class Asiakaspalvelija extends Palvelupiste {
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " lopetti työt: " + getPpPoistumisAika());
         Trace.out(Trace.Level.INFO, this.ppInfoStr + " työvuoro: " + getTv());
     }
-
-    /**
-     * @param asReRoutedJonosta the asReRoutedJonosta to set
-     */
-    public void setAsReRoutedJonosta(int asReRoutedJonosta) {
-        this.asReRoutedJonosta = asReRoutedJonosta;
-    }
-
-    /**
-     * @return double return the reRouteAika
-     */
-    public double getReRouteAika() {
-        return reRouteAika;
-    }
-
-    /**
-     * @param reRouteAika the reRouteAika to set
-     */
-    public void setReRouteAika(double reRouteAika) {
-        this.reRouteAika = reRouteAika;
-    }
-
 }
