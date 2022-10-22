@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="906.0" style="-fx-background-color: #3F005E;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.ParametriController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="906.0" style="-fx-background-color: #3F005E;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.ParametriController">
    <children>
       <AnchorPane layoutX="100.0" layoutY="-3.0" prefHeight="73.0" prefWidth="890.0" style="-fx-background-color: #3F005E;" AnchorPane.bottomAnchor="529.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -95,46 +95,46 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="YritysmyyntiAikaField" layoutX="50.0" layoutY="477.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="477.0" />
-                        <TextField fx:id="YritysnettiAikaField" layoutX="60.0" layoutY="487.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="562.0" />
-                        <TextField fx:id="YritysliittymäAikaField" layoutX="70.0" layoutY="497.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="647.0" />
-                        <TextField fx:id="YrityslaskutusAikaField" layoutX="80.0" layoutY="507.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="732.0" />
-                        <Slider fx:id="YritysmyyntiPp" blockIncrement="1.0" layoutX="34.0" layoutY="65.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <TextField fx:id="yritysMyyntiAikaField" layoutX="50.0" layoutY="477.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="477.0" />
+                        <TextField fx:id="yritysNettiAikaField" layoutX="60.0" layoutY="487.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="562.0" />
+                        <TextField fx:id="yritysLiittymäAikaField" layoutX="70.0" layoutY="497.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="647.0" />
+                        <TextField fx:id="yritysLaskutusAikaField" layoutX="80.0" layoutY="507.0" onAction="#onTextChanged" onKeyReleased="#textFieldCheck" promptText="minuuttia" text="10" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="732.0" />
+                        <Slider fx:id="yritysMyyntiPp" blockIncrement="1.0" layoutX="34.0" layoutY="65.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="YritysnettiPp" blockIncrement="1.0" layoutX="29.0" layoutY="151.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="yritysNettiPp" blockIncrement="1.0" layoutX="29.0" layoutY="151.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="YritysliittymäPp" blockIncrement="1.0" layoutX="29.0" layoutY="236.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="yritysLiittymäPp" blockIncrement="1.0" layoutX="29.0" layoutY="236.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Slider fx:id="YrityslaskutusPp" blockIncrement="1.0" layoutX="29.0" layoutY="321.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
+                        <Slider fx:id="yritysLaskutusPp" blockIncrement="1.0" layoutX="29.0" layoutY="321.0" majorTickUnit="11.0" max="10.0" min="1.0" minorTickCount="10" nodeOrientation="RIGHT_TO_LEFT" onMouseReleased="#onSliderChanged" prefHeight="0.0" prefWidth="140.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" styleClass="axis-tick-mark" stylesheets="@../css/main.css" value="3.0" AnchorPane.leftAnchor="50.0">
                            <cursor>
                               <Cursor fx:constant="H_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label fx:id="YritysmyyntiPpKpl" layoutX="230.0" layoutY="65.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="65.0">
+                        <Label fx:id="yritysMyyntiPpKpl" layoutX="230.0" layoutY="65.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="65.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="YritysnettiPpKpl" layoutX="230.0" layoutY="150.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
+                        <Label fx:id="yritysNettiPpKpl" layoutX="230.0" layoutY="150.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="150.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="YritysliittymäPpKpl" layoutX="230.0" layoutY="235.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
+                        <Label fx:id="yritysLiittymäPpKpl" layoutX="230.0" layoutY="235.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="233.0">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label fx:id="YrityslaskutusPpKpl" layoutX="230.0" layoutY="320.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
+                        <Label fx:id="yritysLaskutusPpKpl" layoutX="230.0" layoutY="320.0" text="3 kpl" textFill="WHITE" AnchorPane.topAnchor="318.0">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -275,7 +275,7 @@
                            </font>
                         </Text>
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Label fx:id="YksityisJakaumaProsentti" text="100" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="166.0">
+                        <Label fx:id="yksityisJakaumaProsentti" text="100" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="166.0">
                            <font>
                               <Font name="System Bold" size="21.0" />
                            </font>
@@ -324,7 +324,7 @@
                            </font>
                         </Text>
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label fx:id="YritysJakaumaProsentti" text="100" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="166.0">
+                        <Label fx:id="yritysJakaumaProsentti" text="100" textFill="WHITE" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="166.0">
                            <font>
                               <Font name="System Bold" size="21.0" />
                            </font>

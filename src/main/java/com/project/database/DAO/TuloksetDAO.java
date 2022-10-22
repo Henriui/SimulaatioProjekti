@@ -14,6 +14,9 @@ import com.project.simu.model.UserAsetukset;
 import com.project.simu.model.PalvelupisteTulos;
 import com.project.simu.model.TallennettavatParametrit;
 
+/**
+ * Class for saving things to database.
+ */
 public class TuloksetDAO implements ITuloksetDAO {
     private Connection connection;
     private PreparedStatement statement;
@@ -252,7 +255,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @param PalvelupisteTulos
      * @return boolean
      * @throws SQLException
-     * @Author Henri
+     * @author Henri
      */
     private boolean addPalvelupisteTulos(ArrayList<PalvelupisteTulos> ppTulos) throws SQLException{
             for (PalvelupisteTulos PalvelupisteTulos : ppTulos) {
@@ -319,7 +322,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * 
      * @param simulaatiokerta
      * @return boolean
-     * @Author Henri
+     * @author Henri
      */
     @Override
     public boolean removeTulos(int simulaatiokerta) {
@@ -350,7 +353,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * @param id
      * @return Tulokset
      * @throws SQLException
-     * @Author Henri
+     * @author Henri
      */
     public Tulokset queryTulos(int id) throws SQLException {
 
@@ -445,6 +448,14 @@ public class TuloksetDAO implements ITuloksetDAO {
         return tulos;
     }
 
+    /**
+     * Retrieves a Tulokset table as arraylist.
+     * Returns an ArrayList of Tulokset table if successful. Otherwise returns null.
+     * 
+     * @return ArrayList<Tulokset>
+     * @throws SQLException
+     * @author Henri
+     */
     public ArrayList<Tulokset> queryTulokset() throws SQLException{
 
         ArrayList<Tulokset> tulosList = new ArrayList<>();
@@ -474,7 +485,7 @@ public class TuloksetDAO implements ITuloksetDAO {
      * Returns true if successful. Otherwise returns false.
      * 
      * @return boolean
-     * @Author Henri
+     * @author Henri
      */
     public boolean dropTable() {
         try {
@@ -490,11 +501,12 @@ public class TuloksetDAO implements ITuloksetDAO {
     }
 
     /**
-     * Fetches row count of asiakas table from database.
+     * Fetches last row index of asiakas table from database.
+     * Used for adding new entries.
      * Returns int value if successful, otherwise retuns 0.
      * 
      * @return int
-     * @Author Henri
+     * @author Henri
      */
     public int getRowIndex(){
         int result;
@@ -514,6 +526,13 @@ public class TuloksetDAO implements ITuloksetDAO {
         }
         return 0;
     }
+    /**
+     * Fetches row count from asiakas table.
+     * Returns int value if successful, otherwise retuns 0.
+     * 
+     * @return int
+     * @author Henri
+     */
     public int getRowCount(){
         int result;
         try{
