@@ -42,6 +42,11 @@ public class SimulaatioData {
         alustaSuureet(); // Gives values to every variable
     }
 
+
+    /**
+     * Resetoi alkuarvot simulaattorin suureille seka Asiakas maarat ja palvelupisteiden maarat
+     * @author Rasmus Hyyppä
+     */
     public void alustaSuureet() {
         simulointiAika = Kello.getInstance().getAika();
         palveluprosentti = 0;
@@ -62,6 +67,10 @@ public class SimulaatioData {
 
     }
 
+    /**
+     * Resetoi hashmapin arrayt jotta saadaan paivitetyt arvot siirettya viewiin kesken simulaation
+     * @author Rasmus Hyyppä
+     */
     private void reloadHashMap() {
         palveluMaaraArr = new int[Tyyppi.maxSize];
         palveluJonoArr = new int[Tyyppi.maxSize];

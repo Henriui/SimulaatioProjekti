@@ -1,20 +1,17 @@
 package com.project.simu.model;
-
 import com.project.eduni.distributions.ContinuousGenerator;
 import com.project.eduni.distributions.Uniform;
 import com.project.simu.constants.AsiakasTyyppi;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
-// Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
-
+/**
+ * Simulaattorissa oleva asiakas toimintoineen ja tyyppeineen
+ * @author Rasmus Hyyppä
+ */
 public class Asiakas {
-
-	// Staattiset muuttujat.
 
 	private static int i = 1;
 	private static long sum = 0;
-
-	// Luokkamuuttujat.
 
 	private int id;
 	private double asSaapumisaika; // Simulaatioon tuleminen
@@ -28,7 +25,6 @@ public class Asiakas {
 	private ContinuousGenerator asTypeJakauma;
 	private double[] asTyyppiArr;
 
-	// Asiakas
 	public Asiakas(double reRouteChance, double asTyyppiJakauma, double[] asTyyppiArr) {
 
 		this.id = i++;
@@ -42,6 +38,7 @@ public class Asiakas {
 
 	/**
 	 * Arpoo uniform jakaumalla tuleeko asiakas menemään väärään jonoon
+	 * reroutattavaksi.
 	 * 
 	 * @return True mikäli on, false mikäli ei
 	 * @author Rasmus Hyyppä
@@ -133,11 +130,6 @@ public class Asiakas {
 		return reRouted;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
-	// getId
 	public int getId() {
 		return id;
 	}
@@ -150,100 +142,53 @@ public class Asiakas {
 		Asiakas.sum = 0;
 	}
 
-	
-	/** 
-	 * @return long
-	 */
 	public static long getAsiakasSum() {
 		return Asiakas.sum;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public static int getAsiakasUID() {
 		return Asiakas.i;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
-	// getPoistumisaika
 	public double getAsPoistumisaika() {
 		return asPoistumisaika;
 	}
 
-	
-	/** 
-	 * @param poistumisaika
-	 */
-	// setPoistumisaika
 	public void setAsPoistumisaika(double poistumisaika) {
 		this.asPoistumisaika = poistumisaika;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
-	// getSaapumisaika
 	public double getAsSaapumisaika() {
 		return asSaapumisaika;
 	}
 
-	
-	/** 
-	 * @param saapumisaika
-	 */
-	// setSaapumisaika
 	public void setAsSaapumisaika(double saapumisaika) {
 		this.asSaapumisaika = saapumisaika;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public int getAsType() {
 		return asType.getAsiakasTypeNumero();
 	}
 
-	
-	/** 
-	 * @return double
-	 */
 	public double getAsSaapumisaikaPP() {
 		return asSaapumisaikaPP;
 	}
 
-	
-	/** 
-	 * @param saapumisaikaPP
-	 */
 	public void setAsSaapumisaikaPP(double saapumisaikaPP) {
 		this.asSaapumisaikaPP = saapumisaikaPP;
 	}
-	
-	/** 
-	 * @return double
-	 */
+
 	public double getAsPoistumisaikaPP() {
 		return asPoistumisaikaPP;
 	}
 
-	
-	/** 
-	 * @param poistumisaikaPP
-	 */
 	public void setAsPoistumisaikaPP(double poistumisaikaPP) {
 		this.asPoistumisaikaPP = poistumisaikaPP;
 	}
 
-	
-	/** 
-	 * @return boolean
+	/**
+	 * @return boolean true jos on kyllastynyt
+	 * @author Rasmus Hyyppä
 	 */
 	public boolean isJonotukseenKyllastynyt() {
 		return jonotukseenKyllastynyt;
@@ -253,7 +198,6 @@ public class Asiakas {
 		this.jonotukseenKyllastynyt = true;
 	}
 
-	// raportti
 	public void raportti() {
 		Trace.out(Trace.Level.INFO, "\nAsiakas " + id + ",  tyyppi: " + asType + " on valmis! ");
 		Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + asSaapumisaika);

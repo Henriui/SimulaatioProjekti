@@ -13,6 +13,10 @@ import com.project.simu.framework.Moottori;
 import com.project.simu.framework.Saapumisprosessi;
 import com.project.simu.framework.Tapahtuma;
 
+/**
+ * Simulaattorin moottori pyorittaa puhelinoperaattoria annetuilla kayttajan parametreilla
+ * @author Rasmus Hyyppä
+ */
 public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
@@ -35,10 +39,10 @@ public class OmaMoottori extends Moottori {
 		// Alustetaan asiakaspalvelijat
 		int[] tyoVuoroArr = new int[Tyovuoro.size];
 		int ppIndex = Parametrit.getMinPPMaara();
-		for (int j = 0; j < 8; j++) {
+		for (int j = 0; j < 8; ++j) {
 			int ppType = Tyyppi.values()[j].getTypeValue();
-			for (int i = 0; i < uP.getPPMaara(ppType); i++) {
-				palvelupisteet[ppIndex] = luoAsiakaspalvelija(ppType, j, tyoVuoroArr);
+			for (int i = 0; i < uP.getPPMaara(ppType); ++i) {
+				palvelupisteet[ppIndex] = luoAsiakaspalvelija(ppType, tyoVuoroArr);
 				ppIndex++;
 			}
 		}
@@ -126,7 +130,7 @@ public class OmaMoottori extends Moottori {
 	}
 
 	/**
-	 * Hakee palvelupisteen asiakaan tyyppinumeroa vasten, otaJonosta() methodin
+	 * Hakee palvelupisteen asiakkaan tyyppinumeroa vasten, otaJonosta() methodin
 	 * avuksi
 	 * 
 	 * @param integer tapahtumatyypin numero tai asiakastyypin numero
@@ -172,15 +176,18 @@ public class OmaMoottori extends Moottori {
 	}
 
 	/**
-	 * @param ppType
-	 * @param j
-	 * @param tyoVuoroArr
+	 * Asiakaspalvelian luonnissa taytyy ottaa huomioon tyovuorot jonka takia
+	 * tarvitaan tama metodi.
+	 * 
+	 * @param ppType      Asiakaspalvelijan Tyyppi integerina
+	 * @param tyoVuoroArr tyovuoroarray yllapitamaan jaettuja tyovuoroja
 	 * @return Asiakaspalvelija
+	 * @author Rasmus Hyyppä
 	 */
-	private Asiakaspalvelija luoAsiakaspalvelija(int ppType, int j, int[] tyoVuoroArr) {
+	private Asiakaspalvelija luoAsiakaspalvelija(int ppType, int[] tyoVuoroArr) {
 		int simAikaTvIndex = (int) uP.getSimulaationAika() - 8; // 8 h
 		// Asetetaan ensimmäiseen työvuoroon joka päättyy 8h päästä
-		Asiakaspalvelija aP = new Asiakaspalvelija(uP.getPAJakauma(ppType), tapahtumalista, Tyyppi.values()[j],
+		Asiakaspalvelija aP = new Asiakaspalvelija(uP.getPAJakauma(ppType), tapahtumalista, Tyyppi.values()[ppType - 1],
 				uP.getMaxJononPituus(), Tyovuoro.EIGHT);
 		// Mikäli simulointiaika ei ylitä normaalia työpäivää
 		if (simAikaTvIndex <= 0) {
@@ -206,13 +213,16 @@ public class OmaMoottori extends Moottori {
 	}
 
 	/**
+	 * Hakee vahiten tyovuorossa olevan indexin taulukosta
+	 * 
 	 * @param intArray
 	 * @return int
+	 * @author Rasmus Hyyppä
 	 */
 	private int getMinValue(int[] intArray) {
 		int minValue = intArray[0];
 		int minIndex = 0;
-		for (int i = 0; i < intArray.length; i++) {
+		for (int i = 0; i < intArray.length; ++i) {
 			if (intArray[i] < minValue) {
 				minValue = intArray[i];
 				minIndex = i;
@@ -222,6 +232,8 @@ public class OmaMoottori extends Moottori {
 	}
 
 	/**
+	 * Haetaan viimeiset suureet ajetusta simulaatiosta ja lahetetaan ne
+	 * kontrollerin kautta viewiin
 	 * 
 	 * @author Rasmus Hyyppä
 	 */

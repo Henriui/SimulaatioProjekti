@@ -1,5 +1,11 @@
 package com.project.simu.constants;
 
+/**
+ * Asiakaille oma tyyppi mahdollistamaan asiakastyyppien seuraamisen
+ * simulaatiossa ja muuttamisen
+ * 
+ * @author Rasmus Hyyppä
+ */
 public enum AsiakasTyyppi {
 
     // Yksityisasiakaat

@@ -7,6 +7,10 @@ import com.project.simu.framework.Trace.Level;
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
+/**
+ * Puhelinvalikon testit
+ * @author Rasmus Hyyppä
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PuhelinvalikkoTest {
 

@@ -1,7 +1,9 @@
 package com.project.simu.constants;
 
 /**
+ * Tyovuoro enum listaus simulaattorin tyovuoroista palvelupisteiden kayttoon
  * 
+ * @author Rasmus Hyyppä
  */
 public enum Tyovuoro {
 

@@ -7,7 +7,10 @@ import com.project.simu.constants.*;
 import com.project.simu.framework.*;
 import com.project.simu.framework.Trace.Level;
 import com.project.eduni.distributions.Normal;
-
+/**
+ * Testit asiakaspalvelu luokalle
+ * @author Rasmus Hyyppä
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AsiakaspalvelijaTest {
 
@@ -79,6 +82,7 @@ public class AsiakaspalvelijaTest {
      @DisplayName("aloitaPalvelu(): Asiakaspalvelijan pitää pystyä palvelemaan asiakkaita jonosta")
      @Order(6)
      public void testAloitaPalvelu() {
+          Kello.getInstance().setAika(3600);
           asiakaspalvelija.addJonoon(new Asiakas(0, 0, asJakaumaArray));
           asiakaspalvelija.aloitaPalvelu();
           assertEquals(1, asiakaspalvelija.getAsPalveltuJonosta(), "Asiakasta ei pystytty palvelemaan.");
@@ -126,13 +130,8 @@ public class AsiakaspalvelijaTest {
      @DisplayName("getReRoutedJonosta(): Testaa Asiakaspalvelija luokan reroute ominaisuutta")
      @Order(10)
      public void testSetTunnus3() {
-          Asiakas as = new Asiakas(100, 0, asJakaumaArray);
-          asiakaspalvelija.addJonoon(as);
-          asiakaspalvelija.aloitaPalvelu();
-          as = asiakaspalvelija.otaJonosta();
-          Kello.getInstance().setAika(1000);
-          as.setReRouted();
-          asiakaspalvelija.addJonoon(as);
+          Kello.getInstance().setAika(3600);
+          asiakaspalvelija.addJonoon(new Asiakas(100, 0, asJakaumaArray));
           asiakaspalvelija.aloitaPalvelu();
           assertEquals(1, asiakaspalvelija.getAsReRoutedJonosta(), "Asiakaspalvelijoiden rerouttaaminen ei toimi.");
      }

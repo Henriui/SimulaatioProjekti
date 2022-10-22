@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
 import com.project.simu.framework.*;
 import com.project.simu.framework.Trace.Level;
-
+/**
+ * Asiakas luokan testit 
+ * @author Rasmus Hyyppä
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AsiakasTest {
 
@@ -46,12 +49,4 @@ public class AsiakasTest {
           assertEquals(12, Asiakas.getAsiakasUID(), "Asiakkaan unique id on väärin.");
      }
 
-     // @Test
-     // @DisplayName("getAsiakasSum(): Onnistuuko asikkaitten kokonaismäärän haku")
-     // @Order(10)
-     // public void testGetAsiakasSum(){
-     // as.raportti();
-     // assertEquals(1, Asiakas.getAsiakasSum(), "Asiakkaiden kokonaismäärä on
-     // väärin.");
-     // }
 }

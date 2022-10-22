@@ -8,6 +8,10 @@ import com.project.simu.framework.Tapahtuma;
 import com.project.simu.framework.Tapahtumalista;
 import com.project.simu.framework.Trace;
 
+/**
+ * Asiakaspalvelija palvelupiste simulaattorin tarpeille
+ * @author Rasmus Hyyppä
+ */
 public class Asiakaspalvelija extends Palvelupiste {
 
     private Tyovuoro tv;

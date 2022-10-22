@@ -1,7 +1,10 @@
 package com.project.simu.constants;
 
-// Tapahtumien tyypit määritellään simulointimallin vaatimusten perusteella
-
+/**
+ * Tapahtumien tyypit määritellään simulointimallin vaatimusten perusteella
+ * 
+ * @author Rasmus Hyyppä
+ */
 public enum Tyyppi {
 
 	// Poistumiset asiakaspalveluista
@@ -31,6 +34,6 @@ public enum Tyyppi {
 
 	public static final int maxSize;
 	static {
-		maxSize = values().length - 1; //-1 from arrival
+		maxSize = values().length - 1; // -1 from arrival
 	}
 }

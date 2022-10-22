@@ -9,7 +9,11 @@ import com.project.simu.framework.Tapahtuma;
 import com.project.simu.framework.Tapahtumalista;
 import com.project.simu.framework.Trace;
 
-// Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
+/**
+ * Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset ja raportointi
+ * 
+ * @author Rasmus Hyyppä
+ */
 public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 
 	protected static int ppUId = 0;
@@ -49,14 +53,14 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		this.palveluAika = 0;
 		this.jonoAika = 0;
 
-
 		this.ppInfoStr = this.getClass().getSimpleName() + ": " + this.ppTyyppi + "," + this.ppId;
 	}
 
-	
-	/** 
+	/**
 	 * Lisataan asiakas palvelupisteen jonoon
-	 * @param as
+	 * 
+	 * @param as lisattava asiakas
+	 * @author Rasmus Hyyppä
 	 */
 	public void addJonoon(Asiakas as) {
 		as.setAsSaapumisaikaPP(Kello.getInstance().getAika());
@@ -64,14 +68,14 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		this.jono.add(as);
 	}
 
-	
-	/** 
+	/**
 	 * Poistetaan palvelussa ollut asiakas
 	 * ja lisätään asiakkaan poistumisaika palvelupisteessa.
+	 * 
 	 * @return Palveltu asiakas
-	 * @author
+	 * @author Rasmus Hyyppä
 	 */
-	public Asiakas otaJonosta() { 
+	public Asiakas otaJonosta() {
 		Asiakas as = this.jono.poll();
 
 		as.setAsPoistumisaikaPP(Kello.getInstance().getAika());
@@ -83,6 +87,8 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 	/**
 	 * Palvelee asiakkaan palvelupisteen jonosta,
 	 * mikali asiakas ei ole kyllastynyt jonottamaan
+	 * 
+	 * @author Rasmus Hyyppä
 	 */
 	public void aloitaPalvelu() {
 		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
@@ -101,12 +107,14 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		this.tapahtumalista.lisaa(new Tapahtuma(this.ppTyyppi, Kello.getInstance().getAika() + pAika));
 	}
 
-	
-	/** 
-	 * Tarkistetaan onko asiakas kyllastynyt jonottamaan ja poistuu jarjelmesta ilman palvelua
-	 * @param as palveltava asiakas
+	/**
+	 * Tarkistetaan onko asiakas kyllastynyt jonottamaan ja poistuu jarjelmesta
+	 * ilman palvelua
+	 * 
+	 * @param as    palveltava asiakas
 	 * @param jAika jonotettu ai
 	 * @return boolean true jos kyllastyi
+	 * @author Rasmus Hyyppä
 	 */
 	protected boolean kyllastyiJonoon(Asiakas as, double jAika) {
 		if (jAika > maxJononPituus) {
@@ -125,37 +133,26 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		Palvelupiste.ppUId = 0;
 	}
 
-	
-	/** 
-	 * @return boolean
-	 */
 	public boolean onVarattu() {
 		return this.varattu;
 	}
 
-	
-	/** 
-	 * @return boolean
-	 */
 	public boolean onJonossa() {
 		return this.jono.size() != 0;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public int getJonoKoko() {
 		return this.jono.size();
 	}
 
-	
-	/** 
-	 * Onko pp paikalla
+	/**
+	 * Onko palvelupiste paikalla
+	 * 
 	 * @param aika
-	 * @return boolean
+	 * @return boolean true jos on toissa
+	 * @author Rasmus Hyyppä
 	 */
-	public boolean getOnPaikalla() { 
+	public boolean getOnPaikalla() {
 		double aika = Kello.getInstance().getAika();
 		if (this.ppSaapumisAika < aika && this.ppPoistumisAika > aika) {
 			return true;
@@ -164,89 +161,49 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		return false;
 	}
 
-	
-	/** 
-	 * @return Tyyppi
-	 */
 	public Tyyppi getPPTyyppi() {
 		return this.ppTyyppi;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public int getPPId() {
 		return this.ppId;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
 	public double getPalveluAika() {
 		return this.palveluAika;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
 	public double getJonoAika() {
 		return this.jonoAika;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
 	public double getPpSaapumisAika() {
 		return this.ppSaapumisAika;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
 	public double getPpPoistumisAika() {
 		return this.ppPoistumisAika;
 	}
 
-	
-	/** 
-	 * @return double
-	 */
 	public double getMaxJononPituus() {
 		return this.maxJononPituus;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public int getAsPoistunutJonosta() {
 		return this.asPoistunutJonosta;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public int getAsLisattyJonoon() {
 		return this.asLisattyJonoon;
 	}
 
-	
-	/** 
-	 * @return int
-	 */
 	public int getAsPalveltuJonosta() {
 		return this.asPalveltuJonosta;
 	}
 
-	
-	/** 
-	 * @return double
+	/**
+	 * @return double palveluajan keskiarvo
+	 * @author Rasmus Hyyppä
 	 */
 	public double getAvgPalveluAika() {
 		if (palveluAika == 0) {
@@ -255,9 +212,9 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		return this.palveluAika / (double) this.asPalveltuJonosta;
 	}
 
-	
-	/** 
-	 * @return double
+	/**
+	 * @return double palvelupisteen vastaus- / palveluprosentin
+	 * @author Rasmus Hyyppä
 	 */
 	public double getPProsentti() {
 		if (this.asLisattyJonoon == 0) {
@@ -266,14 +223,14 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		return ((double) this.asPalveltuJonosta / (double) this.asLisattyJonoon) * 100;
 	}
 
-	
-
-
-	
-	/** 
-	 * @return double
+	/**
+	 * @return double jonotusajan keskiarvo
+	 * @author Rasmus Hyyppä
 	 */
 	public double getAvgJonotusAika() {
+		if (this.jonoAika == 0) {
+			return 0;
+		}
 		return this.jonoAika / (double) this.asLisattyJonoon;
 	}
 
@@ -287,10 +244,12 @@ public abstract class Palvelupiste implements Comparable<Palvelupiste> {
 		Trace.out(Trace.Level.INFO, ppInfoStr + " kyllästyi jonottamaan: " + getAsPoistunutJonosta());
 	}
 
-	
-	/** 
+	/**
+	 * Jaetaan palvelupisteiden valilla tasaisesti asiakkaat
+	 * 
 	 * @param p
 	 * @return int
+	 * @author Rasmus Hyyppä
 	 */
 	@Override
 	public int compareTo(Palvelupiste p) {
