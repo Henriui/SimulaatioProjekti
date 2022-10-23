@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * 
+ * Uuden simulaation controlleri luokka
  * @author Jonne Borgman
  * @author Rasmus Hyyppä
  */
@@ -225,7 +225,7 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * Hakee kutsuessa oikean FXML tiedoston oikeasta paikasta.
+     * Hakee kutsuessa oikean FXML tiedoston oikeasta kansiosta.
      * 
      * @param fxml
      * @return
@@ -528,6 +528,8 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
      * luokalta.
      * Jos asiakas on Quitter, luodaan asiakkaalle image, ja visualisointi luokalta
      * antaa quit animaation.
+     * Jos asiakas on Reroute, luodaan asiakkaalle image, ja visualisointi luokalta
+     * antaa reroute animaation.
      * 
      * @param asType
      * @param poistumusType

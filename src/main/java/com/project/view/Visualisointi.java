@@ -305,11 +305,18 @@ public class Visualisointi {
         }
     }
 
+    /**
+     * Jos asiakas on tehnyt väärän valinnan, luodaan reroute kuvalla animoimalla.
+     * 
+     * @param image
+     * @param tyyppi
+     * 
+     * @author Jonne Borgman
+     */
     public void asiakasReroute(ImageView image, int tyyppi) {
 
         switch (tyyppi) {
             case 1:
-                // Quitteri
                 myyntijono += 20;
                 Path path = new Path();
                 path.getElements().add(new MoveTo(63, 401)); // Aloituspiste
