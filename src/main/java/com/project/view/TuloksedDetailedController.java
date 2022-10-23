@@ -24,6 +24,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+/**
+ * Luokka tulos popupin toimintaa varten
+ * @author Lassi Bågman
+ */
 public class TuloksedDetailedController {
 
     // FXML komponentit
@@ -254,11 +258,24 @@ public class TuloksedDetailedController {
         jakaumaListView.setItems(jakaumaObservableList);
         miscListView.setItems(miscObservableList);
 
+        ohjTextArea.setText(generateOhje());
+        db.closeConnection(); // Putket kiinni ettei data karkaa
+    }
+
+    /**
+     * Methodi joka generoi ohjeen simulaation tulosten perusteella
+     * 
+     * @return Ohje teksti
+     * @author Lassi Bågman
+     */
+    private String generateOhje() {
         String ohje = "";
         boolean lisaa = false;
         boolean vahemman = false;
-        int tavoiteAlin = 85;
-        int tavoiteYlin = 90;
+        int tavoiteAlin = 85; // Alin haluttu palveluprosentti
+        int tavoiteYlin = 90; // Ylin haluttu palveluprosentti
+
+        // Käy läpi pisteiden palveluprosentin
         for (int i = 0; i < 8; i++) {
             if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                 lisaa = true;
@@ -269,10 +286,14 @@ public class TuloksedDetailedController {
                 vahemman = true;
             }
         }
+
+        // Jos tarvitaan lisää pisteitä
         if (lisaa) {
             ohje += "Tarvitset lisää ";
             ArrayList<String> tarvYksPisteet = new ArrayList<String>();
             ArrayList<String> tarvYriPisteet = new ArrayList<String>();
+
+            //Selvitetään mitä pisteitä tarvitaan lisää
             for (int i = 0; i < 4; i++) {
                 if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() < tavoiteAlin) {
                     tarvYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
@@ -283,6 +304,8 @@ public class TuloksedDetailedController {
                     tarvYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
+
+            //Lisätään ohjetekstiä tarpeen mukaan
             if (tarvYksPisteet.size() > 0) {
                 ohje += "yksityis: ";
                 if (tarvYksPisteet.size() == 1) {
@@ -324,13 +347,18 @@ public class TuloksedDetailedController {
             }
             ohje += ".";
         }
+
         if (lisaa && vahemman) {
             ohje += "\n\n";
         }
+
+        // Jos tarvitaan vähemmän pisteitä
         if (vahemman) {
             ohje += "Voit vähentää ";
             ArrayList<String> vahYksPisteet = new ArrayList<String>();
             ArrayList<String> vahYriPisteet = new ArrayList<String>();
+
+            //Selvitetään mitä pisteitä tarvitaan vähemmän
             for (int i = 0; i < 4; i++) {
                 if (tulokset.getPalveluPisteTulokset().get(i).getPalveluProsentti() > tavoiteYlin) {
                     vahYksPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
@@ -341,6 +369,8 @@ public class TuloksedDetailedController {
                     vahYriPisteet.add(tulokset.getPalveluPisteTulokset().get(i).getTyyppiStringPieni());
                 }
             }
+
+            //Lisätään ohjetekstiä tarpeen mukaan
             if (vahYksPisteet.size() > 0) {
                 ohje += "yksityis: ";
                 if (vahYksPisteet.size() == 1) {
@@ -383,8 +413,11 @@ public class TuloksedDetailedController {
             ohje += ".";
         }
 
+        // Tarkistetaan jonoon jääneet asiakkaat
         int asiakkaitaJonossa = (tulokset.getAsMaara()
                 - (tulokset.getPalvellutAsiakkaat() + tulokset.getPoistuneetAsiakkaat()));
+
+        // Lisätään teksti jos asiakkaita jonossa
         if (asiakkaitaJonossa > 0) {
             if (asiakkaitaJonossa == 1) {
                 ohje += "\n\nJonoihin jäi yksi asiakas.";
@@ -393,8 +426,8 @@ public class TuloksedDetailedController {
             }
         }
 
-        ohjTextArea.setText(ohje);
-        db.closeConnection(); // Putket kiinni ettei data karkaa
+        //Palautetaan valmis ohje
+        return ohje;
     }
 
     /**
@@ -448,7 +481,7 @@ public class TuloksedDetailedController {
     }
 
     /**
-     * Välittää simulaation datan
+     * Asettaa SimulaationDatan sitä voidaa käyttää
      * 
      * @param sd SimulaatioData
      * @author Lassi Bågman
@@ -459,7 +492,7 @@ public class TuloksedDetailedController {
     }
 
     /**
-     * Välittää tulokset
+     * Asettaa Tulokset jotta niitä voidaa käyttää
      * 
      * @param tulokset Tulokset
      * @author Lassi Bågman
@@ -470,14 +503,21 @@ public class TuloksedDetailedController {
     }
 
     /**
-     * Välittää kontrollerin jotta sille voidaan antaa komentoja
+     * Asettaa NewSimulationControllerin jotta sitä voidaa käyttää
      * 
      * @param nSc NewSimulationController
+     * @author Lassi Bågman
      */
     public void setSimulationController(NewSimulationController nSc) {
         controller = nSc;
     }
 
+    /**
+     * Asettaa Parametrit jotta niitä voidaa käyttää
+     * 
+     * @param parametrit
+     * @author Lassi Bågman
+     */
     public void setParametrit(Parametrit parametrit) {
         this.parametrit = parametrit;
     }

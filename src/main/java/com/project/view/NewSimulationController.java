@@ -302,18 +302,19 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * TODO:
+     * Methodi jolla jolla saadaan ajettua tulokset oikeassa säikeessä
      * 
-     * @param sS
-     * @author Lassi
+     * @param sD
+     * @author Lassi Bågman
      */
-    public void showTulokset(SimulaatioData sS) {
+    public void showTulokset(SimulaatioData sD) {
         simulationRunning = false;
         Platform.runLater(new Runnable() {
             public void run() {
                 try {
-                    runTulokset(sS);
+                    runTulokset(sD);
                 } catch (IOException e) {
+                    System.err.println("Säikeen käynnistys ei onnistunut tuloksien näyttämiseksi");
                     e.printStackTrace();
                 }
             }
@@ -321,13 +322,14 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
     }
 
     /**
-     * TODO:
+     * Methodi joka jolla ajetaan tulokset ja välitetään sen kontrollerille tämä
+     * kontrolleri, simulaation data ja parmetrit.
      * 
-     * @param sS
+     * @param sD
      * @throws IOException
-     * @author Lassi
+     * @author Lassi Bågman
      */
-    public void runTulokset(SimulaatioData sS) throws IOException {
+    public void runTulokset(SimulaatioData sD) throws IOException {
         if (!open) {
             FXMLLoader loader = loadFXML("tuloksetDetailedPopUp");
             Scene scene = new Scene(loader.load());
@@ -348,9 +350,10 @@ public class NewSimulationController implements INewSimulationControllerVtoM, IN
                 stage.setY(event.getScreenY() - yOffset);
             });
 
+            //Välitetään kontrollerille tarvittavat tiedot
             TuloksedDetailedController controller = loader.getController();
             controller.setSimulationController(this);
-            controller.setSimulaationData(sS);
+            controller.setSimulaationData(sD);
             controller.setParametrit(uP);
             stage.show();
             controller.updateValues();
