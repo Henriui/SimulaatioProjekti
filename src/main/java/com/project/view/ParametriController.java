@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
 /**
- * It's a controller class for a JavaFX GUI.
+ * Simulaation asetukset. Asetuksien avulla pystyy muuttamaan simulaation parametrejä.
  * 
  * @author Jonne Borgman
  */
@@ -269,7 +269,7 @@ public class ParametriController {
     }
 
     /**
-     * Closes the window.
+     * Closes the window without saving.
      *
      * @author Jonne Borgman
      */
