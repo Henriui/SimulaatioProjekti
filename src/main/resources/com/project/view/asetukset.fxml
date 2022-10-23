@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.AsetuksetController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to top left,  #41295a, #2F0743);" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.view.AsetuksetController">
    <children>
       <BorderPane prefHeight="700.0" prefWidth="1200.0">
          <left>
@@ -23,7 +23,7 @@
                <children>
                   <Pane layoutY="102.0" prefHeight="58.0" prefWidth="250.0" style="-fx-background-color: #fa2c56; -fx-background-radius: 5;" AnchorPane.bottomAnchor="540.6268473774113" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="102.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Tulokset" textFill="#f9f9f9">
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Asetukset" textFill="#f9f9f9">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>

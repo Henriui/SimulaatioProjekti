@@ -187,9 +187,9 @@ public class TuloksedDetailedController {
         yriKplColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getPalvellutAsiakkaatString()));
         yriKeskiJonoAikaColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString() + "min"));
         yriKeskiPalveluAikaColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiPalveluAikaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiPalveluAikaString() + "min"));
         yriPalveluprosenttiColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 
@@ -199,9 +199,9 @@ public class TuloksedDetailedController {
         yksKplColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getPalvellutAsiakkaatString()));
         yksKeskiJonoAikaColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString() + "min"));
         yksKeskiPalveluAikaColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiPalveluAikaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiPalveluAikaString() + "min"));
         yksPalveluprosenttiColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getPalveluprosetString()));
 

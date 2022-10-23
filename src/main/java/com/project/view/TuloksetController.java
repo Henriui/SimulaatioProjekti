@@ -25,11 +25,12 @@ import javafx.stage.StageStyle;
 
 /**
  * Luokka Tulokset ruudun hallintaa varten
+ * 
  * @author Lassi Bågman
  */
 public class TuloksetController {
 
-    //FXML komponentit
+    // FXML komponentit
     @FXML
     private TableView<Tulokset> tableView;
     @FXML
@@ -54,7 +55,7 @@ public class TuloksetController {
     private TableColumn<Tulokset, String> keskiLapiMenoAikColumn;
 
     private ITuloksetDAO db;
-    //Koordinaatit ruudun liikuttamista varten
+    // Koordinaatit ruudun liikuttamista varten
     private double xOffset = 0;
     private double yOffset = 0;
 
@@ -70,10 +71,10 @@ public class TuloksetController {
      */
     public void setTableView() {
         UserAsetuksetController uac = new UserAsetuksetController();
-        UserAsetukset ua = uac.lueTiedostostaDbParametrit(); //Hakee databasen asetukset filestä
-        db = new TuloksetDAO(ua, true); //Luo yhteyden databaseen
+        UserAsetukset ua = uac.lueTiedostostaDbParametrit(); // Hakee databasen asetukset filestä
+        db = new TuloksetDAO(ua, true); // Luo yhteyden databaseen
 
-        //Luo ArrayListin ja kerää sinne kaikki rivit databasesta
+        // Luo ArrayListin ja kerää sinne kaikki rivit databasesta
         ArrayList<Tulokset> tuloksetArrayList = new ArrayList<Tulokset>();
         for (int i = 1; i <= db.getRowCount(); i++) {
             try {
@@ -84,18 +85,18 @@ public class TuloksetController {
             }
         }
 
-        //ArrayList ObservableListiksi ja se TableViewiin
+        // ArrayList ObservableListiksi ja se TableViewiin
         ObservableList<Tulokset> tuloksetObservableList = FXCollections
                 .observableArrayList(tuloksetArrayList);
         tableView.setItems(tuloksetObservableList);
 
-        //Asettaa datat Columneihin
+        // Asettaa datat Columneihin
         simulaatiokertaColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getSimulaatiokertaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getSimulaatiokertaString() + "."));
         kestoColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKestoString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKestoString() + "min"));
         palveluprosenttiColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getPalveluProsenttiString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getPalveluProsenttiString() + "%"));
         asiakkaitaColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getAsMaaraString()));
         palveltuColumn.setCellValueFactory(
@@ -108,13 +109,17 @@ public class TuloksetController {
                 cellData -> new SimpleStringProperty(
                         cellData.getValue().getPoistuneetAsiakkaatString()));
         keskiJonotusAikColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiJonotusAikaString() + "min"));
         keskiLapiMenoAikColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiLapiMenoAikaString()));
+                cellData -> new SimpleStringProperty(
+                        String.format("%.1f",
+                                ((cellData.getValue().getKeskiLapiMenoAika()
+                                        - cellData.getValue().getKeskiJonotusAika()) / 60))
+                                + "min"));
         keskiPalveluAikColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiLapiMenoAikaString()));
+                cellData -> new SimpleStringProperty(cellData.getValue().getKeskiLapiMenoAikaString() + "min"));
 
-        //Kuuntelija jos listasta halutaan tarkastella jotain riviä tarkemmin
+        // Kuuntelija jos listasta halutaan tarkastella jotain riviä tarkemmin
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     try {
@@ -124,14 +129,15 @@ public class TuloksetController {
                         e.printStackTrace();
                     }
                 });
-        
-        //Putket kiinni ettei data karkaa
+
+        // Putket kiinni ettei data karkaa
         db.closeConnection();
         System.out.println("Lista päivitetty");
     }
 
     /**
-     * Methodi millä välitetään valittu tulos eteenpäin tuloksetDetailedPopUpille tarkempaan tarkasteluun
+     * Methodi millä välitetään valittu tulos eteenpäin tuloksetDetailedPopUpille
+     * tarkempaan tarkasteluun
      * 
      * @param tulokset
      * @throws IOException
