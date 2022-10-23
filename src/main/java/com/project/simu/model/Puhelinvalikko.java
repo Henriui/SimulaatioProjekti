@@ -6,27 +6,28 @@ import com.project.simu.framework.Tapahtumalista;
 
 public class Puhelinvalikko extends Palvelupiste {
 
-    // private SimulaationSuureet sS;
-
     public Puhelinvalikko(ContinuousGenerator generator, Tapahtumalista tapahtumalista, Tyyppi tyyppi,
             double maxJononPituus) {
         super(generator, tapahtumalista, tyyppi, maxJononPituus);
-        // this.sS = SimulaationSuureet.getInstance();
     }
 
     @Override
     public void addJonoon(Asiakas as) {
         super.addJonoon(as);
-        // sS.addAsJonoon();
     }
 
+    /**
+     * Puhelinvalikot ovat aina paikalla 
+     * @return True
+     * @author Rasmus Hyyppä
+     */
     @Override
     public boolean getOnPaikalla() {
-        return true; // Puhelinvalikko on aina paikalla
+        return true;
     }
 
     @Override
-    public Asiakas otaJonosta() { // Poistetaan palvelussa ollut
+    public Asiakas otaJonosta() {
         return super.otaJonosta();
     }
 

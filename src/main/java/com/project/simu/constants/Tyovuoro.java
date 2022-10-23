@@ -1,5 +1,10 @@
 package com.project.simu.constants;
 
+/**
+ * Tyovuoro enum listaus simulaattorin tyovuoroista palvelupisteiden kayttoon
+ * 
+ * @author Rasmus Hyyppä
+ */
 public enum Tyovuoro {
 
     EIGHT(0),
@@ -14,13 +19,15 @@ public enum Tyovuoro {
         this.tyoVuoronAlkamisAika = tyoVuoronAlkamisAika;
     }
 
-    /**
-     * @return the tyoVuoronAlkamisAika
-     */
     public double getTyoAlkaa() {
         return tyoVuoronAlkamisAika;
     }
 
+    /**
+     * 
+     * @param tV
+     * @return
+     */
     public int getTyoVuoro(Tyovuoro tV) {
         int tyoVuoroIndex = 0;
         switch ((int) tV.tyoVuoronAlkamisAika) {
@@ -42,9 +49,9 @@ public enum Tyovuoro {
         }
         return tyoVuoroIndex;
     }
-	// Kokonais tyyppi koko - arrival
-	public static final int size;
-	static {
-		size = values().length;
-	}
+
+    public static final int size;
+    static {
+        size = values().length;
+    }
 }

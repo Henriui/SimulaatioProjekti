@@ -1,41 +1,26 @@
 package com.project.simu.model;
 
-import java.util.Arrays;
 import com.project.eduni.distributions.Normal;
 import com.project.simu.constants.Tyyppi;
 
+/**
+ * Object for all the parameters what is asked from user to run the simulation.
+ * This object gathers all the data in one place.
+ * 
+ * @author Rasmus Hyyppä
+ */
 public class Parametrit {
-    // Puhelinvalikot vievät vähintään 3 spottia
-    private static int MIN_PALVELUPISTE_MAARA = 3;
-
-    // Asiakasmäärä tuntia kohden
-    private double asMaara;
-
-    // Henkilöasiakkaat / Yritysasiakkaat jakaumaluku
-    private double asTyyppiJakauma;
-
-    // Kuinka kauan asiakas jaksaa jonottaa
-    private double maxJononPituus;
-
-    // Mikä mahdollisuus % on asiakkaalla valita väärä linja puhelinvalikosta
-    private double reRouteChance;
-
-    // Kokonaisaika simulaatiolla (T)
-    private double simulaationAika;
-
-    // Array asiakaspalvelioiden määrälle
-    private int[] ppMaaraArray;
-
-    // Array asiakaspalvelioitten ajoille
-    private double[] ppAikaArray;
-
-    // Array asiakastyyppi prosenteille
-    private double[] asTyyppiArr;
-
-    private double[] asTyyppiParametri;
-
-    // Puhelinvalikkojen keskimääräinen palveluaika
-    private double pValikkoAika;
+    private static int MIN_PALVELUPISTE_MAARA = 3;// Puhelinvalikot vievät vähintään 3 spottia
+    private double simulaationAika;// Kokonaisaika simulaatiolla (T)
+    private double asMaara;// Asiakasmäärä tuntia kohden
+    private double pValikkoAika;// Puhelinvalikkojen keskimääräinen palveluaika
+    private double maxJononPituus;// Kuinka kauan asiakas jaksaa jonottaa
+    private double asTyyppiJakauma; // Henkilöasiakkaat / Yritysasiakkaat jakaumaluku
+    private double reRouteChance; // Mikä mahdollisuus % on asiakkaalla valita väärä linja puhelinvalikosta
+    private int[] ppMaaraArray; // Array asiakaspalvelioiden määrälle
+    private double[] ppAikaArray; // Array asiakaspalvelioitten ajoille
+    private double[] asTyyppiArr; // Array asiakastyyppi prosenteille
+    private double[] asTyyppiParametri; // Array parametri controllerille
 
     public Parametrit() {
         setDefaultArvot();
@@ -45,6 +30,11 @@ public class Parametrit {
         return Parametrit.MIN_PALVELUPISTE_MAARA;
     }
 
+    /**
+     * Asetetaan oletus arvot muuttujille
+     * 
+     * @author Rasmus Hyyppä
+     */
     public void setDefaultArvot() {
         this.pValikkoAika = 10; // 10 sekunttia puhelinvalikko 0.167 * 60
         this.asMaara = 23; // Asiakasmäärä, 45 asiakasta tuntiin
@@ -100,7 +90,6 @@ public class Parametrit {
      * @param ppType palvelupisteen tyyppi
      * @author Rasmus Hyyppä
      */
-
     public void setPPAvgAika(double aika, int ppType) {
         ppAikaArray[ppType - 1] = aika * 60;
     }
@@ -118,7 +107,7 @@ public class Parametrit {
     }
 
     /**
-     * @param Ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
+     * @param ppType ottaa vastaan Tyypin jolla tunnistetaan minkä aika annetaan
      * @return Palauttaa Normal jaukaman keskimääräiselle palveluajalle
      * @author Rasmus Hyyppä
      */
@@ -127,6 +116,12 @@ public class Parametrit {
         return new Normal(aika, aika);
     }
 
+    /**
+     * Palauttaa kaikkien palvelupisteiden kokonaismaaran
+     * 
+     * @return int kokonaismaara
+     * @author Rasmus Hyyppä
+     */
     public int getAllPPMaara() {
         int kokonaisMaara = 0;
         for (int i = 0; i < ppMaaraArray.length; i++) {
@@ -187,19 +182,37 @@ public class Parametrit {
         return asTyyppiArr;
     }
 
+    /**
+     * Hakee Tyyppi luokan int arvoa vastaavan asiakas jakauman
+     * 
+     * @param ppType
+     * @return double
+     * @author Rasmus Hyyppä
+     */
     public double getAsTyyppiParametri(int ppType) {
         return this.asTyyppiParametri[ppType - 1];
     }
 
+    /**
+     * Asettaa asTyyppiArr arvot ParametriControllerin textfieldien mukaiseksi.
+     * 
+     * @param asTyyppiParametri
+     * @author Rasmus Hyyppä
+     */
     public void setAsTyyppiParametri(double[] asTyyppiParametri) {
         this.asTyyppiParametri = new double[asTyyppiArr.length];
         for (int i = 0; i < asTyyppiArr.length; i++) {
             this.asTyyppiParametri[i] += asTyyppiParametri[i];
         }
-        System.out.println("asTyyppiParametri" + Arrays.toString(asTyyppiParametri));
         setAsTyyppiArr(asTyyppiParametri);
     }
 
+    /**
+     * Asettaa kayttajan syottamat arvot prosentti jakaumaksi
+     * 
+     * @param asTyyppiArr
+     * @author Rasmus Hyyppä
+     */
     private void setAsTyyppiArr(double[] asTyyppiArr) {
         for (int i = 0; i < asTyyppiArr.length; i++) {
             if (i > 0 && i < 4) {
@@ -210,8 +223,6 @@ public class Parametrit {
                 asTyyppiArr[i] += asTyyppiArr[i - 1];
             }
         }
-
-        System.out.println("asTyyppiArr: " + Arrays.toString(asTyyppiArr));
         this.asTyyppiArr = asTyyppiArr;
     }
 }

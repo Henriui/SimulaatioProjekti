@@ -7,28 +7,25 @@ import com.project.simu.constants.Tyyppi;
 import com.project.simu.framework.Kello;
 import com.project.simu.framework.Trace;
 
+/**
+ * Class for gathering data from simulation that allows kontrolleri to send it
+ * easily for view
+ * 
+ * @author Rasmus Hyyppä
+ */
 public class SimulaatioData {
-    // Kesto
-    private double simulointiAika;
-    // Vastausprosentti / Palveluprosentti
-    private double palveluprosentti;
-    // Asiakas määrä simulaatiossa
-    private long asTotalMaara;
-    // Asiakkaita palveltu simulaatiossa
-    private int asPalveltu;
-    // Asiakkaita kyllästynyt jonottamaan simulaatiossa
-    private int asPoistunut;
-    // Asiakkaita reroutattu väärän valinnan vuoksi
-    private int asReRoutattu;
-    // Asiakkaiden kokonais viipyminen keskimääräisesti simulaatiossa
-    private double avgAvgAsAikaSim;
 
-    private Parametrit uP;
-
-    // Hashmap for view
-    private HashMap<String, int[]> suureStatusMap;
-
-    // Arrayt
+    private double simulointiAika; // Simulaation kesto
+    private double palveluprosentti; // Vastausprosentti / Palveluprosentti
+    private long asTotalMaara; // Asiakas määrä simulaatiossa
+    private int asPalveltu; // Asiakkaita palveltu simulaatiossa
+    private int asPoistunut; // Asiakkaita kyllästynyt jonottamaan simulaatiossa
+    private int asReRoutattu; // Asiakkaita reroutattu väärän valinnan vuoksi
+    private double avgAvgAsAikaSim; // Asiakkaiden kokonais viipyminen keskimääräisesti simulaatiossa
+    private double avgJonotusAika; // Avg jonotusaika kokonaisuudessan
+    private Parametrit uP; // Parametrit mitkä annettu moottorille
+    private HashMap<String, int[]> suureStatusMap; // Hashmap for view
+    // Arrayt for hashmap
     private int[] palveluMaaraArr;
     private int[] palveluJonoArr;
     private int[] palveluQuitterArr;
@@ -37,23 +34,20 @@ public class SimulaatioData {
     private int[] palveluVarattuArr;
     private int[] palveluTotalArr;
     private int[] palveluProsenttiArr;
-
     private double[] palveluAikaArr;
     private double[] jonoAikaArr;
 
-    // *************************RANDOM SHIT DELETE ALL*****************************
-    private double jonoATotal;
-    private double avgPalveluATotal;
-    private double avgPPViipymisATotal;
-    private double avgJonotusATotal;
-
     public SimulaatioData(Parametrit parametrit) {
         uP = parametrit;
-        alustaSuureet();
+        alustaSuureet(); // Gives values to every variable
     }
 
+
+    /**
+     * Resetoi alkuarvot simulaattorin suureille seka Asiakas maarat ja palvelupisteiden maarat
+     * @author Rasmus Hyyppä
+     */
     public void alustaSuureet() {
-        // Oleeliset
         simulointiAika = Kello.getInstance().getAika();
         palveluprosentti = 0;
         asTotalMaara = 0;
@@ -61,24 +55,22 @@ public class SimulaatioData {
         asPalveltu = 0;
         asPoistunut = 0;
         asReRoutattu = 0;
-
+        avgJonotusAika = 0;
         suureStatusMap = new HashMap<String, int[]>();
         reloadHashMap();
-
         jonoAikaArr = new double[Tyyppi.maxSize];
         palveluAikaArr = new double[Tyyppi.maxSize];
         // Reset asiakas & palvelupiste luokat
         Asiakas.resetAsiakasUID();
         Asiakas.resetAsiakasSum();
         Palvelupiste.resetPPUID();
-        // *************************RANDOM SHIT DELETE
-        // ALL*******************************
-        jonoATotal = 0;
-        avgPalveluATotal = 0;
-        avgPPViipymisATotal = 0;
-        avgJonotusATotal = 0;
+
     }
 
+    /**
+     * Resetoi hashmapin arrayt jotta saadaan paivitetyt arvot siirettya viewiin kesken simulaation
+     * @author Rasmus Hyyppä
+     */
     private void reloadHashMap() {
         palveluMaaraArr = new int[Tyyppi.maxSize];
         palveluJonoArr = new int[Tyyppi.maxSize];
@@ -99,7 +91,142 @@ public class SimulaatioData {
         suureStatusMap.put("Palveluprosentti", palveluProsenttiArr);
     }
 
-    // Oleeliset
+    /**
+     * Getter for palveluprosentti from every palvelupiste
+     * 
+     * @return double returns palveluprosentti from total values
+     * @author Rasmus Hyyppä
+     */
+    public double getPalveluprosentti() {
+        palveluprosentti = (double) asPalveltu / (double) asTotalMaara;
+        return (palveluprosentti * 100);
+    }
+
+    /**
+     * Getter for certain Palvelupiste group busy time.
+     * 
+     * @param ppType palvelupiste Tyyppi number
+     * @return double busy time, from param type of palvelupiste group
+     * @author Rasmus Hyyppä
+     */
+    public double getPalveluAika(int ppType) {
+        return palveluAikaArr[ppType - 1] / uP.getPPMaara(ppType);
+    }
+
+    /**
+     * Getter for certain Palvelupiste group queue time.
+     * 
+     * @param ppType palvelupiste Tyyppi number
+     * @return double queue time, from param type of palvelupiste group
+     * @author Rasmus Hyyppä
+     */
+    public double getJonoAika(int ppType) {
+        return this.jonoAikaArr[ppType - 1] / uP.getPPMaara(ppType);
+    }
+
+    /**
+     * Getter for certain Palvelupiste group palveluprosentti.
+     * 
+     * @param ppType palvelupiste Tyyppi number
+     * @return int from that type of palvelupiste group
+     * @author Rasmus Hyyppä
+     */
+    public int getPalveluProsentti(int ppType) {
+        return palveluProsenttiArr[ppType - 1] / uP.getPPMaara(ppType);
+    }
+
+    /**
+     * Adder for palveluVuoroArr
+     * 
+     * @param ppType palvelupiste Tyyppi number
+     * @param tulos  checks if palvelupiste is on duty
+     * @author Rasmus Hyyppä
+     */
+    public void addVuoroMaara(int ppType, boolean tulos) {
+        if (tulos) {
+            palveluVuoroArr[ppType]++;
+        }
+    }
+
+    /**
+     * Adder for palveluVarattuArr
+     * 
+     * @param ppType palvelupiste type number
+     * @param tulos  checks if palvelupiste is varattu
+     * @author Rasmus Hyyppä
+     */
+    public void addVarattuMaara(int ppType, boolean tulos) {
+        if (tulos) {
+            palveluVarattuArr[ppType]++;
+        }
+    }
+
+    /**
+     * Method gathers latest data from palvelupiste class and
+     * returns HashMap with int array's for view
+     * 
+     * @param palvelupisteet
+     * @return HashMap<String, int[]>
+     * @author Rasmus Hyyppä
+     */
+    public HashMap<String, int[]> getPPStatus(Palvelupiste[] palvelupisteet) {
+        reloadHashMap();
+        for (Palvelupiste pp : palvelupisteet) {
+            int ppTyyppi = pp.getPPTyyppi().getTypeValue() - 1; // -1 for array slot
+            palveluMaaraArr[ppTyyppi] += pp.getAsPalveltuJonosta();
+            palveluJonoArr[ppTyyppi] += pp.getJonoKoko();
+            palveluQuitterArr[ppTyyppi] += pp.getAsPoistunutJonosta();
+            palveluProsenttiArr[ppTyyppi] += (int) pp.getPProsentti();
+            if (ppTyyppi < 8) {
+                palveluReRoutedArr[ppTyyppi] += ((Asiakaspalvelija) pp).getAsReRoutedJonosta();
+                addVuoroMaara(ppTyyppi, pp.getOnPaikalla());
+                addVarattuMaara(ppTyyppi, pp.onVarattu());
+            }
+        }
+        return suureStatusMap;
+    }
+
+    /**
+     * Gathers all the needed details for total values from
+     * Palvelupiste param
+     * 
+     * @param pp Palvelupiste for data gathering
+     * @author Rasmus Hyyppä
+     */
+    public void getSuureetPP(Palvelupiste pp) {
+        int ppTyyppi = pp.getPPTyyppi().getTypeValue() - 1;
+        palveluAikaArr[ppTyyppi] += pp.getAvgPalveluAika();
+        jonoAikaArr[ppTyyppi] += pp.getAvgJonotusAika();
+        if (ppTyyppi < 8) {
+            avgJonotusAika += pp.getAvgJonotusAika();
+        }
+    }
+
+    /**
+     * Average queue time in full simulation doesnt take count queue's from
+     * puhelinvalikko
+     * 
+     * @return double average queue time in full simulation
+     * @author Rasmus Hyyppä
+     */
+    public double getJonotusAika() {
+        return avgJonotusAika / ((double) uP.getAllPPMaara() - (double) Parametrit.getMinPPMaara());
+    }
+
+    // Printing and stuff..
+    public void tulosteet() {
+        DecimalFormat dF = new DecimalFormat("#0.00");
+        Trace.out(Trace.Level.INFO, "\n\n\nSimulointiaika:" + dF.format(getSimulointiAika()));
+        Trace.out(Trace.Level.INFO, "Palvelupisteiden palveluprosentti:" + dF.format(getPalveluprosentti()) + " %.");
+        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon:" + getAsTotalMaara());
+        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta:" + getAsPalveltu());
+        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta:" + getAsPoistunut());
+        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta:" + getAsReRouted());
+        Trace.out(Trace.Level.INFO, "Asiakkaitten avg viipyminen simulaatiossa:" + dF.format(getAvgAsAikaSim()) + "\n");
+    }
+
+    // Getters & Setters & Adders for everything else
+
     public double getSimulointiAika() {
         return simulointiAika;
     }
@@ -108,9 +235,12 @@ public class SimulaatioData {
         this.simulointiAika = simulointiAika;
     }
 
-    public double getPalveluprosentti() {
-        palveluprosentti = (double) asPalveltu / (double) asTotalMaara;
-        return (palveluprosentti * 100);
+    public void setAvgAsAikaSim(double avgAvgAsAikaSim) {
+        this.avgAvgAsAikaSim = avgAvgAsAikaSim;
+    }
+
+    public int getPalveluMaara(int ppType) {
+        return palveluMaaraArr[ppType - 1];
     }
 
     public long getAsTotalMaara() {
@@ -147,149 +277,5 @@ public class SimulaatioData {
 
     public double getAvgAsAikaSim() {
         return avgAvgAsAikaSim;
-    }
-
-    public void setAvgAsAikaSim(double avgAvgAsAikaSim) {
-        this.avgAvgAsAikaSim = avgAvgAsAikaSim;
-    }
-
-    // DATABASE TALLENNUS anna tyyppi numero -> saa avg palveluaika
-    public double getPalveluAika(int ppType) {
-        return palveluAikaArr[ppType - 1] / uP.getPPMaara(ppType);
-    }
-
-    // DATABASE TALLENNUS anna tyyppi numero -> saa avg jonotusaika
-    public double getJonoAika(int ppType) {
-        return this.jonoAikaArr[ppType - 1] / uP.getPPMaara(ppType);
-    }
-
-    // DATABASE TALLENNUS anna tyyppi numero -> saa palvellut asiakkaat
-    public int getPalveluMaara(int ppType) {
-        return palveluMaaraArr[ppType - 1];
-    }
-
-    // Viewi juttuja
-    public int getJonoMaara(int ppType) {
-        return palveluJonoArr[ppType - 1];
-    }
-
-    // Viewi juttuja
-    public int getQuitterMaara(int ppType) {
-        return palveluQuitterArr[ppType - 1];
-    }
-
-    // Viewi juttuja
-    public int getReRoutedMaara(int ppType) {
-        return palveluReRoutedArr[ppType - 1];
-    }
-
-    public int getPalveluProsentti(int ppType) {
-        return palveluProsenttiArr[ppType - 1] / uP.getPPMaara(ppType);
-    }
-
-    public void addVuoroMaara(int ppType, boolean tulos) {
-        if (tulos) {
-            palveluVuoroArr[ppType]++;
-        }
-    }
-
-    // Viewi juttuja
-    public int getVuoroMaara(int ppType) {
-        return palveluVuoroArr[ppType - 1];
-    }
-
-    public void addVarattuMaara(int ppType, boolean tulos) {
-        if (tulos) {
-            palveluVarattuArr[ppType]++;
-        }
-    }
-
-    // Suurestatusmap guide:
-    // [i] = 0-7 = aspa, 8-10 = puhelinvalikko
-    // suureStatusMap.get("Palveltu")[i]
-    // suureStatusMap.get("Jonossa")[i]
-    // suureStatusMap.get("Quitter")[i]
-    // suureStatusMap.get("ReRouted")[i]
-    // suureStatusMap.get("Tyovuorossa")[i]
-    // suureStatusMap.get("Varattu")[i] Palvelupisteistä kuinka monta on varattuna!
-    // suureStatusMap.get("Totalit")[i]
-    // suureStatusMap.get("Palveluprosentti")[i]
-
-    public HashMap<String, int[]> getSuureStatusMap() {
-        return this.suureStatusMap;
-    }
-
-    public HashMap<String, int[]> getPPStatus(Palvelupiste[] palvelupisteet) {
-        reloadHashMap();
-        for (Palvelupiste pp : palvelupisteet) {
-            int ppTyyppi = pp.getPPTyyppi().getTypeValue() - 1; // -1 for array slot
-            palveluMaaraArr[ppTyyppi] += pp.getAsPalveltuJonosta();
-            palveluJonoArr[ppTyyppi] += pp.getJonoKoko();
-            palveluQuitterArr[ppTyyppi] += pp.getAsPoistunutJonosta();
-            palveluProsenttiArr[ppTyyppi] += (int) pp.getPProsentti();
-            if (ppTyyppi < 8) {
-                palveluReRoutedArr[ppTyyppi] += ((Asiakaspalvelija) pp).getAsReRoutedJonosta();
-                addVuoroMaara(ppTyyppi, pp.getOnPaikalla());
-                addVarattuMaara(ppTyyppi, pp.onVarattu());
-            }
-        }
-        return suureStatusMap;
-    }
-
-    public void getSuureetPP(Palvelupiste pp) {
-        int ppTyyppi = pp.getPPTyyppi().getTypeValue() - 1;
-        palveluAikaArr[ppTyyppi] += pp.getAvgPalveluAika();
-        jonoAikaArr[ppTyyppi] += pp.getAvgJonotusAika();
-        if (ppTyyppi < 8) {
-            jonoATotal += pp.getJonoAika();
-            avgJonotusATotal += pp.getAvgJonotusAika();
-            avgPPViipymisATotal += pp.getAvgViipyminenPP();
-            avgPalveluATotal += pp.getAvgPalveluAika();
-        }
-    }
-
-    public void tulosteet() {
-        DecimalFormat dF = new DecimalFormat("#0.00");
-        // Kesto
-        Trace.out(Trace.Level.INFO, "\n\n\nSimulointiaika: " + dF.format(getSimulointiAika()));
-        // Vastausprosentti / Palveluprosentti
-        Trace.out(Trace.Level.INFO, "Palvelupisteiden palveluprosentti: " + dF.format(getPalveluprosentti()) + " %.");
-        // As Määrä
-        Trace.out(Trace.Level.INFO, "Asiakkaita lisatty jonoon: " + getAsTotalMaara());
-        // Palveltuja asiakkaita
-        Trace.out(Trace.Level.INFO, "Asiakkaita palveltu jonosta: " + getAsPalveltu());
-        // Quitterit
-        Trace.out(Trace.Level.INFO, "Asiakkaita poistunut jonosta: " + getAsPoistunut());
-        // Reroutatut
-        Trace.out(Trace.Level.INFO, "Asiakkaita reRoutattu jonosta: " + getAsReRouted());
-        // Keskiläpimeno
-        Trace.out(Trace.Level.INFO,
-                "Asiakkaitten avg viipyminen simulaatiossa: " + dF.format(getAvgAsAikaSim()) + "\n");
-
-        // Uudet printit, palvelumaara & palveluaika
-        for (int i = 0; i < palveluMaaraArr.length; i++) {
-            Tyyppi t = Tyyppi.values()[i];
-            Trace.out(Trace.Level.INFO, "Tyyppi: " + t + ", Palveltuja as: " + getPalveluMaara(t.getTypeValue()));
-            Trace.out(Trace.Level.INFO,
-                    "Tyyppi: " + t + ", Palveluaika avg: " + dF.format(getPalveluAika(t.getTypeValue())) + "\n");
-        }
-
-    }
-
-    // *************************RANDOM SHIT DELETE ALL****************************
-    public double getJonoATotal() {
-        return jonoATotal;
-    }
-
-    public double getPPViipymisATotal() {
-        return avgPPViipymisATotal / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
-    }
-
-    public double getJonotusATotal() {
-        return avgJonotusATotal / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
-    }
-
-    public double getPalveluATotal() {
-        return avgPalveluATotal / (uP.getAllPPMaara() - Parametrit.getMinPPMaara());
     }
 }

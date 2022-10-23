@@ -23,6 +23,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Luokka Tulokset ruudun hallintaa varten
+ * @author Lassi Bågman
+ */
 public class TuloksetController {
 
     //FXML komponentit
